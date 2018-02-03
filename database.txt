@@ -1,0 +1,57 @@
+CREATE DATABASE tenants;
+USE tenants;
+CREATE TABLE tenant_login (
+	username VARCHAR(20) NOT NULL,
+	password VARCHAR(20) NOT NULL,
+	CONSTRAINT tenant_login_pk PRIMARY KEY (username)
+)
+
+CREATE TABLE tenant_accounts (
+	username VARCHAR(20),
+	tenant_id int NOT NULL,
+	tenant_name VARCHAR(255) NOT NULL,
+	building VARCHAR(255),
+	apt_num VARCHAR(25),
+	city VARCHAR(255),
+	state CHAR(2),
+	zipcode CHAR(10),
+	CONSTRAINT tenant_accounts_pk PRIMARY KEY (tenant_id),
+	CONSTRAINT fk_tenant_accounts
+	   FOREIGN KEY (username)
+	   REFERENCES tenant_login(username)
+);
+
+CREATE TABLE maintenance_request (
+	request_id int NOT NULL AUTO_INCREMENT,
+	tenant_id VARCHAR(20) NOT NULL,
+	apt_num VARCHAR(20) NOT NULL,
+	job_desc VARCHAR(255),
+	date_req DATE,
+	CONSTRAINT maintenance_request_pk PRIMARY KEY (request_id),
+	CONSTRAINT fk_maintenance_request
+	   FOREIGN KEY (tenant_id)
+	   REFERENCES tenant_accounts(tenant_id)
+)
+
+CREATE DATABASE employees;
+USE employees;
+
+CREATE TABLE employee_login (
+	username VARCHAR(20) NOT NULL,
+	password VARCHAR(20) NOT NULL,
+	CONSTRAINT employee_login_pk PRIMARY KEY (username)
+)
+
+CREATE TABLE employee_accounts (
+	username VARCHAR(20),
+	employee_id int NOT NULL,
+	employee_name VARCHAR(255) NOT NULL,
+	address VARCHAR(255),
+	city VARCHAR(255),
+	state CHAR(2),
+	zipcode CHAR(10),
+	CONSTRAINT employee_accounts_pk PRIMARY KEY (employee_id),
+	CONSTRAINT fk_employee_accounts
+	   FOREIGN KEY (username)
+	   REFERENCES employee_login(username)
+);
