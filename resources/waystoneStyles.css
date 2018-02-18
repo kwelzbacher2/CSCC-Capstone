@@ -8,10 +8,12 @@
 header {
 	width: 100%;
 	height: 100px;
+	min-height: 40px;
 	-moz-box-shadow: 0 0 10px #000000;
 	-webkit-box-shadow: 0 0 10px #000000;
 	box-shadow: 0 0 10px #000000;
 	position: fixed;
+	z-index: 100;
 	background: rgba(255,255,255,1);
 }
 .headerContainer {
@@ -23,9 +25,6 @@ nav {
 	width: 25%;
 	height: 100%;
 	float:left;
-	background: url("../images/LOGO.PNG") no-repeat 100%;
-	background-size: 40% 80%;
-	background-position: top center;
 }
 .navOverlay {
 	width: 100%;
@@ -34,10 +33,11 @@ nav {
 }
 .navWhitespace {
 	width: 100%;
-	height: 70%;
+	height: 60px;
+	min-height: 0;
 }
 nav ul {
-	height: 30%;
+	height: 40px;
 	width: 100%;
 }
 nav ul li:active {
@@ -69,11 +69,12 @@ nav ul li {
 	width: 50%;
 	height: 100%;
 	float: left;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	position: relative;
 	letter-spacing: 2px;
 	font-size: 30px;
-	text-align: center;
-	line-height: 100px;
 	transition: .75s all;
 }
 .titleContainer .title {
@@ -109,9 +110,6 @@ nav ul li {
 	width: 25%;
 	height: 100%;
 	float: left;
-	background: url("../images/LOGO.png") no-repeat 100%;
-	background-size: 40% 80%;
-	background-position: top center;
 }
 .logSignOverlay {
 	width: 100%;
@@ -120,11 +118,12 @@ nav ul li {
 }
 .logsignWhitespace {
 	width: 100%;
-	height: 70%;
+	height: 60px;
+	min-height: 0;
 }
 .logSignContainer {
 	width: 60%;
-	height: 30%;
+	height: 40px;
 	margin: 0 auto;
 }
 .logSignContainer>div:active {
@@ -147,39 +146,68 @@ nav ul li {
 	background-color: none;
 	transition: .5s letter-spacing, .2s background-color;
 }
-/* end header */
 .bodyWhitespace {
 	width: 100%;
 	height: 100px;
 }
+/* Home */
 .contentPannel {
 	width: 100%;
 	height: 600px;
+	position: relative;
 }
 .MS-Wrapper {
 	background: url("../images/miami-road.jpg") no-repeat 100%;
 	background-size: 100% 150%;
+	background-position: 50% 40%;
 }
 .miami-Wrapper {
-	background: url("../images/miami-skyline2.jpg") no-repeat 100%;
-	background-size: 100% 150%;
+	background: url("../images/miami-beach.jpg") no-repeat 100%;
+	background-size: 100% 170%;
+	background-position: 50% 40%;
 }
 .newyork-Wrapper {
-
+	background: url("../images/newyork.jpg") no-repeat 100%;
+	background-size: 100% 200%;
+	background-position: 50% 40%;
 }
 .chicago-Wrapper {
-
+	background: url("../images/chicago.jpg") no-repeat 100%;
+	background-size: 100% 260%;
+	background-position: 50% 40%;
 }
 .vegas-Wrapper {
-
+	background: url("../images/lasvegas.jpg") no-repeat 100%;
+	background-size: 100% 200%;
+	background-position: 50% 40%;
 }
 .losAngeles-Wrapper {
-
+	background: url("../images/losangeles.jpg") no-repeat 100%;
+	background-size: 100% 280%;
+	background-position: 50% 40%;
 }
-.contentPannelOverlay {
-	height: 100%;
-	width: 100%;
-	background: rgba(255,255,255,0.5);
+.contentPannelItem {
+	background: rgba(255,255,255,.7);
+	border: 5px solid #FFF;
+	position: absolute;
+	font-family: "Nanum Myeongjo";
+}
+.subtitle {
+	margin-top: 5%;
+	margin-left: 5%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 70px;
+	padding: 20px 40px;
+	letter-spacing: 15px;
+}
+.loginDesc {
+	max-width: 50%;
+	padding: 30px;
+	margin-left: 5%;
+	margin-top: 16%;
+	font-size: 25px;
 }
 /* footer */
 footer {
@@ -244,6 +272,9 @@ footer {
 	}
 	nav ul li {
 		font-size: 17px;
+	}
+	.contentPannel {
+		height: 500px;
 	}
 }
 /* Utilities */

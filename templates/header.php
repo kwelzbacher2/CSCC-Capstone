@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <title>Waystone Property Management</title>
-    <link rel="stylesheet" type="text/css" href="css/waystoneStyles.css?<?php echo time(); ?>" />
+    <link rel="stylesheet" type="text/css" href="resources/waystoneStyles.css?<?php echo time(); ?>" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="resources/waystoneScripts.js" charset="utf-8"></script>
   </head>
   <body>
   	<header class = "noSelect">
@@ -12,7 +13,7 @@
         <nav>
           <div class="navOverlay">
             <div class = "navWhitespace"></div>
-            <ul>
+            <ul id = "headerNav">
               <li class = "boxEffect">Contact
                 <a href = "#">
                   <span class = "link-spanner"></span>
