@@ -14,6 +14,8 @@ import java.sql.DriverManager;
  */
 public class DataConnect {
     
+    
+    
     public static Connection getConnection() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
