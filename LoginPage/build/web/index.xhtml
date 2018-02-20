@@ -7,7 +7,7 @@
     </h:head>
     <h:body>
         <h:form>
-            <h3> JSF Login Logout</h3>
+            <h3> Tenant Login</h3>
             <h:outputText value="Username" />
             <h:inputText id="username" value="#{login.user}"> </h:inputText>
             <h:message for="username"> </h:message>
@@ -20,6 +20,18 @@
             
             <h:commandButton action="#{login.validateUsernamePassword}" value="Login"></h:commandButton>
             
+            <h3>Employee Login</h3>
+            <h:outputText value="Username" />
+            <h:inputText id="empUsername" value="#{login.empUser}"></h:inputText>
+            <h:message for="empUsername"> </h:message>
+            <br></br><br></br>
+            
+            <h:outputText value="Password" />
+            <h:inputSecret id="empPassword" value="#{login.empPwd}"></h:inputSecret>
+            <h:message for="empPassword"></h:message>
+            <br></br><br></br>
+            
+            <h:commandButton action="#{login.empValidateUsernamePassword}" value="Login"></h:commandButton>
         </h:form>
     </h:body>
 </html>

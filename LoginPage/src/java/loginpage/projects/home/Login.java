@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import loginpage.projects.home.LoginDAO;
 import loginpage.projects.home.SessionUtils;
+import loginpage.projects.home.EmployeeLoginDAO;
 
 
 
@@ -30,6 +31,8 @@ public class Login implements Serializable{
     private String pwd;
     private String msg;
     private String user;
+    private String empUser;
+    private String empPwd;
     
     public String getPwd() {
         return pwd;
@@ -55,6 +58,19 @@ public class Login implements Serializable{
         this.msg = msg;
     }
     
+    public String getEmpUser(){
+        return empUser;
+    }
+     public void setEmpUser(String empUser){
+         this.empUser = empUser;
+     }
+     public String getEmpPwd(){
+         return empPwd;
+     }
+     public void setEmpPwd(String empPwd){
+         this.empPwd = empPwd;
+     }
+    
     //validate login
      public String validateUsernamePassword() {
          boolean valid = LoginDAO.validate(user, pwd);
@@ -62,6 +78,20 @@ public class Login implements Serializable{
              HttpSession session = SessionUtils.getSession();
              session.setAttribute("username", user);
              return "admin";
+         } else {
+             FacesContext.getCurrentInstance().addMessage(null,
+                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Incorrect Username and Password",
+                     "Please enter correct Username and Password"));
+             return "index";
+         }
+     }
+     
+     public String empValidateUsernamePassword() {
+         boolean valid = EmployeeLoginDAO.empValidate(empUser, empPwd);
+         if(valid) {
+             HttpSession session = SessionUtils.getSession();
+             session.setAttribute("username", empUser);
+             return "empAdmin";
          } else {
              FacesContext.getCurrentInstance().addMessage(null,
                      new FacesMessage(FacesMessage.SEVERITY_WARN, "Incorrect Username and Password",
