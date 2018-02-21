@@ -43,6 +43,7 @@ $(window).scroll(function(){
       }
     }
   }
+
   $('header').css('height',$headerHeight);
   $('.navWhitespace').css('height',$whitespaceHeight);
   $('.logsignWhitespace').css('height',$whitespaceHeight);
