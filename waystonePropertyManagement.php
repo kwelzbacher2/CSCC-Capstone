@@ -1,6 +1,7 @@
 <?php	include("templates/header.php") ?>
 
 		<div class="contentPannel MS-Wrapper">
+<<<<<<< HEAD
 			<div class = "subtitle contentPannelItem"><b>Welcome</b></div>
 			<div class = "loginDesc contentPannelItem">Log in as an existing tenant, or create a new account if you're interested in any of Waystone's luxury appartments.</div>
 			<div class = "contentPannelItem loginSignupButton"><b>Login or Sign up -></b></div></div>
@@ -24,5 +25,35 @@
 		<div class="contentPannel losAngeles-Wrapper">
 			<div class = "cityTitle contentPannelItem"><b>Los Angeles</b></div>
 			<div class = "cityDesc contentPannelItem">Enjoy the stars day and night with a place to call home minutes away from the heart of Los Angeles. Our exclusive appartments will provide supurb living conditions as well as locations that help tenants dodge the infamous L.A. traffic. </div>
+=======
+			<div class="contentPannelOverlay">
+
+			</div>
+		</div>
+		<div class="contentPannel miami-Wrapper">
+			<div class="contentPannelOverlay">
+
+			</div>
+		</div>
+		<div class="contentPannel newyork-Wrapper">
+			<div class="contentPannelOverlay">
+
+			</div>
+		</div>
+		<div class="contentPannel chicago-Wrapper">
+			<div class="contentPannelOverlay">
+
+			</div>
+		</div>
+		<div class="contentPannel vegas-Wrapper">
+			<div class="contentPannelOverlay">
+
+			</div>
+		</div>
+		<div class="contentPannel losAngeles-Wrapper">
+			<div class="contentPannelOverlay">
+
+			</div>
+>>>>>>> 1d82b57167e33c03169addd184d9ed52d03ec890
 		</div>
 <?php include("templates/footer.php") ?>
