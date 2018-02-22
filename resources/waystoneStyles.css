@@ -186,12 +186,20 @@ nav ul li {
 	background-position: 50% 40%;
 }
 .contentPannelItem {
-	background: rgba(255,255,255,.7);
+	background: rgba(255,255,255,.5);
 	border: 5px solid #FFF;
 	position: absolute;
 	font-family: "Merriweather";
 }
+.logo {
+	background: url("../images/LOGO.PNG") no-repeat 100%;
+	background-size: 100% 100%;
+	width: 100px;
+	height: 75px;
+
+}
 .subtitle {
+	background: rgba(255,255,255,.5);
 	margin-top: 5%;
 	margin-left: 5%;
 	display: flex;
@@ -220,7 +228,7 @@ nav ul li {
 	font-size: 40px;
 	padding: 25px;
 	letter-spacing: 2px;
-	background: rgba(255,255,255,.7);
+	background: rgba(255,255,255,.5);
 	font-family: "Nanum Myeongjo";
 	transition: .5s all;
 }
