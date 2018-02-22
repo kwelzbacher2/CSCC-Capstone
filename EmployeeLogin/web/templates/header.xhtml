@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+	 <h:outputStylesheet library="css" name="waystoneEmployee.css" /> 
+    </h:head>
+    <h:body>
+	    <ui:composition>
+                <h:form>
+                    <div id="signOut"> <h:commandLink action="#{login.logout}" value="Sign Out"></h:commandLink></div>
+                    <div class="title">Waystone Property Management</div>
+                    
+                    <div id="nav">
+                        <ul>
+                            <li><h:link value="Home" outcome="employeeAdmin" class="link" /></li>
+                            <li><h:link value="My Profile" outcome="employeeProfile" class="link" /></li>
+                            <li><h:link value="Paystub" outcome="paystub" class="link"/></li>
+                            <li><h:link value="Timesheet" outcome="timesheet" class="link"/></li>
+                            <li><h:link value="Tenant Accounts" outcome="tenantAccounts" class="link"/></li>
+                            <li><h:link value="Maintenance Requests" outcome="maintenanceRequests" class="link"/></li>
+                            <li><h:link value="Training Materials" outcome="training" class="link"/></li>
+                            <li><h:link value="Additional Company Information" outcome="companyInfo" class="link"/></li>
+                        </ul>
+                    </div>
+                    
+                    
+                </h:form>
+
+	    </ui:composition>
+    </h:body>
+</html>

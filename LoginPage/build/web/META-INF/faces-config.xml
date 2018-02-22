@@ -14,10 +14,10 @@ and open the template in the editor.
     <!-- Login Page -->
 	<navigation-rule>
 		<from-view-id>/index.xhtml</from-view-id>
-		<navigation-case>
+		<!-- <navigation-case>
 			<from-outcome>admin</from-outcome>
 			<to-view-id>/admin.xhtml</to-view-id>
-		</navigation-case>
+		</navigation-case> -->
                 <navigation-case>
                     <from-outcome>empAdmin</from-outcome>
                     <to-view-id>/empAdmin.xhtml</to-view-id>
@@ -25,8 +25,8 @@ and open the template in the editor.
 	</navigation-rule>
        
         
-        <navigatino-rule>
-            <from-view-id>/admin.xhtml</from-view-id>
+        <navigation-rule>
+            <from-view-id>/empAdmin.xhtml</from-view-id>
             <naviation-case>
                 <from-outcome>index</from-outcome>
                 <to-view-id>/index.xhtml</to-view-id>

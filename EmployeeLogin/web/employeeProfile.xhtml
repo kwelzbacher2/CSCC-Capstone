@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/waystoneEmp.js"></script>
+        <title>EmployeeProfile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+                    <div class="empInfo">
+                        <h3 class="pageTitle">Employee Profile Page</h3>
+                        <div id="profileBox">
+                            <h:panelGrid class="info">
+                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                                <h:outputText value="Name:  " />
+                                <h:outputText value ="#{c.firstName} " />
+                                <h:outputText value ="#{c.middleInit} " />
+                                <h:outputText value="#{c.lastName}" />
+                                </ui:repeat>
+                            </h:panelGrid>
+                            <h:panelGrid class="info">
+                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                                <h:outputText value="Address:  " />
+                                <h:outputText value ="#{c.address} " />
+                                <h:outputText value="#{c.city}, " />
+                                <h:outputText value="#{c.state} " />
+                                <h:outputText value="#{c.zipcode}" />
+                                </ui:repeat>
+                            </h:panelGrid>
+                            <h:panelGrid class="info">
+                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                                <h:outputText value="Phone Number:  " />
+                                <h:outputText id="phoneNum" value ="#{c.phone}"  />
+                                </ui:repeat>
+                            </h:panelGrid>
+                            <h:panelGrid class="info">
+                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                                <h:outputText value="Date of Birth:  " />
+                                <h:outputText value ="#{c.DOB}" />
+                                </ui:repeat>
+                            </h:panelGrid>
+                            <h:panelGrid class="info">
+                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                                <h:outputText value="Employee ID:  " />
+                                <h:outputText value ="#{c.employeeID}" />
+                                </ui:repeat>
+                            </h:panelGrid>
+                            <h:panelGrid class="info">
+                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                                <h:outputText value="Employee Email:  " />
+                                <h:outputText value ="#{c.username}" />
+                                </ui:repeat>
+                            </h:panelGrid>
+                            <div id="edit">    
+                                <h:commandButton value="Edit Information" action="employeeProfileEdit" />
+                            </div>
+                        </div>
+                        
+                       
+                    </div>
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

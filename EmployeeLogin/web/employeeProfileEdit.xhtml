@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputScript library="js" name="waystoneEmp.js"/>
+        <title>Edit Employee Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+            
+                    <h3 class="pageTitle">Edit Employee Profile Page</h3>
+                    
+                    <h:panelGrid class="editInfo">
+                        <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                        <h:outputText value="First Name:  " />
+                        <h:inputText id="firstName" value ="#{c.firstName}" tabindex="1" required="true" requiredMessage="First Name is required">
+                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>
+                        <h:message for="firstName"/> 
+                        <h:outputText value="Middle Initial:  " />
+                        <h:inputText id="middleInit" value ="#{c.middleInit}" >
+                            <f:validateLength maximum="1" />
+                            <f:validateRegex pattern="[a-zA-Z]"/>
+                        </h:inputText>
+                        <h:message for="middleInit"/> 
+                        <h:outputText value="Last Name:  " />
+                        <h:inputText id="lastName" value="#{c.lastName}" required="true" requiredMessage="Last Name is required">
+                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>
+                        <h:message for="lastName"/> 
+                        </ui:repeat>
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo">
+                        <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                        <h:outputText value="Address:  " />
+                        <h:inputText id="address" value ="#{c.address}" >
+                            <f:validateRegex pattern="[a-zA-Z0-9]+ [a-zA-z ]+" />
+                        </h:inputText>
+                        <h:message for="address"/> 
+                        <h:outputText value="City:  " />
+                        <h:inputText id="city" value="#{c.city}" >
+                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>
+                        <h:message for="city"/> 
+                        <h:outputText value="State:  " />
+                        <h:inputText id="state" value="#{c.state}" />
+                        <h:outputText value="Zipcode:  " />
+                        <h:inputText id="zipcode" value="#{c.zipcode}" >
+                            <f:validateRegex pattern="[0-9]+"/>
+                            <f:validateLength minimum="5" maximum="5"/>
+                        </h:inputText>
+                        <h:message for="zipcode"/> 
+                        </ui:repeat>
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo">
+                        <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                        <h:outputText value="Phone Number:  " />
+                        <h:inputText class="phone" value ="#{c.phone}" required="true" requiredMessage="Phone Number is required">
+                            <f:validateRegex pattern="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}"/>
+                            <f:validateLength minimum="12" maximum="12"/>
+                        </h:inputText>
+                        <h:message for="phone"/> 
+                        </ui:repeat>
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo">
+                        <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                        <h:outputText value="Date of Birth:  " />
+                        <h:inputText id="dob" value ="#{c.DOB}" styleClass="dobDate"/>
+                             
+                        </ui:repeat>
+                    </h:panelGrid>
+                    
+                    <h:commandButton value="Submit" action="#{employee.updateEmployeeTable}" />
+                    
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

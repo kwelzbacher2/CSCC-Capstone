@@ -1,0 +1,90 @@
+
+/* 
+    Created on : Feb 21, 2018, 10:56:23 AM
+    Author     : Katie
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Nanum+Myeongjo');
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif');
+.title {
+	font-size: 2em;
+	color: black;
+	text-align: center;
+	font-family:"Nanum Myeongjo";
+	position:relative;
+}
+#nav {
+	background-color: rgba(255,255,255,1);
+	height: 1.2em;
+	text-align: center;
+        padding-bottom:10px;
+        border-bottom: 2px solid lightslategray;
+	
+}
+.link {
+    color:black;
+    text-decoration:none;
+    font-size: 1em;
+    font-family: "Noto Serif";
+}
+
+div li {
+	display: inline;
+	padding-right: 100px;
+}
+.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+}
+
+div ul {
+	list-style-type: none;
+}
+#signOut {
+    text-align: right;
+    
+}
+#loginBox {
+    font-family: "Noto Serif";
+    border: 10px dimgray;
+    background-color: ghostwhite;
+    padding: 50px;
+    margin: 100px;
+    width: 30%;
+    position: relative;
+    -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0,0.5);
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+#loginBox h3{
+    padding-top: -50px;
+    padding-bottom: 20px;
+}
+.empInfo {
+    font-family:"Noto Serif";
+    position:relative;
+    padding: 50px;
+    
+}
+.pageTitle{
+    text-align: center;
+    font-size: 1.2em;
+}
+#profileBox {
+    padding: 50px;
+       
+}
+#edit {
+    padding-top: 50px;
+    padding-left: 80px;
+}
+#welcome{
+    font-family:"Noto Serif";
+    font-weight:bold;
+    padding-left: 50px;
+    padding-top:50px;
+    
+}

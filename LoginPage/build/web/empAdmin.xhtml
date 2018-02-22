@@ -5,15 +5,26 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        <h:form>
-            <p>Welcome Employee #{login.empUser}</p>
-            <h:commandLink action="#{login.logout}" value="Logout"></h:commandLink>
-        </h:form>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+            
+                    <p>Welcome Employee #{login.empUser}</p>
+            
+            
+                    
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
     </h:body>
 </html>

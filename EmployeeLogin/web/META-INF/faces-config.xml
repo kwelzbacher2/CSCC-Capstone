@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+
 
 
 <faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
@@ -14,19 +10,16 @@ and open the template in the editor.
     <!-- Login Page -->
 	<navigation-rule>
 		<from-view-id>/index.xhtml</from-view-id>
-		<!-- <navigation-case>
-			<from-outcome>admin</from-outcome>
-			<to-view-id>/admin.xhtml</to-view-id>
-		</navigation-case> -->
+		
                 <navigation-case>
-                    <from-outcome>empAdmin</from-outcome>
-                    <to-view-id>/empAdmin.xhtml</to-view-id>
+                    <from-outcome>employeeAdmin</from-outcome>
+                    <to-view-id>/employeeAdmin.xhtml</to-view-id>
                 </navigation-case>
 	</navigation-rule>
        
         
         <navigation-rule>
-            <from-view-id>/empAdmin.xhtml</from-view-id>
+            <from-view-id>/employeeAdmin.xhtml</from-view-id>
             <naviation-case>
                 <from-outcome>index</from-outcome>
                 <to-view-id>/index.xhtml</to-view-id>
