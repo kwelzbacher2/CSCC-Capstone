@@ -7,12 +7,10 @@ package waystonepropertymanagement.employee.login;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.faces.application.FacesMessage;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *

@@ -9,14 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.*;
-
-/**
- *
- * @author Katie
- */
-
-import waystonepropertymanagement.employee.login.DataConnect;
 public class EmployeeLoginDAO {
     public static boolean empValidate(String user, String password) {
         Connection conn = null;

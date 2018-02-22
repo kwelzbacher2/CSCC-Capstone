@@ -20,11 +20,11 @@
         
         <navigation-rule>
             <from-view-id>/employeeAdmin.xhtml</from-view-id>
-            <naviation-case>
+            <navigation-case>
                 <from-outcome>index</from-outcome>
                 <to-view-id>/index.xhtml</to-view-id>
-            </naviation-case>
-        </navigatino-rule>
+            </navigation-case>
+        </navigation-rule>
         
         <!-- New Account Page -->
          <!-- <navigation-rule>
