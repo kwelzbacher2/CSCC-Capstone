@@ -7,7 +7,11 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
 	 <h:outputStylesheet library="css" name="waystoneEmployee.css" /> 
-         <script type="text/javascript" src="#{request.contextPath}/resources/js/waystoneEmp.js"></script>
+          <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+            <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <h:outputScript name="js/waystoneEmp.js"/>
     </h:head>
     <body>
 	    <ui:composition>

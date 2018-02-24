@@ -8,20 +8,20 @@
     </h:head>
     <h:body>
         <h:form>
-            <div class="title">Waystone Propery Management</div>
-            <div id="loginBox">
+            <div class="title">Waystone Property Management</div>
+            <div class="shadowBox">
                 <h3> Employee Login</h3>
                 <h:outputText value="Username" />
-                <h:inputText id="username" value="#{login.user}"> </h:inputText>
+                <h:inputText id="username" value="#{employee.username}"> </h:inputText>
                 <h:message for="username"> </h:message>
                 <br></br><br></br>
             
                 <h:outputText value="Password" />
-                <h:inputSecret id="password" value="#{login.pwd}"></h:inputSecret>
+                <h:inputSecret id="password" value="#{employee.pwd}"></h:inputSecret>
                 <h:message for="password"></h:message>
                 <br></br><br></br>
             
-                <h:commandButton action="#{login.validateUsernamePassword}" value="Login"></h:commandButton>
+                <h:commandButton action="#{employee.validateUsernamePassword}" value="Login"></h:commandButton>
             </div>
             
         </h:form>

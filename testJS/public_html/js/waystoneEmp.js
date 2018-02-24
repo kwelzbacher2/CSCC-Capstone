@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$(function(){
-    $(".dobDate").datepicker();
-          
-});
+$( function() {
+    $( "#datepicker" ).datepicker();
+    $("#btn1").click(function(){
+         $("p").append("<b>Appended text </b>");        
+     });
+  } );
+
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package waystonepropertymanagement.employee.login;
+
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -18,6 +18,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import waystonepropertymanagement.employee.login.DataConnect;
+import waystonepropertymanagement.employee.login.Employee;
+import waystonepropertymanagement.employee.login.EmployeeLoginDAO;
+import waystonepropertymanagement.employee.login.SessionUtils;
 import waystonepropertymanagement.employee.login.SessionUtils;
 
 
@@ -123,6 +127,6 @@ public class Login implements Serializable{
         }
         return list;
      }
-     
-     
+          
+
 }

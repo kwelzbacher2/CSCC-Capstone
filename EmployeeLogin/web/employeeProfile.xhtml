@@ -18,46 +18,46 @@
                     <div class="empInfo">
                         <h3 class="pageTitle">Employee Profile Page</h3>
                         <div id="profileBox">
-                            <h:panelGrid class="info">
-                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                            <h:panelGrid class="info" columns="4">
+                                
                                 <h:outputText value="Name:  " />
-                                <h:outputText value ="#{c.firstName} " />
-                                <h:outputText value ="#{c.middleInit} " />
-                                <h:outputText value="#{c.lastName}" />
-                                </ui:repeat>
+                                <h:outputText value ="#{empRecordObj.firstName} " />
+                                <h:outputText value ="#{empRecordObj.middleInit} " />
+                                <h:outputText value="#{empRecordObj.lastName}" />
+                                
                             </h:panelGrid>
-                            <h:panelGrid class="info">
-                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                            <h:panelGrid class="info" columns="5">
+                                
                                 <h:outputText value="Address:  " />
-                                <h:outputText value ="#{c.address} " />
-                                <h:outputText value="#{c.city}, " />
-                                <h:outputText value="#{c.state} " />
-                                <h:outputText value="#{c.zipcode}" />
-                                </ui:repeat>
+                                <h:outputText value ="#{empRecordObj.address} " />
+                                <h:outputText value="#{empRecordObj.city}, " />
+                                <h:outputText value="#{empRecordObj.state} " />
+                                <h:outputText value="#{empRecordObj.zipcode}" />
+                                
                             </h:panelGrid>
-                            <h:panelGrid class="info">
-                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                            <h:panelGrid class="info" columns="2">
+                                
                                 <h:outputText value="Phone Number:  " />
-                                <h:outputText id="phoneNum" value ="#{c.phone}"  />
-                                </ui:repeat>
+                                <h:outputText id="phoneNum" value ="#{empRecordObj.phone}"  />
+                                
                             </h:panelGrid>
-                            <h:panelGrid class="info">
-                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                            <h:panelGrid class="info" columns="2">
+                                
                                 <h:outputText value="Date of Birth:  " />
-                                <h:outputText value ="#{c.DOB}" />
-                                </ui:repeat>
+                                <h:outputText value ="#{empRecordObj.DOB}" />
+                                
                             </h:panelGrid>
-                            <h:panelGrid class="info">
-                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                            <h:panelGrid class="info" columns="2">
+                                
                                 <h:outputText value="Employee ID:  " />
-                                <h:outputText value ="#{c.employeeID}" />
-                                </ui:repeat>
+                                <h:outputText value ="#{empRecordObj.employeeID}" />
+                                
                             </h:panelGrid>
-                            <h:panelGrid class="info">
-                                <ui:repeat value="#{login.getEmployeeList()}" var="c">
+                            <h:panelGrid class="info" columns="2">
+                                
                                 <h:outputText value="Employee Email:  " />
-                                <h:outputText value ="#{c.username}" />
-                                </ui:repeat>
+                                <h:outputText value ="#{empRecordObj.username}" />
+                                
                             </h:panelGrid>
                             <div id="edit">    
                                 <h:commandButton value="Edit Information" action="employeeProfileEdit" />

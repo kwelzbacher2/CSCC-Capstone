@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$(function(){
-    $(".dobDate").datepicker();
-          
-});
-
+module.exports = function (grunt) {
+    // Project configuration.
+    grunt.initConfig({
+    });
+};

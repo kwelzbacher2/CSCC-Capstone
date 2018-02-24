@@ -14,14 +14,13 @@
             <ui:define name="content">
                 
                 <h:form>
-                                                    
-                    <ui:repeat value="#{login.getEmployeeList()}" var="c">
-
+                                          
                         <h3 id="welcome">Welcome Employee</h3>
-                        <h:outputText value="#{c.firstName} #{c.lastName}" class="empInfo"/>                  
-                
-                    </ui:repeat>
-                    
+                        <!--this is needed to get employee info initially! -->
+                        <ui:repeat value="#{employee.getEmployeeRecord()}" var="emp"> 
+                        <h:outputText value="#{emp.firstName} #{emp.lastName}" class="empInfo"/>                  
+                      
+                        </ui:repeat>               
                 </h:form>
             </ui:define>
             

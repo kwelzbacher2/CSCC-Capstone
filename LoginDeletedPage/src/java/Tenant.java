@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package waystonepropertymanagement.employee.login;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -23,42 +22,40 @@ import javax.servlet.http.HttpSession;
  *
  * @author Katie
  */
-@ManagedBean (name="employee")
+@ManagedBean (name="tenant")
 @SessionScoped
-public class Employee implements Serializable{
-    private static final long serialVersionUID = 1094801825228386363L;
-    
-    private String pwd;
-    private String msg;
-    
+public class Tenant {
+    private String searchCrit;
+    private String searchInfo;
     
     private String username;
-    private int employeeID;
+    private int tenantID;
     private String firstName;
     private String lastName;
-    private String middleInit;
     private String address;
+    private String building;
+    private String aptNum;
     private String city;
     private String state;
     private String zipcode;
     private String phone;
     private String dob;
     
-    public List<Employee>employeeListFromDB;
+    public List<Tenant>tenantListFromDB;
     
-    public String getMsg() {
-        return msg;
+    public String getSearchCrit() {
+        return searchCrit;
     }
     
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setSearchCrit(String searchCrit) {
+        this.searchCrit = searchCrit;
     }
-    public String getPwd() {
-        return pwd;
+    public String getSearchInfo() {
+        return searchInfo;
     }
     
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setSearchInfo(String searchInfo) {
+        this.searchInfo = searchInfo;
     }
     
     public String getUsername(){
@@ -69,12 +66,12 @@ public class Employee implements Serializable{
         this.username = username;
     }
     
-    public int getEmployeeID(){
-        return employeeID;
+    public int getTenantID(){
+        return tenantID;
     }
     
-    public void setEmployeeID(int employeeID){
-        this.employeeID = employeeID;
+    public void setTenantID(int tenantID){
+        this.tenantID = tenantID;
     }
     public String getFirstName(){
         return firstName;
@@ -90,19 +87,27 @@ public class Employee implements Serializable{
     public void setLastName(String lastName){
         this.lastName = lastName;
     }
-    public String getMiddleInit(){
-        return middleInit;
-    }
-    
-    public void setMiddleInit(String middleInit){
-        this.middleInit = middleInit;
-    }
+   
     public String getAddress(){
         return address;
     }
     
     public void setAddress(String address){
         this.address = address;
+    }
+    
+    public String getBuilding(){
+        return building;
+    }
+    public void setBuilding(String building){
+        this.building = building;
+    }
+    
+    public String getAptNum(){
+        return aptNum;
+    }
+    public void setAptNum(String aptNum){
+        this.aptNum = aptNum;
     }
     public String getCity(){
         return city;
@@ -140,37 +145,7 @@ public class Employee implements Serializable{
     public void setDOB(String dob){
         this.dob = dob;
     }
-    public String validateUsernamePassword() {
-         boolean valid = DatabaseOperation.empValidate(username, pwd);
-         if(valid) {
-             HttpSession session = SessionUtils.getSession();
-             session.setAttribute("username", username);
-             return "employeeAdmin";
-         } else {
-             FacesContext.getCurrentInstance().addMessage(null,
-                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Incorrect Username and Password",
-                     "Please enter correct Username and Password"));
-             return "index";
-         }
-     }
-    
-    
-    
-    
-    public List<Employee> getEmployeeRecord(){
-        return DatabaseOperation.getEmployeeListFromDB(username);
-    }
-    
-    public String updateEmployeeDetails(Employee updateEmployeeObj){
-        return DatabaseOperation.updateEmployeeDetailsInDB(updateEmployeeObj);
-    }
-    
-    public String logout(){
-         HttpSession session = SessionUtils.getSession();
-         session.invalidate();
-         return "index";
-     }
-}   
-    
-    
-    
+    /*public List getTenantRecord () {
+        return DatabaseOperation.getTenantListFromDB(searchCrit, searchInfo);
+    } */
+}
