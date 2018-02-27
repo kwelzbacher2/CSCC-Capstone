@@ -17,6 +17,55 @@
             
                     <h3 class="pageTitle">Tenant Accounts </h3>
                     
+                    <h:panelGrid>
+                        <h:outputText value="Search By" />
+                        <h:selectOneMenu id="searchCriteria" value="#{tenant.searchCrit}">
+                            <f:selectItem itemValue="Tenant ID"/>
+                            <f:selectItem itemValue="Last Name"/>
+                            <f:selectItem itemValue="Apartment Number"/>
+                        </h:selectOneMenu>
+                        <h:inputText id="search" value="#{tenant.searchInfo}"/>
+                        <h:commandButton  value="Submit" action="#{tenant.getTenantRecord()}"/>                       
+                        </h:panelGrid>
+                    
+                    <h:dataTable id="tenTable" value="#{tenant.tableRs}"  var="tenRecordObj">
+                    <h:column> 
+                        <f:facet name="header">Email</f:facet>
+                        #{tenRecordObj.email}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Tenant ID</f:facet>
+                        #{tenRecordObj.tenantID}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">First Name</f:facet>
+                        #{tenRecordObj.firstName}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Last Name</f:facet>
+                        #{tenRecordObj.lastName}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Building</f:facet>
+                        #{tenRecordObj.building}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Apt Number</f:facet>
+                        #{tenRecordObj.aptNum}
+                    </h:column>
+                        <h:column> 
+                        <f:facet name="header">City</f:facet>
+                        #{tenRecordObj.city}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">State</f:facet>
+                        #{tenRecordObj.state}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Phone Number</f:facet>
+                        #{tenRecordObj.phone}
+                    </h:column>
+                </h:dataTable>
                     
                 </h:form>
                 

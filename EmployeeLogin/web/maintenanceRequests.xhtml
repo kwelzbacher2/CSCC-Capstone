@@ -2,7 +2,8 @@
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Maintenance Requests</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -15,6 +16,38 @@
                 <h:form>
             
                     <p>Maintenance Requests Page</p>
+                    
+                    <h:dataTable value="#{maintenance.getMaintenanceRequests()}" var="request">
+                        <h:column> 
+                        <f:facet name="header">Request ID</f:facet>
+                        #{request.requestID}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Tenant ID</f:facet>
+                        #{request.tenantID}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Building</f:facet>
+                        #{request.building}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Apartment Number</f:facet>
+                        #{request.aptNum}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Job Type</f:facet>
+                        #{request.jobType}
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Job Description</f:facet>
+                        #{request.jobDesc}
+                    </h:column>
+                        <h:column> 
+                        <f:facet name="header">Date Request</f:facet>
+                        #{request.dateReq}
+                    </h:column>
+                    
+                    </h:dataTable>
             
                 </h:form>
             </ui:define>

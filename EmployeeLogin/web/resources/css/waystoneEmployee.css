@@ -28,9 +28,37 @@
     font-family: "Noto Serif";
 }
 
-div li {
-	display: inline;
-	padding-right: 20px;
+
+@media screen and (max-width:1280px){
+    
+    .navList {
+            display: inline;
+            padding-right: 20px;
+    }
+}
+@media screen and (min-width:1281px) and (max-width:1400px){
+    .navList {
+            display: inline;
+            padding-right: 35px;
+    }
+}
+@media screen and (min-width:1401px) and (max-width:1600px){
+    .navList {
+            display: inline;
+            padding-right: 50px;
+    }
+}
+@media screen and (min-width:1601px) and (max-width:1800px){
+    .navList {
+            display: inline;
+            padding-right: 75px;
+    }
+}
+@media screen and (min-width:1801px) and (max-width:2000px){
+    .navList{
+            display: inline;
+            padding-right: 100px;
+    }
 }
 .link:hover {
         color: lightslategray;
@@ -70,15 +98,13 @@ div ul {
     border: 10px dimgray;
     background-color: ghostwhite;
     padding: 50px;
-    margin: 100px;
     width: 50%;
     position: relative;
     -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0,0.5);
     -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
     box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
 }
 
 .empInfo {
@@ -105,4 +131,8 @@ div ul {
     padding-left: 50px;
     padding-top:50px;
     
+}
+.quickLink {
+    text-align:center;
+    margin:0 auto;
 }

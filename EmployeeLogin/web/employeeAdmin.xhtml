@@ -19,12 +19,14 @@
                         <!--this is needed to get employee info initially! -->
                         <ui:repeat value="#{employee.getEmployeeRecord()}" var="emp"> 
                         <h:outputText value="#{emp.firstName} #{emp.lastName}" class="empInfo"/>                  
-                        <div id="quickLinks" class="shadowBox">
-                            <h:outputText value="Quick Links"/>
-                            <h:link value="My Profile" outcome="employeeProfile" class="link"/>
-                            <h:link value="Paystub" outcome="paystub" class="link"/>
-                            <h:link value="Timesheet" outcome="timesheet" class="link"/>
-                            <h:link value="Training Materials" outcome="training" class="link"/>
+                        <div class="shadowBox">
+                            <h:outputText class="pageTitle" value="Quick Links"/><br/><br/><br/>
+                            <h:panelGrid columns = "4" styleClass="quickLink">
+                            <h:link outcome="employeeProfile" class="link"> <img src ="resources/images/database-search.png" alt=""><br/> My Profile</img> </h:link>
+                            <h:link outcome="paystub" class="link"><img src ="resources/images/money.png" alt=""><br/>Paystub</img></h:link>
+                            <h:link outcome="timesheet" class="link"><img src ="resources/images/clipboard.png" alt=""><br/>Timesheet</img></h:link>
+                            <h:link outcome="training" class="link"><img src ="resources/images/information.png" alt=""><br/>Training Materials</img></h:link>
+                            </h:panelGrid>
                         </div>
                         </ui:repeat>               
                 </h:form>

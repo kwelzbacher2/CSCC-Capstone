@@ -113,5 +113,69 @@ public class DatabaseOperation {
         }
 
     
+    public static List<Tenant> getTenantListFromDB(String searchCrit, String searchInfo){
+       
+       List<Tenant> tenList = new ArrayList<>();
+       
+        switch (searchCrit) {
+            case "Tenant ID":
+                searchCrit = "tenant_id";
+                break;
+            case "Last Name":
+                searchCrit = "lastName";
+                break;
+            default:
+                searchCrit = "apt_num";
+                break;
+        }
+        try {
+            
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("SELECT * FROM ten_accounts WHERE ? = ?");
+            pstmt.setString(1, searchCrit);
+            pstmt.setString(1, searchInfo);
+            
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                
+                tenList.add(new Tenant(resultSetObj.getString(1),resultSetObj.getInt(2), resultSetObj.getString(3), resultSetObj.getString(4),
+                resultSetObj.getString(6),resultSetObj.getString(7), resultSetObj.getString(8), resultSetObj.getString(9),
+                 resultSetObj.getString(11)));
+               }
+            }              
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return tenList;
+     }
+    
+    public static List<Maintenance> getMaintenanceFromDB(){
+        List<Maintenance> mainTable = new ArrayList();
+        try {
+            
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("SELECT * FROM maintenance_request;");
+            
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                
+                mainTable.add(new Maintenance(resultSetObj.getInt(1),resultSetObj.getInt(2), resultSetObj.getString(3), resultSetObj.getString(4),
+                resultSetObj.getString(5), resultSetObj.getString(6),resultSetObj.getString(7)));
+               }
+            }              
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return mainTable;
+    }
+    
     }
 
