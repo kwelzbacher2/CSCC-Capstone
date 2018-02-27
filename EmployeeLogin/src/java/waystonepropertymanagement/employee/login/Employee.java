@@ -32,7 +32,7 @@ public class Employee implements Serializable{
     private String msg;
     
     
-    private String username;
+    private String email;
     private int employeeID;
     private String firstName;
     private String lastName;
@@ -61,12 +61,12 @@ public class Employee implements Serializable{
         this.pwd = pwd;
     }
     
-    public String getUsername(){
-        return username;
+    public String getEmail(){
+        return email;
     }
     
-    public void setUsername(String username){
-        this.username = username;
+    public void setEmail(String email){
+        this.email = email;
     }
     
     public int getEmployeeID(){
@@ -141,10 +141,10 @@ public class Employee implements Serializable{
         this.dob = dob;
     }
     public String validateUsernamePassword() {
-         boolean valid = DatabaseOperation.empValidate(username, pwd);
+         boolean valid = DatabaseOperation.empValidate(email, pwd);
          if(valid) {
              HttpSession session = SessionUtils.getSession();
-             session.setAttribute("username", username);
+             session.setAttribute("username", email);
              return "employeeAdmin";
          } else {
              FacesContext.getCurrentInstance().addMessage(null,
@@ -158,7 +158,7 @@ public class Employee implements Serializable{
     
     
     public List<Employee> getEmployeeRecord(){
-        return DatabaseOperation.getEmployeeListFromDB(username);
+        return DatabaseOperation.getEmployeeListFromDB(email);
     }
     
     public String updateEmployeeDetails(Employee updateEmployeeObj){

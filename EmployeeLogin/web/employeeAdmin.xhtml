@@ -19,7 +19,13 @@
                         <!--this is needed to get employee info initially! -->
                         <ui:repeat value="#{employee.getEmployeeRecord()}" var="emp"> 
                         <h:outputText value="#{emp.firstName} #{emp.lastName}" class="empInfo"/>                  
-                      
+                        <div id="quickLinks" class="shadowBox">
+                            <h:outputText value="Quick Links"/>
+                            <h:link value="My Profile" outcome="employeeProfile" class="link"/>
+                            <h:link value="Paystub" outcome="paystub" class="link"/>
+                            <h:link value="Timesheet" outcome="timesheet" class="link"/>
+                            <h:link value="Training Materials" outcome="training" class="link"/>
+                        </div>
                         </ui:repeat>               
                 </h:form>
             </ui:define>

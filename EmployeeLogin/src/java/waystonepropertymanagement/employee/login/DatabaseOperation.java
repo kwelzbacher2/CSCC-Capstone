@@ -1,7 +1,6 @@
 package waystonepropertymanagement.employee.login;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,14 +22,14 @@ public class DatabaseOperation {
     public static ResultSet resultSetObj;
     public static PreparedStatement pstmt;
     
-    public static boolean empValidate(String user, String password) {
+    public static boolean empValidate(String email, String password) {
         
         
         try {
             
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("Select username, password FROM employee_login WHERE username = ? and password = ?");
-            pstmt.setString(1, user);
+            pstmt = connObj.prepareStatement("Select email, password FROM employee_login WHERE email = ? and password = ?");
+            pstmt.setString(1, email);
             pstmt.setString(2, password);
             
             ResultSet rs = pstmt.executeQuery();
@@ -57,14 +56,14 @@ public class DatabaseOperation {
         try {
             
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("SELECT * FROM employee_accounts WHERE username = ?");
+            pstmt = connObj.prepareStatement("SELECT * FROM employee_accounts WHERE email = ?");
             pstmt.setString(1, username);
             
             resultSetObj = pstmt.executeQuery();
             if(resultSetObj != null) {
                 resultSetObj.next();
                 empRecord = new Employee();
-                empRecord.setUsername(resultSetObj.getString("username"));
+                empRecord.setEmail(resultSetObj.getString("email"));
                 empRecord.setEmployeeID(resultSetObj.getInt("employee_id"));
                 empRecord.setFirstName(resultSetObj.getString("firstName"));
                 empRecord.setLastName(resultSetObj.getString("lastName"));
@@ -91,7 +90,7 @@ public class DatabaseOperation {
                         
                 connObj = DataConnect.getConnection();
                 pstmt = connObj.prepareStatement("UPDATE employee_accounts SET firstName = ?, lastName = ?, middleInt = ?, "
-                    + "address = ?, city = ?, state = ?, zipcode = ?, phone = ?, dob = ? WHERE username = ?");
+                    + "address = ?, city = ?, state = ?, zipcode = ?, phone = ?, dob = ? WHERE email = ?");
                 pstmt.setString(1, updateEmployeeObj.getFirstName());
                 pstmt.setString(2, updateEmployeeObj.getLastName());
                 pstmt.setString(3, updateEmployeeObj.getMiddleInit());
@@ -101,7 +100,7 @@ public class DatabaseOperation {
                 pstmt.setString(7, updateEmployeeObj.getZipcode());
                 pstmt.setString(8, updateEmployeeObj.getPhone());
                 pstmt.setString(9, updateEmployeeObj.getDOB());
-                pstmt.setString(10, updateEmployeeObj.getUsername());
+                pstmt.setString(10, updateEmployeeObj.getEmail());
             
                 pstmt.executeQuery();
                 
