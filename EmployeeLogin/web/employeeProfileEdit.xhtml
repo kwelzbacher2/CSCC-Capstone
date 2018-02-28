@@ -22,7 +22,7 @@
                 <h:form id="form">
                     <div class="empInfo" >
                     <h3 class="pageTitle">Edit Employee Profile Page</h3>
-                    <div id="editBox">
+                    <div class="editBox">
                     
                     <h:panelGrid class="editInfo" columns="6"> 
                         
@@ -33,8 +33,8 @@
                         </h:inputText>
                         <h:outputText value="Middle Initial:  " />
                         <h:inputText id="middleInit" value ="#{empRecordObj.middleInit}" validatorMessage="Please enter 1 letter for Middle Initial" size="1">
-                            <f:validateLength maximum="1" />
-                            <f:validateRegex pattern="[a-zA-Z]"/>
+                            
+                            <f:validateRegex pattern="^[a-zA-Z]$"/>
                         </h:inputText> 
                         <h:outputText value="Last Name:  " />
                         <h:inputText id="lastName" value="#{empRecordObj.lastName}" required="true" requiredMessage="Last Name is required"
@@ -116,7 +116,7 @@
                     <h:panelGrid class="editInfo" columns="2">
                         
                         <h:outputText value="Phone Number:  " />
-                        <h:inputText class="phone" value ="#{empRecordObj.phone}" required="true" requiredMessage="Phone Number is required"
+                        <h:inputText id="phone" value ="#{empRecordObj.phone}" required="true" requiredMessage="Phone Number is required"
                                      validatorMessage="Please enter digits in the form of 555-555-5555 for Phone Number" size="12">
                             <f:validateRegex pattern="\d{3}-\d{3}-\d{4}"/>
                         </h:inputText>
@@ -125,17 +125,20 @@
                     <h:panelGrid class="editInfo" columns="2">
                         
                         <h:outputText value="Date of Birth:  " />
-                        <h:inputText id="dob" value ="#{empRecordObj.DOB}" class="dobDate" size="10"/>     
-                        
+                        <h:inputText id="dob" value ="#{empRecordObj.DOB}" class="dobDate" size="10" validatorMessage="Please enter digits in the form of 01/01/1999 for Date of Birth">     
+                            <f:validateRegex pattern="\d{2}/\d{2}/\d{4}"/>
+                        </h:inputText>    
                     </h:panelGrid>
-                    
-                    <h:message for="firstName"/>    
-                    <h:message for="middleInit"/>
-                    <h:message for="lastName"/> 
-                    <h:message for="address"/>
-                    <h:message for="city"/> 
-                    <h:message for="zipcode"/>
-                    <h:message for="phone"/>
+                        <h:panelGrid class ="warning" columns ="1">
+                        <h:message for="firstName"/>    
+                        <h:message for="middleInit"/>
+                        <h:message for="lastName" /> 
+                        <h:message for="address" />
+                        <h:message for="city" /> 
+                        <h:message for="zipcode"/>
+                        <h:message for="phone" />
+                        <h:message for="dob" />
+                        </h:panelGrid>
                     <h:commandButton value="Submit" action="#{employee.updateEmployeeDetails(empRecordObj)}" />
                     </div>
                     </div>   

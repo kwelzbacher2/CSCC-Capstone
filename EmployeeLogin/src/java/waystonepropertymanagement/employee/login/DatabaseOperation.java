@@ -21,6 +21,7 @@ public class DatabaseOperation {
     public static Connection connObj;
     public static ResultSet resultSetObj;
     public static PreparedStatement pstmt;
+    public static String query;
     
     public static boolean empValidate(String email, String password) {
         
@@ -112,38 +113,71 @@ public class DatabaseOperation {
         return "/employeeProfile.xhtml?faces-redirect=true";
         }
 
+    public static String updateEmployeePassword(String password,String email){
+        try{
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("UPDATE employee_login SET password = ? WHERE email = ?");
+            pstmt.setString(1, password);
+            pstmt.setString(2, email);
+            pstmt.executeQuery();
+        } catch(SQLException e){
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+            DataConnect.close(connObj);
+        }
+        return "/employeeProfile.xhtml?faces-redirect=true";
+    }
     
     public static List<Tenant> getTenantListFromDB(String searchCrit, String searchInfo){
+       List<Tenant> tenantList = new ArrayList<>();
        
+        
+        if (searchCrit.equals("Tenant ID")){
+              query = ("SELECT * FROM ten_accounts WHERE tenant_id = ?");
+              tenantList = getTenantInfo(query, searchInfo);
+        } else if(searchCrit.equals("Last Name")){
+            query = ("SELECT * FROM ten_accounts WHERE lastName = ?");
+            tenantList = getTenantInfo(query, searchInfo);
+        }  else {
+            query = ("SELECT * FROM ten_accounts WHERE apt_num = ?");
+              tenantList = getTenantInfo(query, searchInfo);
+        }     
+        return tenantList; 
+     }
+    public static List<Tenant> getTenantInfo(String query, String searchInfo){
        List<Tenant> tenList = new ArrayList<>();
        
-        switch (searchCrit) {
-            case "Tenant ID":
-                searchCrit = "tenant_id";
-                break;
-            case "Last Name":
-                searchCrit = "lastName";
-                break;
-            default:
-                searchCrit = "apt_num";
-                break;
-        }
+        
         try {
             
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("SELECT * FROM ten_accounts WHERE ? = ?");
-            pstmt.setString(1, searchCrit);
+            pstmt = connObj.prepareStatement(query); 
             pstmt.setString(1, searchInfo);
             
             resultSetObj = pstmt.executeQuery();
             if(resultSetObj != null) {
                while( resultSetObj.next()){
+                Tenant tenObj = new Tenant();
+                tenObj.setEmail(resultSetObj.getString("email"));
+                tenObj.setTenantID(resultSetObj.getInt("tenant_id"));
+                tenObj.setFirstName(resultSetObj.getString("firstName"));
+                tenObj.setLastName(resultSetObj.getString("lastName"));
+                tenObj.setAddress(resultSetObj.getString("address"));
+                tenObj.setBuilding(resultSetObj.getString("building"));
+                tenObj.setAptNum(resultSetObj.getString("apt_num"));
+                tenObj.setCity(resultSetObj.getString("city"));
+                tenObj.setState(resultSetObj.getString("state"));
+                tenObj.setZipcode(resultSetObj.getString("zipcode"));
+                tenObj.setPhone(resultSetObj.getString("phone"));
+                tenObj.setDOB(resultSetObj.getString("dob"));
                 
-                tenList.add(new Tenant(resultSetObj.getString(1),resultSetObj.getInt(2), resultSetObj.getString(3), resultSetObj.getString(4),
-                resultSetObj.getString(6),resultSetObj.getString(7), resultSetObj.getString(8), resultSetObj.getString(9),
-                 resultSetObj.getString(11)));
+                tenList.add(tenObj);
+                
                }
-            }              
+                System.out.println("Total Records Fetched: " + tenList.size());
+                
+               }
+                          
             
         } catch (SQLException e) {
             System.out.println("Login error -->" + e.getMessage());        
@@ -153,28 +187,34 @@ public class DatabaseOperation {
         return tenList;
      }
     
-    public static List<Maintenance> getMaintenanceFromDB(){
-        List<Maintenance> mainTable = new ArrayList();
+    public static ArrayList getMaintenanceListFromDB(){
+        ArrayList maintenanceList = new ArrayList();
         try {
             
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("SELECT * FROM maintenance_request;");
+            pstmt = connObj.prepareStatement("SELECT * FROM maintenance_request");
             
             resultSetObj = pstmt.executeQuery();
-            if(resultSetObj != null) {
+            
                while( resultSetObj.next()){
-                
-                mainTable.add(new Maintenance(resultSetObj.getInt(1),resultSetObj.getInt(2), resultSetObj.getString(3), resultSetObj.getString(4),
-                resultSetObj.getString(5), resultSetObj.getString(6),resultSetObj.getString(7)));
+                Maintenance mainObj = new Maintenance();
+                mainObj.setRequestID(resultSetObj.getInt("request_id"));
+                mainObj.setTenantID(resultSetObj.getInt("tenant_id"));
+                mainObj.setBuilding(resultSetObj.getString("building"));
+                mainObj.setAptNum(resultSetObj.getString("apt_num"));
+                mainObj.setJobType(resultSetObj.getString("job_type"));
+                mainObj.setJobDesc(resultSetObj.getString("job_desc"));
+                mainObj.setDateReq(resultSetObj.getString("date_req"));
+                maintenanceList.add(mainObj);
                }
-            }              
+                System.out.println("Total Records Fetched: " + maintenanceList.size());          
             
         } catch (SQLException e) {
             System.out.println("Login error -->" + e.getMessage());        
         } finally {    
               DataConnect.close(connObj);
         }
-        return mainTable;
+        return maintenanceList;
     }
     
     }

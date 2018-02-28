@@ -41,14 +41,6 @@ public class Tenant {
     private String phone;
     private String dob;
     
-    public List<Tenant>tenantListFromDB;
-
-    public Tenant(){
-        
-    }
-    Tenant(String string, int aInt, String string0, String string1, String string2, String string3, String string4, String string5, String string6) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     public String getSearchCrit() {
         return searchCrit;
@@ -153,17 +145,18 @@ public class Tenant {
         this.dob = dob;
     }
     
-    private List<Tenant> tableRs = new ArrayList<Tenant>();
-    
-    public List<Tenant> getTableRs() {
-        return tableRs;
-    }
-    public void setTableRs(List<Tenant> tableRs){
-        this.tableRs = tableRs;
-    }
-    public List<Tenant> getTenantRecord() {
-        tableRs = DatabaseOperation.getTenantListFromDB(searchCrit, searchInfo);
-        return tableRs;
+   private List<Tenant> tenantList = new ArrayList();
+   
+   public List getTenantList(){
+       return tenantList;
+   }
+   public void setTenantList(List tenantList){
+       this.tenantList = tenantList;
+   }
+          
+    public void getTenantRecord(String searchCrit, String searchInfo) {
+        tenantList =  DatabaseOperation.getTenantListFromDB(searchCrit, searchInfo);
+        
     } 
     
     

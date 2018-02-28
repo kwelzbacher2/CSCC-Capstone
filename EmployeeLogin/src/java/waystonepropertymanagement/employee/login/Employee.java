@@ -164,7 +164,9 @@ public class Employee implements Serializable{
     public String updateEmployeeDetails(Employee updateEmployeeObj){
         return DatabaseOperation.updateEmployeeDetailsInDB(updateEmployeeObj);
     }
-    
+    public String updatePassword(){
+        return DatabaseOperation.updateEmployeePassword(pwd, email);
+    }
     public String logout(){
          HttpSession session = SessionUtils.getSession();
          session.invalidate();

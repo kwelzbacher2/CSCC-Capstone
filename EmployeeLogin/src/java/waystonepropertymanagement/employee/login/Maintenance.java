@@ -7,11 +7,15 @@ package waystonepropertymanagement.employee.login;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author Katie
  */
+@ManagedBean (name="maintenance")
+@ViewScoped
 public class Maintenance {
     private int requestID;
     private int tenantID;
@@ -20,21 +24,9 @@ public class Maintenance {
     private String jobType;
     private String jobDesc;
     private String dateReq;
-
-    public Maintenance (){
-        
-    }
-
-    Maintenance(int requestID, int tenantID, String building, String aptNum, String jobDesc, String jobType, String dateReq) {
-        super();
-        this.requestID = requestID; 
-        this.tenantID = tenantID;
-        this.building = building;
-        this.aptNum = aptNum;
-        this.jobDesc = jobDesc;
-        this.jobType = jobType;
-        this.dateReq = dateReq;
-    }
+    
+    public ArrayList maintenanceListFromDB;
+    
 
   
     
@@ -81,17 +73,8 @@ public class Maintenance {
         this.dateReq = dateReq;
     }
     
-    private List<Maintenance> tableFill = new ArrayList<Maintenance>();
     
-    public List<Maintenance> getTableFill() {
-        return tableFill;
+    public List<Maintenance> getMaintenanceRecord(){
+        return DatabaseOperation.getMaintenanceListFromDB();
     }
-    public void setTableFill(List<Maintenance> tableFill){
-        this.tableFill = tableFill;
-    }
-    public List<Maintenance> getMaintenanceRequests() {
-        tableFill = DatabaseOperation.getMaintenanceFromDB();
-        return tableFill;
-    }
-    
 }

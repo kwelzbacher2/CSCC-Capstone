@@ -11,8 +11,9 @@
             <div class="title">Waystone Property Management</div>
             <div class="shadowBox">
                 <h3> Employee Login</h3>
+                
                 <h:outputText value="Email" />
-                <h:inputText id="username" value="#{employee.email}"> </h:inputText>
+                <h:inputText id="username" value="#{employee.email}" > </h:inputText>
                 <h:message for="username"> </h:message>
                 <br></br><br></br>
             
@@ -20,7 +21,7 @@
                 <h:inputSecret id="password" value="#{employee.pwd}"></h:inputSecret>
                 <h:message for="password"></h:message>
                 <br></br><br></br>
-            
+                
                 <h:commandButton action="#{employee.validateUsernamePassword}" value="Login"></h:commandButton>
             </div>
             

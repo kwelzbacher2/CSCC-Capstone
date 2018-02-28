@@ -27,6 +27,10 @@
                 <redirect />
             </navigation-case>
         </navigation-rule>
+       <validator>
+            <validator-id>passwordValidator</validator-id>
+            <validator-class>waystonepropertymanagement.employee.login.PasswordValidator</validator-class>
+        </validator> 
         
        
                 

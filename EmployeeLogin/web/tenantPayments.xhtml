@@ -14,22 +14,39 @@
             <ui:define name="content">
                 
                 <h:form>
-                    <h:link value="Tenant Payments" outcome="tenantPayments" class="link"/>     
+                    <h:link value="Search Tenant Accounts" outcome="tenantAccounts" class="link"/>     
                     <br/><br/>
-                    <h3 class="pageTitle">Search Tenant Accounts </h3>
+                    <h3 class="pageTitle">Tenant Payments</h3>
                     
                     <h:panelGrid>
                         <h:outputText value="Search By" />
-                        <h:selectOneMenu id="searchCriteria" value="#{tenant.searchCrit}" required="true">
-                            <f:selectItem itemValue="Tenant ID"/>
-                            <f:selectItem itemValue="Last Name"/>
-                            <f:selectItem itemValue="Apartment Number"/>
+                        <h:selectOneMenu id="searchCriteria" value="#{tenant.payCrit}" required="true">
+                            <f:selectItem itemValue= null/>
+                            <f:selectItem itemValue="Paid"/>
+                            <f:selectItem itemValue="Not Paid"/>
                         </h:selectOneMenu>
-                        <h:inputText id="search" value="#{tenant.searchInfo}" required="true"/>
-                        <h:commandButton  value="Submit" actionListener="#{tenant.getTenantRecord(tenant.searchCrit, tenant.searchInfo)}"/>                       
+                        <h:outputText value="Building" />
+                        <h:selectOneMenu id="searchInfo" value="#{tenant.payBuilding}" required="true">
+                            <f:selectItem itemValue= null/>
+                            <f:selectItem itemValue="Suncrest Grove"/>
+                            <f:selectItem itemValue="Bayside Heights"/>
+                            <f:selectItem itemValue="Highland Square"/>
+                            <f:selectItem itemValue="Hudson Court"/>
+                            <f:selectItem itemValue="Fairway Manor"/>
+                            <f:selectItem itemValue="Primrose Heights"/>
+                            <f:selectItem itemValue="Bridgewater Park"/>
+                            <f:selectItem itemValue="Stoneridge Terrace"/>
+                            <f:selectItem itemValue="Sandy Ridge"/>
+                            <f:selectItem itemValue="Desert Estates"/>
+                            <f:selectItem itemValue="Emerald Springs"/>
+                            <f:selectItem itemValue="Fairview Villa"/>
+                            <f:selectItem itemValue="Broadview Terrace"/>
+                            <f:selectItem itemValue="Woodland Hills"/>
+                        </h:selectOneMenu>
+                        <h:commandButton  value="Search" actionListener="#{tenant.getTenantPayments(tenant.payCrit, tenant.payInfo)}"/>                       
                         </h:panelGrid>
                     
-                    <h:dataTable id="tenTable" value="#{tenant.tenantList}"  var="tenRecordObj">
+                    <h:dataTable id="tenTable" value="#{tenant.payTenantList}"  var="tenRecordObj">
                     <h:column> 
                         <f:facet name="header">Email</f:facet>
                         <h:outputText value="#{tenRecordObj.email}" />
@@ -66,6 +83,10 @@
                         <f:facet name="header">Phone Number</f:facet>
                         <h:outputText value="#{tenRecordObj.phone}" />
                     </h:column>
+                    <h:column> 
+                        <f:facet name="header">Rent Paid?</f:facet>
+                        <h:outputText value="#{tenRecordObj.rentPaid}" />
+                    </h:column>  
                 </h:dataTable>
                     
                 </h:form>
