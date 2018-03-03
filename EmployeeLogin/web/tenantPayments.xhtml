@@ -19,16 +19,10 @@
                     <h3 class="pageTitle">Tenant Payments</h3>
                     
                     <h:panelGrid>
-                        <h:outputText value="Search By" />
-                        <h:selectOneMenu id="searchCriteria" value="#{tenant.payCrit}" required="true">
-                            <f:selectItem itemValue= null/>
-                            <f:selectItem itemValue="Paid"/>
-                            <f:selectItem itemValue="Not Paid"/>
-                        </h:selectOneMenu>
-                        <h:outputText value="Building" />
-                        <h:selectOneMenu id="searchInfo" value="#{tenant.payBuilding}" required="true">
-                            <f:selectItem itemValue= null/>
+                        <h:outputLabel value="Building" />
+                        <h:selectOneMenu id="searchInfo" value="#{tenant.payInfo}" required="true">
                             <f:selectItem itemValue="Suncrest Grove"/>
+                            <f:selectItem itemValue="Hidden Palms"/>
                             <f:selectItem itemValue="Bayside Heights"/>
                             <f:selectItem itemValue="Highland Square"/>
                             <f:selectItem itemValue="Hudson Court"/>
@@ -43,50 +37,62 @@
                             <f:selectItem itemValue="Broadview Terrace"/>
                             <f:selectItem itemValue="Woodland Hills"/>
                         </h:selectOneMenu>
-                        <h:commandButton  value="Search" actionListener="#{tenant.getTenantPayments(tenant.payCrit, tenant.payInfo)}"/>                       
+                        <h:outputLabel value="Search By" />
+                        <h:selectOneMenu id="searchCriteria" value="#{tenant.payCrit}">
+                            <f:selectItem itemValue=""/>
+                            <f:selectItem itemValue="Paid"/>
+                            <f:selectItem itemValue="Not Paid"/>
+                        </h:selectOneMenu>
+                         
+                        <h:commandButton  value="Search" actionListener="#{tenant.getTenantPayments(tenant.payCrit, tenant.payInfo)}" />                       
                         </h:panelGrid>
                     
-                    <h:dataTable id="tenTable" value="#{tenant.payTenantList}"  var="tenRecordObj">
+                    <h:dataTable id="tenTable" value="#{tenant.payTenantList}"  var="tenRecord"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even">
                     <h:column> 
                         <f:facet name="header">Email</f:facet>
-                        <h:outputText value="#{tenRecordObj.email}" />
+                        <h:outputText value="#{tenRecord.email}" />
                     </h:column>
                     <h:column> 
                         <f:facet name="header">Tenant ID</f:facet>
-                        <h:outputText value="#{tenRecordObj.tenantID}" />
+                        <h:outputText value="#{tenRecord.tenantID}" />
                     </h:column>
                     <h:column> 
                         <f:facet name="header">First Name</f:facet>
-                        <h:outputText value="#{tenRecordObj.firstName}" />
+                        <h:outputText value="#{tenRecord.firstName}" />
                     </h:column>
                     <h:column> 
                         <f:facet name="header">Last Name</f:facet>
-                        <h:outputText value="#{tenRecordObj.lastName}" />
+                        <h:outputText value="#{tenRecord.lastName}" />
                     </h:column>
                     <h:column> 
                         <f:facet name="header">Building</f:facet>
-                        <h:outputText value="#{tenRecordObj.building}" />
+                        <h:outputText value="#{tenRecord.building}" />
                     </h:column>
                     <h:column> 
                         <f:facet name="header">Apt Number</f:facet>
-                        <h:outputText value="#{tenRecordObj.aptNum}" />
+                        <h:outputText value="#{tenRecord.aptNum}" />
                     </h:column>
                         <h:column> 
                         <f:facet name="header">City</f:facet>
-                        <h:outputText value="#{tenRecordObj.city}" />
+                        <h:outputText value="#{tenRecord.city}" />
                     </h:column>
                     <h:column> 
                         <f:facet name="header">State</f:facet>
-                        <h:outputText value="#{tenRecordObj.state}" />
+                        <h:outputText value="#{tenRecord.state}" />
                     </h:column>
                     <h:column> 
                         <f:facet name="header">Phone Number</f:facet>
-                        <h:outputText value="#{tenRecordObj.phone}" />
+                        <h:outputText value="#{tenRecord.phone}" />
                     </h:column>
                     <h:column> 
-                        <f:facet name="header">Rent Paid?</f:facet>
-                        <h:outputText value="#{tenRecordObj.rentPaid}" />
-                    </h:column>  
+                        <f:facet name="header">Rent Paid</f:facet>
+                        <h:outputText value="#{tenRecord.rentPaid}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Amount Due</f:facet>
+                        <h:outputText value="#{tenRecord.amountDue}" />
+                    </h:column>    
                 </h:dataTable>
                     
                 </h:form>

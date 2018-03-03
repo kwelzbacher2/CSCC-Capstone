@@ -73,8 +73,40 @@ public class Maintenance {
         this.dateReq = dateReq;
     }
     
+    private List<Maintenance> maintenanceSearch = new ArrayList();
+    private String searchBuild;
+    private String searchType;
     
+    public List getMaintenanceSearch(){
+        return maintenanceSearch;
+    }
+    public void setMaintenanceSearch(List maintenanceSearch){
+        this.maintenanceSearch = maintenanceSearch;
+    }
+    
+    public String getSearchBuild(){
+        return searchBuild;
+    }
+    public void setSearchBuild(String searchBuild){
+        this.searchBuild = searchBuild;
+    }
+    public String getSearchType(){
+        return searchType;
+    }
+    public void setSearchType(String searchType){
+        this.searchType = searchType;
+    }
+    
+    //originally to obtain all maintenance requests
     public List<Maintenance> getMaintenanceRecord(){
         return DatabaseOperation.getMaintenanceListFromDB();
     }
+    
+    public void getMaintenanceSearchList(String searchBuild, String searchType){
+        
+            maintenanceSearch = DatabaseOperation.getMaintenanceSearchListFromDB(searchBuild, searchType);
+                
+    }
+    
+    
 }

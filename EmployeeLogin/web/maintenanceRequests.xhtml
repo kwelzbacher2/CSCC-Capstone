@@ -6,6 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Maintenance Requests</title>
+        
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
@@ -17,7 +18,40 @@
             
                     <h3 class="pageTitle">Maintenance Requests Page</h3>
                     
-                    <h:dataTable value="#{maintenance.getMaintenanceRecord()}" var="req">
+                     <h:panelGrid>
+                        <h:outputLabel value="Building" />
+                        <h:selectOneMenu id="searchBuild" value="#{maintenance.searchBuild}" required="true">
+                            <f:selectItem itemValue="Suncrest Grove" />
+                            <f:selectItem itemValue="Hidden Palms"/>
+                            <f:selectItem itemValue="Bayside Heights"/>
+                            <f:selectItem itemValue="Highland Square"/>
+                            <f:selectItem itemValue="Hudson Court"/>
+                            <f:selectItem itemValue="Fairway Manor"/>
+                            <f:selectItem itemValue="Primrose Heights"/>
+                            <f:selectItem itemValue="Bridgewater Park"/>
+                            <f:selectItem itemValue="Stoneridge Terrace"/>
+                            <f:selectItem itemValue="Sandy Ridge"/>
+                            <f:selectItem itemValue="Desert Estates"/>
+                            <f:selectItem itemValue="Emerald Springs"/>
+                            <f:selectItem itemValue="Fairview Villa"/>
+                            <f:selectItem itemValue="Broadview Terrace"/>
+                            <f:selectItem itemValue="Woodland Hills"/>
+                        </h:selectOneMenu>
+                        
+                        <h:outputLabel value="Job Type" />
+                        <h:selectOneMenu id="searchType" value="#{maintenance.searchType}" >
+                            <f:selectItem itemValue=""/>
+                            <f:selectItem itemValue="Electric"/>
+                            <f:selectItem itemValue="Damage"/>
+                            <f:selectItem itemValue="HVAC"/>
+                            <f:selectItem itemValue="Plumbing"/>
+                            <f:selectItem itemValue="Other"/>
+                        </h:selectOneMenu> 
+                        <h:commandButton  value="Search" actionListener="#{maintenance.getMaintenanceSearchList(maintenance.searchBuild, maintenance.searchType)}" />                       
+                        </h:panelGrid>
+                    
+                    <h:dataTable value="#{maintenance.maintenanceSearch}" var="req"
+                                 styleClass = "table" headerClass="table-header" rowClasses="table-odd,table-even">
                         <h:column> 
                         <f:facet name="header">Request ID</f:facet>
                         <h:outputText value="#{req.requestID}"/>

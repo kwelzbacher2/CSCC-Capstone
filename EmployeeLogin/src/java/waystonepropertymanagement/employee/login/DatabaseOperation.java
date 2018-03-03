@@ -21,7 +21,7 @@ public class DatabaseOperation {
     public static Connection connObj;
     public static ResultSet resultSetObj;
     public static PreparedStatement pstmt;
-    public static String query;
+    
     
     public static boolean empValidate(String email, String password) {
         
@@ -52,7 +52,7 @@ public class DatabaseOperation {
     
     public static List<Employee> getEmployeeListFromDB(String username){
        Employee empRecord = null;
-       List<Employee> empList = new ArrayList<Employee>();
+       List<Employee> empList = new ArrayList();
        Map<String, Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();        
         try {
             
@@ -128,26 +128,23 @@ public class DatabaseOperation {
         return "/employeeProfile.xhtml?faces-redirect=true";
     }
     
+    
+    
     public static List<Tenant> getTenantListFromDB(String searchCrit, String searchInfo){
-       List<Tenant> tenantList = new ArrayList<>();
-       
-        
-        if (searchCrit.equals("Tenant ID")){
-              query = ("SELECT * FROM ten_accounts WHERE tenant_id = ?");
-              tenantList = getTenantInfo(query, searchInfo);
-        } else if(searchCrit.equals("Last Name")){
-            query = ("SELECT * FROM ten_accounts WHERE lastName = ?");
-            tenantList = getTenantInfo(query, searchInfo);
-        }  else {
-            query = ("SELECT * FROM ten_accounts WHERE apt_num = ?");
-              tenantList = getTenantInfo(query, searchInfo);
-        }     
-        return tenantList; 
-     }
-    public static List<Tenant> getTenantInfo(String query, String searchInfo){
        List<Tenant> tenList = new ArrayList<>();
-       
+        String query;
         
+        switch (searchCrit) {
+            case "Tenant ID":
+                query = ("SELECT * FROM ten_accounts WHERE tenant_id = ?");
+                break;
+            case "Last Name":
+                query = ("SELECT * FROM ten_accounts WHERE lastName = ?");
+                break;
+            default:
+                query = ("SELECT * FROM ten_accounts WHERE apt_num = ?");
+                break; 
+        }
         try {
             
             connObj = DataConnect.getConnection();
@@ -217,5 +214,100 @@ public class DatabaseOperation {
         return maintenanceList;
     }
     
+    
+    public static List<Maintenance> getMaintenanceSearchListFromDB(String searchBuild, String searchType){
+        
+        List<Maintenance> mainSearchList = new ArrayList<>();
+       
+        
+        try {
+            connObj = DataConnect.getConnection();
+            //job Type is not required
+            if(searchType.equals("")){
+                pstmt = connObj.prepareStatement("SELECT * FROM maintenance_request WHERE building = ?"); 
+                pstmt.setString(1, searchBuild);
+            } else {
+                pstmt = connObj.prepareStatement("SELECT * FROM maintenance_request WHERE building = ? AND job_type = ?"); 
+                pstmt.setString(1, searchBuild);
+                pstmt.setString(2, searchType);
+            }
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                Maintenance mainSearchObj = new Maintenance();
+                mainSearchObj.setRequestID(resultSetObj.getInt("request_id"));
+                mainSearchObj.setTenantID(resultSetObj.getInt("tenant_id"));
+                mainSearchObj.setBuilding(resultSetObj.getString("building"));
+                mainSearchObj.setAptNum(resultSetObj.getString("apt_num"));
+                mainSearchObj.setJobType(resultSetObj.getString("job_type"));
+                mainSearchObj.setJobDesc(resultSetObj.getString("job_desc"));
+                mainSearchObj.setDateReq(resultSetObj.getString("date_req"));
+                
+                mainSearchList.add(mainSearchObj);
+                
+               }
+                System.out.println("Total Records Fetched: " + mainSearchList.size());
+                
+               }
+                          
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return mainSearchList;
+     
+    }
+    
+    
+   //currently not showing anything, maybe try making new Payment bean like with maintenance
+    public static List<Tenant> getPaymentListFromDB(String payCrit, String payInfo){
+               
+        List<Tenant> paymentList = new ArrayList<>();
+               
+        try {
+            
+            connObj = DataConnect.getConnection();
+            //rentPaid is not required
+            if(payCrit.equals("")){
+                pstmt = connObj.prepareStatement("SELECT * FROM tenant_payments WHERE building = ?"); 
+                pstmt.setString(1, payInfo);
+            } else {
+                pstmt = connObj.prepareStatement("SELECT * FROM tenant_payments WHERE rentPaid = ? AND building = ?"); 
+                pstmt.setString(1, payCrit);
+                pstmt.setString(2, payInfo);
+            }
+            resultSetObj = pstmt.executeQuery();
+            
+               while( resultSetObj.next()){
+                Tenant payObj = new Tenant();
+                payObj.setEmail(resultSetObj.getString("email"));
+                payObj.setTenantID(resultSetObj.getInt("tenant_id"));
+                payObj.setFirstName(resultSetObj.getString("firstName"));
+                payObj.setLastName(resultSetObj.getString("lastName"));
+                payObj.setBuilding(resultSetObj.getString("building"));
+                payObj.setAptNum(resultSetObj.getString("apt_num"));
+                payObj.setCity(resultSetObj.getString("city"));
+                payObj.setState(resultSetObj.getString("state"));
+                payObj.setPhone(resultSetObj.getString("phone"));
+                payObj.setRentPaid(resultSetObj.getString("rentPaid"));
+                payObj.setAmountDue(resultSetObj.getInt("amountDue"));
+                
+                paymentList.add(payObj);
+                
+               }
+                System.out.println("Total Records Fetched: " + paymentList.size());
+                
+               
+                          
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return paymentList;
+     }
     }
 

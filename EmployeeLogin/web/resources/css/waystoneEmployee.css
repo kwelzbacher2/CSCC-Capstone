@@ -144,3 +144,50 @@ div ul {
     font-size: 0.8em;
     color:red;
 }
+.table{
+    border-collapse:collapse;
+    margin: 0 auto;
+}
+.table-header{
+    text-align:center;
+    background:none repeat scroll 0 0 #E5E5E5;
+    border-bottom: 1px solid #BBBBBB;
+    padding: 16px;
+}
+.table-odd{
+    text-align: center;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-top: 1px solid #BBBBBB;
+}
+.table-even{
+    text-align: center;
+    background: none repeat scroll 0 0 #F9F9F9;
+    border-top: 1px solid #BBBBBB;
+}
+.dropdown-content {
+    display: none;
+    position:absolute;
+    background-color: ghostwhite;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index:1;  
+    text-align:center;
+}
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+.content {
+    color:black;
+    text-decoration:none;
+    font-size: 0.9em;
+    font-family: "Noto Serif";
+    text-align:center;
+}
+.content:hover{
+    color: lightslategray;
+    text-decoration:none;
+}
+.dropdown {
+    position:relative;
+    display:inline-block;
+    text-decoration:none;
+}

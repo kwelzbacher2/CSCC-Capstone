@@ -6,6 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Search Tenant Accounts</title>
+        
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
@@ -29,12 +30,14 @@
                         <h:commandButton  value="Submit" actionListener="#{tenant.getTenantRecord(tenant.searchCrit, tenant.searchInfo)}"/>                       
                         </h:panelGrid>
                     
-                    <h:dataTable id="tenTable" value="#{tenant.tenantList}"  var="tenRecordObj">
+                    <h:dataTable id="tenTable" value="#{tenant.tenantList}"  var="tenRecordObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even">
                     <h:column> 
                         <f:facet name="header">Email</f:facet>
                         <h:outputText value="#{tenRecordObj.email}" />
                     </h:column>
                     <h:column> 
+                        
                         <f:facet name="header">Tenant ID</f:facet>
                         <h:outputText value="#{tenRecordObj.tenantID}" />
                     </h:column>

@@ -40,6 +40,8 @@ public class Tenant {
     private String zipcode;
     private String phone;
     private String dob;
+    private String rentPaid;
+    private long amountDue;
     
     
     public String getSearchCrit() {
@@ -144,8 +146,42 @@ public class Tenant {
     public void setDOB(String dob){
         this.dob = dob;
     }
+    public String getRentPaid(){
+        return rentPaid;
+    }
+    
+    public void setRentPaid(String rentPaid){
+        this.rentPaid = rentPaid;
+    }
+    public long getAmountDue(){
+        return amountDue;
+    }
+    
+    public void setAmountDue(long amountDue){
+        this.amountDue = amountDue;
+    }
+    
+    private String payCrit;
+    private String payInfo;
+    public String getPayCrit(){
+        return payCrit;
+    }
+    
+    public void setPayCrit(String payCrit){
+        this.payCrit = payCrit;
+    }
+    
+    public String getPayInfo(){
+        return payInfo;
+    }
+    
+    public void setPayInfo(String payInfo){
+        this.payInfo = payInfo;
+    }
+    
     
    private List<Tenant> tenantList = new ArrayList();
+   private List<Tenant> payTenantList = new ArrayList();
    
    public List getTenantList(){
        return tenantList;
@@ -153,11 +189,23 @@ public class Tenant {
    public void setTenantList(List tenantList){
        this.tenantList = tenantList;
    }
-          
+   
+   public List getPayTenantList(){
+       return payTenantList;
+   }
+   public void setPayTenantList(List payTenantList){
+       this.payTenantList = payTenantList;
+   }
+   
+   //obtain Tenant Records based on search Criteria
     public void getTenantRecord(String searchCrit, String searchInfo) {
         tenantList =  DatabaseOperation.getTenantListFromDB(searchCrit, searchInfo);
         
     } 
     
-    
+    public void getTenantPayments(String payCrit, String payInfo){
+        
+        payTenantList = DatabaseOperation.getPaymentListFromDB(payCrit, payInfo);
+        
+    }
 }

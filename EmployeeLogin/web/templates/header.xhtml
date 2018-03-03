@@ -6,6 +6,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
 	 <h:outputStylesheet library="css" name="waystoneEmployee.css" /> 
+         <link rel="icon" type ="image/x-icon" href="#{resource['images/Way1.png']}"/>
     </h:head>
     <h:body>
 	    <ui:composition>
@@ -19,7 +20,17 @@
                             <li class="navList"><h:link value="My Profile" outcome="employeeProfile" class="link" /></li>
                             <li class="navList"><h:link value="Paystub" outcome="paystub" class="link"/></li>
                             <li class="navList"><h:link value="Timesheet" outcome="timesheet" class="link"/></li>
-                            <li class="navList"><h:link value="Tenant Accounts" outcome="tenantAccounts" class="link"/></li>
+                            <li class="navList">
+                                <div class="dropdown">
+                                    <h:link value="Tenant Accounts" outcome="tenantAccounts" class="link" id="dropbtn"/>
+                                        <div class="dropdown-content">
+                                            
+                                                <h:link value="Tenant Search" outcome="tenantAccounts" class="content"/><br/>
+                                                <h:link value="Tenant Payments" outcome="tenantPayments" class="content"/>
+                                            
+                                        </div>    
+                                </div>
+                            </li>    
                             <li class="navList"><h:link value="Maintenance Requests" outcome="maintenanceRequests" class="link"/></li>
                             <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
                             <li class="navList"><h:link value="Additional Company Information" outcome="companyInfo" class="link"/></li>
