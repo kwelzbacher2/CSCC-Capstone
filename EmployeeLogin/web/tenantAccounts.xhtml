@@ -15,7 +15,8 @@
             <ui:define name="content">
                 
                 <h:form>
-                    <h:link value="Tenant Payments" outcome="tenantPayments" class="link"/>     
+                    <h:link value="Tenant Payments" outcome="tenantPayments" class="link"/>
+                    <h:link value="Create New Tenant" outcome="insertTenant" class="link"/>
                     <br/><br/>
                     <h3 class="pageTitle">Search Tenant Accounts </h3>
                     
@@ -60,11 +61,11 @@
                     </h:column>
                         <h:column> 
                         <f:facet name="header">City</f:facet>
-                        <h:commandLink value="#{tenRecordObj.city}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
+                        <h:commandLink value="#{tenRecordObj.permCity}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                     <h:column> 
                         <f:facet name="header">State</f:facet>
-                        <h:commandLink value="#{tenRecordObj.state}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
+                        <h:commandLink value="#{tenRecordObj.permState}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                     <h:column> 
                         <f:facet name="header">Phone Number</f:facet>

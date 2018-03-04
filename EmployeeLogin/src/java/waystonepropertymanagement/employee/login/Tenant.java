@@ -32,18 +32,27 @@ public class Tenant {
     private int tenantID;
     private String firstName;
     private String lastName;
-    private String address;
     private String building;
     private String aptNum;
+    
+    private String address;
     private String city;
     private String state;
     private String zipcode;
+    
     private String phone;
     private String dob;
     private String rentPaid;
     private long amountDue;
-    
-    
+    private String permAddress;
+    private String permCity;
+    private String permZip;
+    private String permState;
+    private String payCrit;
+    private String payInfo;
+    private List<Tenant> tenantList = new ArrayList();
+    private List<Tenant> payTenantList = new ArrayList();
+   
     public String getSearchCrit() {
         return searchCrit;
     }
@@ -59,10 +68,10 @@ public class Tenant {
         this.searchInfo = searchInfo;
     }
     
-    public String getMI(){
+    public String getMi(){
         return mi;
     }
-    public void setMI(String mi){
+    public void setMi(String mi){
         this.mi = mi;
     }
     public String getEmail(){
@@ -94,15 +103,7 @@ public class Tenant {
     public void setLastName(String lastName){
         this.lastName = lastName;
     }
-   
-    public String getAddress(){
-        return address;
-    }
-    
-    public void setAddress(String address){
-        this.address = address;
-    }
-    
+      
     public String getBuilding(){
         return building;
     }
@@ -115,6 +116,14 @@ public class Tenant {
     }
     public void setAptNum(String aptNum){
         this.aptNum = aptNum;
+    }
+    
+    public String getAddress(){
+        return address;
+    }
+    
+    public void setAddress(String address){
+        this.address = address;
     }
     public String getCity(){
         return city;
@@ -167,8 +176,7 @@ public class Tenant {
         this.amountDue = amountDue;
     }
     
-    private String payCrit;
-    private String payInfo;
+    
     public String getPayCrit(){
         return payCrit;
     }
@@ -186,8 +194,31 @@ public class Tenant {
     }
     
     
-   private List<Tenant> tenantList = new ArrayList();
-   private List<Tenant> payTenantList = new ArrayList();
+    public String getPermAddress(){
+        return permAddress;
+    }
+    public void setPermAddress(String permAddress){
+        this.permAddress = permAddress;
+    }
+    
+    public String getPermCity(){
+        return permCity;
+    }
+    public void setPermCity(String permCity){
+        this.permCity = permCity;
+    }
+    public String getPermZip(){
+        return permZip;
+    }
+    public void setPermZip(String permZip){
+        this.permZip = permZip;
+    }
+    public String getPermState(){
+        return permState;
+    }
+    public void setPermState(String permState){
+        this.permState = permState;
+    }
    
    public List getTenantList(){
        return tenantList;
@@ -220,5 +251,13 @@ public class Tenant {
     
     public String viewTenantRecord(int tenantID){
         return DatabaseOperation.viewTenantRecordInDB(tenantID);
+    }
+    
+    public String updateTenantDetails(Tenant updateTenObj){
+        return DatabaseOperation.updateTenantDetailsInDB(updateTenObj);
+    }
+    
+    public String insertNewTenant(Tenant newTenantObj){
+        return DatabaseOperation.insertNewTenantInDB(newTenantObj);
     }
 }

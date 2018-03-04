@@ -18,11 +18,11 @@
                     <div class="empInfo">
                         <h3 class="pageTitle">Tenant Profile</h3>
                         <div id="profileBox">
-                            <h:panelGrid class="info" columns="3">
+                            <h:panelGrid class="info" columns="4">
                                 
                                 <h:outputText value="Name:  " />
                                 <h:outputText value ="#{tenantViewObj.firstName}" />
-                                
+                                <h:outputText value="#{tenantViewObj.mi}" />
                                 <h:outputText value="#{tenantViewObj.lastName}" />
                                 
                             </h:panelGrid>
@@ -37,10 +37,10 @@
                             <h:panelGrid class="info" columns="5">
                                 
                                 <h:outputText value="Address:  " />
-                                <h:outputText value ="#{tenantViewObj.address} " />
-                                <h:outputText value="#{tenantViewObj.city}, " />
-                                <h:outputText value="#{tenantViewObj.state} " />
-                                <h:outputText value="#{tenantViewObj.zipcode}" />
+                                <h:outputText value ="#{tenantViewObj.permAddress} " />
+                                <h:outputText value="#{tenantViewObj.permCity}, " />
+                                <h:outputText value="#{tenantViewObj.permState} " />
+                                <h:outputText value="#{tenantViewObj.permZip}" />
                                 
                             </h:panelGrid>
                             <h:panelGrid class="info" columns="2">
@@ -67,6 +67,11 @@
                                 <h:outputText value ="#{tenantViewObj.email}" />
                                 
                             </h:panelGrid>
+                            
+                            <div class="edit">    
+                                <h:commandButton value="Edit Tenant Information" action="tenantProfileEdit" />
+                            </div>
+                            
                         </div>                
                        
                     </div>

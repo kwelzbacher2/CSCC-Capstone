@@ -159,8 +159,12 @@ public class DatabaseOperation {
                 tenObj.setTenantID(resultSetObj.getInt("TENANT_ID"));
                 tenObj.setFirstName(resultSetObj.getString("FIRSTNAME"));
                 tenObj.setLastName(resultSetObj.getString("LASTNAME"));
-                tenObj.setMI(resultSetObj.getString("MI"));
-                tenObj.setPhone(resultSetObj.getString("CELLPHONE"));
+                tenObj.setMi(resultSetObj.getString("MI"));
+                tenObj.setPermAddress(resultSetObj.getString("PERM_ADDRESS"));
+                tenObj.setPermCity(resultSetObj.getString("PERM_CITY"));
+                tenObj.setPermState(resultSetObj.getString("PERM_STATE"));
+                tenObj.setPermZip(resultSetObj.getString("PERM_ZIP"));
+                tenObj.setPhone(resultSetObj.getString("PHONE"));
                 tenObj.setEmail(resultSetObj.getString("EMAIL"));
                 tenObj.setDOB(resultSetObj.getString("DOB"));
                 PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM UNITS WHERE TENANT_ID = ?"); 
@@ -169,10 +173,7 @@ public class DatabaseOperation {
                     while(rset.next()){
                         tenObj.setBuilding(rset.getString("BUILDING"));
                         tenObj.setAptNum(rset.getString("APTNUM"));
-                        tenObj.setAddress(rset.getString("ADDRESS"));
-                        tenObj.setCity(rset.getString("CITY"));
-                        tenObj.setState(rset.getString("STATE"));
-                        tenObj.setZipcode(rset.getString("ZIP"));
+                        
                     }
                 tenList.add(tenObj);
                 
@@ -218,8 +219,12 @@ public class DatabaseOperation {
                     while(rset.next()){
                         tenObj.setFirstName(rset.getString("FIRSTNAME"));
                         tenObj.setLastName(rset.getString("LASTNAME"));
-                        tenObj.setMI(rset.getString("MI"));
-                        tenObj.setPhone(rset.getString("CELLPHONE"));
+                        tenObj.setMi(rset.getString("MI"));
+                        tenObj.setPermAddress(rset.getString("PERM_ADDRESS"));
+                        tenObj.setPermCity(rset.getString("PERM_CITY"));
+                        tenObj.setPermState(rset.getString("PERM_STATE"));
+                        tenObj.setPermZip(rset.getString("PERM_ZIP"));
+                        tenObj.setPhone(rset.getString("PHONE"));
                         tenObj.setEmail(rset.getString("EMAIL"));
                         tenObj.setDOB(rset.getString("DOB"));
                     }
@@ -256,8 +261,12 @@ public class DatabaseOperation {
                 viewTen.setTenantID(resultSetObj.getInt("TENANT_ID"));
                 viewTen.setFirstName(resultSetObj.getString("FIRSTNAME"));
                 viewTen.setLastName(resultSetObj.getString("LASTNAME"));
-                viewTen.setMI(resultSetObj.getString("MI"));
-                viewTen.setPhone(resultSetObj.getString("CELLPHONE"));
+                viewTen.setMi(resultSetObj.getString("MI"));
+                viewTen.setPermAddress(resultSetObj.getString("PERM_ADDRESS"));
+                viewTen.setPermCity(resultSetObj.getString("PERM_CITY"));
+                viewTen.setPermState(resultSetObj.getString("PERM_STATE"));
+                viewTen.setPermZip(resultSetObj.getString("PERM_ZIP"));
+                viewTen.setPhone(resultSetObj.getString("PHONE"));
                 viewTen.setEmail(resultSetObj.getString("EMAIL"));
                 viewTen.setDOB(resultSetObj.getString("DOB"));
                 PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM UNITS WHERE TENANT_ID = ?"); 
@@ -266,10 +275,6 @@ public class DatabaseOperation {
                     while(rset.next()){
                         viewTen.setBuilding(rset.getString("BUILDING"));
                         viewTen.setAptNum(rset.getString("APTNUM"));
-                        viewTen.setAddress(rset.getString("ADDRESS"));
-                        viewTen.setCity(rset.getString("CITY"));
-                        viewTen.setState(rset.getString("STATE"));
-                        viewTen.setZipcode(rset.getString("ZIP"));
                     }
                 sessionMapObj.put("tenantViewObj", viewTen);
                 
@@ -286,7 +291,65 @@ public class DatabaseOperation {
         return "/viewTenant.xhtml?faces-redirect=true";
       
     }
-    
+    public static String updateTenantDetailsInDB(Tenant updateTenObj){
+        try{
+                        
+                connObj = DataConnect.getConnection();
+                pstmt = connObj.prepareStatement("UPDATE TENANT SET FIRSTNAME = ?, LASTNAME = ?, MI = ?, "
+                    + "PERM_ADDRESS = ?, PERM_CITY = ?, PERM_STATE = ?, PERM_ZIP = ?, PHONE = ?, EMAIL=?, DOB = ? WHERE TENANT_ID = ?");
+                pstmt.setString(1, updateTenObj.getFirstName());
+                pstmt.setString(2, updateTenObj.getLastName());
+                pstmt.setString(3, updateTenObj.getMi());
+                pstmt.setString(4, updateTenObj.getPermAddress());
+                pstmt.setString(5, updateTenObj.getPermCity());
+                pstmt.setString(6, updateTenObj.getPermState());
+                pstmt.setString(7, updateTenObj.getPermZip());
+                pstmt.setString(8, updateTenObj.getPhone());
+                pstmt.setString(9, updateTenObj.getDOB());
+                pstmt.setString(10, updateTenObj.getEmail());
+            
+                pstmt.executeQuery();
+                
+            } catch (SQLException e) {
+                System.out.println("Login error -->" + e.getMessage());        
+            } finally {    
+                 DataConnect.close(connObj);
+            }
+        return "/viewTenant.xhtml?faces-redirect=true";
+        }
+    public static String insertNewTenantInDB(Tenant newTenantObj){
+        int saveResult = 0;
+        String navigationResult = "";
+        
+        try{
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("INSERT INTO TENANT (FIRSTNAME, LASTNAME, MI, PERM_ADDRESS, PERM_CITY, PERM_STATE, PERM_ZIP, PHONE, EMAIL, DOB) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            pstmt.setString(1, newTenantObj.getFirstName());
+            pstmt.setString(2, newTenantObj.getLastName());
+            pstmt.setString(3, newTenantObj.getMi());
+            pstmt.setString(4, newTenantObj.getPermAddress());
+            pstmt.setString(5, newTenantObj.getPermCity());
+            pstmt.setString(6, newTenantObj.getPermState());
+            pstmt.setString(7, newTenantObj.getPermZip());
+            pstmt.setString(8, newTenantObj.getPhone());
+            pstmt.setString(9, newTenantObj.getEmail());
+            pstmt.setString(10, newTenantObj.getDOB());
+            saveResult = pstmt.executeUpdate();
+        } catch (SQLException e) {
+                System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+                 DataConnect.close(connObj);
+        }
+        
+        if(saveResult !=0){
+            navigationResult = "tenantAccounts.xhtml?faces=redirect=true";
+        } else {
+            navigationResult = "createStudent.xhtml?faces=redirect=true";
+        }
+        return navigationResult;
+    }
+
+
     public static ArrayList getMaintenanceListFromDB(){
         ArrayList maintenanceList = new ArrayList();
         try {
