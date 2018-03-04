@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Insert New Tenant</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+            <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <h:outputScript name="js/waystoneEmp.js"/>
+        
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="form">
+                    <div class="empInfo" >
+                    <h3 class="pageTitle">Insert New Tenant </h3>
+                    <div class="editBox">
+                    
+                    <h:panelGrid class="editInfo" columns="6"> 
+                        
+                        <h:outputText value="First Name:  " />
+                        <h:inputText id="firstName" value ="#{tenRecordObj.firstName}" tabindex="1" required="true" requiredMessage="First Name is required"
+                                     validatorMessage="Please enter First Name using alphabetical letters" size="12">
+                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>
+                        <h:outputText value="Middle Initial:  " />
+                        <h:inputText id="middleInit" value ="#{tenRecordObj.middleInit}" validatorMessage="Please enter 1 letter for Middle Initial" size="1">
+                            
+                            <f:validateRegex pattern="^[a-zA-Z]$"/>
+                        </h:inputText> 
+                        <h:outputText value="Last Name:  " />
+                        <h:inputText id="lastName" value="#{tenRecordObj.lastName}" required="true" requiredMessage="Last Name is required"
+                                     validatorMessage="Please enter Last Name using alphabetical letters" size="12">
+                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>
+                        
+                    </h:panelGrid>
+                                            
+                    <h:panelGrid class="editInfo" columns="2">
+                        
+                        <h:outputText value="Phone Number:  " />
+                        <h:inputText id="phone" value ="#{tenRecordObj.phone}" required="true" requiredMessage="Phone Number is required"
+                                     validatorMessage="Please enter digits in the form of 555-555-5555 for Phone Number" size="12">
+                            <f:validateRegex pattern="\d{3}-\d{3}-\d{4}"/>
+                        </h:inputText>
+                        
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo" columns="2">
+                        
+                        <h:outputText value="Date of Birth:  " />
+                        <h:inputText id="dob" value ="#{tenRecordObj.DOB}" class="dobDate" size="10" validatorMessage="Please enter digits in the form of 01/01/1999 for Date of Birth">     
+                            <f:validateRegex pattern="\d{2}/\d{2}/\d{4}"/>
+                        </h:inputText>    
+                    </h:panelGrid>
+                        <h:panelGrid class ="warning" columns ="1">
+                        <h:message for="firstName"/>    
+                        <h:message for="middleInit"/>
+                        <h:message for="lastName" /> 
+                        <h:message for="address" />
+                        <h:message for="city" /> 
+                        <h:message for="zipcode"/>
+                        <h:message for="phone" />
+                        <h:message for="dob" />
+                        </h:panelGrid>
+                    <h:commandButton value="Submit" action="#{tenant.insertNewTenant(tenRecordObj)}" />
+                    </div>
+                    </div>   
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

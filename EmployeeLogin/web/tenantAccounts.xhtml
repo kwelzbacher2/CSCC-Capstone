@@ -25,6 +25,7 @@
                             <f:selectItem itemValue="Tenant ID"/>
                             <f:selectItem itemValue="Last Name"/>
                             <f:selectItem itemValue="Phone Number"/>
+                            <f:selectItem itemValue="Building"/>
                         </h:selectOneMenu>
                         <h:inputText id="search" value="#{tenant.searchInfo}" required="true"/>
                         <h:commandButton  value="Submit" actionListener="#{tenant.getTenantRecord(tenant.searchCrit, tenant.searchInfo)}"/>                       
@@ -34,40 +35,40 @@
                                  styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even">
                     <h:column> 
                         <f:facet name="header">Email</f:facet>
-                        <h:outputText value="#{tenRecordObj.email}" />
+                        <h:commandLink value="#{tenRecordObj.email}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                     <h:column> 
                         
                         <f:facet name="header">Tenant ID</f:facet>
-                        <h:outputText value="#{tenRecordObj.tenantID}" />
+                        <h:commandLink value="#{tenRecordObj.tenantID}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                     <h:column> 
                         <f:facet name="header">First Name</f:facet>
-                        <h:outputText value="#{tenRecordObj.firstName}" />
+                        <h:commandLink value="#{tenRecordObj.firstName}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                     <h:column> 
                         <f:facet name="header">Last Name</f:facet>
-                        <h:outputText value="#{tenRecordObj.lastName}" />
+                        <h:commandLink value="#{tenRecordObj.lastName}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                     <h:column> 
                         <f:facet name="header">Building</f:facet>
-                        <h:outputText value="#{tenRecordObj.building}" />
+                        <h:commandLink value="#{tenRecordObj.building}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                     <h:column> 
                         <f:facet name="header">Apt Number</f:facet>
-                        <h:outputText value="#{tenRecordObj.aptNum}" />
+                        <h:commandLink value="#{tenRecordObj.aptNum}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                         <h:column> 
                         <f:facet name="header">City</f:facet>
-                        <h:outputText value="#{tenRecordObj.city}" />
+                        <h:commandLink value="#{tenRecordObj.city}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                     <h:column> 
                         <f:facet name="header">State</f:facet>
-                        <h:outputText value="#{tenRecordObj.state}" />
+                        <h:commandLink value="#{tenRecordObj.state}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                     <h:column> 
                         <f:facet name="header">Phone Number</f:facet>
-                        <h:outputText value="#{tenRecordObj.phone}" />
+                        <h:commandLink value="#{tenRecordObj.phone}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                 </h:dataTable>
                     

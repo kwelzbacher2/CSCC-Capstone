@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/waystoneEmp.js"></script>
+        <title>Tenant Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+                    <div class="empInfo">
+                        <h3 class="pageTitle">Tenant Profile</h3>
+                        <div id="profileBox">
+                            <h:panelGrid class="info" columns="3">
+                                
+                                <h:outputText value="Name:  " />
+                                <h:outputText value ="#{tenantViewObj.firstName}" />
+                                
+                                <h:outputText value="#{tenantViewObj.lastName}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="4">
+                                
+                                <h:outputText value="Building:  " />
+                                <h:outputText value ="#{tenantViewObj.building}" />
+                                <h:outputText value ="Unit: " />
+                                <h:outputText value="#{tenantViewObj.aptNum}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="5">
+                                
+                                <h:outputText value="Address:  " />
+                                <h:outputText value ="#{tenantViewObj.address} " />
+                                <h:outputText value="#{tenantViewObj.city}, " />
+                                <h:outputText value="#{tenantViewObj.state} " />
+                                <h:outputText value="#{tenantViewObj.zipcode}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Phone Number:  " />
+                                <h:outputText id="phoneNum" value ="#{tenantViewObj.phone}"  />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Date of Birth:  " />
+                                <h:outputText value ="#{tenantViewObj.DOB}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Tenant ID:  " />
+                                <h:outputText value ="#{tenantViewObj.tenantID}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Tenant Email:  " />
+                                <h:outputText value ="#{tenantViewObj.email}" />
+                                
+                            </h:panelGrid>
+                        </div>                
+                       
+                    </div>
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

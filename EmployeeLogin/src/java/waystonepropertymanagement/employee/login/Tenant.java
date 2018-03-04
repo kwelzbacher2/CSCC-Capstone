@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 public class Tenant {
     private String searchCrit;
     private String searchInfo;
-    
+    private String mi;
     private String email;
     private int tenantID;
     private String firstName;
@@ -59,6 +59,12 @@ public class Tenant {
         this.searchInfo = searchInfo;
     }
     
+    public String getMI(){
+        return mi;
+    }
+    public void setMI(String mi){
+        this.mi = mi;
+    }
     public String getEmail(){
         return email;
     }
@@ -199,13 +205,20 @@ public class Tenant {
    
    //obtain Tenant Records based on search Criteria
     public void getTenantRecord(String searchCrit, String searchInfo) {
+        if(searchCrit.equals("Building")){
+            tenantList = DatabaseOperation.getTenantListBuilding(searchInfo);
+        } else {
         tenantList =  DatabaseOperation.getTenantListFromDB(searchCrit, searchInfo);
-        
+        }
     } 
     
     public void getTenantPayments(String payCrit, String payInfo){
         
         payTenantList = DatabaseOperation.getPaymentListFromDB(payCrit, payInfo);
         
+    }
+    
+    public String viewTenantRecord(int tenantID){
+        return DatabaseOperation.viewTenantRecordInDB(tenantID);
     }
 }

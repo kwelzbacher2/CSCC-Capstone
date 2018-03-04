@@ -136,13 +136,13 @@ public class DatabaseOperation {
         
         switch (searchCrit) {
             case "Tenant ID":
-                query = ("SELECT * FROM ten_accounts WHERE tenant_id = ?");
+                query = ("SELECT * FROM TENANT WHERE TENANT_ID = ?");
                 break;
             case "Last Name":
-                query = ("SELECT * FROM ten_accounts WHERE lastName = ?");
+                query = ("SELECT * FROM TENANT WHERE LASTNAME = ?");
                 break;
             default:
-                query = ("SELECT * FROM ten_accounts WHERE phone = ?");
+                query = ("SELECT * FROM TENANT WHERE PHONE = ?");
                 break; 
         }
         try {
@@ -155,23 +155,30 @@ public class DatabaseOperation {
             if(resultSetObj != null) {
                while( resultSetObj.next()){
                 Tenant tenObj = new Tenant();
-                tenObj.setEmail(resultSetObj.getString("email"));
-                tenObj.setTenantID(resultSetObj.getInt("tenant_id"));
-                tenObj.setFirstName(resultSetObj.getString("firstName"));
-                tenObj.setLastName(resultSetObj.getString("lastName"));
-                tenObj.setAddress(resultSetObj.getString("address"));
-                tenObj.setBuilding(resultSetObj.getString("building"));
-                tenObj.setAptNum(resultSetObj.getString("apt_num"));
-                tenObj.setCity(resultSetObj.getString("city"));
-                tenObj.setState(resultSetObj.getString("state"));
-                tenObj.setZipcode(resultSetObj.getString("zipcode"));
-                tenObj.setPhone(resultSetObj.getString("phone"));
-                tenObj.setDOB(resultSetObj.getString("dob"));
                 
+                tenObj.setTenantID(resultSetObj.getInt("TENANT_ID"));
+                tenObj.setFirstName(resultSetObj.getString("FIRSTNAME"));
+                tenObj.setLastName(resultSetObj.getString("LASTNAME"));
+                tenObj.setMI(resultSetObj.getString("MI"));
+                tenObj.setPhone(resultSetObj.getString("CELLPHONE"));
+                tenObj.setEmail(resultSetObj.getString("EMAIL"));
+                tenObj.setDOB(resultSetObj.getString("DOB"));
+                PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM UNITS WHERE TENANT_ID = ?"); 
+                prepst.setInt(1, tenObj.getTenantID());
+                ResultSet rset = prepst.executeQuery();
+                    while(rset.next()){
+                        tenObj.setBuilding(rset.getString("BUILDING"));
+                        tenObj.setAptNum(rset.getString("APTNUM"));
+                        tenObj.setAddress(rset.getString("ADDRESS"));
+                        tenObj.setCity(rset.getString("CITY"));
+                        tenObj.setState(rset.getString("STATE"));
+                        tenObj.setZipcode(rset.getString("ZIP"));
+                    }
                 tenList.add(tenObj);
                 
                }
                 System.out.println("Total Records Fetched: " + tenList.size());
+                System.out.println(tenList);
                 
                }
                           
@@ -182,7 +189,103 @@ public class DatabaseOperation {
               DataConnect.close(connObj);
         }
         return tenList;
-     }
+      }
+    
+    public static List<Tenant> getTenantListBuilding(String searchInfo){
+       List<Tenant> tenBuildList = new ArrayList<>();
+               
+        try {
+            
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("SELECT * FROM UNITS WHERE BUILDING = ?"); 
+            pstmt.setString(1, searchInfo);
+            
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                Tenant tenObj = new Tenant();
+                tenObj.setBuilding(resultSetObj.getString("BUILDING"));
+                tenObj.setAptNum(resultSetObj.getString("APTNUM"));
+                tenObj.setAddress(resultSetObj.getString("ADDRESS"));
+                tenObj.setCity(resultSetObj.getString("CITY"));
+                tenObj.setState(resultSetObj.getString("STATE"));
+                tenObj.setZipcode(resultSetObj.getString("ZIP"));
+                tenObj.setTenantID(resultSetObj.getInt("TENANT_ID"));
+                
+                PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM TENANT WHERE TENANT_ID = ?"); 
+                prepst.setInt(1, tenObj.getTenantID());
+                ResultSet rset = prepst.executeQuery();
+                    while(rset.next()){
+                        tenObj.setFirstName(rset.getString("FIRSTNAME"));
+                        tenObj.setLastName(rset.getString("LASTNAME"));
+                        tenObj.setMI(rset.getString("MI"));
+                        tenObj.setPhone(rset.getString("CELLPHONE"));
+                        tenObj.setEmail(rset.getString("EMAIL"));
+                        tenObj.setDOB(rset.getString("DOB"));
+                    }
+                tenBuildList.add(tenObj);
+                
+               }
+                System.out.println("Total Records Fetched: " + tenBuildList.size());
+                System.out.println(tenBuildList);
+                
+               }
+                          
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return tenBuildList;
+      }
+    
+    public static String viewTenantRecordInDB(int tenantID){
+        Tenant viewTen;
+        Map<String,Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        
+        try{
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("SELECT * FROM TENANT WHERE TENANT_ID = ?");
+            pstmt.setInt(1, tenantID);
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                viewTen = new Tenant();
+                
+                viewTen.setTenantID(resultSetObj.getInt("TENANT_ID"));
+                viewTen.setFirstName(resultSetObj.getString("FIRSTNAME"));
+                viewTen.setLastName(resultSetObj.getString("LASTNAME"));
+                viewTen.setMI(resultSetObj.getString("MI"));
+                viewTen.setPhone(resultSetObj.getString("CELLPHONE"));
+                viewTen.setEmail(resultSetObj.getString("EMAIL"));
+                viewTen.setDOB(resultSetObj.getString("DOB"));
+                PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM UNITS WHERE TENANT_ID = ?"); 
+                prepst.setInt(1, viewTen.getTenantID());
+                ResultSet rset = prepst.executeQuery();
+                    while(rset.next()){
+                        viewTen.setBuilding(rset.getString("BUILDING"));
+                        viewTen.setAptNum(rset.getString("APTNUM"));
+                        viewTen.setAddress(rset.getString("ADDRESS"));
+                        viewTen.setCity(rset.getString("CITY"));
+                        viewTen.setState(rset.getString("STATE"));
+                        viewTen.setZipcode(rset.getString("ZIP"));
+                    }
+                sessionMapObj.put("tenantViewObj", viewTen);
+                
+               }
+                                
+            }
+                          
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return "/viewTenant.xhtml?faces-redirect=true";
+      
+    }
     
     public static ArrayList getMaintenanceListFromDB(){
         ArrayList maintenanceList = new ArrayList();
@@ -197,11 +300,16 @@ public class DatabaseOperation {
                 Maintenance mainObj = new Maintenance();
                 mainObj.setRequestID(resultSetObj.getInt("request_id"));
                 mainObj.setTenantID(resultSetObj.getInt("tenant_id"));
-                mainObj.setBuilding(resultSetObj.getString("building"));
-                mainObj.setAptNum(resultSetObj.getString("apt_num"));
                 mainObj.setJobType(resultSetObj.getString("job_type"));
                 mainObj.setJobDesc(resultSetObj.getString("job_desc"));
                 mainObj.setDateReq(resultSetObj.getString("date_req"));
+                PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM unit WHERE tenant_id = ?"); 
+                prepst.setInt(1, mainObj.getTenantID());
+                ResultSet rset = prepst.executeQuery();
+                    while(rset.next()){
+                        mainObj.setBuilding(resultSetObj.getString("building"));
+                        mainObj.setAptNum(resultSetObj.getString("apt_num"));
+                    }
                 maintenanceList.add(mainObj);
                }
                 System.out.println("Total Records Fetched: " + maintenanceList.size());          
