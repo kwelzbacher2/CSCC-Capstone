@@ -22,10 +22,10 @@
                         <div class="shadowBox">
                             <h:outputText class="pageTitle" value="Quick Links"/><br/><br/><br/>
                             <h:panelGrid columns = "4" styleClass="quickLink">
-                            <h:link outcome="employeeProfile" class="link"> <img src ="resources/images/database-search.png" alt=""><br/> My Profile</img> </h:link>
-                            <h:link outcome="paystub" class="link"><img src ="resources/images/money.png" alt=""><br/>Paystub</img></h:link>
-                            <h:link outcome="timesheet" class="link"><img src ="resources/images/clipboard.png" alt=""><br/>Timesheet</img></h:link>
-                            <h:link outcome="training" class="link"><img src ="resources/images/information.png" alt=""><br/>Training Materials</img></h:link>
+                            <h:link outcome="employeeProfile" class="link"> <img src ="#{resource['images/database-search.png']}" alt=""><br/> My Profile</img> </h:link>
+                            <h:link outcome="paystub" class="link"><img src ="#{resource['images/money.png']}" alt=""><br/>Paystub</img></h:link>
+                            <h:link outcome="timesheet" class="link"><img src ="#{resource['images/clipboard.png']}" alt=""><br/>Timesheet</img></h:link>
+                            <h:link outcome="training" class="link"><img src ="#{resource['images/information.png']}" alt=""><br/>Training Materials</img></h:link>
                             </h:panelGrid>
                         </div>
                         </ui:repeat>               

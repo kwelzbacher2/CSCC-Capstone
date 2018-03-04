@@ -24,7 +24,7 @@
                         <h:selectOneMenu id="searchCriteria" value="#{tenant.searchCrit}" required="true">
                             <f:selectItem itemValue="Tenant ID"/>
                             <f:selectItem itemValue="Last Name"/>
-                            <f:selectItem itemValue="Apartment Number"/>
+                            <f:selectItem itemValue="Phone Number"/>
                         </h:selectOneMenu>
                         <h:inputText id="search" value="#{tenant.searchInfo}" required="true"/>
                         <h:commandButton  value="Submit" actionListener="#{tenant.getTenantRecord(tenant.searchCrit, tenant.searchInfo)}"/>                       

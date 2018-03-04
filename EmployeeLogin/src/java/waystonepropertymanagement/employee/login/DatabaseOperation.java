@@ -142,7 +142,7 @@ public class DatabaseOperation {
                 query = ("SELECT * FROM ten_accounts WHERE lastName = ?");
                 break;
             default:
-                query = ("SELECT * FROM ten_accounts WHERE apt_num = ?");
+                query = ("SELECT * FROM ten_accounts WHERE phone = ?");
                 break; 
         }
         try {
