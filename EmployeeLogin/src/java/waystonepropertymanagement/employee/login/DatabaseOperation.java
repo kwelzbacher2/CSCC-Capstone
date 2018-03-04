@@ -198,7 +198,7 @@ public class DatabaseOperation {
         try {
             
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("SELECT * FROM UNITS WHERE BUILDING = ?"); 
+            pstmt = connObj.prepareStatement("SELECT * FROM UNITS WHERE BUILDING = ? AND TENANT_ID IS NOT NULL"); 
             pstmt.setString(1, searchInfo);
             
             resultSetObj = pstmt.executeQuery();
@@ -307,6 +307,7 @@ public class DatabaseOperation {
                 pstmt.setString(8, updateTenObj.getPhone());
                 pstmt.setString(9, updateTenObj.getDOB());
                 pstmt.setString(10, updateTenObj.getEmail());
+                pstmt.setInt(11, updateTenObj.getTenantID());
             
                 pstmt.executeQuery();
                 
@@ -432,7 +433,7 @@ public class DatabaseOperation {
     }
     
     
-   //currently not showing anything, maybe try making new Payment bean like with maintenance
+   
     public static List<Tenant> getPaymentListFromDB(String payCrit, String payInfo){
                
         List<Tenant> paymentList = new ArrayList<>();
@@ -479,6 +480,137 @@ public class DatabaseOperation {
               DataConnect.close(connObj);
         }
         return paymentList;
+     }
+    
+     public static List<Unit> getUnitListFromDB(String unitBuildSearch, String vacancy){
+        
+        List<Unit> unitSearchList = new ArrayList<>();
+       
+        
+        try {
+            connObj = DataConnect.getConnection();
+            //job Type is not required
+            if(unitBuildSearch.equals("")){
+                switch (vacancy) {    
+                    case "All":
+                        pstmt = connObj.prepareStatement("SELECT * FROM UNITS");
+                        break;
+                    case "Vacant":
+                        pstmt = connObj.prepareStatement("SELECT * FROM UNITS WHERE TENANT_ID IS NULL");
+                        break;
+                    default:
+                        pstmt = connObj.prepareStatement("SELECT * FROM UNITS WHERE TENANT_ID IS NOT NULL");
+                        break;
+                }
+            } else {
+                switch (vacancy) {
+                    case "All":
+                        pstmt = connObj.prepareStatement("SELECT * FROM UNITS WHERE BUILDING= ?");
+                        pstmt.setString(1, unitBuildSearch);
+                        break;
+                    case "Vacant":
+                        pstmt = connObj.prepareStatement("SELECT * FROM UNITS WHERE building = ? AND TENANT_ID IS NULL");
+                        pstmt.setString(1, unitBuildSearch);
+                        break;
+                    default:
+                        pstmt = connObj.prepareStatement("SELECT * FROM UNITS WHERE BUILDING = ? AND TENANT_ID IS NOT NULL");
+                        pstmt.setString(1, unitBuildSearch);
+                        break;
+            }
+            }
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                Unit unitSearchObj = new Unit();
+                unitSearchObj.setUnitID(resultSetObj.getInt("UNIT_ID"));
+                unitSearchObj.setUnitBuilding(resultSetObj.getString("Building"));
+                unitSearchObj.setUnitAptNum(resultSetObj.getString("APTNUM"));
+                unitSearchObj.setUnitAddress(resultSetObj.getString("ADDRESS"));
+                unitSearchObj.setUnitCity(resultSetObj.getString("CITY"));
+                unitSearchObj.setUnitState(resultSetObj.getString("STATE"));
+                unitSearchObj.setUnitZip(resultSetObj.getString("ZIP"));
+                unitSearchObj.setUnitRent(resultSetObj.getString("RENT"));
+                unitSearchObj.setUnitTenantID(resultSetObj.getString("TENANT_ID"));
+                
+                unitSearchList.add(unitSearchObj);
+                
+               }
+                System.out.println("Total Records Fetched: " + unitSearchList.size());
+                
+               }
+                          
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return unitSearchList;
+     
+    }
+    
+     public static String viewUnitRecordInDB(int unitID){
+        Unit viewUnit;
+        Map<String,Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        
+        try{
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("SELECT * FROM UNITS WHERE UNIT_ID = ?");
+            pstmt.setInt(1, unitID);
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                viewUnit = new Unit();
+                
+                viewUnit.setUnitID(resultSetObj.getInt("UNIT_ID"));
+                viewUnit.setUnitBuilding(resultSetObj.getString("BUILDING"));
+                viewUnit.setUnitAptNum(resultSetObj.getString("APTNUM"));
+                viewUnit.setUnitAddress(resultSetObj.getString("ADDRESS"));
+                viewUnit.setUnitCity(resultSetObj.getString("CITY"));
+                viewUnit.setUnitState(resultSetObj.getString("STATE"));
+                viewUnit.setUnitZip(resultSetObj.getString("ZIP"));
+                viewUnit.setUnitRent(resultSetObj.getString("RENT"));
+                viewUnit.setUnitTenantID(resultSetObj.getString("TENANT_ID"));
+                                
+                sessionMapObj.put("unitViewObj", viewUnit);
+                
+               }
+                                
+            }
+                          
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return "/viewUnit.xhtml?faces-redirect=true";
+     }
+    
+     public static String updateUnitDetailsInDB(Unit updateUnitObj){
+          try{
+                        
+                connObj = DataConnect.getConnection();
+                pstmt = connObj.prepareStatement("UPDATE UNIT SET BUILDING = ?, APTNUM = ?, ADDRESS = ?, "
+                    + "CITY = ?, STATE = ?, ZIP = ?, RENT = ?, TENANT_ID = ? WHERE UNIT_ID = ?");
+                pstmt.setString(1, updateUnitObj.getUnitBuilding());
+                pstmt.setString(2, updateUnitObj.getUnitAptNum());
+                pstmt.setString(3, updateUnitObj.getUnitAddress());
+                pstmt.setString(4, updateUnitObj.getUnitCity());
+                pstmt.setString(5, updateUnitObj.getUnitState());
+                pstmt.setString(6, updateUnitObj.getUnitZip());
+                pstmt.setString(7, updateUnitObj.getUnitRent());
+                pstmt.setString(8, updateUnitObj.getUnitTenantID());
+                pstmt.setInt(9, updateUnitObj.getUnitID());
+                            
+                pstmt.executeQuery();
+                
+            } catch (SQLException e) {
+                System.out.println("Login error -->" + e.getMessage());        
+            } finally {    
+                 DataConnect.close(connObj);
+            }
+        return "/viewUnit.xhtml?faces-redirect=true";
      }
     }
 

@@ -25,7 +25,7 @@ public class Maintenance {
     private String jobDesc;
     private String dateReq;
     
-    public ArrayList maintenanceListFromDB;
+    
     
 
   

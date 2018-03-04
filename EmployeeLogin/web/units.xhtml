@@ -1,16 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Units</title>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Search Units</title>
+        
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>Waystone Property Management Units</div>
-    </body>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+                    
+                    <h3 class="pageTitle">Search Units</h3>
+                    
+                    <h:panelGrid>
+                        <h:outputLabel value="Building" />
+                        <h:selectOneMenu id="searchUnitBuild" value="#{unit.unitBuildSearch}">
+                            <f:selectItem itemValue=""/>
+                            <f:selectItem itemValue="Suncrest Grove" />
+                            <f:selectItem itemValue="Hidden Palms"/>
+                            <f:selectItem itemValue="Bayside Heights"/>
+                            <f:selectItem itemValue="Highland Square"/>
+                            <f:selectItem itemValue="Hudson Court"/>
+                            <f:selectItem itemValue="Fairway Manor"/>
+                            <f:selectItem itemValue="Primrose Heights"/>
+                            <f:selectItem itemValue="Bridgewater Park"/>
+                            <f:selectItem itemValue="Stoneridge Terrace"/>
+                            <f:selectItem itemValue="Sandy Ridge"/>
+                            <f:selectItem itemValue="Desert Estates"/>
+                            <f:selectItem itemValue="Emerald Springs"/>
+                            <f:selectItem itemValue="Fairview Villa"/>
+                            <f:selectItem itemValue="Broadview Terrace"/>
+                            <f:selectItem itemValue="Woodland Hills"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="Search By:" />
+                        <h:selectOneMenu id="searchCriteria" value="#{unit.vacancy}">
+                            <f:selectItem itemValue="All"/>
+                            <f:selectItem itemValue="Vacant"/>
+                            <f:selectItem itemValue="Leased"/>
+                        </h:selectOneMenu>
+                        
+                        <h:commandButton  value="Submit" actionListener="#{unit.getUnitList(unit.unitBuildSearch, unit.vacancy)}"/>                       
+                    </h:panelGrid>
+                    
+                    <h:dataTable id="tenTable" value="#{unit.unitList}"  var="unitObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even">
+                    <h:column> 
+                        <f:facet name="header">Unit ID</f:facet>
+                        <h:commandLink value="#{unitObj.unitID}" action="#{unit.viewUnitRecord(unitObj.unitID)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        
+                        <f:facet name="header">Building</f:facet>
+                        <h:commandLink value="#{unitObj.unitBuilding}" action="#{unit.viewUnitRecord(unitObj.unitID)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Apartment Number</f:facet>
+                        <h:commandLink value="#{unitObj.unitAptNum}" action="#{unit.viewUnitRecord(unitObj.unitID)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">City</f:facet>
+                        <h:commandLink value="#{unitObj.unitCity}" action="#{unit.viewUnitRecord(unitObj.unitID)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">State</f:facet>
+                        <h:commandLink value="#{unitObj.unitState}" action="#{unit.viewUnitRecord(unitObj.unitID)}" class="table-link"/>
+                    </h:column>
+                        <h:column> 
+                        <f:facet name="header">Rent</f:facet>
+                        <h:commandLink value="#{unitObj.unitRent}" action="#{unit.viewUnitRecord(unitObj.unitID)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Tenant ID</f:facet>
+                        <h:commandLink value="#{unitObj.unitTenantID}" action="#{unit.viewUnitRecord(unitObj.unitID)}" class="table-link"/>
+                    </h:column>
+                    
+                </h:dataTable>
+                    
+                </h:form>
+                
+                
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
 </html>

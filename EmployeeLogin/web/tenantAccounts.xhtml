@@ -8,6 +8,11 @@
         <title>Search Tenant Accounts</title>
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+            <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <h:outputScript name="js/waystoneEmp.js"/>
     </h:head>
     <h:body>
         <ui:composition template="templates/commonTemplate.xhtml">
@@ -15,19 +20,36 @@
             <ui:define name="content">
                 
                 <h:form>
-                    <h:link value="Tenant Payments" outcome="tenantPayments" class="link"/>
+                    <h:link value="Tenant Payments" outcome="tenantPayments" class="link"/><br/>
                     <h:link value="Create New Tenant" outcome="insertTenant" class="link"/>
                     <br/><br/>
                     <h3 class="pageTitle">Search Tenant Accounts </h3>
                     
                     <h:panelGrid>
-                        <h:outputText value="Search By" />
+                        <h:outputText value="Search Tenant(s) By: " />
                         <h:selectOneMenu id="searchCriteria" value="#{tenant.searchCrit}" required="true">
                             <f:selectItem itemValue="Tenant ID"/>
                             <f:selectItem itemValue="Last Name"/>
                             <f:selectItem itemValue="Phone Number"/>
                             <f:selectItem itemValue="Building"/>
                         </h:selectOneMenu>
+                        <!-- <h:selectOneMenu id="searchInfoBuild" required="true">
+                            <f:selectItem itemValue="Suncrest Grove" />
+                            <f:selectItem itemValue="Hidden Palms"/>
+                            <f:selectItem itemValue="Bayside Heights"/>
+                            <f:selectItem itemValue="Highland Square"/>
+                            <f:selectItem itemValue="Hudson Court"/>
+                            <f:selectItem itemValue="Fairway Manor"/>
+                            <f:selectItem itemValue="Primrose Heights"/>
+                            <f:selectItem itemValue="Bridgewater Park"/>
+                            <f:selectItem itemValue="Stoneridge Terrace"/>
+                            <f:selectItem itemValue="Sandy Ridge"/>
+                            <f:selectItem itemValue="Desert Estates"/>
+                            <f:selectItem itemValue="Emerald Springs"/>
+                            <f:selectItem itemValue="Fairview Villa"/>
+                            <f:selectItem itemValue="Broadview Terrace"/>
+                            <f:selectItem itemValue="Woodland Hills"/>
+                        </h:selectOneMenu> -->
                         <h:inputText id="search" value="#{tenant.searchInfo}" required="true"/>
                         <h:commandButton  value="Submit" actionListener="#{tenant.getTenantRecord(tenant.searchCrit, tenant.searchInfo)}"/>                       
                         </h:panelGrid>

@@ -54,7 +54,7 @@
                             <f:validateRegex pattern="[a-zA-Z]+"/>
                         </h:inputText>
                         <h:outputText value="Permanent State:  " />
-                            <h:selectOneMenu id="tenPermState" value="#{tenant.permState}">
+                            <h:selectOneMenu id="newPermState" value="#{tenant.permState}">
                                 <f:selectItem itemValue="AL"/>
                                 <f:selectItem itemValue="AK"/>
                                 <f:selectItem itemValue="AZ"/>
@@ -140,14 +140,16 @@
                         </h:inputText>    
                     </h:panelGrid>
                         <h:panelGrid class ="warning" columns ="1">
-                        <h:message for="firstName"/>    
-                        <h:message for="middleInit"/>
-                        <h:message for="lastName" /> 
-                        <h:message for="address" />
-                        <h:message for="city" /> 
-                        <h:message for="zipcode"/>
-                        <h:message for="phone" />
-                        <h:message for="dob" />
+                        <h:message for="newFirstName"/>    
+                        <h:message for="newMI"/>
+                        <h:message for="newLastName" /> 
+                        <h:message for="newPermAddress" />
+                        <h:message for="newPermCity" /> 
+                        <h:message for="newPermState"/>
+                        <h:message for="newPermZip" />
+                        <h:message for="newPhone" />
+                        <h:message for="newEmail" />
+                        <h:message for="newdob" />
                         </h:panelGrid>
                     <h:commandButton value="Submit" action="#{tenant.insertNewTenant(tenant)}" />
                     </div>
