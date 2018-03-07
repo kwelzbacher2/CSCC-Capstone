@@ -5,6 +5,7 @@
  */
 package waystonepropertymanagement.employee.login;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +19,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean (name="unit")
 @ViewScoped
-public class Unit {
+public class Unit implements Serializable{
     private int unitID;
     private String unitBuilding;
     private String unitAptNum;
@@ -30,6 +31,8 @@ public class Unit {
     private String unitTenantID;
     private String vacancy;
     private String unitBuildSearch;
+    private String unitTenFirstName;
+    private String unitTenLastName;
     private List<Unit> unitList = new ArrayList();
     
     public int getUnitID(){
@@ -105,6 +108,22 @@ public class Unit {
     public void setUnitBuildSearch(String unitBuildSearch){
         this.unitBuildSearch = unitBuildSearch;
     }
+    public String getUnitTenFirstName(){
+        return unitTenFirstName;
+    }
+    
+    public void setUnitTenFirstName(String unitTenFirstName){
+        this.unitTenFirstName = unitTenFirstName;
+    }
+    
+    public String getUnitTenLastName(){
+        return unitTenLastName;
+    }
+    
+    public void setUnitTenLastName(String unitTenLastName){
+        this.unitTenLastName = unitTenLastName;
+    }
+    
     public void getUnitList(String unitBuildSearch, String vacancy){
         unitList = DatabaseOperation.getUnitListFromDB(unitBuildSearch, vacancy);
     }
@@ -114,5 +133,13 @@ public class Unit {
     
     public String updateUnitDetails(Unit updateUnitObj){
         return DatabaseOperation.updateUnitDetailsInDB(updateUnitObj);
+    }
+    
+    public String insertNewUnit(Unit newUnitObj){
+        return DatabaseOperation.insertNewUnitInDB(newUnitObj);
+    }
+    
+    public List<String> viewAllBuildingNames(){
+        return DatabaseOperation.viewAllBuildingNamesInDB();
     }
 }

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/waystoneEmp.js"></script>
+        <title>Account Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+                    <h3 class="pageTitle">Account Profile</h3>
+                    <div id="profileBox">
+                        <h:panelGrid class="info" columns="2">
+                                
+                            <h:outputText value="Account Name:  " />
+                            <h:outputText value ="#{accViewObj.accountName}" />
+                                                                
+                        </h:panelGrid>
+                        <h:panelGrid class="info" columns="2">
+                                
+                            <h:outputText value="Account Type:  " />
+                            <h:outputText value ="#{accViewObj.accountType}" />
+                        </h:panelGrid>
+                        <div class="edit">    
+                                <h:commandButton value="Edit Account Information" action="editAccount" />
+                        </div>
+                        <h:outputLabel value="Search By:" />
+                        <h:selectOneMenu id="searchRecCrit" value="#{record.searchRecCrit}" required="true" requiredMessage="Search Criteria is required">
+                            <f:selectItem itemValue="All"/>
+                            <f:selectItem itemValue="Record Invoice Number"/>
+                            <f:selectItem itemValue="Record Name"/>
+                        </h:selectOneMenu>
+                        <h:inputText id="searchRecInfo" value="#{record.searchRecInfo}"/>
+                        <h:commandButton  value="Submit" actionListener="#{record.getAllRecordList(record.searchRecCrit, record.searchRecInfo, accViewObj.accountName)}"/> 
+                        <h:dataTable id="recTable" value="#{record.recordList}"  var="recordObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even">
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{recordObj.recordName}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">Record Amount</f:facet>
+                                <h:commandLink value="#{recordObj.recordAmount}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Is it Credit?</f:facet>
+                                <h:commandLink value="#{recordObj.recordIsCredit}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Date</f:facet>
+                                <h:commandLink value="#{recordObj.recordDate}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Invoice Number</f:facet>
+                                <h:commandLink value="#{recordObj.recordInvNum}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Tenant ID</f:facet>
+                                <h:commandLink value="#{recordObj.recordTenantID}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                                            
+                        </h:dataTable>
+                            
+                                                       
+                        </div>                
+                       
+                    
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html> 

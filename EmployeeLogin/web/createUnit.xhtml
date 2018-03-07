@@ -5,7 +5,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Edit Employee Profile</title>
+        <title>Create New Unit</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
             <link rel="stylesheet" href="/resources/demos/style.css"/>
@@ -21,40 +21,37 @@
                 
                 <h:form id="form">
                     <div class="empInfo" >
-                    <h3 class="pageTitle">Edit Employee Profile</h3>
+                    <h3 class="pageTitle">Create New Unit</h3>
                     <div class="editBox">
                     
-                    <h:panelGrid class="editInfo" columns="6"> 
+                    <h:panelGrid class="editInfo" columns="2"> 
                         
-                        <h:outputText value="First Name:  " />
-                        <h:inputText id="firstName" value ="#{empRecordObj.firstName}" tabindex="1" required="true" requiredMessage="First Name is required"
-                                     validatorMessage="Please enter First Name using alphabetical letters" size="12">
-                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        <h:outputText value="Building:  " />
+                        <h:inputText id="newUnitBuilding" value ="#{unit.unitBuilding}" tabindex="1" required="true" requiredMessage="Building is required"
+                                     validatorMessage="Please enter Building using alphabetical letters" size="12">
+                            <f:validateRegex pattern="[\w\s]+"/>
                         </h:inputText>
-                        <h:outputText value="Middle Initial:  " />
-                        <h:inputText id="middleInit" value ="#{empRecordObj.middleInit}" validatorMessage="Please enter 1 letter for Middle Initial" size="1">
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo" columns="2"> 
+                        <h:outputText value="Apartment Number:  " />
+                        <h:inputText id="newUnitApt" value ="#{unit.unitAptNum}"  required = "true" validatorMessage="Please enter 3 digits for Apartment Number" size="3">
                             
-                            <f:validateRegex pattern="^[a-zA-Z]$"/>
+                            <f:validateRegex pattern="\d{3}"/>
                         </h:inputText> 
-                        <h:outputText value="Last Name:  " />
-                        <h:inputText id="lastName" value="#{empRecordObj.lastName}" required="true" requiredMessage="Last Name is required"
-                                     validatorMessage="Please enter Last Name using alphabetical letters" size="12">
-                            <f:validateRegex pattern="[a-zA-Z]+"/>
-                        </h:inputText>
-                        
                     </h:panelGrid>
                     <h:panelGrid class="editInfo" columns="8">
-                        
                         <h:outputText value="Address:  " />
-                        <h:inputText id="address" value ="#{empRecordObj.address}" >
-                            <!--<f:validateRegex pattern="[\d+[ ](?:[A-Za-z0-9.-]+[ ]?)+(?:Avenue|Lane|Road|Boulevard|Drive|Street|Ave|Dr|Rd|Blvd|Ln|St).?" /> -->
+                        <h:inputText id="newUnitAddress" value="#{unit.unitAddress}" required="true" requiredMessage="Address is required"
+                                     validatorMessage="Incorrect Address" size="12">
+                            <f:validateRegex pattern="\w+(\s\w+){2,}" />
                         </h:inputText>
+                       
                         <h:outputText value="City:  " />
-                        <h:inputText id="city" value="#{empRecordObj.city}" validatorMessage="Incorrect City" size="12">
+                        <h:inputText id="newUnitCity" value="#{unit.unitCity}" required="true" validatorMessage="Incorrect City" size="12">
                             <f:validateRegex pattern="[a-zA-Z]+"/>
                         </h:inputText>
                         <h:outputText value="State:  " />
-                            <h:selectOneMenu id="state" value="#{empRecordObj.state}">
+                            <h:selectOneMenu id="newUnitState" value="#{unit.unitState}" required="true" requiredMessage="State is required" >
                                 <f:selectItem itemValue="AL"/>
                                 <f:selectItem itemValue="AK"/>
                                 <f:selectItem itemValue="AZ"/>
@@ -108,38 +105,35 @@
                             </h:selectOneMenu> 
                         
                         <h:outputText value="Zipcode:  " />
-                        <h:inputText id="zipcode" value="#{empRecordObj.zipcode}" validatorMessage="Please enter 5 digits for Zipcode" size="5" >
+                        <h:inputText id="newUnitZip" value="#{unit.unitZip}" required="true" validatorMessage="Please enter 5 digits for Zipcode" size="5" >
                             <f:validateRegex pattern="[0-9]{5}"/>  
                         </h:inputText>
                         
                     </h:panelGrid>
+                                            
                     <h:panelGrid class="editInfo" columns="2">
                         
-                        <h:outputText value="Phone Number:  " />
-                        <h:inputText id="phone" value ="#{empRecordObj.phone}" required="true" requiredMessage="Phone Number is required"
-                                     validatorMessage="Please enter digits in the form of 555-555-5555 for Phone Number" size="12">
-                            <f:validateRegex pattern="\d{3}-\d{3}-\d{4}"/>
+                        <h:outputText value="Rent Amount:  " />
+                        <h:inputText id="newUnitRent" value ="#{unit.unitRent}"  
+                                     validatorMessage="Please enter digits in the form of 1234 for Rent" size="6">
+                            <f:validateRegex pattern="[0-9]+"/>
                         </h:inputText>
                         
                     </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="2">
-                        
-                        <h:outputText value="Date of Birth:  " />
-                        <h:inputText id="dob" value ="#{empRecordObj.DOB}" class="dobDate" size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date of Birth">     
-                            <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
-                        </h:inputText>    
-                    </h:panelGrid>
+                    
+                    
                         <h:panelGrid class ="warning" columns ="1">
-                        <h:message for="firstName"/>    
-                        <h:message for="middleInit"/>
-                        <h:message for="lastName" /> 
-                        <h:message for="address" />
-                        <h:message for="city" /> 
-                        <h:message for="zipcode"/>
-                        <h:message for="phone" />
-                        <h:message for="dob" />
+                        <h:message for="newUnitBuilding"/>    
+                        <h:message for="newUnitApt"/>
+                        <h:message for="newUnitAddress" /> 
+                        <h:message for="newUnitCity" />
+                        <h:message for="newUnitState" /> 
+                        <h:message for="newUnitZip"/>
+                        <h:message for="newUnitRent" />
+                        
+                        
                         </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{employee.updateEmployeeDetails(empRecordObj)}" />
+                    <h:commandButton value="Submit" action="#{unit.insertNewUnit(unit)}" />
                     </div>
                     </div>   
                 </h:form>

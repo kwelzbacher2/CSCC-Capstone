@@ -21,21 +21,7 @@
                     <h:panelGrid>
                         <h:outputLabel value="Building" />
                         <h:selectOneMenu id="searchInfo" value="#{tenant.payInfo}" required="true">
-                            <f:selectItem itemValue="Suncrest Grove"/>
-                            <f:selectItem itemValue="Hidden Palms"/>
-                            <f:selectItem itemValue="Bayside Heights"/>
-                            <f:selectItem itemValue="Highland Square"/>
-                            <f:selectItem itemValue="Hudson Court"/>
-                            <f:selectItem itemValue="Fairway Manor"/>
-                            <f:selectItem itemValue="Primrose Heights"/>
-                            <f:selectItem itemValue="Bridgewater Park"/>
-                            <f:selectItem itemValue="Stoneridge Terrace"/>
-                            <f:selectItem itemValue="Sandy Ridge"/>
-                            <f:selectItem itemValue="Desert Estates"/>
-                            <f:selectItem itemValue="Emerald Springs"/>
-                            <f:selectItem itemValue="Fairview Villa"/>
-                            <f:selectItem itemValue="Broadview Terrace"/>
-                            <f:selectItem itemValue="Woodland Hills"/>
+                            <f:selectItems value="#{unit.viewAllBuildingNames()}" />
                         </h:selectOneMenu>
                         <h:outputLabel value="Search By" />
                         <h:selectOneMenu id="searchCriteria" value="#{tenant.payCrit}">

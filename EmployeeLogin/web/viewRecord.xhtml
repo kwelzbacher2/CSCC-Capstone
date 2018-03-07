@@ -4,7 +4,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <script type="text/javascript" src="#{request.contextPath}/resources/js/waystoneEmp.js"></script>
-        <title>Unit Profile</title>
+        <title>Record Information</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
@@ -14,56 +14,53 @@
                 
                 <h:form>
                     <div class="empInfo">
-                        <h3 class="pageTitle">Unit Profile</h3>
+                        <h3 class="pageTitle">Record Information</h3>
                         <div id="profileBox">
                             <h:panelGrid class="info" columns="2">
                                 
-                                <h:outputText value="Unit ID:  " />
-                                <h:outputText value ="#{unitViewObj.unitID}" />
+                                <h:outputText value="Record Name:  " />
+                                <h:outputText value ="#{recViewObj.recordName}" />
+                                                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="4">
+                                
+                                <h:outputText value="Record Amount:  " />
+                                <h:outputText value ="#{recViewObj.recordAmount}" />
+                            </h:panelGrid>    
+                            <h:panelGrid class="info" columns="2">    
+                                <h:outputText value ="Is it Credit? (No for Debit): " />
+                                <h:outputText value="#{recViewObj.recordIsCredit}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Date:  " />
+                                <h:outputText value ="#{recViewObj.recordDate} " />
                                                                 
                             </h:panelGrid>
                             <h:panelGrid class="info" columns="2">
                                 
-                                <h:outputText value="Building:  " />
-                                <h:outputText value ="#{unitViewObj.unitBuilding}" />
-                            </h:panelGrid>    
-                            <h:panelGrid class="info" columns="2">    
-                                <h:outputText value ="Apartment Number: " />
-                                <h:outputText value="#{unitViewObj.unitAptNum}" />
-                                
-                            </h:panelGrid>
-                            <h:panelGrid class="info" columns="5">
-                                
-                                <h:outputText value="Address:  " />
-                                <h:outputText value ="#{unitViewObj.unitAddress} " />
-                                <h:outputText value="#{unitViewObj.unitCity}, " />
-                                <h:outputText value="#{unitViewObj.unitState} " />
-                                <h:outputText value="#{unitViewObj.unitZip}" />
-                                
-                            </h:panelGrid>
-                            <h:panelGrid class="info" columns="2">
-                                
-                                <h:outputText value="Rent Amount:  " />
-                                <h:outputText id="phoneNum" value ="#{unitViewObj.unitRent}"  />
+                                <h:outputText value="Invoice Number:  " />
+                                <h:outputText id="phoneNum" value ="#{recViewObj.recordInvNum}"  />
                                 
                             </h:panelGrid>
                             <h:panelGrid class="info" columns="2">
                                 
                                 <h:outputText value="Tenant ID:  " />
-                                <h:outputText value ="#{unitViewObj.unitTenantID}" />
+                                <h:outputText value ="#{recViewObj.recordTenantID}" />
                                 
                             </h:panelGrid>
                             <h:panelGrid class="info" columns="2">
                                 
-                                <h:outputText value="Tenant Name:  " />
-                                <h:outputText value ="#{unitViewObj.unitTenLastName}, #{unitViewObj.unitTenFirstName}" />
+                                <h:outputText value="Account Name:  " />
+                                <h:outputText value ="#{recViewObj.recordAccount}" />
                                 
                             </h:panelGrid>
                             
                             
                             
                             <div class="edit">    
-                                <h:commandButton value="Edit Unit Information" action="editUnit" />
+                                <h:commandButton value="Edit Record Information" action="editRecord" />
                             </div>
                             
                         </div>                

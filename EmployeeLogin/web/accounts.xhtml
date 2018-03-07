@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Accounts</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+                    
+                    <h3 class="pageTitle">Search Accounts</h3>
+                    
+                    <h:panelGrid>
+                        <h:outputLabel value="Account Name: " />
+                        <h:inputText id="accSearchName" value="#{account.accSearchName}"/>
+                            
+                        
+                        <h:outputLabel value="Account Type:" />
+                        <h:selectOneMenu id="accSearchType" value="#{account.accSearchType}">
+                            <f:selectItem itemValue=""/>
+                            <f:selectItem itemValue="Asset"/>
+                            <f:selectItem itemValue="Liability"/>
+                            <f:selectItem itemValue="Equity"/>
+                            <f:selectItem itemValue="Expense"/>
+                            <f:selectItem itemValue="Income"/>
+                        </h:selectOneMenu>
+                        
+                        <h:commandButton  value="Submit" actionListener="#{account.getAllAccountList(account.accSearchName, account.accSearchType)}"/>  
+                    </h:panelGrid>
+                    <h:dataTable id="tenTable" value="#{account.accountList}"  var="accountObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even">
+                    <h:column> 
+                        <f:facet name="header">Account Name</f:facet>
+                        <h:commandLink value="#{accountObj.accountName}" action="#{account.viewAccountInfo(accountObj.accountName)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        
+                        <f:facet name="header">Account Type</f:facet>
+                        <h:commandLink value="#{accountObj.accountType}" action="#{account.viewAccountInfo(accountObj.accountName)}" class="table-link"/>
+                    </h:column>
+                    
+                    
+                </h:dataTable>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

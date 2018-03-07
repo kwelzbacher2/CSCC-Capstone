@@ -345,7 +345,7 @@ public class DatabaseOperation {
         if(saveResult !=0){
             navigationResult = "tenantAccounts.xhtml?faces=redirect=true";
         } else {
-            navigationResult = "createStudent.xhtml?faces=redirect=true";
+            navigationResult = "insertTenant.xhtml?faces=redirect=true";
         }
         return navigationResult;
     }
@@ -531,7 +531,14 @@ public class DatabaseOperation {
                 unitSearchObj.setUnitZip(resultSetObj.getString("ZIP"));
                 unitSearchObj.setUnitRent(resultSetObj.getString("RENT"));
                 unitSearchObj.setUnitTenantID(resultSetObj.getString("TENANT_ID"));
-                
+                PreparedStatement prepst = connObj.prepareStatement("SELECT FIRSTNAME, LASTNAME FROM TENANT WHERE TENANT_ID = ?"); 
+                prepst.setString(1, unitSearchObj.getUnitTenantID());
+                ResultSet rset = prepst.executeQuery();
+                    while(rset.next()){
+                        
+                        unitSearchObj.setUnitTenFirstName(rset.getString("FIRSTNAME"));
+                        unitSearchObj.setUnitTenLastName(rset.getString("LASTNAME"));
+                    }
                 unitSearchList.add(unitSearchObj);
                 
                }
@@ -571,6 +578,14 @@ public class DatabaseOperation {
                 viewUnit.setUnitZip(resultSetObj.getString("ZIP"));
                 viewUnit.setUnitRent(resultSetObj.getString("RENT"));
                 viewUnit.setUnitTenantID(resultSetObj.getString("TENANT_ID"));
+                PreparedStatement prepst = connObj.prepareStatement("SELECT FIRSTNAME, LASTNAME FROM TENANT WHERE TENANT_ID = ?"); 
+                prepst.setString(1, viewUnit.getUnitTenantID());
+                ResultSet rset = prepst.executeQuery();
+                    while(rset.next()){
+                        
+                        viewUnit.setUnitTenFirstName(rset.getString("FIRSTNAME"));
+                        viewUnit.setUnitTenLastName(rset.getString("LASTNAME"));
+                    }
                                 
                 sessionMapObj.put("unitViewObj", viewUnit);
                 
@@ -591,7 +606,7 @@ public class DatabaseOperation {
           try{
                         
                 connObj = DataConnect.getConnection();
-                pstmt = connObj.prepareStatement("UPDATE UNIT SET BUILDING = ?, APTNUM = ?, ADDRESS = ?, "
+                pstmt = connObj.prepareStatement("UPDATE UNITS SET BUILDING = ?, APTNUM = ?, ADDRESS = ?, "
                     + "CITY = ?, STATE = ?, ZIP = ?, RENT = ?, TENANT_ID = ? WHERE UNIT_ID = ?");
                 pstmt.setString(1, updateUnitObj.getUnitBuilding());
                 pstmt.setString(2, updateUnitObj.getUnitAptNum());
@@ -611,6 +626,320 @@ public class DatabaseOperation {
                  DataConnect.close(connObj);
             }
         return "/viewUnit.xhtml?faces-redirect=true";
+     }
+     
+     public static String insertNewUnitInDB(Unit newUnitObj) {
+         int saveResult = 0;
+        String navigationResult = "";
+        
+        try{
+            connObj = DataConnect.getConnection();
+            
+            pstmt = connObj.prepareStatement("INSERT INTO UNITS (BUILDING, APTNUM, ADDRESS, CITY, STATE, ZIP, RENT) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            pstmt.setString(1, newUnitObj.getUnitBuilding());
+            pstmt.setString(2, newUnitObj.getUnitAptNum());
+            pstmt.setString(3, newUnitObj.getUnitAddress());
+            pstmt.setString(4, newUnitObj.getUnitCity());
+            pstmt.setString(5, newUnitObj.getUnitState());
+            pstmt.setString(6, newUnitObj.getUnitZip());
+            pstmt.setString(7, newUnitObj.getUnitRent());
+            
+            
+            saveResult = pstmt.executeUpdate();
+        } catch (SQLException e) {
+                System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+                 DataConnect.close(connObj);
+        }
+        
+        if(saveResult !=0){
+            navigationResult = "units.xhtml?faces=redirect=true";
+        } else {
+            navigationResult = "createUnit.xhtml?faces=redirect=true";
+        }
+        return navigationResult;
+     }
+     
+     public static List<Account> getAccountListFromDB(String accSearchName, String accSearchType){
+         List<Account> accountSearchList = new ArrayList<>();
+       
+        
+        try {
+            connObj = DataConnect.getConnection();
+            //job Type is not required
+            if(accSearchName.equals("")){
+                if(accSearchType.equals("")){
+                    pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS");
+                } else {
+                    pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS WHERE ACCOUNT_TYPE = ?");
+                    pstmt.setString(1, accSearchType);
+                }
+            } else {
+                if(accSearchType.equals("")){
+                    pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS WHERE ACCOUNT_NAME = ? ");
+                    pstmt.setString(1, accSearchName);
+                } else {
+                    pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS WHERE ACCOUNT_NAME = ? AND ACCOUNT_TYPE = ?");
+                    pstmt.setString(1, accSearchName);
+                    pstmt.setString(2, accSearchType);
+                }
+                
+            
+            }
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                Account accSearchObj = new Account();
+                accSearchObj.setAccountName(resultSetObj.getString("ACCOUNT_NAME"));
+                accSearchObj.setAccountType(resultSetObj.getString("ACCOUNT_TYPE"));
+                accountSearchList.add(accSearchObj);
+                
+               }
+                System.out.println("Total Records Fetched: " + accountSearchList.size());
+                
+               }
+                          
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return accountSearchList;
+     }
+     
+     public static String viewAccountInfoInDB(String accountName) {
+        Account viewAccount;
+        Map<String,Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        
+        try{
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS WHERE ACCOUNT_NAME = ?");
+            pstmt.setString(1, accountName);
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                viewAccount = new Account();
+                
+                viewAccount.setAccountName(resultSetObj.getString("ACCOUNT_NAME"));
+                viewAccount.setAccountType(resultSetObj.getString("ACCOUNT_TYPE"));
+                               
+                sessionMapObj.put("accViewObj", viewAccount);
+                
+               }
+                                
+            }
+                          
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return "/viewAccount.xhtml?faces-redirect=true";
+     }
+     public static List<Record> getAllRecordListFromDB(String searchRecCrit, String searchRecInfo, String recordAccount){
+         List<Record> allRecordList = new ArrayList();
+         
+         
+            try{
+                connObj = DataConnect.getConnection();
+                switch (searchRecCrit) {
+                 case "Record Name":
+                     pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE RECORD_NAME = ? AND ACCOUNT_NAME= ?");
+                     pstmt.setString(1, searchRecInfo);
+                     pstmt.setString(2, recordAccount);
+                     break;
+                 case "Record Invoice Number":
+                     pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE INVNUM = ? AND ACCOUNT_NAME = ?");
+                     pstmt.setString(1, searchRecInfo);
+                     pstmt.setString(2, recordAccount);
+                     break;
+                 default:
+                     pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = ?");
+                     pstmt.setString(1, recordAccount);
+                     break;
+                }
+                resultSetObj = pstmt.executeQuery();
+                if(resultSetObj     != null) {
+                while( resultSetObj.next()) {
+                    Record viewRecordObj = new Record();
+                    viewRecordObj.setRecordID(resultSetObj.getInt("RECORD_ID"));
+                    viewRecordObj.setRecordName(resultSetObj.getString("RECORD_NAME"));
+                    viewRecordObj.setRecordAmount(resultSetObj.getString("AMOUNT"));
+                    
+                    if(resultSetObj.getString("IS_CREDIT").equals("0")){
+                        viewRecordObj.setRecordIsCredit("NO");
+                    } else {
+                        viewRecordObj.setRecordIsCredit("YES");
+                    }
+                    viewRecordObj.setRecordDate(resultSetObj.getString("DATE"));
+                    viewRecordObj.setRecordInvNum(resultSetObj.getString("INVNUM"));
+                    viewRecordObj.setRecordTenantID(resultSetObj.getString("TENANT_ID"));
+                    allRecordList.add(viewRecordObj);
+                }
+                    System.out.println("Total Records Fetched: " + allRecordList.size());
+                }
+            } catch (SQLException e) {
+                        System.out.println("Login error -->" + e.getMessage());        
+            } finally {    
+              DataConnect.close(connObj);
+            }
+        return allRecordList;
+     }
+     
+     public static String viewIndivRecordInDB(int recordID){
+        Record viewRecord;
+        Map<String,Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        
+        try{
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE RECORD_ID = ?");
+            pstmt.setInt(1, recordID);
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                viewRecord = new Record();
+                viewRecord.setRecordID(resultSetObj.getInt("RECORD_ID"));
+                viewRecord.setRecordName(resultSetObj.getString("RECORD_NAME"));
+                viewRecord.setRecordAmount(resultSetObj.getString("AMOUNT"));
+                if(resultSetObj.getString("IS_CREDIT").equals("0")){
+                    viewRecord.setRecordIsCredit("No");
+                } else {
+                    viewRecord.setRecordIsCredit("Yes");
+                }
+                viewRecord.setRecordDate(resultSetObj.getString("DATE"));
+                viewRecord.setRecordInvNum(resultSetObj.getString("INVNUM"));
+                viewRecord.setRecordTenantID(resultSetObj.getString("TENANT_ID"));
+                viewRecord.setRecordAccount(resultSetObj.getString("ACCOUNT_NAME"));
+                sessionMapObj.put("recViewObj", viewRecord);
+                
+               }
+                                
+            }
+                          
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return "/viewRecord.xhtml?faces-redirect=true";
+     }
+     
+     public static List<String> viewAllAccountNamesInDB(){
+         List<String> accountNameList = new ArrayList();
+         try{
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("SELECT ACCOUNT_NAME FROM ACCOUNTS");
+            resultSetObj = pstmt.executeQuery();
+            while( resultSetObj.next()){
+                accountNameList.add(resultSetObj.getString("ACCOUNT_NAME"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return accountNameList;
+         
+     }
+     
+     public static String updateAccountDetailsInDB(Account updateAccountObj){
+          try {
+                        
+                connObj = DataConnect.getConnection();
+                pstmt = connObj.prepareStatement("UPDATE ACCOUNTS SET ACCOUNT_NAME = ?, ACCOUNT_TYPE = ? WHERE ACCOUNT_NAME= ?");
+                    
+                pstmt.setString(1, updateAccountObj.getAccountName());
+                pstmt.setString(2, updateAccountObj.getAccountType());
+                pstmt.setString(3, updateAccountObj.getAccountName());
+                
+                                            
+                pstmt.executeQuery();
+                
+            } catch (SQLException e) {
+                System.out.println("Login error -->" + e.getMessage());        
+            } finally {    
+                 DataConnect.close(connObj);
+            }
+        return "/viewAccount.xhtml?faces-redirect=true";
+     
+     }
+     
+     public static String updateRecordDetailsInDB(Record updateRecObj){
+         String statement;
+         if(updateRecObj.getRecordIsCredit().equals("YES")){
+             statement = "1";
+         } else {
+             statement = "0";
+         }
+         try{
+                        
+                connObj = DataConnect.getConnection();
+                pstmt = connObj.prepareStatement("UPDATE RECORDS SET RECORD_NAME = ?, AMOUNT = ?, IS_CREDIT = ?, "
+                    + "DATE = ?, INVNUM = ?, ACCOUNT_NAME = ? WHERE RECORD_ID = ?");
+                pstmt.setString(1, updateRecObj.getRecordName());
+                pstmt.setString(2, updateRecObj.getRecordAmount());
+                pstmt.setString(3, statement);
+                pstmt.setString(4, updateRecObj.getRecordDate());
+                pstmt.setString(5, updateRecObj.getRecordInvNum());
+                pstmt.setString(6, updateRecObj.getRecordAccount());
+                pstmt.setInt(7, updateRecObj.getRecordID());
+                                            
+                pstmt.executeQuery();
+                
+            } catch (SQLException e) {
+                System.out.println("Login error -->" + e.getMessage());        
+            } finally {    
+                 DataConnect.close(connObj);
+            }
+        return "/viewRecord.xhtml?faces-redirect=true";
+     }
+     
+     public static List<String> viewAllBuildingNamesInDB(){
+         List<String> buildNameList = new ArrayList();
+         try{
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("SELECT DISTINCT BUILDING FROM UNITS");
+            resultSetObj = pstmt.executeQuery();
+            while( resultSetObj.next()){
+                buildNameList.add(resultSetObj.getString("BUILDING"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return buildNameList;
+     }
+    
+         
+     public static String createNewAccountInDB(Account newAccountObj){
+         int saveResult = 0;
+        String navigationResult = "";
+        
+        try{
+            connObj = DataConnect.getConnection();
+            
+            pstmt = connObj.prepareStatement("INSERT INTO ACCOUNTS (ACCOUNT_NAME, ACCOUNT_TYPE) VALUES (?, ?)");
+            pstmt.setString(1, newAccountObj.getAccountName());
+            pstmt.setString(2, newAccountObj.getAccountType());
+                  
+            
+            saveResult = pstmt.executeUpdate();
+        } catch (SQLException e) {
+                System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+                 DataConnect.close(connObj);
+        }
+        
+        if(saveResult !=0){
+            navigationResult = "accounts.xhtml?faces=redirect=true";
+        } else {
+            navigationResult = "createAccount.xhtml?faces=redirect=true";
+        }
+        return navigationResult;
      }
     }
 
