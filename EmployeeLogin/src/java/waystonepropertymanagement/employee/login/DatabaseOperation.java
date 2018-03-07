@@ -941,5 +941,44 @@ public class DatabaseOperation {
         }
         return navigationResult;
      }
+     
+     public static String createNewRecordInDB(Record recNewObj){
+         int saveResult = 0;
+        String navigationResult = "";
+        String statement;
+        
+        if(recNewObj.getRecordIsCredit().equals("YES")){
+            statement = "1";
+        } else {
+            statement = "2";
+        }
+        
+        try{
+            connObj = DataConnect.getConnection();
+            
+            pstmt = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, TENANT_ID, ACCOUNT_NAME) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            pstmt.setString(1, recNewObj.getRecordName());
+            pstmt.setString(2, recNewObj.getRecordAmount());
+            pstmt.setString(3, statement); 
+            pstmt.setString(4, recNewObj.getRecordDate());
+            pstmt.setString(5, recNewObj.getRecordInvNum());
+            pstmt.setString(6, recNewObj.getRecordTenantID());
+            pstmt.setString(7, recNewObj.getRecordAccount());
+            
+            
+            saveResult = pstmt.executeUpdate();
+        } catch (SQLException e) {
+                System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+                 DataConnect.close(connObj);
+        }
+        
+        if(saveResult !=0){
+            navigationResult = "viewAccount.xhtml?faces=redirect=true";
+        } else {
+            navigationResult = "createRecord.xhtml?faces=redirect=true";
+        }
+        return navigationResult;
+     }
     }
 

@@ -1,5 +1,6 @@
 package waystonepropertymanagement.employee.login;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +19,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean (name="record")
 @ViewScoped
-public class Record {
+public class Record implements Serializable{
     private int recordID;
     private String recordName;
     private String recordAmount;
@@ -122,5 +123,9 @@ public class Record {
     
     public String updateRecordDetails(Record updateRecObj){
         return DatabaseOperation.updateRecordDetailsInDB(updateRecObj);
+    }
+    
+    public String createNewRecord(Record recNewObj){
+        return DatabaseOperation.createNewRecordInDB(recNewObj);
     }
 }
