@@ -37,7 +37,8 @@
                         </h:panelGrid>
                     
                     <h:dataTable value="#{maintenance.maintenanceSearch}" var="req"
-                                 styleClass = "table" headerClass="table-header" rowClasses="table-odd,table-even">
+                                 styleClass = "table" headerClass="table-header" rowClasses="table-odd,table-even"
+                                 columnClasses="requestID, tenantID, building, apt, jobType, jobDesc, date">
                         <h:column> 
                         <f:facet name="header">Request ID</f:facet>
                         <h:outputText value="#{req.requestID}"/>

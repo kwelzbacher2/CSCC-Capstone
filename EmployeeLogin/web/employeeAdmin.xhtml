@@ -21,12 +21,24 @@
                         <h:outputText value="#{emp.firstName} #{emp.lastName}" class="empInfo"/>                  
                         <div class="shadowBox">
                             <h:outputText class="pageTitle" value="Quick Links"/><br/><br/><br/>
-                            <h:panelGrid columns = "4" styleClass="quickLink">
-                            <h:link outcome="employeeProfile" class="link"> <img src ="#{resource['images/information.png']}" alt=""><br/> My Profile</img> </h:link>
-                            <h:link outcome="tenantAccounts" class="link"><img src ="#{resource['images/triple-search.png']}" alt=""><br/>Tenant Search</img></h:link>
-                            <h:link outcome="accounts" class="link"><img src ="#{resource['images/database-search.png']}" alt=""><br/>Account Search</img></h:link>
-                            <h:link outcome="training" class="link"><img src ="#{resource['images/clipboard.png']}" alt=""><br/>Training Materials</img></h:link>
+                            
+                             <h:panelGrid columns = "2" styleClass="smallLink" columnClasses="qlink, qlink, qlink, qlast">
+                            
+                            	<h:link outcome="employeeProfile" class="link"> <img src ="#{resource['images/information.png']}" alt=""><br/> Employee<br/> Profile</img> </h:link>
+                            	<h:link outcome="tenantAccounts" class="link"><img src ="#{resource['images/triple-search.png']}" alt=""><br/>Tenant<br/> Search</img></h:link>
+                            	<h:link outcome="accounts" class="link"><img src ="#{resource['images/database-search.png']}" alt=""><br/>Account<br/> Search</img></h:link>
+                            	<h:link outcome="training" class="link"><img src ="#{resource['images/clipboard.png']}" alt=""><br/>Training<br/> Materials</img></h:link>
                             </h:panelGrid>
+                            
+                            <h:panelGrid columns = "4" styleClass="bigQuick" columnClasses="qlink, qlink, qlink, qLast">
+                            
+                            	<h:link outcome="employeeProfile" class="link"> <img src ="#{resource['images/information.png']}" alt="" class="infoImg"><br/> Employee<br/> Profile</img> </h:link>
+                            	<h:link outcome="tenantAccounts" class="link"><img src ="#{resource['images/triple-search.png']}" alt="" class="infoImg"><br/>Tenant<br/> Search</img></h:link>
+                            	<h:link outcome="accounts" class="link"><img src ="#{resource['images/database-search.png']}" alt="" class="infoImg"><br/>Account<br/> Search</img></h:link>
+                            	<h:link outcome="training" class="link"><img src ="#{resource['images/clipboard.png']}" alt="" class="infoImg"><br/>Training<br/> Materials</img></h:link>
+                            </h:panelGrid>
+                            
+                           
                         </div>
                         </ui:repeat>               
                 </h:form>

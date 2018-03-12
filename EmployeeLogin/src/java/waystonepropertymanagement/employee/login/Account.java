@@ -20,7 +20,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean (name="account")
 @SessionScoped
-public class Account {
+public class Account implements Serializable {
     
     private String accountName;
     private String accountType;

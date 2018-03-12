@@ -23,6 +23,7 @@ public class DatabaseOperation {
     public static PreparedStatement pstmt;
     
     
+    
     public static boolean empValidate(String email, String password) {
         
         
@@ -268,6 +269,7 @@ public class DatabaseOperation {
                 viewTen.setPermZip(resultSetObj.getString("PERM_ZIP"));
                 viewTen.setPhone(resultSetObj.getString("PHONE"));
                 viewTen.setEmail(resultSetObj.getString("EMAIL"));
+                //java.util.Date dobDate = new java.util.Date(resultSetObj.getDate("DOB").getTime());
                 viewTen.setDOB(resultSetObj.getString("DOB"));
                 PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM UNITS WHERE TENANT_ID = ?"); 
                 prepst.setInt(1, viewTen.getTenantID());
@@ -292,11 +294,13 @@ public class DatabaseOperation {
       
     }
     public static String updateTenantDetailsInDB(Tenant updateTenObj){
+    	//java.sql.Date sqlDate = new java.sql.Date(updateTenObj.getDOB().getTime());
+    	
         try{
                         
                 connObj = DataConnect.getConnection();
                 pstmt = connObj.prepareStatement("UPDATE TENANT SET FIRSTNAME = ?, LASTNAME = ?, MI = ?, "
-                    + "PERM_ADDRESS = ?, PERM_CITY = ?, PERM_STATE = ?, PERM_ZIP = ?, PHONE = ?, EMAIL=?, DOB = ? WHERE TENANT_ID = ?");
+                    + "PERM_ADDRESS = ?, PERM_CITY = ?, PERM_STATE = ?, PERM_ZIP = ?, PHONE = ?, EMAIL= ?, DOB = ? WHERE TENANT_ID = ?");
                 pstmt.setString(1, updateTenObj.getFirstName());
                 pstmt.setString(2, updateTenObj.getLastName());
                 pstmt.setString(3, updateTenObj.getMi());
@@ -305,8 +309,8 @@ public class DatabaseOperation {
                 pstmt.setString(6, updateTenObj.getPermState());
                 pstmt.setString(7, updateTenObj.getPermZip());
                 pstmt.setString(8, updateTenObj.getPhone());
-                pstmt.setString(9, updateTenObj.getDOB());
-                pstmt.setString(10, updateTenObj.getEmail());
+                pstmt.setString(9, updateTenObj.getEmail());
+                pstmt.setString(10, updateTenObj.getDOB());                
                 pstmt.setInt(11, updateTenObj.getTenantID());
             
                 pstmt.executeQuery();
@@ -321,7 +325,7 @@ public class DatabaseOperation {
     public static String insertNewTenantInDB(Tenant newTenantObj){
         int saveResult = 0;
         String navigationResult = "";
-        
+        //java.sql.Date sqlDate = new java.sql.Date(newTenantObj.getDOB().getTime());
         try{
             connObj = DataConnect.getConnection();
             pstmt = connObj.prepareStatement("INSERT INTO TENANT (FIRSTNAME, LASTNAME, MI, PERM_ADDRESS, PERM_CITY, PERM_STATE, PERM_ZIP, PHONE, EMAIL, DOB) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -766,7 +770,7 @@ public class DatabaseOperation {
                     Record viewRecordObj = new Record();
                     viewRecordObj.setRecordID(resultSetObj.getInt("RECORD_ID"));
                     viewRecordObj.setRecordName(resultSetObj.getString("RECORD_NAME"));
-                    viewRecordObj.setRecordAmount(resultSetObj.getString("AMOUNT"));
+                    viewRecordObj.setRecordAmount(resultSetObj.getDouble("AMOUNT"));
                     
                     if(resultSetObj.getString("IS_CREDIT").equals("0")){
                         viewRecordObj.setRecordIsCredit("NO");
@@ -802,7 +806,7 @@ public class DatabaseOperation {
                 viewRecord = new Record();
                 viewRecord.setRecordID(resultSetObj.getInt("RECORD_ID"));
                 viewRecord.setRecordName(resultSetObj.getString("RECORD_NAME"));
-                viewRecord.setRecordAmount(resultSetObj.getString("AMOUNT"));
+                viewRecord.setRecordAmount(resultSetObj.getDouble("AMOUNT"));
                 if(resultSetObj.getString("IS_CREDIT").equals("0")){
                     viewRecord.setRecordIsCredit("No");
                 } else {
@@ -868,20 +872,16 @@ public class DatabaseOperation {
      }
      
      public static String updateRecordDetailsInDB(Record updateRecObj){
-         String statement;
-         if(updateRecObj.getRecordIsCredit().equals("YES")){
-             statement = "1";
-         } else {
-             statement = "0";
-         }
+         
+         
          try{
                         
                 connObj = DataConnect.getConnection();
                 pstmt = connObj.prepareStatement("UPDATE RECORDS SET RECORD_NAME = ?, AMOUNT = ?, IS_CREDIT = ?, "
                     + "DATE = ?, INVNUM = ?, ACCOUNT_NAME = ? WHERE RECORD_ID = ?");
                 pstmt.setString(1, updateRecObj.getRecordName());
-                pstmt.setString(2, updateRecObj.getRecordAmount());
-                pstmt.setString(3, statement);
+                pstmt.setDouble(2, updateRecObj.getRecordAmount());
+                pstmt.setBoolean(3, updateRecObj.getRecCred());
                 pstmt.setString(4, updateRecObj.getRecordDate());
                 pstmt.setString(5, updateRecObj.getRecordInvNum());
                 pstmt.setString(6, updateRecObj.getRecordAccount());
@@ -945,21 +945,17 @@ public class DatabaseOperation {
      public static String createNewRecordInDB(Record recNewObj){
          int saveResult = 0;
         String navigationResult = "";
-        String statement;
         
-        if(recNewObj.getRecordIsCredit().equals("YES")){
-            statement = "1";
-        } else {
-            statement = "2";
-        }
+        
+        
         
         try{
             connObj = DataConnect.getConnection();
             
             pstmt = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, TENANT_ID, ACCOUNT_NAME) VALUES (?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, recNewObj.getRecordName());
-            pstmt.setString(2, recNewObj.getRecordAmount());
-            pstmt.setString(3, statement); 
+            pstmt.setDouble(2, recNewObj.getRecordAmount());
+            pstmt.setBoolean(3, recNewObj.getRecCred()); 
             pstmt.setString(4, recNewObj.getRecordDate());
             pstmt.setString(5, recNewObj.getRecordInvNum());
             pstmt.setString(6, recNewObj.getRecordTenantID());
@@ -980,5 +976,48 @@ public class DatabaseOperation {
         }
         return navigationResult;
      }
+     
+    public static List<Record> getTenantAccRecordsInDB(int tenantID){
+    	List<Record> tenantRecordsList = new ArrayList();
+    	 try{
+             connObj = DataConnect.getConnection();
+             pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE TENANT_ID = ?");
+             pstmt.setInt(1, tenantID);
+             resultSetObj = pstmt.executeQuery();
+             if(resultSetObj     != null) {
+             while( resultSetObj.next()) {
+                 Record tenAllRecordsObj = new Record();
+                 tenAllRecordsObj.setRecordID(resultSetObj.getInt("RECORD_ID"));
+                 tenAllRecordsObj.setRecordName(resultSetObj.getString("RECORD_NAME"));
+                 
+                 
+                 double amount = resultSetObj.getDouble("AMOUNT");
+                 
+                 boolean isCred = resultSetObj.getBoolean("IS_CREDIT");                 
+                 
+                 tenAllRecordsObj.setRecordDate(resultSetObj.getString("DATE"));
+                 tenAllRecordsObj.setRecordInvNum(resultSetObj.getString("INVNUM"));
+                 tenAllRecordsObj.setRecordTenantID(resultSetObj.getString("TENANT_ID"));
+                 tenAllRecordsObj.setRecordAccount(resultSetObj.getString("ACCOUNT_NAME"));
+                 
+                 
+            		 if(isCred == true){
+            			 tenAllRecordsObj.setRecordAmount(amount);
+            		 } else {
+            			 tenAllRecordsObj.setRecordAmount(amount * -1);
+            		 }
+            	 
+                 
+                 tenantRecordsList.add(tenAllRecordsObj);
+             }
+                 System.out.println("Total Records Fetched: " + tenantRecordsList.size());
+             }
+         } catch (SQLException e) {
+                     System.out.println("Login error -->" + e.getMessage());        
+         } finally {    
+           DataConnect.close(connObj);
+         }
+     return  tenantRecordsList;
+    }
     }
 

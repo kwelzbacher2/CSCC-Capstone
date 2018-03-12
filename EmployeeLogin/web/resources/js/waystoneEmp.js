@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 $(function(){
-    $(".dobDate").datepicker({dateFormat: 'yy-mm-dd'});
+    $(".dobDate").datepicker({
+    	dateFormat: 'yy-mm-dd',
+    	changeYear:true,
+    	yearRange: "-100:+0"
+    });
     
     
 });

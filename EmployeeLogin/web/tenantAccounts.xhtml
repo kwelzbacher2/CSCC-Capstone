@@ -55,7 +55,8 @@
                         </h:panelGrid>
                     
                     <h:dataTable id="tenTable" value="#{tenant.tenantList}"  var="tenRecordObj"
-                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even">
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="email, tenantID, firstName, lastName, building, apartment, city, state, phone">
                     <h:column> 
                         <f:facet name="header">Email</f:facet>
                         <h:commandLink value="#{tenRecordObj.email}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
@@ -78,7 +79,7 @@
                         <h:commandLink value="#{tenRecordObj.building}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                     <h:column> 
-                        <f:facet name="header">Apt Number</f:facet>
+                        <f:facet name="header">Apt No.</f:facet>
                         <h:commandLink value="#{tenRecordObj.aptNum}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                         <h:column> 

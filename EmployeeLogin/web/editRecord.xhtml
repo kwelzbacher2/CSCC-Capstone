@@ -28,16 +28,16 @@
                         
                         <h:outputText value="Record Name:  " />
                         <h:inputText id="recObjName" value ="#{recViewObj.recordName}" tabindex="1" required="true" requiredMessage="Name is required"
-                                     validatorMessage="Please enter Record name using alphabetical letters and/or numbers" size="12">
-                            <f:validateRegex pattern="/^[a-z0-9]+$/i"/>
+                                      size="12">
+                            
                         </h:inputText>
                     </h:panelGrid>
                     <h:panelGrid class="editInfo" columns="4">
                         <h:outputText value="Record Amount:  " />
-                        <h:inputText id="recObjAmount" value ="#{recViewObj.recordAmount}" required = "true" requiredMessage="Amount is required"
+                        <h:inputText id="recObjAmount" value ="#{recViewObj.entryAmount}" required = "true" requiredMessage="Amount is required"
                                      validatorMessage="Please only digits for amount">
                             
-                            <f:validateRegex pattern="[0-9]+"/>
+                            <f:convertNumber />
                         </h:inputText> 
                         <h:outputText value="Is it credit? (enter NO for debit):  " />
                         <h:selectOneMenu id="recObjIsCred" value ="#{recViewObj.recordIsCredit}" required = "true" requiredMessage="'Is it Credit?' is required">
@@ -57,7 +57,7 @@
                         <h:outputText value="Invoice Number:  " />
                         <h:inputText id="recObjInv" value="#{recViewObj.recordInvNum}" 
                                      validatorMessage="Please enter Invoice Number using alphabetical letters and/or numbers" size="12">
-                            <f:validateRegex pattern="/^[a-z0-9]+$/i"/>
+                            <f:validateRegex pattern="[a-zA-Z0-9]+"/>
                         </h:inputText>
                                                  
                         <h:outputText value="Account Name:  " />

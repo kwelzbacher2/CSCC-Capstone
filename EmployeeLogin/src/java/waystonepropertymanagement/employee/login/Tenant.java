@@ -6,14 +6,17 @@
 package waystonepropertymanagement.employee.login;
 import java.io.Serializable;
 import java.sql.Connection;
+
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.faces.application.FacesMessage;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -24,7 +27,7 @@ import javax.servlet.http.HttpSession;
  */
 @ManagedBean (name="tenant")
 @SessionScoped
-public class Tenant {
+public class Tenant implements Serializable{
     private String searchCrit;
     private String searchInfo;
     private String mi;
@@ -53,6 +56,8 @@ public class Tenant {
     private List<Tenant> tenantList = new ArrayList();
     private List<Tenant> payTenantList = new ArrayList();
    
+   
+    
     public String getSearchCrit() {
         return searchCrit;
     }
@@ -160,7 +165,12 @@ public class Tenant {
     
     public void setDOB(String dob){
         this.dob = dob;
+        
     }
+    
+    
+    
+    
     public String getRentPaid(){
         return rentPaid;
     }

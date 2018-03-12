@@ -36,14 +36,15 @@
                         <h:commandButton  value="Submit" actionListener="#{account.getAllAccountList(account.accSearchName, account.accSearchType)}"/>  
                     </h:panelGrid>
                     <h:dataTable id="tenTable" value="#{account.accountList}"  var="accountObj"
-                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even">
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="accountName, accountType">
                     <h:column> 
                         <f:facet name="header">Account Name</f:facet>
                         <h:commandLink value="#{accountObj.accountName}" action="#{account.viewAccountInfo(accountObj.accountName)}" class="table-link"/>
                     </h:column>
                     <h:column> 
                         
-                        <f:facet name="header">Account Type</f:facet>
+                        <f:facet name="header">Type</f:facet>
                         <h:commandLink value="#{accountObj.accountType}" action="#{account.viewAccountInfo(accountObj.accountName)}" class="table-link"/>
                     </h:column>
                     

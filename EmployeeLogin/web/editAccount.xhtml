@@ -29,7 +29,7 @@
                         <h:outputText value="Account Name:  " />
                         <h:inputText id="accObjName" value ="#{accViewObj.accountName}" tabindex="1" required="true" requiredMessage="Name is required"
                                      validatorMessage="Please enter Account Name using alphabetical letters and/or numbers" >
-                            <f:validateRegex pattern="/^[a-z0-9]+$/i"/>
+                            <f:validateRegex pattern="[\w\s]+"/>
                         </h:inputText>
                     </h:panelGrid>
                     <h:panelGrid class="editInfo" columns="2">

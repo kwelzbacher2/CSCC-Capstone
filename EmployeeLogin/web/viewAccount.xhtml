@@ -30,6 +30,9 @@
                                 <h:commandButton value="Edit Account Information" action="editAccount" />
                                 <h:commandButton value="Add Record" action="createRecord" />
                         </div>
+                        <h:panelGrid></h:panelGrid>
+                        <br/><br/>
+                        <h:panelGrid columns = "4">
                         <h:outputLabel value="Search By:" />
                         <h:selectOneMenu id="searchRecCrit" value="#{record.searchRecCrit}" required="true" requiredMessage="Search Criteria is required">
                             <f:selectItem itemValue="All"/>
@@ -38,8 +41,11 @@
                         </h:selectOneMenu>
                         <h:inputText id="searchRecInfo" value="#{record.searchRecInfo}"/>
                         <h:commandButton  value="Submit" actionListener="#{record.getAllRecordList(record.searchRecCrit, record.searchRecInfo, accViewObj.accountName)}"/> 
+                        </h:panelGrid>
+                        <h:panelGrid></h:panelGrid>
                         <h:dataTable id="recTable" value="#{record.recordList}"  var="recordObj"
-                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even">
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="name, amount, credit, date, inv, tenantID">
                             <h:column> 
                                 <f:facet name="header">Record Name</f:facet>
                                 <h:commandLink value="#{recordObj.recordName}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>

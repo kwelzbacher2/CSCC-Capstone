@@ -71,10 +71,35 @@
                             <div class="edit">    
                                 <h:commandButton value="Edit Tenant Information" action="tenantProfileEdit" />
                             </div>
-                            
+                                                        
                         </div>                
                        
                     </div>
+                    <br/><br/>
+                    
+                    <h:dataTable id="tenRecTable" value="#{record.getTenantAccRecords(tenantViewObj.tenantID)}"  var="tenRecordsObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, amount, credit, date, inv, tenantID">
+                            <h:column> 
+                                <f:facet name="header">Record Date</f:facet>
+                            <h:commandLink value="#{tenRecordsObj.recordDate}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{tenRecordsObj.recordName}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Transaction Number</f:facet>
+                                <h:commandLink value="#{tenRecordsObj.recordInvNum}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">Record Amount</f:facet>
+                                <h:commandLink value="#{tenRecordsObj.recordAmount}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            
+                                            
+                        </h:dataTable>
                 </h:form>
             </ui:define>
             

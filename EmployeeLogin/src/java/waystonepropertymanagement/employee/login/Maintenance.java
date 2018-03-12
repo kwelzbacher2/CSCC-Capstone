@@ -5,8 +5,10 @@
  */
 package waystonepropertymanagement.employee.login;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -16,7 +18,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean (name="maintenance")
 @ViewScoped
-public class Maintenance {
+public class Maintenance implements Serializable{
     private int requestID;
     private int tenantID;
     private String building;

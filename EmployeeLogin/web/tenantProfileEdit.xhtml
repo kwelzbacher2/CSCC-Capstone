@@ -134,7 +134,8 @@
                         
                         <h:outputText value="Date of Birth:  " />
                         <h:inputText id="tenDOB" value ="#{tenantViewObj.DOB}" class="dobDate" size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date of Birth">     
-                            <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
+                            <f:validateRegex pattern="\d{4}-\d{2}-\d{2}" />
+                           
                         </h:inputText>    
                     </h:panelGrid>
                         <h:panelGrid class ="warning" columns ="1">
@@ -144,7 +145,7 @@
                         <h:message for="tenPermAddress" />
                         <h:message for="tenPermCity" /> 
                         <h:message for="tenPermState"/>
-                        <h:message for="tenPermZipe" />
+                        <h:message for="tenPermZip" />
                         <h:message for="tenPhone" />
                         <h:message for="tenEmail" />
                         <h:message for="tenDOB" />

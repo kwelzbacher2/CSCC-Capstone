@@ -22,16 +22,20 @@ import javax.faces.bean.ViewScoped;
 public class Record implements Serializable{
     private int recordID;
     private String recordName;
-    private String recordAmount;
+    private double recordAmount;
+    private Number entryAmount;
     private String recordIsCredit;
     private String recordDate;
-    private String recordInvNum;
+    private String recordInvNum;  //change to TransactionID
     private String recordTenantID;
     private String recordAccount;
     private String searchRecCrit;
     private String searchRecInfo;
     
+    private boolean recCred;
+    
     private List<Record> recordList = new ArrayList();
+    
     
     @ManagedProperty(value="#{account.accountName}")
     private String accountName;
@@ -41,6 +45,16 @@ public class Record implements Serializable{
     public void setAccountName (String accountName){
         this.accountName = accountName;
     }
+    
+    @ManagedProperty(value="#{tenant.tenantID}")
+    private int tenantID;
+    public int getTenantID(){
+    	return tenantID;
+    }
+    public void setTenantID(int tenantID){
+    	this.tenantID = tenantID;
+    }
+    
     
     
     public int getRecordID(){
@@ -55,17 +69,34 @@ public class Record implements Serializable{
     public void setRecordName(String recordName){
         this.recordName = recordName;
     }
-    public String getRecordAmount(){
+    public double getRecordAmount(){
         return recordAmount;
     }
-    public void setRecordAmount(String recordAmount){
+    public void setRecordAmount(double recordAmount){
         this.recordAmount = recordAmount;
+    }
+    public Number getEntryAmount(){
+    	return recordAmount;
+    }
+    public void setEntryAmount(Number entryAmount){
+    	recordAmount = entryAmount.doubleValue();
     }
     public String getRecordIsCredit(){
         return recordIsCredit;
     }
     public void setRecordIsCredit(String recordIsCredit){
-        this.recordIsCredit = recordIsCredit;
+    	this.recordIsCredit = recordIsCredit;
+        if(recordIsCredit.equals("No") || recordIsCredit.equals("NO")){
+         	recCred = false;
+         } else {
+         	recCred = true;
+         }
+    }
+    public boolean getRecCred(){
+    	return	recCred;
+    }
+    public void setRecCred(boolean recCred){
+    	 this.recCred = recCred;
     }
     public String getRecordDate(){
         return recordDate;
@@ -104,6 +135,9 @@ public class Record implements Serializable{
         this.searchRecInfo = searchRecInfo;
     }
     
+    
+    
+    
     public List getRecordList(){
         return recordList;
     }
@@ -112,9 +146,10 @@ public class Record implements Serializable{
     }
     
     
+    
     public void getAllRecordList(String searchRecCrit, String searchRecInfo, String accountName){
         recordList = DatabaseOperation.getAllRecordListFromDB(searchRecCrit, searchRecInfo, accountName);
-        System.out.println(accountName);
+        
     }
     
     public String viewIndivRecord(int recordID){
@@ -126,6 +161,11 @@ public class Record implements Serializable{
     }
     
     public String createNewRecord(Record recNewObj){
+    	
         return DatabaseOperation.createNewRecordInDB(recNewObj);
+    }
+    
+    public List<Record> getTenantAccRecords(int tenantID){
+    	return DatabaseOperation.getTenantAccRecordsInDB(tenantID);
     }
 }
