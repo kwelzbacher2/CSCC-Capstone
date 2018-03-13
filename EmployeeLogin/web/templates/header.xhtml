@@ -11,6 +11,7 @@
     <h:body>
 	    <ui:composition>
                 <h:form>
+                	<div class="topHeader">
                     <div id="signOut"> <h:commandLink action="#{employee.logout}" value="Sign Out" class="link"></h:commandLink></div>
                     <div class="title">Waystone Property Management</div>
                     
@@ -24,7 +25,8 @@
                                         <div class="dropdown-content">
                                             
                                                 <h:link value="Accounts" outcome="accounts" class="content"/><br/>
-                                                <h:link value="Create New Account" outcome="createAccount" class="content"/>
+                                                <h:link value="Create New Account" outcome="createAccount" class="content"/><br/>
+                                                <h:link value="Create New Record" outcome="createRecord" class="content"/>
                                                                                             
                                         </div>    
                                 </div>
@@ -56,7 +58,7 @@
                             <li class="navList"><h:link value="Additional Company Information" outcome="companyInfo" class="link"/></li>
                         </ul>
                     </div>
-                    
+                    </div>
                     
                    <!--  
                     <div class="primary_nav_wrap">

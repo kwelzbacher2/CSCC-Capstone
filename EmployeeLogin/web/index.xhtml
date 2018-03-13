@@ -8,7 +8,7 @@
         <title>Login</title>
     </h:head>
     <h:body id="loginBackground">
-        <h:form>
+        <h:form id="loginForm">
             <div class="title" id="loginTitle">Waystone Property Management</div>
             
             <div class="shadowBox">
@@ -19,7 +19,7 @@
                 <h:outputText value="Email: " />
                 </span>
                 <h:inputText id="username" value="#{employee.email}" > </h:inputText>
-                <h:message for="username"> </h:message>
+                <h:message for="username"></h:message>
                 </div>
                 <br></br>
             	<div class="passwordAlign">
@@ -27,8 +27,10 @@
                 <h:outputText value="Password: " />
                 </span>
                 <h:inputSecret id="password" value="#{employee.pwd}"></h:inputSecret>
-                <h:message for="password"></h:message>
+                
                 </div>
+                <br></br>
+                <h:message for="password" styleClass="warning"></h:message>
                 <br></br><br></br>
                 
                 <h:commandButton action="#{employee.validateUsernamePassword}" value="Login"></h:commandButton>

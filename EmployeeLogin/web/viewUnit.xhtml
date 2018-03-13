@@ -7,12 +7,14 @@
         <title>Unit Profile</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
-    <h:body>
+    <h:body class="intranetBack">
         <ui:composition template="templates/commonTemplate.xhtml">
 
             <ui:define name="content">
                 
                 <h:form>
+                	<br/>
+                	<h:commandLink value="Back to Units" action="/units.xhtml?faces-redirect=true" />
                     <div class="empInfo">
                         <h3 class="pageTitle">Unit Profile</h3>
                         <div id="profileBox">
@@ -64,6 +66,10 @@
                             
                             <div class="edit">    
                                 <h:commandButton value="Edit Unit Information" action="editUnit" />
+                            </div>
+                            <br/><br/>
+                            <div class="delete">
+                            	<h:commandButton value="Delete Unit" action="#{unit.deleteUnit(unitViewObj)}" class="confirmUnit" />
                             </div>
                             
                         </div>                

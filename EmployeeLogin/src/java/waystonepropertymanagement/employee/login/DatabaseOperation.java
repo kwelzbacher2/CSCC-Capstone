@@ -5,10 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import waystonepropertymanagement.employee.login.Employee;
@@ -104,7 +108,7 @@ public class DatabaseOperation {
                 pstmt.setString(9, updateEmployeeObj.getDOB());
                 pstmt.setString(10, updateEmployeeObj.getEmail());
             
-                pstmt.executeQuery();
+                pstmt.executeUpdate();
                 
             } catch (SQLException e) {
                 System.out.println("Login error -->" + e.getMessage());        
@@ -313,7 +317,7 @@ public class DatabaseOperation {
                 pstmt.setString(10, updateTenObj.getDOB());                
                 pstmt.setInt(11, updateTenObj.getTenantID());
             
-                pstmt.executeQuery();
+                pstmt.executeUpdate();
                 
             } catch (SQLException e) {
                 System.out.println("Login error -->" + e.getMessage());        
@@ -622,7 +626,7 @@ public class DatabaseOperation {
                 pstmt.setString(8, updateUnitObj.getUnitTenantID());
                 pstmt.setInt(9, updateUnitObj.getUnitID());
                             
-                pstmt.executeQuery();
+                pstmt.executeUpdate();
                 
             } catch (SQLException e) {
                 System.out.println("Login error -->" + e.getMessage());        
@@ -860,7 +864,7 @@ public class DatabaseOperation {
                 pstmt.setString(3, updateAccountObj.getAccountName());
                 
                                             
-                pstmt.executeQuery();
+                pstmt.executeUpdate();
                 
             } catch (SQLException e) {
                 System.out.println("Login error -->" + e.getMessage());        
@@ -887,7 +891,7 @@ public class DatabaseOperation {
                 pstmt.setString(6, updateRecObj.getRecordAccount());
                 pstmt.setInt(7, updateRecObj.getRecordID());
                                             
-                pstmt.executeQuery();
+                pstmt.executeUpdate();
                 
             } catch (SQLException e) {
                 System.out.println("Login error -->" + e.getMessage());        
@@ -942,12 +946,10 @@ public class DatabaseOperation {
         return navigationResult;
      }
      
+     
      public static String createNewRecordInDB(Record recNewObj){
          int saveResult = 0;
         String navigationResult = "";
-        
-        
-        
         
         try{
             connObj = DataConnect.getConnection();
@@ -970,7 +972,7 @@ public class DatabaseOperation {
         }
         
         if(saveResult !=0){
-            navigationResult = "viewAccount.xhtml?faces=redirect=true";
+            navigationResult = viewAccountInfoInDB(recNewObj.getRecordAccount());
         } else {
             navigationResult = "createRecord.xhtml?faces=redirect=true";
         }
@@ -1018,6 +1020,140 @@ public class DatabaseOperation {
            DataConnect.close(connObj);
          }
      return  tenantRecordsList;
+    }
+    
+    public static String deleteRecordInDB(int recordID){
+    	System.out.println("deleteRecordinDB() : Record ID:" + recordID);
+    	
+    	try{
+    		connObj = DataConnect.getConnection();
+    		pstmt = connObj.prepareStatement("DELETE FROM RECORDS WHERE RECORD_ID = ?" );
+    		pstmt.setInt(1, recordID);
+    		pstmt.executeUpdate();
+    	} catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+    	} finally {    
+    		DataConnect.close(connObj);
+    	}
+    	return "/viewAccount.xhtml?faces-redirect=true";
+    }
+    
+    public static String deleteAccountInDB(String deleteAccName){
+    	System.out.println("deleteAccountinDB() : Account Name:" + deleteAccName);
+    	
+    	try{
+    		connObj = DataConnect.getConnection();
+    		pstmt = connObj.prepareStatement("DELETE FROM RECORDS WHERE ACCOUNT_NAME = ?" );
+    		pstmt.setString(1, deleteAccName);
+    		pstmt.executeUpdate();
+    		
+    		PreparedStatement prepst = connObj.prepareStatement("DELETE FROM ACCOUNTS WHERE ACCOUNT_NAME = ?" );
+    		prepst.setString(1, deleteAccName);
+    		prepst.executeUpdate();
+    	} catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+    	} finally {    
+    		DataConnect.close(connObj);
+    	}
+    	return "/accounts.xhtml?faces-redirect=true";
+    }
+    
+    public static String deleteTenantInDB(int delTenantID){
+    	System.out.println("deleteTenantinDB() : Tenant ID:" + delTenantID);
+    	
+    	try{
+    		connObj = DataConnect.getConnection();
+    		pstmt = connObj.prepareStatement("DELETE FROM TENANT WHERE TENANT_ID = ?" );
+    		pstmt.setInt(1, delTenantID);
+    		pstmt.executeUpdate();
+    		
+    		PreparedStatement prepst = connObj.prepareStatement("UPDATE UNITS SET TENANT_ID = NULL WHERE TENANT_ID = ?" );
+    		prepst.setInt(1, delTenantID);
+    		prepst.executeUpdate();
+    	} catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+    	} finally {    
+    		DataConnect.close(connObj);
+    	}
+    	return "/tenantAccounts.xhtml?faces-redirect=true";
+    }
+    
+    public static String deleteUnitInDB(int delUnitID){
+    	System.out.println("deleteUnitinDB() : Unit ID:" + delUnitID);
+    	
+    	try{
+    		connObj = DataConnect.getConnection();
+    		pstmt = connObj.prepareStatement("DELETE FROM UNITS WHERE UNIT_ID = ?" );
+    		pstmt.setInt(1, delUnitID);
+    		pstmt.executeUpdate();
+    		
+    		
+    	} catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+    	} finally {    
+    		DataConnect.close(connObj);
+    	}
+    	return "/units.xhtml?faces-redirect=true";
+    }
+    
+    public static String postRentToARInDB(){
+    	List<Unit> unitRentList = new ArrayList();
+    	Date date = new Date();
+    	LocalDate today = date.toInstant().atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
+    	System.out.println( "today : " + today );
+    	int monthInt = today.getMonthValue();
+    	int yearInt = today.getYear();
+    	
+    	java.text.DecimalFormat nft = new java.text.DecimalFormat("00");
+    	String month = nft.format(monthInt);
+    	System.out.println(month);
+    	System.out.println(yearInt);
+    	try{
+    		connObj = DataConnect.getConnection();
+    		pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = 'ACCOUNTS RECEIVABLE' AND RECORD_NAME = 'TenantRent' AND DATE LIKE ?" );
+    		pstmt.setString(1, yearInt+"_"+month+"%");
+    		resultSetObj = pstmt.executeQuery();
+    		if(!resultSetObj.next()){
+    			PreparedStatement prepst = connObj.prepareStatement("SELECT UNIT_ID, RENT, TENANT_ID FROM UNITS WHERE TENANT_ID IS NOT NULL");
+    			ResultSet rs = prepst.executeQuery();
+    			while(rs.next()){
+    				Unit rentUnitObj = new Unit();
+    				rentUnitObj.setUnitID(rs.getInt("UNIT_ID"));
+    				rentUnitObj.setUnitRent(rs.getString("RENT"));
+    				rentUnitObj.setUnitTenantID(rs.getString("TENANT_ID"));
+    				unitRentList.add(rentUnitObj);
+    				
+    				PreparedStatement pst = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, TENANT_ID, ACCOUNT_NAME)"
+    						+ "VALUES ('TenantRent', ?, '0', ?, ?, ?, 'ACCOUNTS RECEIVABLE')");
+    				pst.setString(1, rentUnitObj.getUnitRent());
+    				pst.setObject(2, today);
+    				pst.setString(3, "UNIT "+rentUnitObj.getUnitID()+" RENT");
+    				pst.setString(4, rentUnitObj.getUnitTenantID());
+    				pst.executeUpdate();
+    			}
+    			System.out.println("rent posted");
+    			
+    			
+    		} else {
+    			System.out.println("rent already posted");
+    			FacesContext.getCurrentInstance().addMessage("adminForm:rentButton",
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Rent was already posted for this month",
+                        "Rent was already posted for this month"));
+    			return "employeeAdmin";
+    		}
+    		
+    		
+    	} catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+    	} finally {    
+    		DataConnect.close(connObj);
+    	} 
+    	FacesContext.getCurrentInstance().addMessage("adminForm:rentButton",
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "Rent was correctly posted for this month",
+                "Rent was correctly posted for this month"));
+    	return "employeeAdmin";
+    	
+    	
     }
     }
 

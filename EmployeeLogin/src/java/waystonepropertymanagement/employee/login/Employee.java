@@ -147,7 +147,7 @@ public class Employee implements Serializable{
              session.setAttribute("username", email);
              return "employeeAdmin";
          } else {
-             FacesContext.getCurrentInstance().addMessage(null,
+             FacesContext.getCurrentInstance().addMessage("loginForm:password",
                      new FacesMessage(FacesMessage.SEVERITY_WARN, "Incorrect Username and Password",
                      "Please enter correct Username and Password"));
              return "index";

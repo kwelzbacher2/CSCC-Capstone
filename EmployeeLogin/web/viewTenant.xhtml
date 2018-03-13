@@ -15,6 +15,8 @@
             <ui:define name="content">
                 
                 <h:form>
+                	<br/>
+                	<h:commandLink value="Back to Tenant Accounts" action="/tenantAccounts.xhtml?faces-redirect=true" />
                     <div class="empInfo">
                         <h3 class="pageTitle">Tenant Profile</h3>
                         <div id="profileBox">
@@ -71,15 +73,21 @@
                             <div class="edit">    
                                 <h:commandButton value="Edit Tenant Information" action="tenantProfileEdit" />
                             </div>
+                            <br/><br/>
+                            <div class="delete">    
+                                <h:commandButton value="Delete Tenant" action="#{tenant.deleteTenant(tenantViewObj)}" class="confirmTenant" />
+                                
+                        	</div>
+                             
                                                         
                         </div>                
                        
                     </div>
-                    <br/><br/>
+                    
                     
                     <h:dataTable id="tenRecTable" value="#{record.getTenantAccRecords(tenantViewObj.tenantID)}"  var="tenRecordsObj"
                                  styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
-                                 columnClasses="date, amount, credit, date, inv, tenantID">
+                                 columnClasses="date, name, recordNum, amount">
                             <h:column> 
                                 <f:facet name="header">Record Date</f:facet>
                             <h:commandLink value="#{tenRecordsObj.recordDate}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
@@ -89,13 +97,14 @@
                                 <h:commandLink value="#{tenRecordsObj.recordName}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
                             </h:column>
                             <h:column> 
-                                <f:facet name="header">Record Transaction Number</f:facet>
+                                <f:facet name="header">Transaction No.</f:facet>
                                 <h:commandLink value="#{tenRecordsObj.recordInvNum}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
                             </h:column>
                             <h:column> 
                         
                                 <f:facet name="header">Record Amount</f:facet>
                                 <h:commandLink value="#{tenRecordsObj.recordAmount}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                                
                             </h:column>
                             
                                             

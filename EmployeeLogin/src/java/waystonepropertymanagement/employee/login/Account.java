@@ -92,6 +92,11 @@ public class Account implements Serializable {
     public String createNewAccount(Account newAccountObj){
         return DatabaseOperation.createNewAccountInDB(newAccountObj);
     }
+    
+    public String deleteAccount(Account deleteAccountObj){
+    	String deleteAccName = deleteAccountObj.getAccountName();
+        return DatabaseOperation.deleteAccountInDB(deleteAccName);
+    }
 
 }
 

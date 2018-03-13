@@ -51,7 +51,9 @@
                         
                         
                      </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{account.updateAccountDetails(accViewObj)}" />
+                    <h:commandButton value="Submit" action="#{account.updateAccountDetails(accViewObj)}" class="confirmUpdate"/>
+                    <h:commandButton value="Undo Changes" type="reset" />
+                    <h:commandButton onclick="history.back(); return false;" value="Cancel"/>
                     </div>
                     </div>   
                 </h:form>

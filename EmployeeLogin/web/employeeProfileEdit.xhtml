@@ -129,7 +129,7 @@
                             <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
                         </h:inputText>    
                     </h:panelGrid>
-                        <h:panelGrid class ="warning" columns ="1">
+                    <h:panelGrid class ="warning" columns ="1">
                         <h:message for="firstName"/>    
                         <h:message for="middleInit"/>
                         <h:message for="lastName" /> 
@@ -138,8 +138,10 @@
                         <h:message for="zipcode"/>
                         <h:message for="phone" />
                         <h:message for="dob" />
-                        </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{employee.updateEmployeeDetails(empRecordObj)}" />
+                    </h:panelGrid>
+                    <h:commandButton value="Submit" action="#{employee.updateEmployeeDetails(empRecordObj)}" class="confirmUpdate" />
+                    <h:commandButton value="Undo Changes" type="reset" />
+                    <h:commandButton onclick="history.back(); return false;" value="Cancel"/>
                     </div>
                     </div>   
                 </h:form>

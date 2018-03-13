@@ -150,7 +150,9 @@
                         <h:message for="tenEmail" />
                         <h:message for="tenDOB" />
                         </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{tenant.updateTenantDetails(tenantViewObj)}" />
+                    <h:commandButton value="Submit" action="#{tenant.updateTenantDetails(tenantViewObj)}" class="confirmUpdate"/>
+                    <h:commandButton value="Undo Changes" type="reset" />
+                    <h:commandButton onclick="history.back(); return false;" value="Cancel"/>
                     </div>
                     </div>   
                 </h:form>

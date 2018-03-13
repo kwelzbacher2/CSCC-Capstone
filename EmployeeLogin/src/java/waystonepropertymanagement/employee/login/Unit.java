@@ -139,6 +139,11 @@ public class Unit implements Serializable{
         return DatabaseOperation.insertNewUnitInDB(newUnitObj);
     }
     
+    public String deleteUnit(Unit delUnitObj){
+    	int delUnitID = delUnitObj.getUnitID();
+        return DatabaseOperation.deleteUnitInDB(delUnitID);
+    }
+    
     public List<String> viewAllBuildingNames(){
         return DatabaseOperation.viewAllBuildingNamesInDB();
     }

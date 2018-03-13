@@ -3,6 +3,7 @@ package waystonepropertymanagement.employee.login;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -167,5 +168,16 @@ public class Record implements Serializable{
     
     public List<Record> getTenantAccRecords(int tenantID){
     	return DatabaseOperation.getTenantAccRecordsInDB(tenantID);
+    }
+    
+    public String deleteRecord(Record deleteRecObj){
+    	int recordIDDel = deleteRecObj.getRecordID();
+    	System.out.println(recordIDDel);
+    	return DatabaseOperation.deleteRecordInDB(recordIDDel);    	
+    }
+    
+    public String postRentToAR(){
+    	
+    	return DatabaseOperation.postRentToARInDB();
     }
 }

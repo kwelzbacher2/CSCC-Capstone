@@ -270,4 +270,8 @@ public class Tenant implements Serializable{
     public String insertNewTenant(Tenant newTenantObj){
         return DatabaseOperation.insertNewTenantInDB(newTenantObj);
     }
+    public String deleteTenant(Tenant delTenantObj){
+    	int delTenantID = delTenantObj.getTenantID();
+        return DatabaseOperation.deleteTenantInDB(delTenantID);
+    }
 }

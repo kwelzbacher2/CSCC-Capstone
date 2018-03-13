@@ -141,7 +141,9 @@
                         <h:message for="unitObjRent" />
                         <h:message for="unitTenID" />
                         </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{unit.updateUnitDetails(unitViewObj)}" />
+                    <h:commandButton value="Submit" action="#{unit.updateUnitDetails(unitViewObj)}" class="confirmUpdate"/>
+                    <h:commandButton value="Undo Changes" type="reset" />
+                    <h:commandButton onclick="history.back(); return false;" value="Cancel"/>
                     </div>
                     </div>   
                 </h:form>

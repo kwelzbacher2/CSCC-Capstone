@@ -10,6 +10,22 @@ $(function(){
     	yearRange: "-100:+0"
     });
     
+    $(".confirm").on('click', function(){
+    	return confirm("Are you sure you want to delete Record?");
+    });
+    
+    $(".confirmAccount").on('click', function(){
+    	return confirm("Are you sure you want to delete this Account and all of it's Records?");
+    });
+    $(".confirmTenant").on('click', function(){
+    	return confirm("Are you sure you want to delete this Tenant?");
+    });
+    $(".confirmUnit").on('click', function(){
+    	return confirm("Are you sure you want to delete this Unit?");
+    });
+    $(".confirmUpdate").on('click', function(){
+    	return confirm("Are you sure you want to update these changes?");
+    });
     
 });
 
