@@ -19,7 +19,7 @@
                 	<h:commandLink value="Back to Tenant Accounts" action="/tenantAccounts.xhtml?faces-redirect=true" />
                     <div class="empInfo">
                         <h3 class="pageTitle">Tenant Profile</h3>
-                        <div id="profileBox">
+                        <div class="profileBox">
                             <h:panelGrid class="info" columns="4">
                                 
                                 <h:outputText value="Name:  " />
@@ -70,21 +70,12 @@
                                 
                             </h:panelGrid>
                             
-                            <div class="edit">    
-                                <h:commandButton value="Edit Tenant Information" action="tenantProfileEdit" />
-                            </div>
+                            <h:commandButton value="Edit Tenant Information" action="tenantProfileEdit" />
                             <br/><br/>
-                            <div class="delete">    
-                                <h:commandButton value="Delete Tenant" action="#{tenant.deleteTenant(tenantViewObj)}" class="confirmTenant" />
-                                
-                        	</div>
-                             
-                                                        
-                        </div>                
-                       
+                            <h:commandButton value="Delete Tenant" action="#{tenant.deleteTenant(tenantViewObj)}" class="confirmTenant" />
+                        </div>
                     </div>
-                    
-                    
+					<h3 class="pageTitle">Tenant Records</h3>
                     <h:dataTable id="tenRecTable" value="#{record.getTenantAccRecords(tenantViewObj.tenantID)}"  var="tenRecordsObj"
                                  styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
                                  columnClasses="date, name, recordNum, amount">
@@ -104,10 +95,10 @@
                         
                                 <f:facet name="header">Record Amount</f:facet>
                                 <h:commandLink value="#{tenRecordsObj.recordAmount}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer">Balance: #{tenant.getTenantRecordBalance(tenantViewObj.tenantID)}</f:facet>
                                 
                             </h:column>
-                            
-                                            
+                                                                        
                         </h:dataTable>
                 </h:form>
             </ui:define>

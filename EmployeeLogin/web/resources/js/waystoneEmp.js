@@ -27,6 +27,10 @@ $(function(){
     	return confirm("Are you sure you want to update these changes?");
     });
     
+    $('#journalTable').DataTable({
+    	"pagingType" : "full_numbers"
+    });
+    
 });
 
 //Getter

@@ -274,4 +274,8 @@ public class Tenant implements Serializable{
     	int delTenantID = delTenantObj.getTenantID();
         return DatabaseOperation.deleteTenantInDB(delTenantID);
     }
+    
+    public double getTenantRecordBalance(int tenantID){
+    	return DatabaseOperation.getTenantRecordBalanceInDB(tenantID);
+    }
 }

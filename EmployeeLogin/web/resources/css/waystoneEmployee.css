@@ -340,15 +340,16 @@ div ul {
 .empInfo {
     font-family:"Noto Serif";
     position:relative;
-    padding: 50px;
+    padding-left: 50px;
+    padding-top: 50px;
     
 }
 .pageTitle{
     text-align: center;
     font-size: 1.2em;
 }
-#profileBox {
-    padding: 50px;
+.profileBox {
+    padding: 10px;
        
 }
 #edit {
@@ -424,6 +425,19 @@ div ul {
 }
 .jobDesc{
 	text-align:left !important;
+}
+.trans{
+	text-align:left !important;
+}
+.debit{
+	text-align:right !important;
+}
+.credit{
+	text-align:right !important;
+}
+.date{
+	text-align:left !important;
+	width: 100px;	
 }
 .table-link{
     color:black;

@@ -273,7 +273,7 @@ public class DatabaseOperation {
                 viewTen.setPermZip(resultSetObj.getString("PERM_ZIP"));
                 viewTen.setPhone(resultSetObj.getString("PHONE"));
                 viewTen.setEmail(resultSetObj.getString("EMAIL"));
-                //java.util.Date dobDate = new java.util.Date(resultSetObj.getDate("DOB").getTime());
+                
                 viewTen.setDOB(resultSetObj.getString("DOB"));
                 PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM UNITS WHERE TENANT_ID = ?"); 
                 prepst.setInt(1, viewTen.getTenantID());
@@ -298,7 +298,7 @@ public class DatabaseOperation {
       
     }
     public static String updateTenantDetailsInDB(Tenant updateTenObj){
-    	//java.sql.Date sqlDate = new java.sql.Date(updateTenObj.getDOB().getTime());
+    	
     	
         try{
                         
@@ -674,7 +674,7 @@ public class DatabaseOperation {
         
         try {
             connObj = DataConnect.getConnection();
-            //job Type is not required
+            // Type is not required
             if(accSearchName.equals("")){
                 if(accSearchType.equals("")){
                     pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS");
@@ -746,6 +746,45 @@ public class DatabaseOperation {
         }
         return "/viewAccount.xhtml?faces-redirect=true";
      }
+     
+     public static List<Record> getAllRecordsFromDB(){
+    	 List<Record> allRecords = new ArrayList();
+    	 try{
+    		 connObj = DataConnect.getConnection();
+           	 stmtObj = connObj.createStatement();           	
+             resultSetObj = stmtObj.executeQuery("SELECT * FROM RECORDS ORDER BY DATE DESC");
+             
+             while( resultSetObj.next()) {
+                 Record allRecordObj = new Record();
+                 allRecordObj.setRecordID(resultSetObj.getInt("RECORD_ID"));
+                 allRecordObj.setRecordName(resultSetObj.getString("RECORD_NAME"));
+                 allRecordObj.setRecordAmount(resultSetObj.getDouble("AMOUNT"));
+                 
+                 if(resultSetObj.getString("IS_CREDIT").equals("0")){
+                	 allRecordObj.setRecordIsCredit("NO");
+                	 allRecordObj.setRecordDebitAmount(allRecordObj.getRecordAmount());
+                	 allRecordObj.setRecordCreditAmount(null);
+                 } else {
+                	 allRecordObj.setRecordIsCredit("YES");
+                	 allRecordObj.setRecordCreditAmount(allRecordObj.getRecordAmount());
+                	 allRecordObj.setRecordDebitAmount(null);
+                	 
+                 }
+                 allRecordObj.setRecordDate(resultSetObj.getString("DATE"));
+                 allRecordObj.setRecordInvNum(resultSetObj.getString("INVNUM"));
+                 allRecordObj.setRecordTenantID(resultSetObj.getString("TENANT_ID"));
+                 allRecords.add(allRecordObj);
+             }
+             
+             System.out.println("Total Records Fetched: " + allRecords.size());
+         } catch (SQLException e) {
+                     System.out.println("Login error -->" + e.getMessage());        
+         } finally {    
+           DataConnect.close(connObj);
+         }
+     return allRecords;
+     }
+     
      public static List<Record> getAllRecordListFromDB(String searchRecCrit, String searchRecInfo, String recordAccount){
          List<Record> allRecordList = new ArrayList();
          
@@ -981,6 +1020,7 @@ public class DatabaseOperation {
      
     public static List<Record> getTenantAccRecordsInDB(int tenantID){
     	List<Record> tenantRecordsList = new ArrayList();
+    	
     	 try{
              connObj = DataConnect.getConnection();
              pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE TENANT_ID = ?");
@@ -1002,14 +1042,15 @@ public class DatabaseOperation {
                  tenAllRecordsObj.setRecordTenantID(resultSetObj.getString("TENANT_ID"));
                  tenAllRecordsObj.setRecordAccount(resultSetObj.getString("ACCOUNT_NAME"));
                  
-                 
             		 if(isCred == true){
-            			 tenAllRecordsObj.setRecordAmount(amount);
-            		 } else {
+            			
             			 tenAllRecordsObj.setRecordAmount(amount * -1);
+            		 } else {
+            			
+            			 tenAllRecordsObj.setRecordAmount(amount);
             		 }
             	 
-                 
+            		                  
                  tenantRecordsList.add(tenAllRecordsObj);
              }
                  System.out.println("Total Records Fetched: " + tenantRecordsList.size());
@@ -1019,8 +1060,48 @@ public class DatabaseOperation {
          } finally {    
            DataConnect.close(connObj);
          }
+    	 
      return  tenantRecordsList;
     }
+    
+    public static double getTenantRecordBalanceInDB(int tenantID){
+    	Connection connObject = null;
+    	double finalAmount =0;
+    	double balance = 0;
+    	 try{
+             connObject = DataConnect.getConnection();
+             pstmt = connObject.prepareStatement("SELECT AMOUNT, IS_CREDIT FROM RECORDS WHERE TENANT_ID = ?");
+             pstmt.setInt(1, tenantID);
+             resultSetObj = pstmt.executeQuery();
+             if(resultSetObj != null) {
+             while( resultSetObj.next()) {
+                
+                 double amount = resultSetObj.getDouble("AMOUNT");
+                 
+                 boolean isCred = resultSetObj.getBoolean("IS_CREDIT");                 
+                 
+            		 if(isCred == true){
+            			 finalAmount = amount * -1;
+            			 
+            		 } else {
+            			 finalAmount = amount;
+            			 
+            		 }
+            	 
+            		 balance += finalAmount;
+            		 
+             }
+                // System.out.println("Tenant Ledger Balance " + balance);
+             }
+         } catch (SQLException e) {
+                     System.out.println("Login error -->" + e.getMessage());        
+         } finally {
+        	 DataConnect.close(connObject);
+         }
+    	 
+     return  balance;
+    }
+    
     
     public static String deleteRecordInDB(int recordID){
     	System.out.println("deleteRecordinDB() : Record ID:" + recordID);
@@ -1110,8 +1191,9 @@ public class DatabaseOperation {
     	System.out.println(yearInt);
     	try{
     		connObj = DataConnect.getConnection();
-    		pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = 'ACCOUNTS RECEIVABLE' AND RECORD_NAME = 'TenantRent' AND DATE LIKE ?" );
-    		pstmt.setString(1, yearInt+"_"+month+"%");
+    		pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = 'ACCOUNTS RECEIVABLE' AND RECORD_NAME = 'TenantRent' AND YEAR(DATE) = ? AND MONTH(DATE) = ?" );
+    		pstmt.setInt(1, yearInt);
+    		pstmt.setString(2, month);
     		resultSetObj = pstmt.executeQuery();
     		if(!resultSetObj.next()){
     			PreparedStatement prepst = connObj.prepareStatement("SELECT UNIT_ID, RENT, TENANT_ID FROM UNITS WHERE TENANT_ID IS NOT NULL");
@@ -1127,19 +1209,26 @@ public class DatabaseOperation {
     						+ "VALUES ('TenantRent', ?, '0', ?, ?, ?, 'ACCOUNTS RECEIVABLE')");
     				pst.setString(1, rentUnitObj.getUnitRent());
     				pst.setObject(2, today);
-    				pst.setString(3, "UNIT "+rentUnitObj.getUnitID()+" RENT");
+    				pst.setString(3, "UNIT"+rentUnitObj.getUnitID()+":RENT"+month+yearInt);
     				pst.setString(4, rentUnitObj.getUnitTenantID());
     				pst.executeUpdate();
+    				
+    				PreparedStatement prep = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, ACCOUNT_NAME)"
+    						+ "VALUES ('TenantRentExpected', ?, '1', ?, ?, 'RENTAL INCOME')");
+    					prep.setString(1, rentUnitObj.getUnitRent());
+    	    			prep.setObject(2, today);
+    	    			prep.setString(3, "UNIT"+rentUnitObj.getUnitID()+":EXPECTED"+month+yearInt);
+    	    			prep.executeUpdate();
     			}
-    			System.out.println("rent posted");
+    			System.out.println("Rent posted");
     			
     			
     		} else {
-    			System.out.println("rent already posted");
-    			FacesContext.getCurrentInstance().addMessage("adminForm:rentButton",
+    			System.out.println("Rent already posted");
+    			FacesContext.getCurrentInstance().addMessage("actionForm:rentButton",
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Rent was already posted for this month",
                         "Rent was already posted for this month"));
-    			return "employeeAdmin";
+    			return "actionCenter";
     		}
     		
     		
@@ -1148,10 +1237,88 @@ public class DatabaseOperation {
     	} finally {    
     		DataConnect.close(connObj);
     	} 
-    	FacesContext.getCurrentInstance().addMessage("adminForm:rentButton",
+    	FacesContext.getCurrentInstance().addMessage("actionForm:rentButton",
                 new FacesMessage(FacesMessage.SEVERITY_WARN, "Rent was correctly posted for this month",
-                "Rent was correctly posted for this month"));
-    	return "employeeAdmin";
+                "Rent was successfully posted for this month"));
+    	return "actionCenter";
+    	
+    	
+    }
+    
+    public static String postLateFeeToARInDB(){
+    	
+    	double lateFee = 50;
+    	Date date = new Date();
+    	LocalDate today = date.toInstant().atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
+    	System.out.println( "today : " + today );
+    	int monthInt = today.getMonthValue();
+    	int yearInt = today.getYear();
+    	
+    	
+    	java.text.DecimalFormat nft = new java.text.DecimalFormat("00");
+    	String month = nft.format(monthInt);
+    	
+    	System.out.println(month);
+    	System.out.println(yearInt);
+    	try{
+    		connObj = DataConnect.getConnection();
+    		pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = 'ACCOUNTS RECEIVABLE' AND RECORD_NAME = 'TenantLateFee' AND YEAR(DATE) = ? AND MONTH(DATE) = ?" );
+    		pstmt.setInt(1, yearInt);
+    		pstmt.setString(2, month);
+    		resultSetObj = pstmt.executeQuery();
+    		if(!resultSetObj.next()){
+    			PreparedStatement prepst = connObj.prepareStatement("SELECT UNIT_ID, TENANT_ID FROM UNITS WHERE TENANT_ID IS NOT NULL");
+    			ResultSet rs = prepst.executeQuery();
+    			if(rs != null){
+    				while(rs.next()){
+    				
+    					Unit lateUnitObj = new Unit();
+    					lateUnitObj.setUnitID(rs.getInt("UNIT_ID"));
+    					lateUnitObj.setUnitTenantID(rs.getString("TENANT_ID"));
+    				
+    					int tenantIDSearch = Integer.parseInt(lateUnitObj.getUnitTenantID());
+    					double searchBalance = getTenantRecordBalanceInDB(tenantIDSearch);
+    				
+    					if(searchBalance > 0.0){
+    				
+    						PreparedStatement pst = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, TENANT_ID, ACCOUNT_NAME)"
+    								+ "VALUES ('TenantLateFee', ?, '0', ?, ?, ?, 'ACCOUNTS RECEIVABLE')");
+    						pst.setDouble(1, lateFee);
+    						pst.setObject(2, today);
+    						pst.setString(3, "UNIT"+lateUnitObj.getUnitID()+":LateFee" + month+yearInt);
+    						pst.setString(4, lateUnitObj.getUnitTenantID());
+    						pst.executeUpdate();
+    						
+    						PreparedStatement prep = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, ACCOUNT_NAME)"
+    	    						+ "VALUES ('TenantRentExpected', ?, '1', ?, ?, 'RENTAL INCOME')");
+    	    				prep.setDouble(1, lateFee);
+    	    	    		prep.setObject(2, today);
+    	    	    		prep.setString(3, "UNIT"+lateUnitObj.getUnitID()+":FEEq"+month+yearInt);
+    	    	    		prep.executeUpdate();
+    					}
+    				}
+    			}
+    			System.out.println("late fee posted");
+    			
+    			
+    		} else {
+    			System.out.println("late fee already posted");
+    			FacesContext.getCurrentInstance().addMessage("actionForm:lateFeeBtn",
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Late Fees were already posted for this month",
+                        "Late Fees were already posted for this month"));
+    			return "actionCenter";
+    		}
+    		
+    		
+    	} catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+    	} finally {    
+    		DataConnect.close(connObj);
+    	} 
+    	FacesContext.getCurrentInstance().addMessage("actionForm:lateFeeBtn",
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "Late Fees were correctly posted for this month",
+                "Late Fees were successfully posted for this month"));
+    	return "actionCenter";
     	
     	
     }

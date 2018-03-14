@@ -139,14 +139,31 @@ public class Record implements Serializable{
     
     
     
-    public List getRecordList(){
+    public List<Record> getRecordList(){
         return recordList;
     }
-    public void setRecordList(List recordList){
+    public void setRecordList(List<Record> recordList){
         this.recordList = recordList;
     }
     
+    private Double recordDebitAmount;
+    private Double recordCreditAmount;
+    public Double getRecordDebitAmount(){
+        return recordDebitAmount;
+    }
+    public void setRecordDebitAmount(Double recordDebitAmount){
+        this.recordDebitAmount = recordDebitAmount;
+    }
+    public Double getRecordCreditAmount(){
+        return recordCreditAmount;
+    }
+    public void setRecordCreditAmount(Double recordCreditAmount){
+        this.recordCreditAmount = recordCreditAmount;
+    }
     
+    public List<Record> getAllRecords(){
+    	return DatabaseOperation.getAllRecordsFromDB();
+    }
     
     public void getAllRecordList(String searchRecCrit, String searchRecInfo, String accountName){
         recordList = DatabaseOperation.getAllRecordListFromDB(searchRecCrit, searchRecInfo, accountName);
@@ -179,5 +196,10 @@ public class Record implements Serializable{
     public String postRentToAR(){
     	
     	return DatabaseOperation.postRentToARInDB();
+    }
+    
+    public String postLateFeeToAR(){
+    	
+    	return DatabaseOperation.postLateFeeToARInDB();
     }
 }
