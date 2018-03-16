@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<title>Tenant Portal</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet"
+		href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+	<link rel="stylesheet" href="/resources/demos/style.css" />
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<h:outputScript name="js/waystoneEmp.js" />
+</h:head>
+<h:body>
+	<ui:composition template="templates/commonTemplate.xhtml">
+
+		<ui:define name="content">
+			<h:form>
+				<div class="title">Waystone Property Management</div>
+				<div class="shadowBox">
+					<h3>Tenant Login</h3>
+
+					<h:outputText value="Email" />
+					<h:inputText id="username" value="#{tenant.email}">
+					</h:inputText>
+					<h:message for="username">
+					</h:message>
+					<br></br> <br></br>
+
+					<h:outputText value="Password" />
+					<h:inputSecret id="password" value="#{tenant.pwd}"></h:inputSecret>
+					<h:message for="password"></h:message>
+					<br></br> <br></br>
+
+					<h:commandButton action="#{tenant.validateUsernamePassword}"
+						value="Login"></h:commandButton>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+

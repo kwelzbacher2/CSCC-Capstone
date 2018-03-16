@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+	<title>Profile</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet"
+		href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+	<link rel="stylesheet" href="/resources/demos/style.css" />
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<h:outputScript name="js/waystoneEmp.js" />
+</h:head>
+<body>
+	<ui:composition template="templates/commonTemplate.xhtml">
+
+		<ui:define name="content">
+			<h:form>
+				<h1>Profile</h1>
+				<h:panelGrid columns="4">
+					<h3>Email</h3>
+					<p>Display current email- pull from database</p>
+					<p>this is an editable textfield</p>
+				</h:panelGrid>
+
+				<h:panelGrid columns="4">
+					<h3>Phone</h3>
+					<p>Display current phone- pull from database</p>
+					<p>this is an editable textfield</p>
+				</h:panelGrid>
+
+				<h:panelGrid columns="4">
+					<h3>Password Reset</h3>
+					<p>Do not Display current info</p>
+					<p>this is an editable textfield</p>
+				</h:panelGrid>
+
+				<h:panelGrid columns="4">
+					<h3>Saved payment method</h3>
+					<p>Display last 4 digits of current info- pull from database</p>
+					<p>this is an editable textfield</p>
+				</h:panelGrid>
+
+				<!-- Use command button -->
+				<h:commandButton value="Update" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

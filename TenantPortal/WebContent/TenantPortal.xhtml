@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<title>Tenant Portal</title>
+</h:head>
+<h:body>
+	<ui:composition template="templates/commonTemplate.xhtml">
+
+		<ui:define name="content">
+			<h:form>
+				<h2>Tenant Request Form</h2>
+				<h3>Welcome __________!</h3>
+
+				<!-- Use radio button -->
+				<h:panelGrid columns="2">
+					<h:outputLabel>Request Type</h:outputLabel>
+					<h:selectOneRadio id="requestTypeSelectOneRadio"
+						value="#{tenant.requestType}">
+						<f:selectItem itemValue="Update Info" itemLabel="Update Info" />
+						<f:selectItem itemValue="Payment" itemLabel="Payment" />
+						<f:selectItem itemValue="Maintenance" itemLabel="Maintenance" />
+					</h:selectOneRadio>
+				</h:panelGrid>
+
+				<!-- Use Combo box -->
+				<h:panelGrid columns="4">
+					<h:outputLabel>Payment Type</h:outputLabel>
+					<h:selectOneMenu id="paymentTypeSelectOneMenu"
+						value="#{tenant.paymentType}">
+						<f:selectItem itemValue="Credit Card" />
+						<f:selectItem itemValue="Automated Clearing House" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+
+				<!-- Enter payment info  -->
+				<h3>Card information</h3>
+
+
+				<h:panelGrid columns="50">
+					<h:outputLabel>Name on Card </h:outputLabel>
+					<h:outputLabel value="First Name" />
+					<h:inputText id="firstNameInputText" value="#{tenant.firstname}" />
+					<h:outputLabel value="Last Name" />
+					<h:inputText id="lastNameInputText" value="#{tenant.lastName}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="50">
+					<h:outputLabel value="Card Number*  " />
+					<h:inputText id="cardNumberInputText" size="16"
+						value="#{tenant.creditCard}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="50">
+					<h:outputLabel value="Expiration date*     " />
+					<h:selectOneMenu id="expirationMonthSelectOneMenu"
+						value="#{tenant.expDate}">
+						<f:selectItem itemValue="MM" />
+						<f:selectItem itemValue="01" />
+						<f:selectItem itemValue="02" />
+						<f:selectItem itemValue="03" />
+						<f:selectItem itemValue="04" />
+						<f:selectItem itemValue="05" />
+						<f:selectItem itemValue="06" />
+						<f:selectItem itemValue="07" />
+						<f:selectItem itemValue="08" />
+						<f:selectItem itemValue="09" />
+						<f:selectItem itemValue="10" />
+						<f:selectItem itemValue="11" />
+						<f:selectItem itemValue="12" />
+					</h:selectOneMenu>
+					<h:outputLabel value="/" />
+					<h:selectOneMenu id="expirationYearSelectOneMenu">
+						<f:selectItem itemValue="YY" />
+						<f:selectItem itemValue="18" />
+						<f:selectItem itemValue="19" />
+						<f:selectItem itemValue="20" />
+						<f:selectItem itemValue="21" />
+						<f:selectItem itemValue="22" />
+						<f:selectItem itemValue="23" />
+						<f:selectItem itemValue="24" />
+						<f:selectItem itemValue="25" />
+						<f:selectItem itemValue="26" />
+						<f:selectItem itemValue="27" />
+						<f:selectItem itemValue="28" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+
+				<h:panelGrid columns="50">
+					<h:outputLabel value="Security code*" />
+					<h:inputText id="cvvInputText" size="3" value="#{tenant.cvvCode}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="50">
+					<h:outputLabel value="Phone number* (Ex:(202)555-0115)" />
+					<h:inputText id="phoneInputText" size="10" value="#{tenant.phone}" />
+				</h:panelGrid>
+
+
+				<!-- Billing Address Column should be next to payment info  -->
+				<h3>Billing address</h3>
+
+				<h:panelGrid columns="50">
+					<h:outputLabel value="Street address*" />
+					<h:inputText id="streetAddressInputText" value="#{tenant.street}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="50">
+					<h:outputLabel value="Apt, suite, bld, c/o (optional)" />
+					<h:inputText id="aptInputText" value="#{tenant.apt}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="50">
+					<h:outputLabel value="City*" />
+					<h:inputText id="cityInputText" value="#{tenant.city}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="50">
+					<h:outputLabel value="State*" />
+					<h:selectOneMenu id="StateSelectOneMenu" value="#{tenant.state}">
+						<f:selectItem itemValue="AL" />
+						<f:selectItem itemValue="AK" />
+						<f:selectItem itemValue="AZ" />
+						<f:selectItem itemValue="AR" />
+						<f:selectItem itemValue="CA" />
+						<f:selectItem itemValue="CO" />
+						<f:selectItem itemValue="CT" />
+						<f:selectItem itemValue="DE" />
+						<f:selectItem itemValue="FL" />
+						<f:selectItem itemValue="GA" />
+						<f:selectItem itemValue="HI" />
+						<f:selectItem itemValue="ID" />
+						<f:selectItem itemValue="IL" />
+						<f:selectItem itemValue="IN" />
+						<f:selectItem itemValue="IA" />
+						<f:selectItem itemValue="KS" />
+						<f:selectItem itemValue="KY" />
+						<f:selectItem itemValue="LA" />
+						<f:selectItem itemValue="ME" />
+						<f:selectItem itemValue="MD" />
+						<f:selectItem itemValue="MA" />
+						<f:selectItem itemValue="MI" />
+						<f:selectItem itemValue="MN" />
+						<f:selectItem itemValue="MI" />
+						<f:selectItem itemValue="MO" />
+						<f:selectItem itemValue="MT" />
+						<f:selectItem itemValue="NE" />
+						<f:selectItem itemValue="NV" />
+						<f:selectItem itemValue="NH" />
+						<f:selectItem itemValue="NJ" />
+						<f:selectItem itemValue="NM" />
+						<f:selectItem itemValue="NY" />
+						<f:selectItem itemValue="NC" />
+						<f:selectItem itemValue="ND" />
+						<f:selectItem itemValue="OH" />
+						<f:selectItem itemValue="OK" />
+						<f:selectItem itemValue="OR" />
+						<f:selectItem itemValue="PA" />
+						<f:selectItem itemValue="RI" />
+						<f:selectItem itemValue="SC" />
+						<f:selectItem itemValue="SD" />
+						<f:selectItem itemValue="TN" />
+						<f:selectItem itemValue="TX" />
+						<f:selectItem itemValue="UT" />
+						<f:selectItem itemValue="VT" />
+						<f:selectItem itemValue="VA" />
+						<f:selectItem itemValue="WA" />
+						<f:selectItem itemValue="WV" />
+						<f:selectItem itemValue="WI" />
+						<f:selectItem itemValue="WY" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+
+				<h:panelGrid columns="50">
+					<h:outputLabel value="Zip Code*" />
+					<h:inputText id="zipInputText" size="5" value="#{tenant.zip}" />
+				</h:panelGrid>
+
+
+				<!-- Use check boxes -->
+				<h:panelGrid columns="4">
+					<h:outputLabel value="Maintanence Request: " />
+					<h:selectManyCheckbox id="maintenanceSelectManyCheckbox"
+						value="#{tenant.maintenance}">
+						<f:selectItem itemValue="Electric" />
+						<f:selectItem itemValue="Damage" />
+						<f:selectItem itemValue="HVAC" />
+						<f:selectItem itemValue="Plumbing" />
+						<f:selectItem itemValue="Other" />
+					</h:selectManyCheckbox>
+				</h:panelGrid>
+
+				<!-- Use text area -->
+				<h:panelGrid columns="1">
+					<h:outputLabel>Comments</h:outputLabel>
+					<h:inputTextarea id="remarksInputTextarea"
+						style="width:400px; height:50px;" value="#{tenant.comments}" />
+				</h:panelGrid>
+
+				<!-- Use command button -->
+				<h:commandButton value="Submit" />
+				<br />
+				<h:outputText escape="false" style="color:red"
+					value="#{tenant.response}" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>
+
