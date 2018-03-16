@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+	 <h:outputStylesheet library="css" name="waystoneEmployee.css" /> 
+         <link rel="icon" type ="image/x-icon" href="#{resource['images/Way1.png']}"/>
+    </h:head>
+    <h:body>
+	    <ui:composition>
+                <h:form>
+                	<div class="topHeader">
+                    <div id="signOut"> <h:commandLink action="#{employee.logout}" value="Sign Out" class="link"></h:commandLink></div>
+                    <div class="title">Waystone Property Management</div>
+                    
+                    <div id="nav">
+                        <ul>
+                            <li class="navList"><h:link value="Home" outcome="employeeAdmin" class="link" /></li>
+                            <li class="navList"><h:link value="My Profile" outcome="employeeProfile" class="link" /></li>
+                            <li class="navList">
+                                <div class="dropdown">
+                                    <h:link value="Company Accounts" outcome="accounts" class="link"/>
+                                        <div class="dropdown-content">
+                                            
+                                                <h:link value="Accounts" outcome="accounts" class="content"/><br/>
+                                                <h:link value="Create New Account" outcome="createAccount" class="content"/><br/>
+                                                <h:link value="Create New Record" outcome="createRecord" class="content"/><br/>
+                                                <h:link value="Action Center" outcome="actionCenter" class="content"/><br/>
+                                                <h:link value="General Ledger" outcome="generalLedger" class="content"/>
+                                                                                            
+                                        </div>    
+                                </div>
+                            </li>
+                            <li class="navList">
+                                <div class="dropdown">
+                                    <h:link value="Units" outcome="units" class="link" />
+                                        <div class="dropdown-content">
+                                            
+                                                <h:link value="Unit Search" outcome="units" class="content"/><br/>
+                                                <h:link value="Create New Unit" outcome="createUnit" class="content"/>
+                                                                                            
+                                        </div>    
+                                </div>
+                            </li>
+                            <li class="navList">
+                                <div class="dropdown">
+                                    <h:link value="Tenant Accounts" outcome="tenantAccounts" class="link"/>
+                                        <div class="dropdown-content">
+                                            
+                                                <h:link value="Tenant Search" outcome="tenantAccounts" class="content"/><br/>
+                                                <h:link value="Create New Tenant" outcome="insertTenant" class="content"/>                                
+                                           
+                                        </div>    
+                                </div>
+                            </li>    
+                            <li class="navList"><h:link value="Maintenance Requests" outcome="maintenanceRequests" class="link"/></li>
+                            <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
+                            <li class="navList"><h:link value="Additional Company Information" outcome="companyInfo" class="link"/></li>
+                        </ul>
+                    </div>
+                    </div>
+                    
+                   <!--  
+                    <div class="primary_nav_wrap">
+                    
+                    		<div class="dropdownMenu"> Menu
+                    			<div class="dropdown-contentMenu">
+                    			<ul>
+                    			
+                            		<li class="contentMenu"><h:link value="Home" outcome="employeeAdmin" class="linkMenu" /></li>
+                            		<li class="contentMenu"><h:link value="My Profile" outcome="employeeProfile" class="link" /></li>
+                            		<li class="contentMenu">
+                                		
+                                    		<h:link value="Company Accounts" outcome="accounts" class="linkMenu"/>
+                                        		<ul class="menu-dropdown-content">
+                                            
+                                                		<li><h:link value="Accounts" outcome="accounts" class="inner-content"/></li>
+                                                		<li><h:link value="Create New Account" outcome="createAccount" class="inner-content"/></li>
+                                                                                            
+                                        		</ul>    
+                                		
+                            		</li>
+                            		<li class="contentMenu">
+                                		
+                                    		<h:link value="Units" outcome="units" class="linkMenu" />
+                                        		<ul class="menu-dropdown-content">
+                                            
+                                               		 <li><h:link value="Unit Search" outcome="units" class="inner-content"/></li>
+                                                	 <li><h:link value="Create New Unit" outcome="createUnit" class="inner-content"/></li>
+                                                                                            
+                                        		</ul>    
+                                		
+                            		</li>
+                           		<li class="contentMenu">
+                               		 
+                                    		<h:link value="Tenant Accounts" outcome="tenantAccounts" class="linkMenu"/>
+                                       		 <ul class="menu-dropdown-content">
+                                            
+                                               		 <li><h:link value="Tenant Search" outcome="tenantAccounts" class="inner-content"/></li>
+                                                	 <li><h:link value="Create New Tenant" outcome="insertTenant" class="inner-content"/></li>                                
+                                           
+                                        		</ul>    
+                               		
+                            		</li>    
+                            		<li class="contentMenu"><h:link value="Maintenance Requests" outcome="maintenanceRequests" class="linkMenu"/></li>
+                            		<li class="contentMenu"><h:link value="Training Materials" outcome="training" class="linkMenu"/></li>
+                            		<li class="contentMenu"><h:link value="Additional Company Information" outcome="companyInfo" class="linkMenu"/></li>
+                            
+                        	</ul>
+                        	</div>
+                        </div>
+                        
+                    </div>
+                    --> 
+                    
+                </h:form>
+
+	    </ui:composition>
+    </h:body>
+</html>

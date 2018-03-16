@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Create New Unit</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+            <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <h:outputScript name="js/waystoneEmp.js"/>
+        
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="unitForm">
+                    <div class="empInfo" >
+                    <h3 class="pageTitle">Create New Unit</h3>
+                    <div class="editBox">
+                    
+                    <h:panelGrid class="editInfo" columns="2"> 
+                        
+                        <h:outputText value="Building:  " />
+                        <h:inputText id="newUnitBuilding" value ="#{unit.unitBuilding}" tabindex="1" required="true" requiredMessage="Building is required"
+                                     validatorMessage="Please enter Building using alphabetical letters" size="12">
+                            <f:validateRegex pattern="[\w\s]+"/>
+                        </h:inputText>
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo" columns="2"> 
+                        <h:outputText value="Apartment Number:  " />
+                        <h:inputText id="newUnitApt" value ="#{unit.unitAptNum}"  required = "true" validatorMessage="Please enter 3 digits for Apartment Number" size="3">
+                            
+                            <f:validateRegex pattern="\d{3}"/>
+                        </h:inputText> 
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo" columns="8">
+                        <h:outputText value="Address:  " />
+                        <h:inputText id="newUnitAddress" value="#{unit.unitAddress}" required="true" requiredMessage="Address is required"
+                                     validatorMessage="Incorrect Address" size="12">
+                            <f:validateRegex pattern="\w+(\s\w+){2,}" />
+                        </h:inputText>
+                       
+                        <h:outputText value="City:  " />
+                        <h:inputText id="newUnitCity" value="#{unit.unitCity}" required="true" requiredMessage="Address is required" validatorMessage="Incorrect City" size="12">
+                            <f:validateRegex pattern="^[a-zA-Z\- ]+$" />
+                        </h:inputText>
+                        <h:outputText value="State:  " />
+                            <h:selectOneMenu id="newUnitState" value="#{unit.unitState}" required="true" requiredMessage="State is required" >
+                                <f:selectItem itemValue="AL"/>
+                                <f:selectItem itemValue="AK"/>
+                                <f:selectItem itemValue="AZ"/>
+                                <f:selectItem itemValue="AR"/>
+                                <f:selectItem itemValue="CA"/>
+                                <f:selectItem itemValue="CO"/>
+                                <f:selectItem itemValue="CT"/>
+                                <f:selectItem itemValue="DE"/>
+                                <f:selectItem itemValue="FL"/>
+                                <f:selectItem itemValue="GA"/>
+                                <f:selectItem itemValue="HI"/>
+                                <f:selectItem itemValue="ID"/>
+                                <f:selectItem itemValue="IL"/>
+                                <f:selectItem itemValue="IN"/>
+                                <f:selectItem itemValue="IA"/>
+                                <f:selectItem itemValue="KS"/>
+                                <f:selectItem itemValue="KY"/>
+                                <f:selectItem itemValue="LA"/>
+                                <f:selectItem itemValue="ME"/>
+                                <f:selectItem itemValue="MD"/>
+                                <f:selectItem itemValue="MA"/>
+                                <f:selectItem itemValue="MI"/>
+                                <f:selectItem itemValue="MN"/>
+                                <f:selectItem itemValue="MS"/>
+                                <f:selectItem itemValue="MO"/>
+                                <f:selectItem itemValue="MT"/>
+                                <f:selectItem itemValue="NE"/>
+                                <f:selectItem itemValue="NV"/>
+                                <f:selectItem itemValue="NH"/>
+                                <f:selectItem itemValue="NJ"/>
+                                <f:selectItem itemValue="NM"/>
+                                <f:selectItem itemValue="NY"/>
+                                <f:selectItem itemValue="NC"/>
+                                <f:selectItem itemValue="ND"/>
+                                <f:selectItem itemValue="OH"/>
+                                <f:selectItem itemValue="OK"/>
+                                <f:selectItem itemValue="OR"/>
+                                <f:selectItem itemValue="PA"/>
+                                <f:selectItem itemValue="RI"/>
+                                <f:selectItem itemValue="SC"/>
+                                <f:selectItem itemValue="SD"/>
+                                <f:selectItem itemValue="TN"/>
+                                <f:selectItem itemValue="TX"/>
+                                <f:selectItem itemValue="UT"/>
+                                <f:selectItem itemValue="VT"/>
+                                <f:selectItem itemValue="VA"/>
+                                <f:selectItem itemValue="WA"/>
+                                <f:selectItem itemValue="WV"/>
+                                <f:selectItem itemValue="WI"/>
+                                <f:selectItem itemValue="WY"/>
+                            </h:selectOneMenu> 
+                        
+                        <h:outputText value="Zipcode:  " />
+                        <h:inputText id="newUnitZip" value="#{unit.unitZip}" required="true" validatorMessage="Please enter 5 digits for Zipcode" size="5" >
+                            <f:validateRegex pattern="[0-9]{5}"/>  
+                        </h:inputText>
+                        
+                    </h:panelGrid>
+                                            
+                    <h:panelGrid class="editInfo" columns="2">
+                        
+                        <h:outputText value="Rent Amount:  " />
+                        <h:inputText id="newUnitRent" value ="#{unit.unitRent}"  
+                                     validatorMessage="Please enter digits in the form of 1234 for Rent" size="6">
+                            <f:validateRegex pattern="[0-9]+"/>
+                        </h:inputText>
+                        
+                    </h:panelGrid>
+                    
+                    
+                        <h:panelGrid class ="warning" columns ="1">
+                        	<h:message for="newUnitBuilding"/>    
+                        	<h:message for="newUnitApt"/>
+                        	<h:message for="newUnitAddress" /> 
+                        	<h:message for="newUnitCity" />
+                        	<h:message for="newUnitState" /> 
+                        	<h:message for="newUnitZip"/>
+                        	<h:message for="newUnitRent" />
+                                                                    
+                        </h:panelGrid>
+                    <h:commandButton value="Submit" action="#{unit.insertNewUnit(unit)}" />
+                    </div>
+                    </div>   
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

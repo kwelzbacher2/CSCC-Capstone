@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Edit Tenant Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+            <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <h:outputScript name="js/waystoneEmp.js"/>
+        
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="tenForm">
+                    <div class="empInfo" >
+                    <h3 class="pageTitle">Edit Tenant Profile</h3>
+                    <div class="editBox">
+                    
+                    <h:panelGrid class="editInfo" columns="6"> 
+                        
+                        <h:outputText value="First Name:  " />
+                        <h:inputText id="tenFirstName" value ="#{tenantViewObj.firstName}" tabindex="1" required="true" requiredMessage="First Name is required"
+                                     validatorMessage="Please enter First Name using alphabetical letters" size="12">
+                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>
+                        <h:outputText value="Middle Initial:  " />
+                        <h:inputText id="tenMI" value ="#{tenantViewObj.mi}" validatorMessage="Please enter 1 letter for Middle Initial" size="1">
+                            
+                            <f:validateRegex pattern="^[a-zA-Z]$"/>
+                        </h:inputText> 
+                        <h:outputText value="Last Name:  " />
+                        <h:inputText id="tenLastName" value="#{tenantViewObj.lastName}" required="true" requiredMessage="Last Name is required"
+                                     validatorMessage="Please enter Last Name using alphabetical letters" size="12">
+                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>
+                        
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo" columns="8">
+                        
+                        <h:outputText value="Permanent Address:  " />
+                        <h:inputText id="tenPermAddress" value ="#{tenantViewObj.permAddress}" validatorMessage="Incorrect Address">
+                            <f:validateRegex pattern="\w+(\s\w+){2,}" />
+                        </h:inputText>
+                        <h:outputText value="Permanet City:  " />
+                        <h:inputText id="tenPermCity" value="#{tenantViewObj.permCity}" validatorMessage="Incorrect City" size="12">
+                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>
+                        <h:outputText value="Permanent State:  " />
+                            <h:selectOneMenu id="tenPermState" value="#{tenantViewObj.permState}">
+                                <f:selectItem itemValue="AL"/>
+                                <f:selectItem itemValue="AK"/>
+                                <f:selectItem itemValue="AZ"/>
+                                <f:selectItem itemValue="AR"/>
+                                <f:selectItem itemValue="CA"/>
+                                <f:selectItem itemValue="CO"/>
+                                <f:selectItem itemValue="CT"/>
+                                <f:selectItem itemValue="DE"/>
+                                <f:selectItem itemValue="FL"/>
+                                <f:selectItem itemValue="GA"/>
+                                <f:selectItem itemValue="HI"/>
+                                <f:selectItem itemValue="ID"/>
+                                <f:selectItem itemValue="IL"/>
+                                <f:selectItem itemValue="IN"/>
+                                <f:selectItem itemValue="IA"/>
+                                <f:selectItem itemValue="KS"/>
+                                <f:selectItem itemValue="KY"/>
+                                <f:selectItem itemValue="LA"/>
+                                <f:selectItem itemValue="ME"/>
+                                <f:selectItem itemValue="MD"/>
+                                <f:selectItem itemValue="MA"/>
+                                <f:selectItem itemValue="MI"/>
+                                <f:selectItem itemValue="MN"/>
+                                <f:selectItem itemValue="MS"/>
+                                <f:selectItem itemValue="MO"/>
+                                <f:selectItem itemValue="MT"/>
+                                <f:selectItem itemValue="NE"/>
+                                <f:selectItem itemValue="NV"/>
+                                <f:selectItem itemValue="NH"/>
+                                <f:selectItem itemValue="NJ"/>
+                                <f:selectItem itemValue="NM"/>
+                                <f:selectItem itemValue="NY"/>
+                                <f:selectItem itemValue="NC"/>
+                                <f:selectItem itemValue="ND"/>
+                                <f:selectItem itemValue="OH"/>
+                                <f:selectItem itemValue="OK"/>
+                                <f:selectItem itemValue="OR"/>
+                                <f:selectItem itemValue="PA"/>
+                                <f:selectItem itemValue="RI"/>
+                                <f:selectItem itemValue="SC"/>
+                                <f:selectItem itemValue="SD"/>
+                                <f:selectItem itemValue="TN"/>
+                                <f:selectItem itemValue="TX"/>
+                                <f:selectItem itemValue="UT"/>
+                                <f:selectItem itemValue="VT"/>
+                                <f:selectItem itemValue="VA"/>
+                                <f:selectItem itemValue="WA"/>
+                                <f:selectItem itemValue="WV"/>
+                                <f:selectItem itemValue="WI"/>
+                                <f:selectItem itemValue="WY"/>
+                            </h:selectOneMenu> 
+                        
+                        <h:outputText value=" Permanent Zipcode:  " />
+                        <h:inputText id="tenPermZip" value="#{tenantViewObj.permZip}" validatorMessage="Please enter 5 digits for Zipcode" size="5" >
+                            <f:validateRegex pattern="[0-9]{5}"/>  
+                        </h:inputText>
+                        
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo" columns="2">
+                        
+                        <h:outputText value="Phone Number:  " />
+                        <h:inputText id="tenPhone" value ="#{tenantViewObj.phone}" required="true" requiredMessage="Phone Number is required"
+                                     validatorMessage="Please enter digits in the form of 555-555-5555 for Phone Number" size="12">
+                            <f:validateRegex pattern="\d{3}-\d{3}-\d{4}"/>
+                        </h:inputText>
+                        
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo" columns="2">
+                        
+                        <h:outputText value="Email:  " />
+                        <h:inputText id="tenEmail" value ="#{tenantViewObj.email}" >
+                           <f:validateRegex pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"/>
+                        </h:inputText>
+                        
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo" columns="2">
+                        
+                        <h:outputText value="Date of Birth:  " />
+                        <h:inputText id="tenDOB" value ="#{tenantViewObj.DOB}" class="dobDate" size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date of Birth">     
+                            <f:validateRegex pattern="\d{4}-\d{2}-\d{2}" />
+                           
+                        </h:inputText>    
+                    </h:panelGrid>
+                        <h:panelGrid class ="warning" columns ="1">
+                        <h:message for="tenFirstName"/>    
+                        <h:message for="tenMI"/>
+                        <h:message for="tenLastName" /> 
+                        <h:message for="tenPermAddress" />
+                        <h:message for="tenPermCity" /> 
+                        <h:message for="tenPermState"/>
+                        <h:message for="tenPermZip" />
+                        <h:message for="tenPhone" />
+                        <h:message for="tenEmail" />
+                        <h:message for="tenDOB" />
+                        </h:panelGrid>
+                    <h:commandButton value="Submit" action="#{tenant.updateTenantDetails(tenantViewObj)}" class="confirmUpdate"/>
+                    <h:commandButton value="Undo Changes" type="reset" />
+                    <h:commandButton onclick="history.back(); return false;" value="Cancel"/>
+                    </div>
+                    </div>   
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>
+

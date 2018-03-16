@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/waystoneEmp.js"></script>
+        <title>Tenant Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+                	<br/>
+                	<h:commandLink value="Back to Tenant Accounts" action="/tenantAccounts.xhtml?faces-redirect=true" />
+                    <div class="empInfo">
+                        <h3 class="pageTitle">Tenant Profile</h3>
+                        <div class="profileBox">
+                            <h:panelGrid class="info" columns="4">
+                                
+                                <h:outputText value="Name:  " />
+                                <h:outputText value ="#{tenantViewObj.firstName}" />
+                                <h:outputText value="#{tenantViewObj.mi}" />
+                                <h:outputText value="#{tenantViewObj.lastName}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="4">
+                                
+                                <h:outputText value="Building:  " />
+                                <h:outputText value ="#{tenantViewObj.building}" />
+                                <h:outputText value ="Apartment Number: " />
+                                <h:outputText value="#{tenantViewObj.aptNum}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="5">
+                                
+                                <h:outputText value="Address:  " />
+                                <h:outputText value ="#{tenantViewObj.permAddress} " />
+                                <h:outputText value="#{tenantViewObj.permCity}, " />
+                                <h:outputText value="#{tenantViewObj.permState} " />
+                                <h:outputText value="#{tenantViewObj.permZip}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Phone Number:  " />
+                                <h:outputText id="phoneNum" value ="#{tenantViewObj.phone}"  />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Date of Birth:  " />
+                                <h:outputText value ="#{tenantViewObj.DOB}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Tenant ID:  " />
+                                <h:outputText value ="#{tenantViewObj.tenantID}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Tenant Email:  " />
+                                <h:outputText value ="#{tenantViewObj.email}" />
+                                
+                            </h:panelGrid>
+                            
+                            <h:commandButton value="Edit Tenant Information" action="tenantProfileEdit" />
+                            <br/><br/>
+                            <h:commandButton value="Delete Tenant" action="#{tenant.deleteTenant(tenantViewObj)}" class="confirmTenant" />
+                        </div>
+                    </div>
+					<h3 class="pageTitle">Tenant Records</h3>
+                    <h:dataTable id="tenRecTable" value="#{record.getTenantAccRecords(tenantViewObj.tenantID)}"  var="tenRecordsObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, name, recordNum, amount">
+                            <h:column> 
+                                <f:facet name="header">Record Date</f:facet>
+                            <h:commandLink value="#{tenRecordsObj.recordDate}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{tenRecordsObj.recordName}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Transaction No.</f:facet>
+                                <h:commandLink value="#{tenRecordsObj.recordInvNum}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">Record Amount</f:facet>
+                                <h:commandLink value="#{tenRecordsObj.recordAmount}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer">Balance: #{tenant.getTenantRecordBalance(tenantViewObj.tenantID)}</f:facet>
+                                
+                            </h:column>
+                                                                        
+                        </h:dataTable>
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

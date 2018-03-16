@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Action Center</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+            <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        
+        <h:outputScript name="js/waystoneEmp.js"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="ledgerForm">
+                       <h3 class="pageTitle">General Ledger</h3>
+                       <br/>
+                       <h3 class="pageTitle">Accounts Receivable</h3>                        
+                        <h:dataTable id="receiveTable" value="#{record.getAllRecords('ACCOUNTS RECEIVABLE')}"  var="receiveObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, name, trans, debit, credit">
+                            <h:column> 
+                                <f:facet name="header">Date</f:facet>
+                                <h:commandLink value="#{receiveObj.recordDate}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{receiveObj.recordName}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Transaction No.</f:facet>
+                                <h:commandLink value="#{receiveObj.recordInvNum}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">DEBIT</f:facet>
+                                <h:commandLink value="#{receiveObj.recordDebitAmount}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">CREDIT</f:facet>
+                                <h:commandLink value="#{receiveObj.recordCreditAmount}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
+                            </h:column>
+                                                                                                     
+                        </h:dataTable>
+                        
+                        <h3 class="pageTitle">Rent Cash Account</h3>                        
+                        <h:dataTable id="cashTable" value="#{record.getAllRecords('RENT CASH ACCOUNT')}"  var="cashObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, name, trans, debit, credit">
+                            <h:column> 
+                                <f:facet name="header">Date</f:facet>
+                                <h:commandLink value="#{cashObj.recordDate}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{cashObj.recordName}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Transaction No.</f:facet>
+                                <h:commandLink value="#{cashObj.recordInvNum}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">DEBIT</f:facet>
+                                <h:commandLink value="#{cashObj.recordDebitAmount}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">CREDIT</f:facet>
+                                <h:commandLink value="#{cashObj.recordCreditAmount}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
+                            </h:column> 
+                                                                                                    
+                        </h:dataTable>
+                        <h3 class="pageTitle">Rental Income Account</h3> 
+                        <h:dataTable id="incomeTable" value="#{record.getAllRecords('RENTAL INCOME')}"  var="incomeObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, name, trans, debit, credit">
+                            <h:column> 
+                                <f:facet name="header">Date</f:facet>
+                                <h:commandLink value="#{incomeObj.recordDate}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{incomeObj.recordName}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Transaction No.</f:facet>
+                                <h:commandLink value="#{incomeObj.recordInvNum}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">DEBIT</f:facet>
+                                <h:commandLink value="#{incomeObj.recordDebitAmount}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">CREDIT</f:facet>
+                                <h:commandLink value="#{incomeObj.recordCreditAmount}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
+                            </h:column> 
+                                                                                                    
+                        </h:dataTable>
+                        <h3 class="pageTitle">Accounts Payable</h3>                        
+                        <h:dataTable id="payableTable" value="#{record.getAllRecords('ACCOUNTS PAYABLE')}"  var="payableObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, name, trans, debit, credit">
+                            <h:column> 
+                                <f:facet name="header">Date</f:facet>
+                                <h:commandLink value="#{payableObj.recordDate}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{payableObj.recordName}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Transaction No.</f:facet>
+                                <h:commandLink value="#{payableObj.recordInvNum}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">DEBIT</f:facet>
+                                <h:commandLink value="#{payableObj.recordDebitAmount}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">CREDIT</f:facet>
+                                <h:commandLink value="#{payableObj.recordCreditAmount}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
+                            </h:column>
+                                                                                                    
+                        </h:dataTable>
+                        <h3 class="pageTitle">Bank Account</h3> 
+                        <h:dataTable id="bankTable" value="#{record.getAllRecords('BANK ACCOUNT')}"  var="bankObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, name, trans, debit, credit">
+                            <h:column> 
+                                <f:facet name="header">Date</f:facet>
+                                <h:commandLink value="#{bankObj.recordDate}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{bankObj.recordName}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Transaction No.</f:facet>
+                                <h:commandLink value="#{bankObj.recordInvNum}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">DEBIT</f:facet>
+                                <h:commandLink value="#{bankObj.recordDebitAmount}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">CREDIT</f:facet>
+                                <h:commandLink value="#{bankObj.recordCreditAmount}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
+                            </h:column> 
+                                                                                                    
+                        </h:dataTable>
+                        
+                        <h3 class="pageTitle">Bills Expense Account</h3> 
+                        <h:dataTable id="billsTable" value="#{record.getAllRecords('BILLS EXPENSE')}"  var="billsObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, name, trans, debit, credit">
+                            <h:column> 
+                                <f:facet name="header">Date</f:facet>
+                                <h:commandLink value="#{billsObj.recordDate}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{billsObj.recordName}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Transaction No.</f:facet>
+                                <h:commandLink value="#{billsObj.recordInvNum}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">DEBIT</f:facet>
+                                <h:commandLink value="#{billsObj.recordDebitAmount}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">CREDIT</f:facet>
+                                <h:commandLink value="#{billsObj.recordCreditAmount}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
+                            </h:column> 
+                                                                                                    
+                        </h:dataTable>
+                                   
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

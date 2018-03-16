@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/waystoneEmp.js"></script>
+        <title>Account Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="viewAccForm">
+                	<br/>
+                	<h:commandLink value="Back to Accounts" action="/accounts.xhtml?faces-redirect=true" />
+                	
+                    <h3 class="pageTitle">Account Profile</h3>
+                    <div class="profileBox">
+                        <h:panelGrid class="info" columns="2">
+                                
+                            <h:outputText value="Account Name:  " />
+                            <h:outputText value ="#{accViewObj.accountName}" />
+                                                                
+                        </h:panelGrid>
+                        <h:panelGrid columns ="1">
+                        	<h:message for="success"/>
+                        </h:panelGrid>
+                        <h:panelGrid class="info" columns="2">
+                                
+                            <h:outputText value="Account Type:  " />
+                            <h:outputText value ="#{accViewObj.accountType}" />
+                        </h:panelGrid>
+                        <div class="edit">    
+                                <h:commandButton value="Edit Account Information" action="editAccount" />
+                                <h:commandButton value="Add Record" action="createRecord" />
+                        </div>
+                        <br/><br/>
+                        <div class="delete">    
+                                <h:commandButton value="Delete Account" action="#{account.deleteAccount(accViewObj)}" class="confirmAccount" />
+                                
+                        </div>
+                        <h:panelGrid></h:panelGrid>
+                        <br/><br/>
+                        <h:panelGrid columns = "4">
+                        <h:outputLabel value="Search By:" />
+                        <h:selectOneMenu id="searchRecCrit" value="#{record.searchRecCrit}" required="true" requiredMessage="Search Criteria is required">
+                            <f:selectItem itemValue="All"/>
+                            <f:selectItem itemValue="Record Invoice Number"/>
+                            <f:selectItem itemValue="Record Name"/>
+                        </h:selectOneMenu>
+                        <h:inputText id="searchRecInfo" value="#{record.searchRecInfo}"/>
+                        <h:commandButton  value="Submit" actionListener="#{record.getAllRecordList(record.searchRecCrit, record.searchRecInfo, accViewObj.accountName)}"/> 
+                        </h:panelGrid>
+                        <h:panelGrid></h:panelGrid>
+                        <h3 class="pageTitle">Account Records</h3>
+                        <h:dataTable id="recTable" value="#{record.recordList}"  var="recordObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, name, trans, tenantID, debit, credit">
+                            <h:column> 
+                                <f:facet name="header">Date</f:facet>
+                                <h:commandLink value="#{recordObj.recordDate}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Name</f:facet>
+                                <h:commandLink value="#{recordObj.recordName}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Transaction No.</f:facet>
+                                <h:commandLink value="#{recordObj.recordInvNum}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Tenant ID</f:facet>
+                                <h:commandLink value="#{recordObj.recordTenantID}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">DEBIT</f:facet>
+                                <h:commandLink value="#{recordObj.recordDebitAmount}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">CREDIT</f:facet>
+                                <h:commandLink value="#{recordObj.recordCreditAmount}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            
+                            
+                            
+                                            
+                        </h:dataTable>
+                            
+                                                       
+                        </div>                
+                       
+                    
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html> 

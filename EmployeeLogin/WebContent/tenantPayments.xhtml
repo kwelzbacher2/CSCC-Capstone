@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Search Tenant Accounts</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+                    <h:link value="Search Tenant Accounts" outcome="tenantAccounts" class="link"/>     
+                    <br/><br/>
+                    <h3 class="pageTitle">Tenant Payments</h3>
+                    
+                    <h:panelGrid>
+                        <h:outputLabel value="Building" />
+                        <h:selectOneMenu id="searchInfo" value="#{tenant.payInfo}" required="true">
+                            <f:selectItems value="#{unit.viewAllBuildingNames()}" />
+                        </h:selectOneMenu>
+                        <h:outputLabel value="Search By" />
+                        <h:selectOneMenu id="searchCriteria" value="#{tenant.payCrit}">
+                            <f:selectItem itemValue=""/>
+                            <f:selectItem itemValue="Paid"/>
+                            <f:selectItem itemValue="Not Paid"/>
+                        </h:selectOneMenu>
+                         
+                        <h:commandButton  value="Search" actionListener="#{tenant.getTenantPayments(tenant.payCrit, tenant.payInfo)}" />                       
+                        </h:panelGrid>
+                    
+                    <h:dataTable id="tenTable" value="#{tenant.payTenantList}"  var="tenRecord"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even">
+                    <h:column> 
+                        <f:facet name="header">Email</f:facet>
+                        <h:outputText value="#{tenRecord.email}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Tenant ID</f:facet>
+                        <h:outputText value="#{tenRecord.tenantID}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">First Name</f:facet>
+                        <h:outputText value="#{tenRecord.firstName}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Last Name</f:facet>
+                        <h:outputText value="#{tenRecord.lastName}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Building</f:facet>
+                        <h:outputText value="#{tenRecord.building}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Apt Number</f:facet>
+                        <h:outputText value="#{tenRecord.aptNum}" />
+                    </h:column>
+                        <h:column> 
+                        <f:facet name="header">City</f:facet>
+                        <h:outputText value="#{tenRecord.city}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">State</f:facet>
+                        <h:outputText value="#{tenRecord.state}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Phone Number</f:facet>
+                        <h:outputText value="#{tenRecord.phone}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Rent Paid</f:facet>
+                        <h:outputText value="#{tenRecord.rentPaid}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Amount Due</f:facet>
+                        <h:outputText value="#{tenRecord.amountDue}" />
+                    </h:column>    
+                </h:dataTable>
+                    
+                </h:form>
+                
+                
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

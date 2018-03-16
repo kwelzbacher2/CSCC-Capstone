@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Create Account</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="accountForm">
+                                       
+                <div class="empInfo" >
+                    <h3 class="pageTitle">Create New Account</h3>
+                    <div class="editBox">
+                    
+                    <h:panelGrid class="editInfo" columns="2"> 
+                        
+                        <h:outputText value="Account Name:  " />
+                        <h:inputText id="newAccName" value ="#{account.accountName}" tabindex="1" required="true" requiredMessage="Account Name is required"
+                                     validatorMessage="Please enter Building using alphabetical letters">
+                            <f:validateRegex pattern="[\w\s]+"/>
+                        </h:inputText>
+                    </h:panelGrid>
+                    <h:panelGrid class="editInfo" columns="2"> 
+                        <h:outputText value="Account Type:  " />
+                        <h:selectOneMenu id="newAccType" value="#{account.accountType}" required="true" requiredMessage = "Account Type is required">
+                            
+                            <f:selectItem itemValue="Asset"/>
+                            <f:selectItem itemValue="Liability"/>
+                            <f:selectItem itemValue="Equity"/>
+                            <f:selectItem itemValue="Expense"/>
+                            <f:selectItem itemValue="Income"/>
+                        </h:selectOneMenu> 
+                    </h:panelGrid>
+                            
+                    <h:panelGrid class ="warning" columns ="1">
+                        <h:message for="newAccName"/>    
+                        <h:message for="newAccType"/>
+                      
+                    </h:panelGrid>
+                    <h:commandButton value="Submit" action="#{account.createNewAccount(account)}" />
+                    </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
