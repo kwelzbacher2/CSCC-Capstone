@@ -1,11 +1,15 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Waystone Property Management</title>
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="resources/waystoneStyles.css?<?php echo time(); ?>" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="resources/waystoneScripts.js?<?php echo time();?>"></script>
   </head>
   <body>
@@ -16,7 +20,7 @@
             <div class = "navWhitespace"></div>
             <ul id = "headerNav">
               <li class = "boxEffect">Contact
-                <a href = "waystonePropertyManagement-contact.php">
+                <a href = "contact.php">
                   <span class = "link-spanner"></span>
                 </a>
               </li>
@@ -26,7 +30,7 @@
                 </a>
               </li>
               <li class = "boxEffect">FAQ
-                <a href = "#">
+                <a href = "FAQ.php">
                   <span class = "link-spanner"></span>
                 </a>
               </li>
@@ -34,7 +38,7 @@
           </div>
         </nav>
         <div class = "titleContainer"><a class = "title">WAYSTONE PROPERTY MANAGEMENT</a>
-          <a href = "waystonePropertyManagement.php">
+          <a href = "index.php">
 						<span class = "link-spanner"></span>
 					</a>
         </div>
@@ -43,12 +47,12 @@
             <div class = "logsignWhitespace"></div>
             <div class = "logSignContainer">
               <div class = "login boxEffect">Login
-                <a href = "#">
+                <a href = "loginSignup.php">
       						<span class = "link-spanner"></span>
       					</a>
               </div>
               <div class = "signup boxEffect">Sign Up
-                <a href = "#">
+                <a href = "loginSignup.php">
       						<span class = "link-spanner"></span>
       					</a>
               </div>
