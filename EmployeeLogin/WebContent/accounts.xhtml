@@ -20,7 +20,10 @@
                     
                     <h:panelGrid>
                         <h:outputLabel value="Account Name: " />
-                        <h:inputText id="accSearchName" value="#{account.accSearchName}"/>
+                        <h:selectOneMenu id="accSearchName" value="#{account.accSearchName}">
+                        	<f:selectItem itemValue="" />
+                        	<f:selectItems value="#{account.viewAllAccountNames()}" />
+                        </h:selectOneMenu>
                             
                         
                         <h:outputLabel value="Account Type:" />

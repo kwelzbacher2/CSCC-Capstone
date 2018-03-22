@@ -70,15 +70,15 @@
                                 
                             </h:panelGrid>
                             
-                            <h:commandButton value="Edit Tenant Information" action="tenantProfileEdit" />
+                            <h:commandButton value="Edit Tenant Information" action="tenantProfileEdit" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}" />
                             <br/><br/>
-                            <h:commandButton value="Delete Tenant" action="#{tenant.deleteTenant(tenantViewObj)}" class="confirmTenant" />
+                            <h:commandButton value="Delete Tenant" action="#{tenant.deleteTenant(tenantViewObj)}" class="confirmTenant" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
                         </div>
                     </div>
-					<h3 class="pageTitle">Tenant Records</h3>
+					<h:outputText class="pageTitle" rendered="#{empRecordObj.role eq 'ADMIN' or empRecordObj.role eq 'ACCOUNTS'}" value="Tenant Records" />
                     <h:dataTable id="tenRecTable" value="#{record.getTenantAccRecords(tenantViewObj.tenantID)}"  var="tenRecordsObj"
                                  styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
-                                 columnClasses="date, name, recordNum, amount">
+                                 columnClasses="date, name, recordNum, amount" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}">
                             <h:column> 
                                 <f:facet name="header">Record Date</f:facet>
                             <h:commandLink value="#{tenRecordsObj.recordDate}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>

@@ -5,8 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +48,10 @@ public class DatabaseOperation {
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()) {
                 //result found, means valid inputs
+            	
                 return true;
+                
+                
             }
         } catch (SQLException e) {
             System.out.println("Login error -->" + e.getMessage());
@@ -54,6 +64,38 @@ public class DatabaseOperation {
         }
         return false;
     }
+    
+    public static List<Employee> getEmployeeRole(String email) {
+        Employee empRole = null;
+        List<Employee> empRoleList = new ArrayList();
+        Map<String, Object> sessMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        try {
+            
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("Select role FROM employee_login WHERE email = ?");
+            pstmt.setString(1, email);
+                        
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+            	resultSetObj.next();
+            	empRole = new Employee();
+                empRole.setRole(resultSetObj.getString("role"));
+                empRoleList.add(empRole);
+            }
+            sessMapObj.put("empRoleObj", empRole);
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());
+                   
+        } finally {
+                            
+              DataConnect.close(connObj);
+                       
+        }
+        System.out.println(empRole.getRole());
+        return empRoleList;
+    }
+    
+    
     
     public static List<Employee> getEmployeeListFromDB(String username){
        Employee empRecord = null;
@@ -80,6 +122,7 @@ public class DatabaseOperation {
                 empRecord.setZipcode(resultSetObj.getString("zipcode"));
                 empRecord.setPhone(resultSetObj.getString("phone"));
                 empRecord.setDOB(resultSetObj.getString("dob"));
+                
                 empList.add(empRecord);
             }              
             sessionMapObj.put("empRecordObj", empRecord);
@@ -88,6 +131,7 @@ public class DatabaseOperation {
         } finally {    
               DataConnect.close(connObj);
         }
+        
         return empList;
      }
     
@@ -186,7 +230,7 @@ public class DatabaseOperation {
                 System.out.println("Total Records Fetched: " + tenList.size());
                 System.out.println(tenList);
                 
-               }
+               } 
                           
             
         } catch (SQLException e) {
@@ -1269,7 +1313,7 @@ public class DatabaseOperation {
     					int tenantIDSearch = Integer.parseInt(lateUnitObj.getUnitTenantID());
     					double searchBalance = getTenantRecordBalanceInDB(tenantIDSearch);
     				
-    					if(searchBalance > 0.0){
+    					if(searchBalance < 0.0){
     				
     						PreparedStatement pst = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM,  ACCOUNT_NAME)"
     								+ "VALUES ('TenantLateFee', ?, '0', ?, ?, 'ACCOUNTS RECEIVABLE')");
@@ -1279,7 +1323,7 @@ public class DatabaseOperation {
     						pst.executeUpdate();
     						
     						PreparedStatement prep = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, TENANT_ID, ACCOUNT_NAME)"
-    	    						+ "VALUES ('TenantRentExpected', ?, '1', ?, ?, ? 'RENTAL INCOME')");
+    	    						+ "VALUES ('TenantFeeExpected', ?, '1', ?, ?, ?, 'RENTAL INCOME')");
     	    				prep.setDouble(1, lateFee);
     	    	    		prep.setObject(2, today);
     	    	    		prep.setString(3, "UNIT"+lateUnitObj.getUnitID()+":FEE"+month+yearInt);
@@ -1490,8 +1534,9 @@ public class DatabaseOperation {
                 		+ "MAINTENANCE.DONE_DATE, MAINTENANCE.DONE_EMP, UNITS.BUILDING, UNITS.APTNUM FROM MAINTENANCE LEFT OUTER JOIN UNITS ON MAINTENANCE.TENANT_ID = UNITS.TENANT_ID WHERE  MAINTENANCE.DONE_EMP = ?");
             pstmt.setInt(1, employeeID);
             resultSetObj = pstmt.executeQuery();
-            if(resultSetObj     != null) {
+            if(resultSetObj != null) {
             while( resultSetObj.next()) {
+            	System.out.println("hello maintenance");
                 Maintenance empDoneMainObj = new Maintenance();
                 empDoneMainObj.setRequestID(resultSetObj.getInt("REQUEST_ID"));
                 empDoneMainObj.setTenantID(resultSetObj.getInt("TENANT_ID"));
@@ -1518,5 +1563,466 @@ public class DatabaseOperation {
    	 
     return  employeeDoneList;
     }
+    
+    public static String removeMainRequestInDB(int requestID, int employeeID){
+    	
+    	try{
+            
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("UPDATE MAINTENANCE SET START_DATE = NULL, START_EMP = NULL WHERE REQUEST_ID = ?");
+            pstmt.setInt(1, requestID);
+                                                    
+            pstmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+             DataConnect.close(connObj);
+        }
+    	return "/maintenanceRequests.xhtml?faces-redirect=true";
+    	
     }
-
+    
+    public static String employeeClockInToDB(int employeeID){
+    	LocalDateTime now = LocalDateTime.now(); 
+	   	
+    	LocalDate today = now.atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
+    	LocalTime timeIn = now.atZone(ZoneId.of( "America/Montreal" )).toLocalTime();
+    	System.out.println( "today : " + today + " Clock In: " + timeIn);
+    	Timesheet clockInObj = new Timesheet();
+    	List<Timesheet> clockInList = new ArrayList();
+    	
+    	
+    	try{
+    		connObj = DataConnect.getConnection();
+    		pstmt = connObj.prepareStatement("SELECT TOP 1 CLOCK_IN, CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE = ? ORDER BY DATE DESC, TIMESHEET_ID DESC");
+    		pstmt.setInt(1, employeeID);
+    		pstmt.setObject(2, today);
+    		resultSetObj = pstmt.executeQuery();
+            if(resultSetObj.next()){
+            		System.out.println("hello");
+            	    clockInObj.setInTime(resultSetObj.getString("CLOCK_IN"));
+            		clockInObj.setOutTime(resultSetObj.getString("CLOCK_OUT"));
+            		clockInList.add(clockInObj);
+            		System.out.println("Clock In:" + clockInObj.getOutTime());
+            	
+            	System.out.println("Total Records Fetched: " + clockInList.size());
+            	if(clockInObj.getInTime() == null){
+            		PreparedStatement ps = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPLOYEE_ID, DATE, CLOCK_IN) VALUES (?, ?, ?)");
+            		ps.setInt(1, employeeID);
+            		ps.setObject(2, today);
+            		ps.setObject(3, timeIn);
+            		ps.executeQuery();
+            		FacesContext.getCurrentInstance().addMessage("timeForm:inButton",
+            				new FacesMessage(FacesMessage.SEVERITY_WARN, "You have successfully clocked in",
+            						"You have succesfully clocked in"));
+            		
+            	} else{
+            		System.out.println("Already Clocked-In");
+            		FacesContext.getCurrentInstance().addMessage("timeForm:inButton",
+            				new FacesMessage(FacesMessage.SEVERITY_WARN, "You have already clocked in for today at " + clockInObj.getInTime(),
+            						"You have already clocked in for today at " + clockInObj.getInTime()));
+            		return "employeeTimesheet";
+            	} 
+            } else {
+            	PreparedStatement pst = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPLOYEE_ID, DATE, CLOCK_IN) VALUES (?, ?, ?)");
+        		pst.setInt(1, employeeID);
+        		pst.setObject(2, today);
+        		pst.setObject(3, timeIn);;
+        		pst.executeQuery();	
+            }
+    	} catch (SQLException e){
+    		System.out.println("Login error -->" + e.getMessage());
+    	} finally {    
+            DataConnect.close(connObj);
+       }
+    	FacesContext.getCurrentInstance().addMessage("timeForm:inButton",
+				new FacesMessage(FacesMessage.SEVERITY_WARN, "You have successfully clocked in",
+						"You have succesfully clocked in"));
+    	return "employeeTimesheet";
+    }
+    public static String employeeClockOutToDB(int employeeID){
+    	
+    	LocalDateTime now = LocalDateTime.now(); 
+    	   	
+    	LocalDate today = now.atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
+    	LocalTime timeOut = now.atZone(ZoneId.of( "America/Montreal" )).toLocalTime();
+    	System.out.println( "today : " + today + " Clock Out: " + timeOut);
+    	Timesheet clockOutObj = new Timesheet();
+    	List<Timesheet> clockOutList = new ArrayList();
+    	
+    	
+    	
+    	
+    	try{
+    		connObj = DataConnect.getConnection();
+    		pstmt = connObj.prepareStatement("SELECT TOP 1 CLOCK_IN, CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE = ? ORDER BY DATE DESC, TIMESHEET_ID DESC");
+    		pstmt.setInt(1, employeeID);
+    		pstmt.setObject(2, today);
+    		resultSetObj = pstmt.executeQuery();
+            if(resultSetObj.next()){
+            	    clockOutObj.setInTime(resultSetObj.getString("CLOCK_IN"));
+            		clockOutObj.setOutTime(resultSetObj.getString("CLOCK_OUT"));
+            		clockOutList.add(clockOutObj);
+            		System.out.println("Clock out:" + clockOutObj.getOutTime());
+            	
+            	System.out.println("Total Records Fetched: " + clockOutList.size());
+            	if(clockOutObj.getOutTime() == null){
+            		PreparedStatement ps = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPLOYEE_ID, DATE, CLOCK_OUT) VALUES (?, ?, ?)");
+            		ps.setInt(1, employeeID);
+            		ps.setObject(2, today);
+            		ps.setObject(3, timeOut);
+            		ps.executeQuery();
+            	} else{
+            		System.out.println("Already Clocked-Out");
+            		FacesContext.getCurrentInstance().addMessage("timeForm:outButton",
+            				new FacesMessage(FacesMessage.SEVERITY_WARN, "You have already clocked out for today at " + clockOutObj.getOutTime(),
+            						"You have already clocked out for today at " + clockOutObj.getOutTime()));
+            		return "employeeTimesheet";
+            	} 
+            } else {
+            	System.out.println("There is no Clock-In for today");
+            	FacesContext.getCurrentInstance().addMessage("timeForm:outButton",
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "You have not clocked in for today",
+                        "You have not clocked in for today"));
+            	return "employeeTimesheet";
+            }
+    	} catch (SQLException e){
+    		System.out.println("Login error -->" + e.getMessage());
+    	} finally {    
+            DataConnect.close(connObj);
+       }
+    	FacesContext.getCurrentInstance().addMessage("timeForm:outButton",
+				new FacesMessage(FacesMessage.SEVERITY_WARN, "You have successfully clocked out",
+						"You have succesfully clocked out"));
+    	return "employeeTimesheet";
+    }
+    
+    public static List<Timesheet> getEmployeeTimesheetInDB(int employeeID){
+    	List<Timesheet> empTimeList = new ArrayList();
+    	LocalDateTime now = LocalDateTime.now(); 
+	   	int nowDay = now.getDayOfWeek().getValue();
+    	LocalDate today = now.atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
+    	LocalDate dayMin1 = today.minusDays(1);
+    	LocalDate dayMin2 = today.minusDays(2);
+    	LocalDate dayMin3 = today.minusDays(3);
+    	LocalDate dayMin4 = today.minusDays(4);
+    	SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+    	Date wedInTime = null;
+    	Date wedOutTime = null;
+    	    	
+    		try{
+    			connObj = DataConnect.getConnection();
+    			switch (nowDay) {
+                case 7:
+                    System.out.println("It's Sunday");
+                    pstmt = connObj.prepareStatement("SELECT CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE= ?");
+                    pstmt.setInt(1, employeeID);
+                    pstmt.setObject(2, today);
+                    resultSetObj = pstmt.executeQuery();
+                    while(resultSetObj.next()){
+                        Timesheet empTimeObj = new Timesheet();
+                        empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
+                        empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
+                        
+                        empTimeList.add(empTimeObj);
+                    }
+                    break;
+                case 1:
+                    System.out.println("It's Monday");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt.setInt(1, employeeID);
+                    pstmt.setObject(2, dayMin1);
+                    pstmt.setObject(3, today);
+                    resultSetObj = pstmt.executeQuery();
+                    while(resultSetObj.next()){
+                        Timesheet empTimeObj = new Timesheet();
+                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
+                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
+                        int clockDay = clock.getDayOfWeek().getValue();
+                        if(clockDay == 7){
+                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 1){
+                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
+                            
+                        }
+                        
+                        empTimeList.add(empTimeObj);
+                    }
+                    break;
+                case 2:
+                    System.out.println("It's Tuesday");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt.setInt(1, employeeID);
+                    pstmt.setObject(2, dayMin2);
+                    pstmt.setObject(3, today);
+                    resultSetObj = pstmt.executeQuery();
+                    while(resultSetObj.next()){
+                        Timesheet empTimeObj = new Timesheet();
+                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
+                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
+                        int clockDay = clock.getDayOfWeek().getValue();
+                        if(clockDay == 7){
+                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 1){
+                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay ==2){
+                            empTimeObj.setTuesIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setTuesOut(resultSetObj.getString("CLOCK_OUT"));
+                        }
+                        
+                        empTimeList.add(empTimeObj);
+                    }
+                    break;
+                case 3:
+                    System.out.println("It's Wednesday");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt.setInt(1, employeeID);
+                    pstmt.setObject(2, dayMin3);
+                    pstmt.setObject(3, today);
+                    resultSetObj = pstmt.executeQuery();
+                    while(resultSetObj.next()){
+                        Timesheet empTimeObj = new Timesheet();
+                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
+                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
+                        int clockDay = clock.getDayOfWeek().getValue();
+                        if(clockDay == 7){
+                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 1){
+                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 2){
+                        	empTimeObj.setTuesIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setTuesOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 3){
+                        	
+                        	empTimeObj.setWedIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setWedOut(resultSetObj.getString("CLOCK_OUT"));  
+                        }
+                        
+                        empTimeList.add(empTimeObj);
+                    }
+                    break;
+                case 4:
+                    System.out.println("It's Thursday");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt.setInt(1, employeeID);
+                    pstmt.setObject(2, dayMin4);
+                    pstmt.setObject(3, today);
+                    resultSetObj = pstmt.executeQuery();
+                    while(resultSetObj.next()){
+                        Timesheet empTimeObj = new Timesheet();
+                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
+                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
+                        int clockDay = clock.getDayOfWeek().getValue();
+                        if(clockDay == 7){
+                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 1){
+                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 2){
+                            empTimeObj.setTuesIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setTuesOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 3){
+                            empTimeObj.setWedIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setWedOut(resultSetObj.getString("CLOCK_OUT"));
+                            
+                        } else if(clockDay == 4){
+                            empTimeObj.setThurIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setThurOut(resultSetObj.getString("CLOCK_OUT"));
+                        }
+                        
+                        empTimeList.add(empTimeObj);
+                    }
+                    break;
+                case 5:
+                    System.out.println("It's Friday");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt.setInt(1, employeeID);
+                    pstmt.setObject(2, dayMin4);
+                    pstmt.setObject(3, today);
+                    resultSetObj = pstmt.executeQuery();
+                    while(resultSetObj.next()){
+                        Timesheet empTimeObj = new Timesheet();
+                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
+                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
+                        int clockDay = clock.getDayOfWeek().getValue();
+                        if(clockDay == 7){
+                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 1){
+                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 2){
+                            empTimeObj.setTuesIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setTuesOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 3){
+                            empTimeObj.setWedIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setWedOut(resultSetObj.getString("CLOCK_OUT"));
+                            
+                        } else if(clockDay == 4){
+                            empTimeObj.setThurIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setThurOut(resultSetObj.getString("CLOCK_OUT"));
+                        }else if(clockDay == 5){
+                            empTimeObj.setFriIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setFriOut(resultSetObj.getString("CLOCK_OUT"));
+                        }
+                        
+                        empTimeList.add(empTimeObj);
+                    }
+                    break;
+                case 6:
+                    System.out.println("It's Saturday");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt.setInt(1, employeeID);
+                    pstmt.setObject(2, dayMin4);
+                    pstmt.setObject(3, today);
+                    resultSetObj = pstmt.executeQuery();
+                    while(resultSetObj.next()){
+                        Timesheet empTimeObj = new Timesheet();
+                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
+                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
+                        int clockDay = clock.getDayOfWeek().getValue();
+                        if(clockDay == 7){
+                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 1){
+                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 2){
+                            empTimeObj.setTuesIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setTuesOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 3){
+                            empTimeObj.setWedIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setWedOut(resultSetObj.getString("CLOCK_OUT"));
+                            
+                        } else if(clockDay == 4){
+                            empTimeObj.setThurIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setThurOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 5){
+                            empTimeObj.setFriIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setFriOut(resultSetObj.getString("CLOCK_OUT"));
+                        } else if(clockDay == 6){
+                            empTimeObj.setSatIn(resultSetObj.getString("CLOCK_IN"));
+                            empTimeObj.setSatOut(resultSetObj.getString("CLOCK_OUT"));
+                        }
+                        
+                        empTimeList.add(empTimeObj);
+                    }
+                    break;
+                default:
+                    break;
+            }
+    	} catch (SQLException e){
+    		System.out.println("Login error -->" + e.getMessage()); 
+    	
+		
+		
+		} finally {    
+            DataConnect.close(connObj);
+       }
+    	return empTimeList;
+    }
+    
+    public static List<Timesheet> getTimesheetDatesInDB(){
+    	List<Timesheet> timeList = new ArrayList();
+    	LocalDateTime now = LocalDateTime.now(); 
+	   	int nowDay = now.getDayOfWeek().getValue();
+    	LocalDate today = now.atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
+    	LocalDate dayMin1 = today.minusDays(1);
+    	LocalDate dayMin2 = today.minusDays(2);
+    	LocalDate dayMin3 = today.minusDays(3);
+    	LocalDate dayMin4 = today.minusDays(4);
+    	LocalDate dayMin5 = today.minusDays(5);
+    	LocalDate dayMin6 = today.minusDays(6);
+    	LocalDate dayPlus1 = today.plusDays(1);
+    	LocalDate dayPlus2 = today.plusDays(2);
+    	LocalDate dayPlus3 = today.plusDays(3);
+    	LocalDate dayPlus4 = today.plusDays(4);
+    	LocalDate dayPlus5 = today.plusDays(5);
+    	LocalDate dayPlus6 = today.plusDays(6);
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    	Timesheet empTimeDate = new Timesheet();
+    	switch (nowDay) {
+        case 7:
+            empTimeDate.setSunDate(today.format(formatter));
+            empTimeDate.setMonDate(dayPlus1.format(formatter));
+            empTimeDate.setTueDate(dayPlus2.format(formatter));
+            empTimeDate.setWedDate(dayPlus3.format(formatter));
+            empTimeDate.setThurDate(dayPlus4.format(formatter));
+            empTimeDate.setFriDate(dayPlus5.format(formatter));
+            empTimeDate.setSatDate(dayPlus6.format(formatter));
+            timeList.add(empTimeDate);
+            break;
+        case 1:
+            empTimeDate.setSunDate(dayMin1.format(formatter));
+            empTimeDate.setMonDate(today.format(formatter));
+            empTimeDate.setTueDate(dayPlus1.format(formatter));
+            empTimeDate.setWedDate(dayPlus2.format(formatter));
+            empTimeDate.setThurDate(dayPlus3.format(formatter));
+            empTimeDate.setFriDate(dayPlus4.format(formatter));
+            empTimeDate.setSatDate(dayPlus5.format(formatter));
+            timeList.add(empTimeDate);
+            break;
+        case 2:
+            empTimeDate.setSunDate(dayMin2.format(formatter));
+            empTimeDate.setMonDate(dayMin1.format(formatter));
+            empTimeDate.setTueDate(today.format(formatter));
+            empTimeDate.setWedDate(dayPlus1.format(formatter));
+            empTimeDate.setThurDate(dayPlus2.format(formatter));
+            empTimeDate.setFriDate(dayPlus3.format(formatter));
+            empTimeDate.setSatDate(dayPlus4.format(formatter));
+            timeList.add(empTimeDate);
+            break;
+        case 3:
+            empTimeDate.setSunDate(dayMin3.format(formatter));
+            empTimeDate.setMonDate(dayMin2.format(formatter));
+            empTimeDate.setTueDate(dayMin1.format(formatter));
+            empTimeDate.setWedDate(today.format(formatter));
+            empTimeDate.setThurDate(dayPlus1.format(formatter));
+            empTimeDate.setFriDate(dayPlus2.format(formatter));
+            empTimeDate.setSatDate(dayPlus3.format(formatter));
+            timeList.add(empTimeDate);
+            break;
+        case 4:
+            empTimeDate.setSunDate(dayMin4.format(formatter));
+            empTimeDate.setMonDate(dayMin3.format(formatter));
+            empTimeDate.setTueDate(dayMin2.format(formatter));
+            empTimeDate.setWedDate(dayMin1.format(formatter));
+            empTimeDate.setThurDate(today.format(formatter));
+            empTimeDate.setFriDate(dayPlus1.format(formatter));
+            empTimeDate.setSatDate(dayPlus2.format(formatter));
+            timeList.add(empTimeDate);
+            break;
+        case 5:
+            empTimeDate.setSunDate(dayMin5.format(formatter));
+            empTimeDate.setMonDate(dayMin4.format(formatter));
+            empTimeDate.setTueDate(dayMin3.format(formatter));
+            empTimeDate.setWedDate(dayMin2.format(formatter));
+            empTimeDate.setThurDate(dayMin1.format(formatter));
+            empTimeDate.setFriDate(today.format(formatter));
+            empTimeDate.setSatDate(dayPlus1.format(formatter));
+            timeList.add(empTimeDate);
+            break;
+        case 6:
+            empTimeDate.setSunDate(dayMin6.format(formatter));
+            empTimeDate.setMonDate(dayMin5.format(formatter));
+            empTimeDate.setTueDate(dayMin4.format(formatter));
+            empTimeDate.setWedDate(dayMin3.format(formatter));
+            empTimeDate.setThurDate(dayMin2.format(formatter));
+            empTimeDate.setFriDate(dayMin1.format(formatter));
+            empTimeDate.setSatDate(today.format(formatter));
+            timeList.add(empTimeDate);
+            break;
+        default:
+            break;
+    }
+    	return timeList;
+    }
+}

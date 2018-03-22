@@ -19,39 +19,33 @@
 
             <ui:define name="content">
                 
-                <h:form>
-                    <h:link value="Tenant Payments" outcome="tenantPayments" class="link"/><br/>
-                    <h:link value="Create New Tenant" outcome="insertTenant" class="link"/>
-                    <br/><br/>
+                <h:form id="tenantForm">
+                    
                     <h3 class="pageTitle">Search Tenant Accounts </h3>
                     
                     <h:panelGrid>
                         <h:outputText value="Search Tenant(s) By: " />
-                        <h:selectOneMenu id="searchCriteria" value="#{tenant.searchCrit}" required="true">
+                        <h:selectOneMenu id="searchCriteria" value="#{tenant.searchCrit}" required="true" requiredMessage="Must choose item for Search Tenant(s) By:">
+                            <f:selectItem itemValue=""/>
                             <f:selectItem itemValue="Tenant ID"/>
                             <f:selectItem itemValue="Last Name"/>
                             <f:selectItem itemValue="Phone Number"/>
                             <f:selectItem itemValue="Building"/>
+                            <f:ajax render="@form"/>
                         </h:selectOneMenu>
-                        <!-- <h:selectOneMenu id="searchInfoBuild" required="true">
-                            <f:selectItem itemValue="Suncrest Grove" />
-                            <f:selectItem itemValue="Hidden Palms"/>
-                            <f:selectItem itemValue="Bayside Heights"/>
-                            <f:selectItem itemValue="Highland Square"/>
-                            <f:selectItem itemValue="Hudson Court"/>
-                            <f:selectItem itemValue="Fairway Manor"/>
-                            <f:selectItem itemValue="Primrose Heights"/>
-                            <f:selectItem itemValue="Bridgewater Park"/>
-                            <f:selectItem itemValue="Stoneridge Terrace"/>
-                            <f:selectItem itemValue="Sandy Ridge"/>
-                            <f:selectItem itemValue="Desert Estates"/>
-                            <f:selectItem itemValue="Emerald Springs"/>
-                            <f:selectItem itemValue="Fairview Villa"/>
-                            <f:selectItem itemValue="Broadview Terrace"/>
-                            <f:selectItem itemValue="Woodland Hills"/>
-                        </h:selectOneMenu> -->
-                        <h:inputText id="search" value="#{tenant.searchInfo}" required="true"/>
+                        <h:selectOneMenu id="searchInfoBuild" value="#{tenant.searchInfo}" required="true" rendered="#{tenant.searchCrit eq 'Building'}" requiredMessage="Must choose Building">
+                            <f:selectItems value="#{unit.viewAllBuildingNames()}" />
+                        </h:selectOneMenu> 
+                        <h:inputText id="search" value="#{tenant.searchInfo}" required="true" rendered = "#{tenant.searchCrit eq 'Tenant ID' or tenant.searchCrit eq 'Last Name' or tenant.searchCrit eq 'Phone Number'}"
+                        	validatorMessage = "Please enter only letters, numbers, or dashes" requiredMessage="Must enter search criteria in textbox">
+                        	<f:validateRegex pattern="[A_Za-z0-9\-]+"/>
+                        </h:inputText>
                         <h:commandButton  value="Submit" actionListener="#{tenant.getTenantRecord(tenant.searchCrit, tenant.searchInfo)}"/>                       
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                        	<h:message for="searchCriteria" class="warning"/>
+                        	<h:message for="searchInfoBuild" class="warning"/>
+                        	<h:message for="search" class="warning"/>
                         </h:panelGrid>
                     
                     <h:dataTable id="tenTable" value="#{tenant.tenantList}"  var="tenRecordObj"

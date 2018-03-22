@@ -504,3 +504,40 @@ div ul {
 	background-image:url("images/bluebuildinglighter.png");
 	background-size:cover;
 }
+.locations{
+	font-family:"Noto Serif";
+	text-align: center;
+}
+.locationTable{
+	width:100%;
+	border: 2px solid lightslategray;
+	background-color: rgba(255,255,255,1);
+}
+.locationTable td{
+	width:33%;
+}
+.locationTable td + td{
+	border-left:2px solid lightslategray;
+}
+.locTitle{
+	font-family:"Noto Serif";
+	text-align: center;
+	font-weight: bold;
+}
+#timeTable{
+	border: 2px solid lightslategray;
+	background-color: rgba(255,255,255,1);
+	margin:auto;
+	text-align:center;
+	border-collapse: collapse;
+}
+.headTab{
+	border:1px solid lightslategray;
+	border-collapse: collapse;
+	height: 20px;
+}
+.clockTable{
+	border: 2px solid lightslategray;
+	border-collapse: collapse;
+	height:240px;
+}

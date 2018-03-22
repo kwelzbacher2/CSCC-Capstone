@@ -18,10 +18,20 @@
                     <div id="nav">
                         <ul>
                             <li class="navList"><h:link value="Home" outcome="employeeAdmin" class="link" /></li>
-                            <li class="navList"><h:link value="My Profile" outcome="employeeProfile" class="link" /></li>
+                            <li class="navList">
+                            	<div class="dropdown">
+                                    <h:link value="My Profile" outcome="employeeProfile" class="link"/>
+                                        <div class="dropdown-content">
+                                        
+                                            	<h:link value="My Profile" outcome="employeeProfile" class="content"/><br/>
+                                                <h:link value="Timesheet" outcome="employeeTimesheet" class="content"/>  
+                                                                                
+                                        </div>
+                                </div>
+                            </li>
                             <li class="navList">
                                 <div class="dropdown">
-                                    <h:link value="Company Accounts" outcome="accounts" class="link"/>
+                                    <h:link value="Company Accounts" outcome="accounts" class="link" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
                                         <div class="dropdown-content">
                                             
                                                 <h:link value="Accounts" outcome="accounts" class="content"/><br/>
@@ -35,7 +45,7 @@
                             </li>
                             <li class="navList">
                                 <div class="dropdown">
-                                    <h:link value="Units" outcome="units" class="link" />
+                                    <h:link value="Units" outcome="units" class="link" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
                                         <div class="dropdown-content">
                                             
                                                 <h:link value="Unit Search" outcome="units" class="content"/><br/>
@@ -50,12 +60,12 @@
                                         <div class="dropdown-content">
                                             
                                                 <h:link value="Tenant Search" outcome="tenantAccounts" class="content"/><br/>
-                                                <h:link value="Create New Tenant" outcome="insertTenant" class="content"/>                                
+                                                <h:link value="Create New Tenant" outcome="insertTenant" class="content" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>                                
                                            
                                         </div>    
                                 </div>
                             </li>    
-                            <li class="navList"><h:link value="Maintenance Requests" outcome="maintenanceRequests" class="link"/></li>
+                            <li class="navList"><h:link value="Maintenance Requests" outcome="maintenanceRequests" class="link" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'CONTRACTOR'}"/></li>
                             <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
                             <li class="navList"><h:link value="Additional Company Information" outcome="companyInfo" class="link"/></li>
                         </ul>

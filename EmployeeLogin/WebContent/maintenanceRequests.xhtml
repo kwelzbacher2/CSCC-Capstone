@@ -73,11 +73,11 @@
                     </h:column>
                     <h:column>
                     	<f:facet name="header">Start Request</f:facet>
-                    	<h:commandButton action="#{maintenance.startMainRequest(req, empRecordObj.employeeID)}" value="Start"/>
+                    	<h:commandButton action="#{maintenance.startMainRequest(req, empRecordObj.employeeID)}" value="Start" class="start"/>
                     </h:column>  
                     <h:column>
                     	<f:facet name="header">Request Done</f:facet>
-                    	<h:commandButton action="#{maintenance.endMainRequest(req.requestID, empRecordObj.employeeID)}" value="Done"/>
+                    	<h:commandButton action="#{maintenance.endMainRequest(req.requestID, empRecordObj.employeeID)}" value="Done" class="done"/>
                     </h:column>                  
                     </h:dataTable>
                     
@@ -118,10 +118,14 @@
                         <f:facet name="header">Start Date</f:facet>
                         <h:outputText value="#{current.startDate}"/>
                     </h:column>
+                    <h:column>
+                    	<f:facet name="header">Remove Request</f:facet>
+                    	<h:commandButton action="#{maintenance.removeMainRequest(current, empRecordObj.employeeID)}" value="Remove" class="remove"/>
+                    </h:column>
                     
                     <h:column>
                     	<f:facet name="header">Request Done</f:facet>
-                    	<h:commandButton action="#{maintenance.endMainRequest(current, empRecordObj.employeeID)}" value="Done"/>
+                    	<h:commandButton action="#{maintenance.endMainRequest(current, empRecordObj.employeeID)}" value="Done" class="done"/>
                     </h:column>                  
                     </h:dataTable>
                     <h3 class="pageTitle">Finished Requests</h3>

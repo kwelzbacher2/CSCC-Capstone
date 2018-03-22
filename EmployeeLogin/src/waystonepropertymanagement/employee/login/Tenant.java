@@ -246,11 +246,13 @@ public class Tenant implements Serializable{
    
    //obtain Tenant Records based on search Criteria
     public void getTenantRecord(String searchCrit, String searchInfo) {
-        if(searchCrit.equals("Building")){
+       
+    	if(searchCrit.equals("Building")){
             tenantList = DatabaseOperation.getTenantListBuilding(searchInfo);
         } else {
         tenantList =  DatabaseOperation.getTenantListFromDB(searchCrit, searchInfo);
         }
+    	
     } 
     
     public void getTenantPayments(String payCrit, String payInfo){

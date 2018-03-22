@@ -184,4 +184,11 @@ public class Maintenance implements Serializable{
     	return doneMainList;
     }
     
+    
+    public String removeMainRequest(Maintenance request, int employeeID){
+    	int reqRemoveID = request.getRequestID(); 
+    	
+    	return DatabaseOperation.removeMainRequestInDB(reqRemoveID, employeeID);
+    }
+    
 }

@@ -32,7 +32,15 @@ $(function(){
     $(".lateFeeBtn").on('click', function(){
     	return confirm("Are you sure you want to post late fee charges for all Units for this month?");
     });
-    
+    $(".start").on('click', function(){
+    	return confirm("Are you sure you want to assign this request to yourself?");
+    });
+    $(".remove").on('click', function(){
+    	return confirm("Are you sure you want to remove yourself from this request?");
+    });
+    $(".done").on('click', function(){
+    	return confirm("Are you sure you want to mark this request as finished?");
+    });
     
     
 });

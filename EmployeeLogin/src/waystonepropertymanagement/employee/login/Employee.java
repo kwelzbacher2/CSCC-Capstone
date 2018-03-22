@@ -29,10 +29,9 @@ public class Employee implements Serializable{
     private static final long serialVersionUID = 1094801825228386363L;
     
     private String pwd;
-    private String msg;
-    
-    
+    private String msg;    
     private String email;
+    private String role;
     private int employeeID;
     private String firstName;
     private String lastName;
@@ -43,6 +42,7 @@ public class Employee implements Serializable{
     private String zipcode;
     private String phone;
     private String dob;
+    
     
     public List<Employee>employeeListFromDB;
     
@@ -67,6 +67,13 @@ public class Employee implements Serializable{
     
     public void setEmail(String email){
         this.email = email;
+    }
+    public String getRole(){
+        return role;
+    }
+    
+    public void setRole(String role){
+        this.role = role;
     }
     
     public int getEmployeeID(){
@@ -140,11 +147,13 @@ public class Employee implements Serializable{
     public void setDOB(String dob){
         this.dob = dob;
     }
+    
     public String validateUsernamePassword() {
          boolean valid = DatabaseOperation.empValidate(email, pwd);
          if(valid) {
              HttpSession session = SessionUtils.getSession();
              session.setAttribute("username", email);
+             DatabaseOperation.getEmployeeRole(email);
              return "employeeAdmin";
          } else {
              FacesContext.getCurrentInstance().addMessage("loginForm:password",
@@ -153,9 +162,7 @@ public class Employee implements Serializable{
              return "index";
          }
      }
-    
-    
-    
+           
     
     public List<Employee> getEmployeeRecord(){
         return DatabaseOperation.getEmployeeListFromDB(email);
@@ -172,6 +179,11 @@ public class Employee implements Serializable{
          session.invalidate();
          return "index";
      }
+    public boolean isConAdminRole(Employee emp){
+    	return (emp.getRole().equals("ADMIN") || emp.getRole().equals("CONTRACTOR"));
+    }
+   
+    
 }   
     
     
