@@ -15,10 +15,10 @@
                 <h:form id="viewAccForm">
                 	<br/>
                 	<h:commandLink value="Back to Accounts" action="/accounts.xhtml?faces-redirect=true" />
-                	
+                	<div class="empInfo">
                     <h3 class="pageTitle">Account Profile</h3>
                     <div class="profileBox">
-                        <h:panelGrid class="info" columns="2">
+                        <h:panelGrid class="info" columns="2" >
                                 
                             <h:outputText value="Account Name:  " />
                             <h:outputText value ="#{accViewObj.accountName}" />
@@ -27,7 +27,7 @@
                         <h:panelGrid columns ="1">
                         	<h:message for="success"/>
                         </h:panelGrid>
-                        <h:panelGrid class="info" columns="2">
+                        <h:panelGrid class="info" columns="2" >
                                 
                             <h:outputText value="Account Type:  " />
                             <h:outputText value ="#{accViewObj.accountType}" />
@@ -41,9 +41,10 @@
                                 <h:commandButton value="Delete Account" action="#{account.deleteAccount(accViewObj)}" class="confirmAccount" />
                                 
                         </div>
+                        </div>
                         <h:panelGrid></h:panelGrid>
                         <br/><br/>
-                        <h:panelGrid columns = "4">
+                        <h:panelGrid columns = "4" >
                         <h:outputLabel value="Search By:" />
                         <h:selectOneMenu id="searchRecCrit" value="#{record.searchRecCrit}" required="true" requiredMessage="Search Criteria is required">
                             <f:selectItem itemValue="All"/>

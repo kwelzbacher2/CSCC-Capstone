@@ -24,28 +24,28 @@
                     <h3 class="pageTitle">Create New Unit</h3>
                     <div class="editBox">
                     
-                    <h:panelGrid class="editInfo" columns="2"> 
+                    <h:panelGrid class="editInfo" columns="2" columnClasses="unitLeft, unitRight"> 
                         
                         <h:outputText value="Building:  " />
                         <h:inputText id="newUnitBuilding" value ="#{unit.unitBuilding}" tabindex="1" required="true" requiredMessage="Building is required"
-                                     validatorMessage="Please enter Building using alphabetical letters" size="12">
+                                     validatorMessage="Please enter Building using alphabetical letters" size="20">
                             <f:validateRegex pattern="[\w\s]+"/>
                         </h:inputText>
-                    </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="2"> 
-                        <h:outputText value="Apartment Number:  " />
+                     
+                        <h:outputText value="Apartment:  " />
                         <h:inputText id="newUnitApt" value ="#{unit.unitAptNum}"  required = "true" validatorMessage="Please enter 3 digits for Apartment Number" size="3">
                             
                             <f:validateRegex pattern="\d{3}"/>
                         </h:inputText> 
-                    </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="8">
+                    
+                    
                         <h:outputText value="Address:  " />
                         <h:inputText id="newUnitAddress" value="#{unit.unitAddress}" required="true" requiredMessage="Address is required"
-                                     validatorMessage="Incorrect Address" size="12">
+                                     validatorMessage="Incorrect Address" size="30">
                             <f:validateRegex pattern="\w+(\s\w+){2,}" />
                         </h:inputText>
-                       
+                        </h:panelGrid>
+                       <h:panelGrid class="editInfo" columns="6" columnClasses="cityLeft, cityRight, stateLeft, midRight, zipLeft, zipRight">
                         <h:outputText value="City:  " />
                         <h:inputText id="newUnitCity" value="#{unit.unitCity}" required="true" requiredMessage="Address is required" validatorMessage="Incorrect City" size="12">
                             <f:validateRegex pattern="^[a-zA-Z\- ]+$" />
@@ -111,7 +111,7 @@
                         
                     </h:panelGrid>
                                             
-                    <h:panelGrid class="editInfo" columns="2">
+                    <h:panelGrid class="editInfo" columns="2" columnClasses="rentLeft, rentRight">
                         
                         <h:outputText value="Rent Amount:  " />
                         <h:inputText id="newUnitRent" value ="#{unit.unitRent}"  

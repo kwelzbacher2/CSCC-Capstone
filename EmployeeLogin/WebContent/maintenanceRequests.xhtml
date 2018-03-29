@@ -18,7 +18,7 @@
             
                     <h3 class="pageTitle">Maintenance Requests Page</h3>
                     
-                     <h:panelGrid>
+                     <h:panelGrid columnClasses="pageSearch">
                         <h:outputLabel value="Building" />
                         <h:selectOneMenu id="searchBuild" value="#{maintenance.searchBuild}" required="true">
                             <f:selectItems value="#{unit.viewAllBuildingNames()}" />

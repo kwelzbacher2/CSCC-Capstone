@@ -325,7 +325,7 @@ div ul {
     border: 10px dimgray;
     background-color: rgba(255,255,255,1);
     padding: 50px;
-    width: 50%;
+    width: 40%;
     position: relative;
     -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0,0.5);
     -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
@@ -540,4 +540,61 @@ div ul {
 	border: 2px solid lightslategray;
 	border-collapse: collapse;
 	height:240px;
+}
+.editInfo{
+	text-align: left;
+}
+.right{
+	padding-left:21px;
+}
+.amRight{
+	padding-left:5px;
+	padding-right:20px;
+}
+.unitRight{
+	padding-left:18px;
+}
+.cityRight{
+	padding-left:71px;
+	padding-right:20px;
+}
+.midRight{
+	padding-right:20px;
+}
+.firstRight{
+	padding-left: 32px;
+	padding-right: 20px;
+}
+.addRight{
+	padding-left:55px;
+}
+.citRight{
+	padding-left:87px;
+	padding-right:20px;
+}
+
+.staLeft{
+	padding-right:50px;
+}
+.zRight{
+	padding-left:20px;
+}
+.empAddRight{
+	padding-left:55px;
+}
+.empFRight{
+	padding-left:32px;
+	padding-right:20px;
+}
+.empCitRight{
+	padding-left:87px;
+	padding-right:20px;
+}
+.pageSearch{
+	padding-left:75px;
+}
+.testButton{
+	text-align:center;
+	margin: 0 auto;
+	display:block;
 }

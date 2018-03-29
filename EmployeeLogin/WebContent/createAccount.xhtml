@@ -27,8 +27,7 @@
                                      validatorMessage="Please enter Building using alphabetical letters">
                             <f:validateRegex pattern="[\w\s]+"/>
                         </h:inputText>
-                    </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="2"> 
+                    
                         <h:outputText value="Account Type:  " />
                         <h:selectOneMenu id="newAccType" value="#{account.accountType}" required="true" requiredMessage = "Account Type is required">
                             

@@ -24,28 +24,28 @@
                     <h3 class="pageTitle">Edit Unit Information</h3>
                     <div class="editBox">
                     
-                    <h:panelGrid class="editInfo" columns="4"> 
+                    <h:panelGrid class="editInfo" columns="2" columnClasses="unitLeft, unitRight"> 
                         
                         <h:outputText value="Building:  " />
                         <h:inputText id="unitObjBuild" value ="#{unitViewObj.unitBuilding}" tabindex="1" required="true" requiredMessage="Building is required"
-                                     validatorMessage="Please enter Building name using alphabetical letters" size="12">
+                                     validatorMessage="Please enter Building name using alphabetical letters" size="20">
                             <f:validateRegex pattern="[\w\s]+"/>
                         </h:inputText>
-                        <h:outputText value="Apartment Number:  " />
+                        <h:outputText value="Apartment:  " />
                         <h:inputText id="unitObjApt" value ="#{unitViewObj.unitAptNum}" required = "true" requiredMessage="Apartment Number is required"
-                                     validatorMessage="Please 3 digit apartment number">
+                                     validatorMessage="Please 3 digit apartment number" size="3">
                             
                             <f:validateRegex pattern="\d{3}"/>
                         </h:inputText> 
                                                 
-                    </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="8">
-                        
-                        <h:outputText value="Unit Address:  " />
+                                          
+                        <h:outputText value="Address:  " />
                         <h:inputText id="unitObjAddress" value ="#{unitViewObj.unitAddress}" required = "true" requiredMessage ="Address is required"
-                                     validatorMessage="Incorrect Address">
+                                     validatorMessage="Incorrect Address" size="30">
                             <f:validateRegex pattern="\w+(\s\w+){2,}" />
                         </h:inputText>
+                        </h:panelGrid>
+                    <h:panelGrid class="editInfo" columns="6" columnClasses="cityLeft, cityRight, stateLeft, midRight, zipLeft, zipRight">
                         <h:outputText value="City:  " />
                         <h:inputText id="unitObjCity" value="#{unitViewObj.unitCity}" required= "true" requiredMessage ="City is required"
                                      validatorMessage="Incorrect City" size="12">
@@ -112,19 +112,17 @@
                         </h:inputText>
                         
                     </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="2">
+                    <h:panelGrid class="editInfo" columns="2" columnClasses="rentLeft, rentRight">
                         
                         <h:outputText value="Rent Amount:  " />
                         <h:inputText id="unitObjRent" value ="#{unitViewObj.unitRent}" required="true" requiredMessage="Rent is required, please put 0 if no amount needed"
                                      validatorMessage="Please enter digits in the form of 1234 for rent" size="6">
                             <f:validateRegex pattern="[0-9]+"/>
                         </h:inputText>
-                        
-                    </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="2">
+                     
                         
                         <h:outputText value="Tenant ID:  " />
-                        <h:inputText id="unitTenID" value ="#{unitViewObj.unitTenantID}" validatorMessage="Please enter digits in the form of 12345 for Tenant ID" >
+                        <h:inputText id="unitTenID" value ="#{unitViewObj.unitTenantID}" validatorMessage="Please enter digits in the form of 12345 for Tenant ID" size="6" >
                            <f:validateRegex pattern="[0-9]+"/>
                         </h:inputText>
                         

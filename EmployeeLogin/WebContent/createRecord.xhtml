@@ -17,10 +17,10 @@
                 <h:form id="recordForm">
                                        
                 <div class="empInfo" >
-                    <h3 class="pageTitle">Create New Record for #{accViewObj.accountName}</h3>
+                    <h3 class="pageTitle">Create New Record</h3>
                     <div class="editBox">
                     
-                    <h:panelGrid class="editInfo" columns="2"> 
+                    <h:panelGrid class="editInfo" columns="2" columnClasses="left, right"> 
                         
                         <h:outputText value="Record Name:  " />
                         <h:inputText id="recNewName" value ="#{record.recordName}" tabindex="1" required="true" requiredMessage="Name is required"
@@ -28,15 +28,15 @@
                             
                         </h:inputText>
                     </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="4">
+                    <h:panelGrid class="editInfo" columns="4" columnClasses="left, amRight, endLeft, endRight">
                         <h:outputText value="Record Amount:  " />
                         <h:inputText id="recNewAmount" value ="#{record.entryAmount}" required = "true" requiredMessage="Amount is required"
-                                     validatorMessage="Please only digits for amount">
+                                     converterMessage="Please enter only digits for amount such as 1234.00" size="12">
                             
                             <f:convertNumber />
                         </h:inputText> 
                         <h:outputText value="Credit or Debit?  " />
-                        <h:selectOneMenu id="recNewIsCred" value ="#{record.recordIsCredit}" required = "true" requiredMessage="'Is it Credit?' is required">
+                        <h:selectOneMenu id="recNewIsCred" value ="#{record.recordIsCredit}" required = "true" requiredMessage="'Credit or Debit?' is required">
                              <f:selectItem itemValue='Credit'/>
                              <f:selectItem itemValue='Debit'/>
                         </h:selectOneMenu> 

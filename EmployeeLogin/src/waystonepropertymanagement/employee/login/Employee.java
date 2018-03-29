@@ -162,7 +162,23 @@ public class Employee implements Serializable{
              return "index";
          }
      }
-           
+    
+    public String guestUsernamePassword(){
+    	email = "kwelz@waystone.com";
+    	pwd = "capstone29";
+    	boolean valid = DatabaseOperation.empValidate(email, pwd);
+        if(valid) {
+            HttpSession session = SessionUtils.getSession();
+            session.setAttribute("username", email);
+            DatabaseOperation.getEmployeeRole(email);
+            return "employeeAdmin";
+        } else {
+            FacesContext.getCurrentInstance().addMessage("loginForm:password",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Incorrect Username and Password",
+                    "Please enter correct Username and Password"));
+            return "index";
+        }
+    }
     
     public List<Employee> getEmployeeRecord(){
         return DatabaseOperation.getEmployeeListFromDB(email);

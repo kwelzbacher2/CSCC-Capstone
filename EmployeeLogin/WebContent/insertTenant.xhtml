@@ -24,7 +24,7 @@
                     <h3 class="pageTitle">Create New Tenant </h3>
                     <div class="editBox">
                     
-                    <h:panelGrid class="editInfo" columns="6"> 
+                    <h:panelGrid class="editInfo" columns="6" columnClasses="firstLeft, firstRight, mLeft, midRight, lastLeft, lastRight"> 
                         
                         <h:outputText value="First Name:  " />
                         <h:inputText id="newFirstName" value ="#{tenant.firstName}" tabindex="1" required="true" requiredMessage="First Name is required"
@@ -43,17 +43,20 @@
                         </h:inputText>
                         
                     </h:panelGrid>
-                        <h:panelGrid class="editInfo" columns="8">
+                        <h:panelGrid class="editInfo" columns="2" columnClasses="addLeft, addRight">
                         
-                        <h:outputText value="Permanent Address:  " />
-                        <h:inputText id="newPermAddress" value ="#{tenant.permAddress}" validatorMessage="Incorrect Address">
+                        <h:outputText value="Address:  " />
+                        <h:inputText id="newPermAddress" value ="#{tenant.permAddress}" validatorMessage="Incorrect Address" size="30">
                             <f:validateRegex pattern="\w+(\s\w+){2,}" />
                         </h:inputText>
-                        <h:outputText value="Permanet City:  " />
+                        
+                        </h:panelGrid>
+                        <h:panelGrid class="editInfo" columns="6" columnClasses="citLeft, citRight, staLeft, midRight, zLeft, zRight">
+                        <h:outputText value="City:  " />
                         <h:inputText id="newPermCity" value="#{tenant.permCity}" validatorMessage="Incorrect City" size="12">
                             <f:validateRegex pattern="[a-zA-Z]+"/>
                         </h:inputText>
-                        <h:outputText value="Permanent State:  " />
+                        <h:outputText value="State:  " />
                             <h:selectOneMenu id="newPermState" value="#{tenant.permState}">
                                 <f:selectItem itemValue="AL"/>
                                 <f:selectItem itemValue="AK"/>
@@ -107,32 +110,28 @@
                                 <f:selectItem itemValue="WY"/>
                             </h:selectOneMenu> 
                         
-                        <h:outputText value=" Permanent Zipcode:  " />
+                        <h:outputText value="Zipcode:  " />
                         <h:inputText id="newPermZip" value="#{tenant.permZip}" validatorMessage="Please enter 5 digits for Zipcode" size="5" >
                             <f:validateRegex pattern="[0-9]{5}"/>  
                         </h:inputText>
                         
                     </h:panelGrid>
                                             
-                    <h:panelGrid class="editInfo" columns="2">
+                    <h:panelGrid class="editInfo" columns="2" columnClasses="tenantLeft, tenantRight">
                         
                         <h:outputText value="Phone Number:  " />
                         <h:inputText id="newPhone" value ="#{tenant.phone}" required="true" requiredMessage="Phone Number is required"
                                      validatorMessage="Please enter digits in the form of 555-555-5555 for Phone Number" size="12">
                             <f:validateRegex pattern="\d{3}-\d{3}-\d{4}"/>
                         </h:inputText>
-                        
-                    </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="2">
+                    
                         
                         <h:outputText value="Email:  " />
                         <h:inputText id="newEmail" value ="#{tenant.email}" required="true" requiredMessage="Email is required"
                                      validatorMessage="Incorrect email" size="12">
                             <f:validateRegex pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"/>
                         </h:inputText>
-                        
-                    </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="2">
+                    
                         
                         <h:outputText value="Date of Birth:  " />
                         <h:inputText id="newdob" value ="#{tenant.DOB}" class="dobDate" size="10" required="true" validatorMessage="Please enter digits in the form of 1999-01-01 for Date of Birth">     

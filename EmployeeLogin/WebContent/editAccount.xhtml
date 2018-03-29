@@ -31,8 +31,7 @@
                                      validatorMessage="Please enter Account Name using alphabetical letters and/or numbers" >
                             <f:validateRegex pattern="[\w\s]+"/>
                         </h:inputText>
-                    </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="2">
+                    
                         <h:outputText value="Account Type:  " />
                         <h:selectOneMenu id="accObjType" value="#{accViewObj.accountType}" required="true" requiredMessage = "Account Type is required">
                             
