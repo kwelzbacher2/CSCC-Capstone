@@ -78,11 +78,11 @@
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
-                                <h:commandLink value="#{recordObj.recordDebitAmount}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{recordObj.formatDebAmount()}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
-                                <h:commandLink value="#{recordObj.recordCreditAmount}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{recordObj.formatCredAmount()}" action="#{record.viewIndivRecord(recordObj.recordID)}" class="table-link"/>
                             </h:column>
                             
                             

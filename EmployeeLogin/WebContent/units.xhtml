@@ -36,7 +36,7 @@
                     
                     <h:dataTable id="tenTable" value="#{unit.unitList}"  var="unitObj"
                                  styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
-                                 columnClasses="unit, building, apartment, city, state, rent, name">
+                                 columnClasses="unit, building, apartment, city, state, rent, tenName">
                     <h:column> 
                         <f:facet name="header">Unit ID</f:facet>
                         <h:commandLink value="#{unitObj.unitID}" action="#{unit.viewUnitRecord(unitObj.unitID)}" class="table-link"/>

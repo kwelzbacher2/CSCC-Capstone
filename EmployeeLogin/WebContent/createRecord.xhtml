@@ -50,9 +50,9 @@
                             <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
                                      
                         </h:inputText>
-                        <h:outputText value="Invoice Number:  " />
+                        <h:outputText value="Transaction No.:  " />
                         <h:inputText id="recNewInv" value="#{record.recordInvNum}" 
-                                     validatorMessage="Please enter Invoice Number using alphabetical letters and/or numbers" size="12">
+                                     validatorMessage="Please enter Transaction Number using alphabetical letters and/or numbers" size="20">
                             <f:validateRegex pattern="^[a-zA-Z0-9]+$"/>
                         </h:inputText>
                                                  

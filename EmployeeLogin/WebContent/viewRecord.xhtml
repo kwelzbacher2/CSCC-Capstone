@@ -26,7 +26,7 @@
                             <h:panelGrid class="info" columns="4">
                                 
                                 <h:outputText value="Record Amount:  " />
-                                <h:outputText value ="#{recViewObj.recordAmount}" />
+                                <h:outputText value ="#{recViewObj.formatRecAmount()}" />
                             </h:panelGrid>    
                             <h:panelGrid class="info" columns="2">    
                                 <h:outputText value ="Credit or Debit?: " />
@@ -41,7 +41,7 @@
                             </h:panelGrid>
                             <h:panelGrid class="info" columns="2">
                                 
-                                <h:outputText value="Invoice Number:  " />
+                                <h:outputText value="Transaction Number:  " />
                                 <h:outputText id="phoneNum" value ="#{recViewObj.recordInvNum}"  />
                                 
                             </h:panelGrid>

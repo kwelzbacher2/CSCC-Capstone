@@ -95,7 +95,7 @@
                         
                                 <f:facet name="header">Record Amount</f:facet>
                                 <h:commandLink value="#{tenRecordsObj.recordAmount}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
-                                <f:facet name="footer">Balance: #{tenant.getTenantRecordBalance(tenantViewObj.tenantID)}</f:facet>
+                                <f:facet name="footer"><h:outputText styleClass="amount" value="Balance: #{tenant.getTenantRecordBalance(tenantViewObj.tenantID)}"/></f:facet>
                                 
                             </h:column>
                                                                         

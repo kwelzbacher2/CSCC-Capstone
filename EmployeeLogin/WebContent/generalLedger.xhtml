@@ -41,11 +41,11 @@
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
-                                <h:commandLink value="#{receiveObj.recordDebitAmount}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{receiveObj.formatDebAmount()}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
-                                <h:commandLink value="#{receiveObj.recordCreditAmount}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{receiveObj.formatCredAmount()}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
                             </h:column>
                                                                                                      
                         </h:dataTable>
@@ -69,11 +69,11 @@
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
-                                <h:commandLink value="#{cashObj.recordDebitAmount}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{cashObj.formatDebAmount()}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
-                                <h:commandLink value="#{cashObj.recordCreditAmount}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{cashObj.formatCredAmount()}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
                             </h:column> 
                                                                                                     
                         </h:dataTable>
@@ -96,11 +96,11 @@
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
-                                <h:commandLink value="#{incomeObj.recordDebitAmount}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{incomeObj.formatDebAmount()}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
-                                <h:commandLink value="#{incomeObj.recordCreditAmount}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{incomeObj.formatCredAmount()}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
                             </h:column> 
                                                                                                     
                         </h:dataTable>
@@ -123,11 +123,11 @@
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
-                                <h:commandLink value="#{payableObj.recordDebitAmount}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{payableObj.formatDebAmount()}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
-                                <h:commandLink value="#{payableObj.recordCreditAmount}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{payableObj.formatCredAmount()}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
                             </h:column>
                                                                                                     
                         </h:dataTable>
@@ -150,11 +150,11 @@
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
-                                <h:commandLink value="#{bankObj.recordDebitAmount}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{bankObj.formatDebAmount()}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
-                                <h:commandLink value="#{bankObj.recordCreditAmount}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{bankObj.formatCredAmount()}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
                             </h:column> 
                                                                                                     
                         </h:dataTable>
@@ -178,11 +178,11 @@
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
-                                <h:commandLink value="#{billsObj.recordDebitAmount}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{billsObj.formatDebAmount()}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
-                                <h:commandLink value="#{billsObj.recordCreditAmount}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{billsObj.formatCredAmount()}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
                             </h:column> 
                                                                                                     
                         </h:dataTable>

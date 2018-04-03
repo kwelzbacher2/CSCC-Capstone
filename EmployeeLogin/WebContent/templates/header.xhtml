@@ -12,10 +12,11 @@
 	    <ui:composition>
                 <h:form>
                 	<div class="topHeader">
+                	<div ><img src ="#{resource['images/Way1.png']}" alt="" id="topLogo"/></div>  
                     <div id="signOut"> <h:commandLink action="#{employee.logout}" value="Sign Out" class="link"></h:commandLink></div>
-                    <div class="title">Waystone Property Management</div>
+                    <div class="title">WAYSTONE PROPERTY MANAGEMENT</div>
                     
-                    <div id="nav">
+                    <div class="nav">
                         <ul>
                             <li class="navList"><h:link value="Home" outcome="employeeAdmin" class="link" /></li>
                             <li class="navList">
@@ -70,60 +71,53 @@
                             <li class="navList"><h:link value="Additional Company Information" outcome="companyInfo" class="link"/></li>
                         </ul>
                     </div>
-                    </div>
                     
-                   <!--  
-                    <div class="primary_nav_wrap">
                     
-                    		<div class="dropdownMenu"> Menu
-                    			<div class="dropdown-contentMenu">
-                    			<ul>
+                   
+                    <div id="primary_nav_wrap">
+                    	<ul>
+                    		<li class="has-dropdown contentMenu"><h:outputText value="Menu" class="linkMenu" />
+                    			
+                    			<ul class="dropdown-contentMenu">
                     			
                             		<li class="contentMenu"><h:link value="Home" outcome="employeeAdmin" class="linkMenu" /></li>
-                            		<li class="contentMenu"><h:link value="My Profile" outcome="employeeProfile" class="link" /></li>
-                            		<li class="contentMenu">
+                            		<li class="contentMenu"><h:link value="My Profile" outcome="employeeProfile" class="linkMenu" /></li>
+                            		<li class="contentMenu has-dropdown" ><h:link value="Company Accounts" outcome="accounts" class="linkMenu"/>
                                 		
-                                    		<h:link value="Company Accounts" outcome="accounts" class="linkMenu"/>
-                                        		<ul class="menu-dropdown-content">
+                                        <ul class="menu-dropdown-content">
                                             
-                                                		<li><h:link value="Accounts" outcome="accounts" class="inner-content"/></li>
-                                                		<li><h:link value="Create New Account" outcome="createAccount" class="inner-content"/></li>
+                                                <li class="contentMenu"><h:link value="Accounts" outcome="accounts" class="inner-content linkMenu"/></li>
+                                                <li class="contentMenu"><h:link value="Create New Account" outcome="createAccount" class="inner-content linkMenu"/></li>
                                                                                             
-                                        		</ul>    
-                                		
+                                        </ul> 
                             		</li>
-                            		<li class="contentMenu">
+                            		<li class="contentMenu has-dropdown"><h:link value="Units" outcome="units" class="linkMenu" />
                                 		
-                                    		<h:link value="Units" outcome="units" class="linkMenu" />
-                                        		<ul class="menu-dropdown-content">
+                                        <ul class="menu-dropdown-content">
                                             
-                                               		 <li><h:link value="Unit Search" outcome="units" class="inner-content"/></li>
-                                                	 <li><h:link value="Create New Unit" outcome="createUnit" class="inner-content"/></li>
+                                              <li class="contentMenu"><h:link value="Unit Search" outcome="units" class="inner-content linkMenu"/></li>
+                                              <li class="contentMenu"><h:link value="Create New Unit" outcome="createUnit" class="inner-content linkMenu"/></li>
                                                                                             
-                                        		</ul>    
-                                		
+                                        </ul> 
                             		</li>
-                           		<li class="contentMenu">
+                           			<li class="contentMenu has-dropdown"><h:link value="Tenant Accounts" outcome="tenantAccounts" class="linkMenu"/>
                                		 
-                                    		<h:link value="Tenant Accounts" outcome="tenantAccounts" class="linkMenu"/>
-                                       		 <ul class="menu-dropdown-content">
+                                       	<ul class="menu-dropdown-content">
                                             
-                                               		 <li><h:link value="Tenant Search" outcome="tenantAccounts" class="inner-content"/></li>
-                                                	 <li><h:link value="Create New Tenant" outcome="insertTenant" class="inner-content"/></li>                                
+                                               	<li class="contentMenu"><h:link value="Tenant Search" outcome="tenantAccounts" class="inner-content linkMenu"/></li>
+                                                <li class="contentMenu"><h:link value="Create New Tenant" outcome="insertTenant" class="inner-content linkMenu"/></li>                                
                                            
-                                        		</ul>    
-                               		
+                                        </ul>
                             		</li>    
                             		<li class="contentMenu"><h:link value="Maintenance Requests" outcome="maintenanceRequests" class="linkMenu"/></li>
                             		<li class="contentMenu"><h:link value="Training Materials" outcome="training" class="linkMenu"/></li>
                             		<li class="contentMenu"><h:link value="Additional Company Information" outcome="companyInfo" class="linkMenu"/></li>
                             
                         	</ul>
-                        	</div>
-                        </div>
-                        
+                          </li>
+                        </ul>
                     </div>
-                    --> 
+                    </div>
                     
                 </h:form>
 

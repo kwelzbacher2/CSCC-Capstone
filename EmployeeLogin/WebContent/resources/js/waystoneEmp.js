@@ -7,7 +7,8 @@ $(function(){
     $(".dobDate").datepicker({
     	dateFormat: 'yy-mm-dd',
     	changeYear:true,
-    	yearRange: "-100:+0"
+    	yearRange: "-100:+0",
+    	maxDate: 0,
     });
     
     $(".confirm").on('click', function(){

@@ -1,6 +1,7 @@
 package waystonepropertymanagement.employee.login;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +33,14 @@ public class Record implements Serializable{
     private String recordAccount;
     private String searchRecCrit;
     private String searchRecInfo;
-    private Double recordBalance;
+   // private Double recordBalance;
     private boolean recCred;
-    private Double recordDebitAmount;
-    private Double recordCreditAmount;
+    private double recordDebitAmount;
+    private double recordCreditAmount;
     
     private List<Record> recordList = new ArrayList();
     
+    DecimalFormat df = new DecimalFormat("0.00");
     
     @ManagedProperty(value="#{account.accountName}")
     private String accountName;
@@ -77,6 +79,9 @@ public class Record implements Serializable{
     }
     public void setRecordAmount(double recordAmount){
         this.recordAmount = recordAmount;
+    }
+    public String formatRecAmount(){
+    	return df.format(getRecordAmount());
     }
     public Number getEntryAmount(){
     	return recordAmount;
@@ -137,13 +142,13 @@ public class Record implements Serializable{
     public void setSearchRecInfo(String searchRecInfo){
         this.searchRecInfo = searchRecInfo;
     }
-    public Double getRecordBalancet(){
+   /* public Double getRecordBalancet(){
         return recordBalance;
     }
     public void setRecordBalance(Double recordBalance){
         this.recordBalance = recordBalance;
     }
-    
+    */
     
     
     public List<Record> getRecordList(){
@@ -154,17 +159,39 @@ public class Record implements Serializable{
     }
     
     
-    public Double getRecordDebitAmount(){
+    public double getRecordDebitAmount(){
         return recordDebitAmount;
     }
     public void setRecordDebitAmount(Double recordDebitAmount){
         this.recordDebitAmount = recordDebitAmount;
     }
-    public Double getRecordCreditAmount(){
+    public String formatDebAmount(){
+    	String eval;
+    	double dD = getRecordDebitAmount();
+    	if(dD == 0.0){
+    		eval = null;
+    	} else{
+    		eval = df.format(dD);
+    	}
+    	return eval;
+    }
+    
+    public double getRecordCreditAmount(){    	
         return recordCreditAmount;
     }
     public void setRecordCreditAmount(Double recordCreditAmount){
         this.recordCreditAmount = recordCreditAmount;
+    }
+    public String formatCredAmount(){
+    	String eval;
+    	double dC = getRecordCreditAmount();
+    	if(dC == 0.0){
+    		eval = null;
+    	} else{
+    		eval = df.format(dC);
+    	}
+    	return eval;
+    	
     }
     
     public List<Record> getAllRecords(){

@@ -5,7 +5,7 @@
 */
 
 @import url('https://fonts.googleapis.com/css?family=Nanum+Myeongjo');
-@import url('https://fonts.googleapis.com/css?family=Noto+Serif');
+@import url('https://fonts.googleapis.com/css?family=Merriweather');
 
 html body{
 	margin: 0;
@@ -14,7 +14,7 @@ html body{
 
 
 .title {
-	font-size: 2em;
+	font-size: 1.875em;
 	color: black;
 	text-align: center;
 	font-family:"Nanum Myeongjo";
@@ -35,12 +35,7 @@ html body{
     border-bottom: 2px solid lightslategray;
 	
 }
-.link {
-    color:black;
-    text-decoration:none;
-    font-size: 1em;
-    font-family: "Noto Serif";
-}
+
 .qlink{
 	
     padding-right: 10px;
@@ -52,33 +47,51 @@ html body{
 	}
 	
 }
-@media screen and (max-width:1139px){
-	/*
-	#nav{
-		display: none important!	
+@media screen and (max-width:1170px){
+	
+	.nav{
+		display: none !important;	
 	}
-	.primary-nav-wrap {
+	#primary-nav-wrap {
 		display: block;
 	}
-	.menu-dropdown-content{
-		display:none;
-		position:absolute;
-		top:100%;
-		background:#fff;
-		padding:0;
+	#primary_nav_wrap ul
+	{
+		list-style:none;
+		position:relative;
+		float:left;
+		margin:0;
+		padding:0
 	}
-	.contentMenu{
+	.linkMenu
+	{
 		display:block;
+		color:black;
 		text-decoration:none;
-		padding:0;
-		border-bottom: 2px solid lightslategray;
-		float:none;
-		font-size: 0.9em;
-    	font-family: "Noto Serif";
-    	text-align:left;
-    	width:150px;
+		font-weight:700;
+		font-size:1em;
+		line-height:32px;
+		padding:0 15px;
+		font-family:"Merriweather";
+	}	
+	
+	.linkMenu:hover{
+		color: lightslategray;
+    	text-decoration:none;
 	}
-	.contentMenu:hover > ul{
+	.contentMenu
+	{
+		position:relative;
+		float:left;
+		margin:0;
+		padding:0
+	}
+	.menu-dropdown-content{
+		top:0;
+		left:100%;
+	}
+	
+	.has-dropdown:hover > ul{
 		display: block;
 	}
 	.inner-content{
@@ -87,7 +100,7 @@ html body{
 		text-decoration: none;
 		color:black;
 		font-size: 0.9em;
-    	font-family: "Noto Serif";
+    	font-family: "Merriweather";
     	text-align:left;
 	}
 	.inner-content:hover{
@@ -95,41 +108,21 @@ html body{
     	text-decoration:none;
 	}
 	.dropdown-contentMenu{
-		
-		list-style:none;
-		position:relative;
-		margin:0;
-		padding:0;
 		display: none;
-    
-    	background-color: ghostwhite;
-    	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    	z-index:1;  
-    	text-align:left;
-    	width: 200px;
-    	
-    	display:inline-block;
-    	text-decoration:none;
-	}
-	.dropdownMenu{
-		list-style:none;
-		position:relative;
-		float:left;
-		margin:0;
+		position: absolute;
+		top:100%;
+		left:0;
+		background: ghostwhite;
 		padding:0;
-		text-decoration:none;
 	}
-	.dropdownMenu:hover .dropdown-contentMenu{
-    	display:block;
+	.dropdown-contentMenu .contentMenu{
+		float:none;
+		width:200px;
 	}
-	.linkMenu {
-    color:black;
-    text-decoration:none;
-    font-size: 1em;
-    font-family: "Noto Serif";
-	}
-	*/
 	
+	.navList{
+		display: none !important;
+	}
 	.bigQuick{
     	display: none !important;
     	
@@ -140,17 +133,37 @@ html body{
     	margin-left:auto;
     	margin-right:auto;
 	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+	}
     
 }
-
-@media screen and (min-width:1140px) and (max-width:1179px){
+@media screen and (min-width:1170px)and (max-width:1200px){
+	
 	.primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
 		display: none !important;
 	}
 	.navList{
 		display:inline-block;
 		padding-right:5px;
-		
+		letter-spacing: 0px;
 	}
 	.bigQuick{
     	display: none !important;
@@ -162,11 +175,75 @@ html body{
     	margin-left:auto;
     	margin-right:auto;
 	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+	}
     
 }
 
-@media screen and (min-width:1180px) and (max-width:1264px){
+@media screen and (min-width:1200px) and (max-width:1359px){
 	.primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+	.navList{
+		display:inline-block;
+		padding-right:10px;
+		letter-spacing: 0px;
+	}
+	.bigQuick{
+    	display: none !important;
+    	
+    }
+    .smallLink{
+    	display: inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 1px;
+	}
+    
+}
+
+@media screen and (min-width:1360px) and (max-width:1440px){
+	.primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
 		display: none !important;
 	}
 	.navList{
@@ -184,16 +261,40 @@ html body{
     	margin-left:auto;
     	margin-right:auto;
 	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
     
 }
-@media screen and (min-width:1265px) and (max-width:1379px){
+@media screen and (min-width:1440px) and (max-width:1510px){
     .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
 		display: none !important;
 	}
     .navList {
             display: inline;
             padding-right: 20px;
     }
+    
     .bigQuick{
     	display:inline-block;
     	text-align:center;
@@ -204,16 +305,41 @@ html body{
     	display: none !important;
     	
 	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
     
 }
-@media screen and (min-width:1380px) and (max-width:1500px){
+@media screen and (min-width:1510px) and (max-width:1599px){
     .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
 		display: none !important;
 	}
     .navList {
             display: inline;
-            padding-right: 35px;
+            padding-right: 30px;
+            
     }
+    
     .bigQuick{
     	display:inline-block;
     	text-align:center;
@@ -224,16 +350,84 @@ html body{
     	display: none !important;
     	
 	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
     
 }
-@media screen and (min-width:1501px) and (max-width:1620px){
+@media screen and (min-width:1600px) and (max-width:1679px){
     .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+    .navList {
+            display: inline;
+            padding-right: 40px;
+    }
+    
+    .bigQuick{
+    	display:inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+    }
+    .smallLink{
+    	display: none !important;
+    	
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
+}
+@media screen and (min-width:1680px) and (max-width:1753px){
+    .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
 		display: none !important;
 	}
     .navList {
             display: inline;
             padding-right: 50px;
     }
+    
     .bigQuick{
     	display:inline-block;
     	text-align:center;
@@ -244,16 +438,40 @@ html body{
     	display: none !important;
     	
 	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
     
 }
-@media screen and (min-width:1621px) and (max-width:1900px){
+@media screen and (min-width:1754px) and (max-width:1789px){
     .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
 		display: none !important;
 	}
     .navList {
             display: inline;
-            padding-right: 65px;
+            padding-right: 60px;
     }
+    
     .bigQuick{
     	display:inline-block;
     	text-align:center;
@@ -263,6 +481,63 @@ html body{
     .smallLink{
     	display: none !important;
     	
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
+}
+@media screen and (min-width:1790px) and (max-width:1805px){
+    .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+    .navList {
+            display: inline;
+            padding-right:65px;
+    }
+    
+    .bigQuick{
+    	display:inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+    }
+    .smallLink{
+    	display: none !important;
+    	
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
 	}
     
 }
@@ -270,10 +545,21 @@ html body{
     .primary-nav-wrap {
 		display: none !important;
 	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
     .navList{
             display: inline;
-            padding-right: 100px;
+            padding-right: 80px;
     }
+    
     .bigQuick{
     	display:inline-block;
     	text-align:center;
@@ -284,12 +570,22 @@ html body{
     	display: none !important;
     	
 	}
-    
-}
-.link:hover {
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
         color: lightslategray;
         text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
 }
+
 
 div ul {
 	list-style-type: none;
@@ -298,8 +594,14 @@ div ul {
     text-align: right;
     
 }
+#topLogo {
+    text-align: left;
+    float:left;
+    width:60px;
+    height:60px;    
+}
 .shadowBox {
-    font-family: "Noto Serif";
+    font-family: "Merriweather";
     border: 10px dimgray;
     background-color: rgba(255,255,255,1);
     padding: 50px;
@@ -321,11 +623,11 @@ div ul {
 }
 
 .editBox {
-    font-family: "Noto Serif";
+    font-family: "Merriweather";
     border: 10px dimgray;
     background-color: rgba(255,255,255,1);
     padding: 50px;
-    width: 40%;
+    width: 45%;
     position: relative;
     -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0,0.5);
     -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
@@ -338,7 +640,7 @@ div ul {
 }
 
 .empInfo {
-    font-family:"Noto Serif";
+    font-family:"Merriweather";
     position:relative;
     padding-left: 50px;
     padding-top: 50px;
@@ -347,6 +649,7 @@ div ul {
 .pageTitle{
     text-align: center;
     font-size: 1.2em;
+    font-family:"Merriweather";
 }
 .profileBox {
     padding: 10px;
@@ -357,7 +660,7 @@ div ul {
     padding-left: 80px;
 }
 #welcome{
-    font-family:"Noto Serif";
+    font-family:"Merriweather";
     font-weight:bold;
     padding-left: 50px;
     padding-top:50px;
@@ -439,6 +742,13 @@ div ul {
 	text-align:left !important;
 	width: 100px;	
 }
+.tenName{
+	text-align: left !important;
+}
+.name{
+	text-align: left !important;
+	width:160px;
+}
 .table-link{
     color:black;
     text-decoration:none;
@@ -464,7 +774,7 @@ div ul {
     color:black;
     text-decoration:none;
     font-size: 0.9em;
-    font-family: "Noto Serif";
+    font-family: "Merriweather";
     text-align:left;
 }
 .content:hover{
@@ -505,7 +815,7 @@ div ul {
 	background-size:cover;
 }
 .locations{
-	font-family:"Noto Serif";
+	font-family:"Merriweather";
 	text-align: center;
 }
 .locationTable{
@@ -520,7 +830,7 @@ div ul {
 	border-left:2px solid lightslategray;
 }
 .locTitle{
-	font-family:"Noto Serif";
+	font-family:"Merriweather";
 	text-align: center;
 	font-weight: bold;
 }
@@ -545,10 +855,10 @@ div ul {
 	text-align: left;
 }
 .right{
-	padding-left:21px;
+	padding-left:18px;
 }
 .amRight{
-	padding-left:5px;
+	
 	padding-right:20px;
 }
 .unitRight{
@@ -592,9 +902,13 @@ div ul {
 }
 .pageSearch{
 	padding-left:75px;
+	font-family:"Merriweather";
 }
 .testButton{
 	text-align:center;
 	margin: 0 auto;
 	display:block;
+}
+.amount{
+	text-align: right;
 }

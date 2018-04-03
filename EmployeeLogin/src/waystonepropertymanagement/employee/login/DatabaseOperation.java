@@ -41,7 +41,7 @@ public class DatabaseOperation {
         try {
             
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("Select email, password FROM employee_login WHERE email = ? and password = ?");
+            pstmt = connObj.prepareStatement("Select email, password FROM emp_login WHERE email = ? and password = ?");
             pstmt.setString(1, email);
             pstmt.setString(2, password);
             
@@ -72,7 +72,7 @@ public class DatabaseOperation {
         try {
             
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("Select role FROM employee_login WHERE email = ?");
+            pstmt = connObj.prepareStatement("Select role FROM emp_login WHERE email = ?");
             pstmt.setString(1, email);
                         
             resultSetObj = pstmt.executeQuery();
@@ -104,24 +104,24 @@ public class DatabaseOperation {
         try {
             
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("SELECT * FROM employee_accounts WHERE email = ?");
+            pstmt = connObj.prepareStatement("SELECT * FROM EMPLOYEE WHERE EMAIL = ?");
             pstmt.setString(1, username);
             
             resultSetObj = pstmt.executeQuery();
             if(resultSetObj != null) {
                 resultSetObj.next();
                 empRecord = new Employee();
-                empRecord.setEmail(resultSetObj.getString("email"));
-                empRecord.setEmployeeID(resultSetObj.getInt("employee_id"));
+                empRecord.setEmployeeID(resultSetObj.getInt("EMPID"));
                 empRecord.setFirstName(resultSetObj.getString("firstName"));
                 empRecord.setLastName(resultSetObj.getString("lastName"));
-                empRecord.setMiddleInit(resultSetObj.getString("middleInt"));
+                empRecord.setMiddleInit(resultSetObj.getString("MI"));
                 empRecord.setAddress(resultSetObj.getString("address"));
                 empRecord.setCity(resultSetObj.getString("city"));
                 empRecord.setState(resultSetObj.getString("state"));
-                empRecord.setZipcode(resultSetObj.getString("zipcode"));
+                empRecord.setZipcode(resultSetObj.getString("zip"));
                 empRecord.setPhone(resultSetObj.getString("phone"));
-                empRecord.setDOB(resultSetObj.getString("dob"));
+                empRecord.setEmail(resultSetObj.getString("email"));
+                empRecord.setDOB(resultSetObj.getString("DOB"));
                 
                 empList.add(empRecord);
             }              
@@ -139,8 +139,8 @@ public class DatabaseOperation {
         try{
                         
                 connObj = DataConnect.getConnection();
-                pstmt = connObj.prepareStatement("UPDATE employee_accounts SET firstName = ?, lastName = ?, middleInt = ?, "
-                    + "address = ?, city = ?, state = ?, zipcode = ?, phone = ?, dob = ? WHERE email = ?");
+                pstmt = connObj.prepareStatement("UPDATE EMPLOYEE SET firstName = ?, lastName = ?, MI = ?, "
+                    + "address = ?, city = ?, state = ?, zip = ?, phone = ?, dob = ? WHERE email = ?");
                 pstmt.setString(1, updateEmployeeObj.getFirstName());
                 pstmt.setString(2, updateEmployeeObj.getLastName());
                 pstmt.setString(3, updateEmployeeObj.getMiddleInit());
@@ -165,7 +165,7 @@ public class DatabaseOperation {
     public static String updateEmployeePassword(String password,String email){
         try{
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("UPDATE employee_login SET password = ? WHERE email = ?");
+            pstmt = connObj.prepareStatement("UPDATE emp_login SET password = ? WHERE email = ?");
             pstmt.setString(1, password);
             pstmt.setString(2, email);
             pstmt.executeQuery();
@@ -734,11 +734,11 @@ public class DatabaseOperation {
                  if(resultSetObj.getString("IS_CREDIT").equals("0")){
                 	 allRecordObj.setRecordIsCredit("Debit");
                 	 allRecordObj.setRecordDebitAmount(allRecordObj.getRecordAmount());
-                	 allRecordObj.setRecordCreditAmount(null);
+                	 allRecordObj.setRecordCreditAmount(0.0);
                  } else {
                 	 allRecordObj.setRecordIsCredit("Credit");
                 	 allRecordObj.setRecordCreditAmount(allRecordObj.getRecordAmount());
-                	 allRecordObj.setRecordDebitAmount(null);
+                	 allRecordObj.setRecordDebitAmount(0.0);
                 	 
                  }
                  allRecordObj.setRecordDate(resultSetObj.getString("DATE"));
@@ -777,12 +777,12 @@ public class DatabaseOperation {
                  if(resultSetObj.getString("IS_CREDIT").equals("0")){
                 	 allRecordObj.setRecordIsCredit("Debit");
                 	 allRecordObj.setRecordDebitAmount(allRecordObj.getRecordAmount());
-                	 allRecordObj.setRecordCreditAmount(null);
+                	 allRecordObj.setRecordCreditAmount(0.0);
                 	 
                  } else {
                 	 allRecordObj.setRecordIsCredit("Credit");
                 	 allRecordObj.setRecordCreditAmount(allRecordObj.getRecordAmount());
-                	 allRecordObj.setRecordDebitAmount(null);
+                	 allRecordObj.setRecordDebitAmount(0.0);
                 	 
                 	 
                  }
@@ -836,11 +836,11 @@ public class DatabaseOperation {
                     if(resultSetObj.getString("IS_CREDIT").equals("0")){
                    	 viewRecordObj.setRecordIsCredit("Debit");
                    	 viewRecordObj.setRecordDebitAmount(viewRecordObj.getRecordAmount());
-                   	 viewRecordObj.setRecordCreditAmount(null);
+                   	 viewRecordObj.setRecordCreditAmount(0.0);
                     } else {
                    	 viewRecordObj.setRecordIsCredit("Credit");
                    	 viewRecordObj.setRecordCreditAmount(viewRecordObj.getRecordAmount());
-                   	 viewRecordObj.setRecordDebitAmount(null);
+                   	 viewRecordObj.setRecordDebitAmount(0.0);
                    	 
                     }
                     viewRecordObj.setRecordDate(resultSetObj.getString("DATE"));
@@ -1595,7 +1595,7 @@ public class DatabaseOperation {
     	
     	try{
     		connObj = DataConnect.getConnection();
-    		pstmt = connObj.prepareStatement("SELECT TOP 1 CLOCK_IN, CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE = ? ORDER BY DATE DESC, TIMESHEET_ID DESC");
+    		pstmt = connObj.prepareStatement("SELECT TOP 1 CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE = ? ORDER BY DATE DESC, TIMESHEET_ID DESC");
     		pstmt.setInt(1, employeeID);
     		pstmt.setObject(2, today);
     		resultSetObj = pstmt.executeQuery();
@@ -1608,7 +1608,7 @@ public class DatabaseOperation {
             	
             	System.out.println("Total Records Fetched: " + clockInList.size());
             	if(clockInObj.getInTime() == null){
-            		PreparedStatement ps = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPLOYEE_ID, DATE, CLOCK_IN) VALUES (?, ?, ?)");
+            		PreparedStatement ps = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPID, DATE, CLOCK_IN) VALUES (?, ?, ?)");
             		ps.setInt(1, employeeID);
             		ps.setObject(2, today);
             		ps.setObject(3, timeIn);
@@ -1625,7 +1625,7 @@ public class DatabaseOperation {
             		return "employeeTimesheet";
             	} 
             } else {
-            	PreparedStatement pst = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPLOYEE_ID, DATE, CLOCK_IN) VALUES (?, ?, ?)");
+            	PreparedStatement pst = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPID, DATE, CLOCK_IN) VALUES (?, ?, ?)");
         		pst.setInt(1, employeeID);
         		pst.setObject(2, today);
         		pst.setObject(3, timeIn);;
@@ -1656,7 +1656,7 @@ public class DatabaseOperation {
     	
     	try{
     		connObj = DataConnect.getConnection();
-    		pstmt = connObj.prepareStatement("SELECT TOP 1 CLOCK_IN, CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE = ? ORDER BY DATE DESC, TIMESHEET_ID DESC");
+    		pstmt = connObj.prepareStatement("SELECT TOP 1 CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE = ? ORDER BY DATE DESC, TIMESHEET_ID DESC");
     		pstmt.setInt(1, employeeID);
     		pstmt.setObject(2, today);
     		resultSetObj = pstmt.executeQuery();
@@ -1668,7 +1668,7 @@ public class DatabaseOperation {
             	
             	System.out.println("Total Records Fetched: " + clockOutList.size());
             	if(clockOutObj.getOutTime() == null){
-            		PreparedStatement ps = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPLOYEE_ID, DATE, CLOCK_OUT) VALUES (?, ?, ?)");
+            		PreparedStatement ps = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPID, DATE, CLOCK_OUT) VALUES (?, ?, ?)");
             		ps.setInt(1, employeeID);
             		ps.setObject(2, today);
             		ps.setObject(3, timeOut);
@@ -1716,7 +1716,7 @@ public class DatabaseOperation {
     			switch (nowDay) {
                 case 7:
                     System.out.println("It's Sunday");
-                    pstmt = connObj.prepareStatement("SELECT CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE= ?");
+                    pstmt = connObj.prepareStatement("SELECT CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE= ?");
                     pstmt.setInt(1, employeeID);
                     pstmt.setObject(2, today);
                     resultSetObj = pstmt.executeQuery();
@@ -1730,7 +1730,7 @@ public class DatabaseOperation {
                     break;
                 case 1:
                     System.out.println("It's Monday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
                     pstmt.setInt(1, employeeID);
                     pstmt.setObject(2, dayMin1);
                     pstmt.setObject(3, today);
@@ -1754,7 +1754,7 @@ public class DatabaseOperation {
                     break;
                 case 2:
                     System.out.println("It's Tuesday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
                     pstmt.setInt(1, employeeID);
                     pstmt.setObject(2, dayMin2);
                     pstmt.setObject(3, today);
@@ -1780,7 +1780,7 @@ public class DatabaseOperation {
                     break;
                 case 3:
                     System.out.println("It's Wednesday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
                     pstmt.setInt(1, employeeID);
                     pstmt.setObject(2, dayMin3);
                     pstmt.setObject(3, today);
@@ -1810,7 +1810,7 @@ public class DatabaseOperation {
                     break;
                 case 4:
                     System.out.println("It's Thursday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
                     pstmt.setInt(1, employeeID);
                     pstmt.setObject(2, dayMin4);
                     pstmt.setObject(3, today);
@@ -1843,7 +1843,7 @@ public class DatabaseOperation {
                     break;
                 case 5:
                     System.out.println("It's Friday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
                     pstmt.setInt(1, employeeID);
                     pstmt.setObject(2, dayMin4);
                     pstmt.setObject(3, today);
@@ -1879,7 +1879,7 @@ public class DatabaseOperation {
                     break;
                 case 6:
                     System.out.println("It's Saturday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPLOYEE_ID = ? AND DATE BETWEEN ? AND ?");
+                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
                     pstmt.setInt(1, employeeID);
                     pstmt.setObject(2, dayMin4);
                     pstmt.setObject(3, today);

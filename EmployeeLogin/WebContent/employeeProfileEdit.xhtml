@@ -53,7 +53,7 @@
                     <h:panelGrid class="editInfo" columns="6" columnClasses="empCitLeft, empCitRight, staLeft, midRight, empZLeft, zRight">
                         <h:outputText value="City:  " />
                         <h:inputText id="city" value="#{empRecordObj.city}" validatorMessage="Incorrect City" size="12">
-                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                            <f:validateRegex pattern="[a-zA-Z\s-]+"/>
                         </h:inputText>
                         <h:outputText value="State:  " />
                             <h:selectOneMenu id="state" value="#{empRecordObj.state}">
