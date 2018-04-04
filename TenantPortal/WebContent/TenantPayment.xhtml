@@ -2,191 +2,261 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/waystoneTenant.js"></script>
 	<title>Payment</title>
+	<h:outputStylesheet library="css" name="waystoneTenant.css" />
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </h:head>
 <h:body>
-	<h:form>
-		<h1>Payment</h1>
-		<!-- Use combo box  -->
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Payment Type: " />
-			<h:selectOneMenu id="paymentTypeSelectOneMenu"
-				value="#{tenant.paymentType}">
-				<f:selectItem itemValue="Credit Card" />
-				<f:selectItem itemValue="Automated Clearing House" />
-			</h:selectOneMenu>
-		</h:panelGrid>
+	<ui:composition template="templates/commonTemplate.html">
+		<ui:define name="content">
+			<h:form id="payForm">
+				<div class="empInfo">
+					<h1 class="pageTitle">Payments</h1>
+					<div class="profileBox">
 
-		<!-- Enter payment info  -->
-		<h3>Card information</h3>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Account Balance: 	$" />
+							<h:outputLabel
+								value="#{tenant.getTenantRecordBalance(tenantProfObj.tenantID)}" />
+							<h:outputLabel value="Payment Amount:	" />
+							<h:inputText id="paymentAmount" value="#{tenant.amountPaid}"
+								required="true" requiredMessage="Payment Amount is required"
+								validatorMessage="Please select a maintenance type" />
+						</h:panelGrid>
 
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Name on Card: " />
-			<h:inputText id="nameOnCardInputText" size="30" />
-		</h:panelGrid>
+						<!-- Use drop down box  -->
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Payment Type: " />
+							<h:selectOneMenu id="paymentType" value="#{tenant.paymentType}"
+								required="true" requiredMessage="Payment Type is required"
+								validatorMessage="Please select a payment type">
+								<f:selectItem itemValue="" />
+								<f:selectItem itemValue="Credit Card" />
+								<f:selectItem itemValue="Automated Clearing House" />
+								<f:ajax render="@form" />
+							</h:selectOneMenu>
+						</h:panelGrid>
 
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Card Type*: " />
-			<h:selectOneMenu id="cardTypeSelectOneMenu"
-				value="#{tenant.creditCardType}">
-				<f:selectItem itemValue="Card Type" />
-				<f:selectItem itemValue="Visa" />
-				<f:selectItem itemValue="Master Card" />
-				<f:selectItem itemValue="Discover" />
-				<f:selectItem itemValue="American Express" />
-			</h:selectOneMenu>
-		</h:panelGrid>
-
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Card Number*: " />
-			<h:inputText id="cardNumberInputText" size="16"
-				value="#{tenant.ccNum}" />
-		</h:panelGrid>
-
-		<h:panelGrid columns="3">
-			<h:outputLabel value="Expiration date*: " />
-			<h:selectOneMenu id="expirationMonthSelectOneMenu"
-				value=#{tenant.expDate}>
-				<f:selectItem itemValue="MM" />
-				<f:selectItem itemValue="01" />
-				<f:selectItem itemValue="02" />
-				<f:selectItem itemValue="03" />
-				<f:selectItem itemValue="04" />
-				<f:selectItem itemValue="05" />
-				<f:selectItem itemValue="06" />
-				<f:selectItem itemValue="07" />
-				<f:selectItem itemValue="08" />
-				<f:selectItem itemValue="09" />
-				<f:selectItem itemValue="10" />
-				<f:selectItem itemValue="11" />
-				<f:selectItem itemValue="12" />
-			</h:selectOneMenu>
-			<h:outputLabel value="/" />
-			<h:selectOneMenu id="expirationYearSelectOneMenu">
-				<f:selectItem itemValue="YY" />
-				<f:selectItem itemValue="18" />
-				<f:selectItem itemValue="19" />
-				<f:selectItem itemValue="20" />
-				<f:selectItem itemValue="21" />
-				<f:selectItem itemValue="22" />
-				<f:selectItem itemValue="23" />
-				<f:selectItem itemValue="24" />
-				<f:selectItem itemValue="25" />
-				<f:selectItem itemValue="26" />
-				<f:selectItem itemValue="27" />
-				<f:selectItem itemValue="28" />
-			</h:selectOneMenu>
-		</h:panelGrid>
-
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Security code*: " />
-			<h:inputText id="cvvInputText" size="3" value=#{tenant.cvvCode} />
-		</h:panelGrid>
-
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Bank Type*: " />
-			<h:inputText id="bankTypeInputText" value="#{tenant.bankType}" />
-		</h:panelGrid>
-
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Bank Number*: " />
-			<h:inputText id="bankNumInputText" value="#{tenant.bankNum" />
-		</h:panelGrid>
-
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Bank Routing*: " />
-			<h:inputText id="bankRoutingInputText" value="#{tenant.bankRouting}" />
-		</h:panelGrid>
-
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Phone number* (Ex:555-555-0115):  " />
-			<h:inputText id="phoneInputText" size="10" />
-		</h:panelGrid>
+						<!-- Credit Card information will appear only when 'Credit Card' is selected from payment type  -->
+						<h:panelGroup layout="block"
+							rendered="#{tenant.paymentType eq 'Credit Card'}">
+							<!-- Enter payment info  -->
+							<h3>Card information</h3>
 
 
-		<!-- Billing Address Column should be next to payment info  -->
-		<h3>Billing address</h3>
+							<h:panelGrid columns="2">
+								<h:outputLabel value="Name on Card: " />
+								<h:inputText id="nameOnCardInputText" size="30" />
+							</h:panelGrid>
 
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Street address*   " />
-			<h:inputText id="streetAddressInputText" />
-		</h:panelGrid>
+							<h:panelGrid columns="2">
+								<h:outputLabel value="Card Type: " />
+								<h:selectOneMenu id="creditCardType"
+									value="#{tenant.creditCardType}" required="true"
+									requiredMessage="Card Type is required"
+									validatorMessage="Please select a card type">
+									<f:selectItem itemValue="" />
+									<f:selectItem itemValue="Visa" />
+									<f:selectItem itemValue="Master Card" />
+									<f:selectItem itemValue="Discover" />
+									<f:selectItem itemValue="American Express" />
+								</h:selectOneMenu>
+							</h:panelGrid>
 
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Apt, suite, bld, c/o (optional)" />
-			<h:inputText id="aptInputText" />
-		</h:panelGrid>
+							<h:panelGrid columns="2">
+								<h:outputLabel value="Card Number: " />
+								<h:inputText id="creditCardNum" size="25"
+									value="#{tenant.creditCardNum}" required="true"
+									requiredMessage="Card Number is required"
+									validatorMessage="Please enter Card Number using numeric values" />
+							</h:panelGrid>
 
-		<h:panelGrid columns="2">
-			<h:outputLabel value="City* " />
-			<h:inputText id="cityInputText" />
-		</h:panelGrid>
+							<h:panelGrid columns="5">
+								<h:outputLabel value="Expiration date: " />
+								<h:selectOneMenu id="expMonth" value="#{tenant.expMonth}"
+									required="true">
+									<f:selectItem itemValue="MM" />
+									<f:selectItem itemValue="01" />
+									<f:selectItem itemValue="02" />
+									<f:selectItem itemValue="03" />
+									<f:selectItem itemValue="04" />
+									<f:selectItem itemValue="05" />
+									<f:selectItem itemValue="06" />
+									<f:selectItem itemValue="07" />
+									<f:selectItem itemValue="08" />
+									<f:selectItem itemValue="09" />
+									<f:selectItem itemValue="10" />
+									<f:selectItem itemValue="11" />
+									<f:selectItem itemValue="12" />
+								</h:selectOneMenu>
+								<h:outputLabel value="/" />
+								<h:selectOneMenu id="expYear" value="#{tenant.expYear}"
+									required="true">
+									<f:selectItem itemValue="YY" />
+									<f:selectItem itemValue="18" />
+									<f:selectItem itemValue="19" />
+									<f:selectItem itemValue="20" />
+									<f:selectItem itemValue="21" />
+									<f:selectItem itemValue="22" />
+									<f:selectItem itemValue="23" />
+									<f:selectItem itemValue="24" />
+									<f:selectItem itemValue="25" />
+									<f:selectItem itemValue="26" />
+									<f:selectItem itemValue="27" />
+									<f:selectItem itemValue="28" />
+								</h:selectOneMenu>
+							</h:panelGrid>
 
-		<h:panelGrid columns="2">
-			<h:outputLabel value="State*    " />
-			<h:selectOneMenu id="StateSelectOneMenu">
-				<f:selectItem itemValue="AL" />
-				<f:selectItem itemValue="AK" />
-				<f:selectItem itemValue="AZ" />
-				<f:selectItem itemValue="AR" />
-				<f:selectItem itemValue="CA" />
-				<f:selectItem itemValue="CO" />
-				<f:selectItem itemValue="CT" />
-				<f:selectItem itemValue="DE" />
-				<f:selectItem itemValue="FL" />
-				<f:selectItem itemValue="GA" />
-				<f:selectItem itemValue="HI" />
-				<f:selectItem itemValue="ID" />
-				<f:selectItem itemValue="IL" />
-				<f:selectItem itemValue="IN" />
-				<f:selectItem itemValue="IA" />
-				<f:selectItem itemValue="KS" />
-				<f:selectItem itemValue="KY" />
-				<f:selectItem itemValue="LA" />
-				<f:selectItem itemValue="ME" />
-				<f:selectItem itemValue="MD" />
-				<f:selectItem itemValue="MA" />
-				<f:selectItem itemValue="MI" />
-				<f:selectItem itemValue="MN" />
-				<f:selectItem itemValue="MI" />
-				<f:selectItem itemValue="MO" />
-				<f:selectItem itemValue="MT" />
-				<f:selectItem itemValue="NE" />
-				<f:selectItem itemValue="NV" />
-				<f:selectItem itemValue="NH" />
-				<f:selectItem itemValue="NJ" />
-				<f:selectItem itemValue="NM" />
-				<f:selectItem itemValue="NY" />
-				<f:selectItem itemValue="NC" />
-				<f:selectItem itemValue="ND" />
-				<f:selectItem itemValue="OH" />
-				<f:selectItem itemValue="OK" />
-				<f:selectItem itemValue="OR" />
-				<f:selectItem itemValue="PA" />
-				<f:selectItem itemValue="RI" />
-				<f:selectItem itemValue="SC" />
-				<f:selectItem itemValue="SD" />
-				<f:selectItem itemValue="TN" />
-				<f:selectItem itemValue="TX" />
-				<f:selectItem itemValue="UT" />
-				<f:selectItem itemValue="VT" />
-				<f:selectItem itemValue="VA" />
-				<f:selectItem itemValue="WA" />
-				<f:selectItem itemValue="WV" />
-				<f:selectItem itemValue="WI" />
-				<f:selectItem itemValue="WY" />
-			</h:selectOneMenu>
-		</h:panelGrid>
+							<h:panelGrid columns="2">
+								<h:outputLabel value="Security code: " />
+								<h:inputText id="cvvCode" size="3" value="#{tenant.cvvCode}"
+									required="true" />
+							</h:panelGrid>
 
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Zip Code* " />
-			<h:inputText id="zipInputText" size="5" />
-		</h:panelGrid>
+							
+						</h:panelGroup>
 
-		<!-- Use command button -->
-		<h:commandButton value="Submit" />
-	</h:form>
+						<h:panelGroup layout="block"
+							rendered="#{tenant.paymentType eq 'Automated Clearing House'}">
+							<!-- Bank Account Info  -->
+							<h3>Bank Account Information</h3>
+							<h:panelGrid columns="2">
+								<h:outputLabel value="Account Type: " />
+								<h:selectOneMenu id="bankType" value="#{tenant.bankType}"
+									required="true" requiredMessage="account Type is required"
+									validatorMessage="Please select a bank account type">
+									<f:selectItem itemValue="" />
+									<f:selectItem itemValue="Checking" />
+									<f:selectItem itemValue="Savings" />
+								</h:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid columns="2">
+								<h:outputLabel value="Account Number: " />
+								<h:inputText id="bankNum" value="#{tenant.bankNum}"
+									required="true"
+									requiredMessage="Bank Account Number is required"
+									validatorMessage="Please enter a bank account number" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="2">
+								<h:outputLabel value="Routing Number: " />
+								<h:inputText id="bankRouting" value="#{tenant.bankRouting}"
+									required="true" requiredMessage="Routing Number is required"
+									validatorMessage="Please enter a bank routing number" />
+							</h:panelGrid>
+
+						</h:panelGroup>
+						
+						<h:panelGroup layout="block" rendered="#{tenant.paymentType eq 'Credit Card' or tenant.paymentType eq 'Automated Clearing House'}" >
+						<!-- Billing Address -->
+							<h3>Billing address</h3>
+
+							<h:panelGrid columns="2">
+								<h:outputLabel value="Street address:   " />
+								<h:inputText id="billingAddress"
+									value="#{tenant.billingAddress}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="2">
+								<h:outputLabel value="City:		 " />
+								<h:inputText id="billingCity" value="#{tenant.billingCity}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="2">
+								<h:outputLabel value="State:    " />
+								<h:selectOneMenu id="billingState"
+									value="#{tenant.billingState}">
+									<f:selectItem itemValue="" />
+									<f:selectItem itemValue="AL" />
+									<f:selectItem itemValue="AK" />
+									<f:selectItem itemValue="AZ" />
+									<f:selectItem itemValue="AR" />
+									<f:selectItem itemValue="CA" />
+									<f:selectItem itemValue="CO" />
+									<f:selectItem itemValue="CT" />
+									<f:selectItem itemValue="DE" />
+									<f:selectItem itemValue="FL" />
+									<f:selectItem itemValue="GA" />
+									<f:selectItem itemValue="HI" />
+									<f:selectItem itemValue="ID" />
+									<f:selectItem itemValue="IL" />
+									<f:selectItem itemValue="IN" />
+									<f:selectItem itemValue="IA" />
+									<f:selectItem itemValue="KS" />
+									<f:selectItem itemValue="KY" />
+									<f:selectItem itemValue="LA" />
+									<f:selectItem itemValue="ME" />
+									<f:selectItem itemValue="MD" />
+									<f:selectItem itemValue="MA" />
+									<f:selectItem itemValue="MI" />
+									<f:selectItem itemValue="MN" />
+									<f:selectItem itemValue="MI" />
+									<f:selectItem itemValue="MO" />
+									<f:selectItem itemValue="MT" />
+									<f:selectItem itemValue="NE" />
+									<f:selectItem itemValue="NV" />
+									<f:selectItem itemValue="NH" />
+									<f:selectItem itemValue="NJ" />
+									<f:selectItem itemValue="NM" />
+									<f:selectItem itemValue="NY" />
+									<f:selectItem itemValue="NC" />
+									<f:selectItem itemValue="ND" />
+									<f:selectItem itemValue="OH" />
+									<f:selectItem itemValue="OK" />
+									<f:selectItem itemValue="OR" />
+									<f:selectItem itemValue="PA" />
+									<f:selectItem itemValue="RI" />
+									<f:selectItem itemValue="SC" />
+									<f:selectItem itemValue="SD" />
+									<f:selectItem itemValue="TN" />
+									<f:selectItem itemValue="TX" />
+									<f:selectItem itemValue="UT" />
+									<f:selectItem itemValue="VT" />
+									<f:selectItem itemValue="VA" />
+									<f:selectItem itemValue="WA" />
+									<f:selectItem itemValue="WV" />
+									<f:selectItem itemValue="WI" />
+									<f:selectItem itemValue="WY" />
+								</h:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid columns="2">
+								<h:outputLabel value="Zip Code:	 " />
+								<h:inputText id="billingZip" value="#{tenant.billingZip}"
+									size="5" />
+							</h:panelGrid>
+							</h:panelGroup>
+
+						<h:panelGrid class="warning" columns="1">
+							<h:message for="paymentAmount" />
+							<h:message for="paymentType" />
+							<h:message for="creditCardType" />
+							<h:message for="creditCardNum" />
+							<h:message for="expMonth" />
+							<h:message for="expYear" />
+							<h:message for="cvvCode" />
+							<h:message for="bankType" />
+							<h:message for="bankNum" />
+							<h:message for="bankRouting" />
+						</h:panelGrid>
+
+						<!-- Use command button -->
+						<h:panelGrid columns="2">
+							<h:commandButton value="Submit"
+								action="#{tenant.insertTenantPayment(tenant, tenantProfObj.tenantID)}" />
+							<h:commandButton value="Clear" type="reset" />
+						</h:panelGrid>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

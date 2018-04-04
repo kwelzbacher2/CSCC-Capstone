@@ -2,14 +2,83 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-	<title>Facelet Title</title>
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/waystoneTenant.js"></script>
+	<title>Home</title>
+	<h:outputStylesheet library="css" name="waystoneTenant.css" />
 </h:head>
 <h:body>
-	<h:form>
-		<p>Welcome Tenant</p>
-		<h:commandLink action="#{tenant.logout}" value="Logout"></h:commandLink>
-	</h:form>
+	<ui:composition template="templates/commonTemplate.html">
+		<ui:define name="content">
+			<h:form id="form">
+				<div class="empInfo">
+					<h1 class="pageTitle">Home</h1>
+					<ui:repeat value="#{tenant.getTenantRecord()}" var="ten">
+						<h3 id="welcome">Welcome Tenant</h3>
+						<br></br>
+						<h:outputText value="#{ten.firstName} #{ten.lastName}"
+							class="empInfo" />
+
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Current Balance Due: 	$" />
+							<h:outputLabel
+								value="#{tenant.getTenantRecordBalance(tenantProfObj.tenantID)}" />
+						</h:panelGrid>
+						<br></br>
+
+						<h:dataTable id="maintenanceTable"
+							value="#{tenant.getTenantMaint(tenantProfObj.tenantID)}"
+							var="maint" styleClass="table" headerClass="table-header"
+							rowClasses="table-odd, table-even"
+							columnClasses="requestID, jobType, jobDesc, datereq">
+							<h:column>
+								<f:facet name="header">Request Number</f:facet>
+								<h:commandLink value="#{maint.requestID}" class="table-link" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Job Type</f:facet>
+								<h:commandLink value="#{maint.maintJobType}" class="table-link" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Job Description</f:facet>
+								<h:commandLink value="#{maint.maintJobDesc}" class="table-link" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Date Requested</f:facet>
+								<h:commandLink value="#{maint.maintDate}" class="table-link" />
+							</h:column>
+						</h:dataTable>
+						<br></br>
+						<br></br>
+
+						<h:dataTable id="paymentTable"
+							value="#{tenant.getTenantAcctRecords(tenantProfObj.tenantID)}"
+							var="pay" styleClass="table" headerClass="table-header"
+							rowClasses="table-odd, table-even"
+							columnClasses="paymentDate, recordName, recordAmount">
+							<h:column>
+								<f:facet name="header">Date</f:facet>
+								<h:commandLink value="#{pay.recordDate}" class="table-link" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Adjustment Type</f:facet>
+								<h:commandLink value="#{pay.recordName}" class="table-link" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Amount</f:facet>
+								<h:commandLink value="#{pay.recordAmount}" class="table-link" />
+							</h:column>
+						</h:dataTable>
+
+
+					</ui:repeat>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

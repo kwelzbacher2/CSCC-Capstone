@@ -5,31 +5,33 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import waystonepropertymanagement.tenant.portal.TenantJSFBean;
-
 public class DatabaseOperation {
-	public static Statement stmtObj;
-	public static Connection connObj;
+	public static Statement stmt;
+	public static Connection con;
 	public static ResultSet resultSetObj;
-	public static PreparedStatement pstmt;
+	public static PreparedStatement ps;
 
 	public static boolean tenantValidate(String email, String password) {
 
 		try {
 
-			connObj = DataConnect.getConnection();
-			pstmt = connObj
-					.prepareStatement("Select email, password FROM tenant_login WHERE email = ? and password = ?");
-			pstmt.setString(1, email);
-			pstmt.setString(2, password);
+			con = DataConnect.getConnection();
+			ps = con.prepareStatement("Select email, password FROM ten_login WHERE email = ? and password = ?");
+			ps.setString(1, email);
+			ps.setString(2, password);
 
-			ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				// result found, means valid inputs
 				return true;
@@ -40,251 +42,401 @@ public class DatabaseOperation {
 
 		} finally {
 
-			DataConnect.close(connObj);
+			DataConnect.close(con);
 
 		}
 		return false;
 	}
 
-	public static List<Tenant> getTenantListFromDB(String searchCrit, String searchInfo) {
+	public static List<Tenant> getTenantListFromDB(String username) {
+		Tenant tenRecord = null;
 		List<Tenant> tenList = new ArrayList<>();
-		String query;
-
-		switch (searchCrit) {
-		case "Tenant ID":
-			query = ("SELECT * FROM TENANT WHERE TENANT_ID = ?");
-			break;
-		case "Last Name":
-			query = ("SELECT * FROM TENANT WHERE LASTNAME = ?");
-			break;
-		default:
-			query = ("SELECT * FROM TENANT WHERE PHONE = ?");
-			break;
-		}
+		Map<String, Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		try {
 
-			connObj = DataConnect.getConnection();
-			pstmt = connObj.prepareStatement(query);
-			pstmt.setString(1, searchInfo);
+			con = DataConnect.getConnection();
+			ps = con.prepareStatement("SELECT * FROM TENANT WHERE email = ?");
+			ps.setString(1, username);
 
-			resultSetObj = pstmt.executeQuery();
+			resultSetObj = ps.executeQuery();
 			if (resultSetObj != null) {
-				while (resultSetObj.next()) {
-					Tenant tenObj = new Tenant();
+				resultSetObj.next();
+				tenRecord = new Tenant();
 
-					tenObj.setTenantID(resultSetObj.getInt("TENANT_ID"));
-					tenObj.setFirstName(resultSetObj.getString("FIRSTNAME"));
-					tenObj.setLastName(resultSetObj.getString("LASTNAME"));
-					tenObj.setMi(resultSetObj.getString("MI"));
-					tenObj.setPermAddress(resultSetObj.getString("PERM_ADDRESS"));
-					tenObj.setPermCity(resultSetObj.getString("PERM_CITY"));
-					tenObj.setPermState(resultSetObj.getString("PERM_STATE"));
-					tenObj.setPermZip(resultSetObj.getString("PERM_ZIP"));
-					tenObj.setPhone(resultSetObj.getString("PHONE"));
-					tenObj.setEmail(resultSetObj.getString("EMAIL"));
-					tenObj.setDOB(resultSetObj.getString("DOB"));
-					PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM UNITS WHERE TENANT_ID = ?");
-					prepst.setInt(1, tenObj.getTenantID());
-					ResultSet rset = prepst.executeQuery();
-					while (rset.next()) {
-						tenObj.setBuilding(rset.getString("BUILDING"));
-						tenObj.setAptNum(rset.getString("APTNUM"));
+				tenRecord.setTenantID(resultSetObj.getInt("TENANT_ID"));
+				tenRecord.setFirstName(resultSetObj.getString("FIRSTNAME"));
+				tenRecord.setLastName(resultSetObj.getString("LASTNAME"));
+				tenRecord.setMi(resultSetObj.getString("MI"));
+				tenRecord.setPermAddress(resultSetObj.getString("PERM_ADDRESS"));
+				tenRecord.setPermCity(resultSetObj.getString("PERM_CITY"));
+				tenRecord.setPermState(resultSetObj.getString("PERM_STATE"));
+				tenRecord.setPermZip(resultSetObj.getString("PERM_ZIP"));
+				tenRecord.setPhone(resultSetObj.getString("PHONE"));
+				tenRecord.setEmail(resultSetObj.getString("EMAIL"));
+				tenRecord.setDob(resultSetObj.getString("DOB"));
 
-					}
-					tenList.add(tenObj);
-
-				}
-				System.out.println("Total Records Fetched: " + tenList.size());
-				System.out.println(tenList);
-
+				tenList.add(tenRecord);
 			}
-
+			sessionMapObj.put("tenantProfObj", tenRecord);
 		} catch (SQLException e) {
 			System.out.println("Login error -->" + e.getMessage());
 		} finally {
-			DataConnect.close(connObj);
+			DataConnect.close(con);
 		}
 		return tenList;
 	}
 
-	public static List<Tenant> getTenantListBuilding(String searchInfo) {
-		List<Tenant> tenBuildList = new ArrayList<>();
-
+	public static String updateTenantDetailsInDB(Tenant updateTenantObj) {
 		try {
 
-			connObj = DataConnect.getConnection();
-			pstmt = connObj.prepareStatement("SELECT * FROM UNITS WHERE BUILDING = ? AND TENANT_ID IS NOT NULL");
-			pstmt.setString(1, searchInfo);
+			con = DataConnect.getConnection();
+			ps = con.prepareStatement("UPDATE TENANT SET FIRSTNAME = ?, LASTNAME = ?, MI = ?, "
+					+ "PERM_ADDRESS = ?, PERM_CITY = ?, PERM_STATE = ?, PERM_ZIP = ?, PHONE = ?, EMAIL = ?, DOB = ?  WHERE TENANT_ID = ?");
 
-			resultSetObj = pstmt.executeQuery();
-			if (resultSetObj != null) {
-				while (resultSetObj.next()) {
-					Tenant tenObj = new Tenant();
-					tenObj.setBuilding(resultSetObj.getString("BUILDING"));
-					tenObj.setAptNum(resultSetObj.getString("APTNUM"));
-					tenObj.setAddress(resultSetObj.getString("ADDRESS"));
-					tenObj.setCity(resultSetObj.getString("CITY"));
-					tenObj.setState(resultSetObj.getString("STATE"));
-					tenObj.setZipcode(resultSetObj.getString("ZIP"));
-					tenObj.setTenantID(resultSetObj.getInt("TENANT_ID"));
+			ps.setString(1, updateTenantObj.getFirstName());
+			ps.setString(2, updateTenantObj.getLastName());
+			ps.setString(3, updateTenantObj.getMi());
+			ps.setString(4, updateTenantObj.getPermAddress());
+			ps.setString(5, updateTenantObj.getPermCity());
+			ps.setString(6, updateTenantObj.getPermState());
+			ps.setString(7, updateTenantObj.getPermZip());
+			ps.setString(8, updateTenantObj.getPhone());
+			ps.setString(9, updateTenantObj.getEmail());
+			ps.setString(10, updateTenantObj.getDob());
+			ps.setInt(11, updateTenantObj.getTenantID());
 
-					PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM TENANT WHERE TENANT_ID = ?");
-					prepst.setInt(1, tenObj.getTenantID());
-					ResultSet rset = prepst.executeQuery();
-					while (rset.next()) {
-						tenObj.setFirstName(rset.getString("FIRSTNAME"));
-						tenObj.setLastName(rset.getString("LASTNAME"));
-						tenObj.setMi(rset.getString("MI"));
-						tenObj.setPermAddress(rset.getString("PERM_ADDRESS"));
-						tenObj.setPermCity(rset.getString("PERM_CITY"));
-						tenObj.setPermState(rset.getString("PERM_STATE"));
-						tenObj.setPermZip(rset.getString("PERM_ZIP"));
-						tenObj.setPhone(rset.getString("PHONE"));
-						tenObj.setEmail(rset.getString("EMAIL"));
-						tenObj.setDOB(rset.getString("DOB"));
-					}
-					tenBuildList.add(tenObj);
-
-				}
-				System.out.println("Total Records Fetched: " + tenBuildList.size());
-				System.out.println(tenBuildList);
-
-			}
+			ps.executeUpdate();
 
 		} catch (SQLException e) {
 			System.out.println("Login error -->" + e.getMessage());
 		} finally {
-			DataConnect.close(connObj);
+			DataConnect.close(con);
 		}
-		return tenBuildList;
+		return "/TenantProfile.xhtml?faces-redirect=true";
 	}
 
-	public static String viewTenantRecordInDB(int tenantID) {
-		Tenant viewTen;
-		Map<String, Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-
+	public static String updateTenantPassword(String password, String email) {
 		try {
-			connObj = DataConnect.getConnection();
-			pstmt = connObj.prepareStatement("SELECT * FROM TENANT WHERE TENANT_ID = ?");
-			pstmt.setInt(1, tenantID);
-			resultSetObj = pstmt.executeQuery();
-			if (resultSetObj != null) {
-				while (resultSetObj.next()) {
-					viewTen = new Tenant();
-
-					viewTen.setTenantID(resultSetObj.getInt("TENANT_ID"));
-					viewTen.setFirstName(resultSetObj.getString("FIRSTNAME"));
-					viewTen.setLastName(resultSetObj.getString("LASTNAME"));
-					viewTen.setMi(resultSetObj.getString("MI"));
-					viewTen.setPermAddress(resultSetObj.getString("PERM_ADDRESS"));
-					viewTen.setPermCity(resultSetObj.getString("PERM_CITY"));
-					viewTen.setPermState(resultSetObj.getString("PERM_STATE"));
-					viewTen.setPermZip(resultSetObj.getString("PERM_ZIP"));
-					viewTen.setPhone(resultSetObj.getString("PHONE"));
-					viewTen.setEmail(resultSetObj.getString("EMAIL"));
-					viewTen.setDOB(resultSetObj.getString("DOB"));
-					PreparedStatement prepst = connObj.prepareStatement("SELECT * FROM UNITS WHERE TENANT_ID = ?");
-					prepst.setInt(1, viewTen.getTenantID());
-					ResultSet rset = prepst.executeQuery();
-					while (rset.next()) {
-						viewTen.setBuilding(rset.getString("BUILDING"));
-						viewTen.setAptNum(rset.getString("APTNUM"));
-					}
-					sessionMapObj.put("tenantViewObj", viewTen);
-
-				}
-
-			}
-
+			con = DataConnect.getConnection();
+			ps = con.prepareStatement("UPDATE ten_login SET password = ? WHERE email = ?");
+			ps.setString(1, password);
+			ps.setString(2, email);
+			ps.executeQuery();
 		} catch (SQLException e) {
 			System.out.println("Login error -->" + e.getMessage());
 		} finally {
-			DataConnect.close(connObj);
+			DataConnect.close(con);
 		}
-		return "/viewTenant.xhtml?faces-redirect=true";
-
+		return "/TenantProfile.xhtml?faces-redirect=true";
 	}
 
-	public static String updateTenantDetailsInDB(Tenant updateTenObj) {
+	public static double getTenantRecordBalanceInDB(int tenantID) {
+		Connection con = null;
+		double finalAmount = 0;
+		double balance = 0;
 		try {
-
-			connObj = DataConnect.getConnection();
-			pstmt = connObj.prepareStatement("UPDATE TENANT SET FIRSTNAME = ?, LASTNAME = ?, MI = ?, "
-					+ "PERM_ADDRESS = ?, PERM_CITY = ?, PERM_STATE = ?, PERM_ZIP = ?, PHONE = ?, EMAIL=?, DOB = ? WHERE TENANT_ID = ?");
-			pstmt.setString(1, updateTenObj.getFirstName());
-			pstmt.setString(2, updateTenObj.getLastName());
-			pstmt.setString(3, updateTenObj.getMi());
-			pstmt.setString(4, updateTenObj.getPermAddress());
-			pstmt.setString(5, updateTenObj.getPermCity());
-			pstmt.setString(6, updateTenObj.getPermState());
-			pstmt.setString(7, updateTenObj.getPermZip());
-			pstmt.setString(8, updateTenObj.getPhone());
-			pstmt.setString(9, updateTenObj.getDOB());
-			pstmt.setString(10, updateTenObj.getEmail());
-			pstmt.setInt(11, updateTenObj.getTenantID());
-
-			pstmt.executeQuery();
-
-		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
-		} finally {
-			DataConnect.close(connObj);
-		}
-		return "/viewTenant.xhtml?faces-redirect=true";
-	}
-
-	public static String viewIndivRecordInDB(int recordID) {
-		Record viewRecord;
-		Map<String, Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-
-		try {
-			connObj = DataConnect.getConnection();
-			pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE RECORD_ID = ?");
-			pstmt.setInt(1, recordID);
-			resultSetObj = pstmt.executeQuery();
+			con = DataConnect.getConnection();
+			ps = con.prepareStatement("SELECT AMOUNT, IS_CREDIT FROM RECORDS WHERE TENANT_ID = ?");
+			ps.setInt(1, tenantID);
+			resultSetObj = ps.executeQuery();
 			if (resultSetObj != null) {
 				while (resultSetObj.next()) {
-					viewRecord = new Record();
-					viewRecord.setRecordID(resultSetObj.getInt("RECORD_ID"));
-					viewRecord.setRecordName(resultSetObj.getString("RECORD_NAME"));
-					viewRecord.setRecordAmount(resultSetObj.getString("AMOUNT"));
-					if (resultSetObj.getString("IS_CREDIT").equals("0")) {
-						viewRecord.setRecordIsCredit("No");
+
+					double amount = resultSetObj.getDouble("AMOUNT");
+
+					boolean isCred = resultSetObj.getBoolean("IS_CREDIT");
+
+					if (isCred == true) {
+						finalAmount = amount;
+
 					} else {
-						viewRecord.setRecordIsCredit("Yes");
-					}
-					viewRecord.setRecordDate(resultSetObj.getString("DATE"));
-					viewRecord.setRecordInvNum(resultSetObj.getString("INVNUM"));
-					viewRecord.setRecordTenantID(resultSetObj.getString("TENANT_ID"));
-					viewRecord.setRecordAccount(resultSetObj.getString("ACCOUNT_NAME"));
-					sessionMapObj.put("recViewObj", viewRecord);
+						finalAmount = amount * -1;
 
+					}
+
+					balance += finalAmount;
 				}
 
 			}
-
 		} catch (SQLException e) {
 			System.out.println("Login error -->" + e.getMessage());
 		} finally {
-			DataConnect.close(connObj);
+			DataConnect.close(con);
 		}
-		return "/viewRecord.xhtml?faces-redirect=true";
+
+		return balance;
 	}
 
-	public static List<String> viewAllBuildingNamesInDB() {
-		List<String> buildNameList = new ArrayList();
+	public static List<Tenant> getTenantAccRecordsInDB(int tenantID) {
+		List<Tenant> tenantRecordsList = new ArrayList();
+
+		DecimalFormat df = new DecimalFormat("#0.00");
 		try {
-			connObj = DataConnect.getConnection();
-			pstmt = connObj.prepareStatement("SELECT DISTINCT BUILDING FROM UNITS");
-			resultSetObj = pstmt.executeQuery();
-			while (resultSetObj.next()) {
-				buildNameList.add(resultSetObj.getString("BUILDING"));
+			con = DataConnect.getConnection();
+			ps = con.prepareStatement("SELECT RECORD_NAME, DATE, AMOUNT, IS_CREDIT FROM RECORDS WHERE TENANT_ID = ?");
+			ps.setInt(1, tenantID);
+			resultSetObj = ps.executeQuery();
+			if (resultSetObj != null) {
+				while (resultSetObj.next()) {
+					Tenant tenAllRecordsObj = new Tenant();
+					tenAllRecordsObj.setRecordName(resultSetObj.getString("RECORD_NAME"));
+					tenAllRecordsObj.setRecordDate(resultSetObj.getString("DATE"));
+
+					double amount = resultSetObj.getDouble("AMOUNT");
+
+					boolean isCred = resultSetObj.getBoolean("IS_CREDIT");
+					if (isCred == true) {
+
+						tenAllRecordsObj.setRecordAmount(df.format(amount));
+					} else {
+
+						tenAllRecordsObj.setRecordAmount(df.format(amount * -1));
+					}
+
+					tenantRecordsList.add(tenAllRecordsObj);
+				}
+				System.out.println("Total Records Fetched: " + tenantRecordsList.size());
 			}
 		} catch (SQLException e) {
 			System.out.println("Login error -->" + e.getMessage());
 		} finally {
-			DataConnect.close(connObj);
+			DataConnect.close(con);
 		}
-		return buildNameList;
+
+		return tenantRecordsList;
+	}
+
+	// the first one I tried to use
+	public static List<Tenant> getTenantMaintFromDB(int maintTenID) {
+		Tenant tenMaint = null;
+		List<Tenant> tenMaintList = new ArrayList<>();
+		Map<String, Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		try {
+
+			con = DataConnect.getConnection();
+			ps = con.prepareStatement(
+					"SELECT request_id, tenant_id, jobType, jobDesc, datereq FROM maintenance WHERE tenant_id = ?");
+			ps.setInt(1, maintTenID);
+
+			resultSetObj = ps.executeQuery();
+			if (resultSetObj != null) {
+				while (resultSetObj.next()) {
+					tenMaint = new Tenant();
+
+					tenMaint.setRequestID(resultSetObj.getInt("request_id"));
+					tenMaint.setTenantID(resultSetObj.getInt("tenant_id"));
+					tenMaint.setMaintJobType(resultSetObj.getString("jobType"));
+					tenMaint.setMaintJobDesc(resultSetObj.getString("jobDesc"));
+					tenMaint.setMaintDate(resultSetObj.getString("datereq"));
+
+					tenMaintList.add(tenMaint);
+				}
+			}
+			sessionMapObj.put("tenantMaintObj", tenMaint);
+		} catch (SQLException e) {
+			System.out.println("Login error -->" + e.getMessage());
+		} finally {
+			DataConnect.close(con);
+		}
+		return tenMaintList;
+	}
+
+	public static List<Tenant> getTenantPaymentsFromDB(String username) {
+		Tenant tenPay = null;
+		List<Tenant> tenPayList = new ArrayList<>();
+		Map<String, Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		try {
+
+			con = DataConnect.getConnection();
+			ps = con.prepareStatement("SELECT * FROM payment_records WHERE tenant_id = ?");
+			ps.setString(1, username);
+
+			resultSetObj = ps.executeQuery();
+			if (resultSetObj != null) {
+				resultSetObj.next();
+				tenPay = new Tenant();
+
+				tenPay.setPaymentID(resultSetObj.getInt("payment_id"));
+				tenPay.setTenantID(resultSetObj.getInt("tenant_id"));
+				tenPay.setPaymentType(resultSetObj.getString("tenant_id"));
+				tenPay.setCreditCardType(resultSetObj.getString("cc_type"));
+				tenPay.setCreditCardNum(resultSetObj.getString("cc_num"));
+				tenPay.setExpMonth(resultSetObj.getString("exp_month"));
+				tenPay.setExpYear(resultSetObj.getString("exp_year"));
+				tenPay.setCvvCode(resultSetObj.getString("cvv_code"));
+				tenPay.setBankType(resultSetObj.getString("bank_type"));
+				tenPay.setBankNum(resultSetObj.getString("bank_num"));
+				tenPay.setBankRouting(resultSetObj.getString("bank_routing"));
+				tenPay.setBillingAddress(resultSetObj.getString("billing_address"));
+				tenPay.setBillingCity(resultSetObj.getString("billing_city"));
+				tenPay.setBillingState(resultSetObj.getString("billing_state"));
+				tenPay.setBillingZip(resultSetObj.getString("billing_zip"));
+
+				tenPayList.add(tenPay);
+			}
+			sessionMapObj.put("tenantRecordObj", tenPay);
+		} catch (SQLException e) {
+			System.out.println("Login error -->" + e.getMessage());
+		} finally {
+			DataConnect.close(con);
+		}
+		return tenPayList;
+	}
+
+	public static String insertIntoMaintInDB(Tenant tenantMaintObj, int maintTenID) {
+		int saveResult = 0;
+		String navigation;
+		try {
+			con = DataConnect.getConnection();
+
+			ps = con.prepareStatement("INSERT INTO MAINTENANCE(TENANT_ID, JOBTYPE, JOBDESC, DATEREQ) VALUES(?,?,?,?)");
+			ps.setInt(1, maintTenID);
+			ps.setString(2, tenantMaintObj.getMaintJobType());
+			ps.setString(3, tenantMaintObj.getMaintJobDesc());
+			ps.setString(4, tenantMaintObj.getMaintDate());
+
+			saveResult = ps.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("Login error -->" + e.getMessage());
+		} finally {
+			DataConnect.close(con);
+		}
+
+		if (saveResult != 0) {
+			FacesContext.getCurrentInstance().addMessage("maintForm:jobType",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Your Maintenance Request Was Successfully Received",
+							"Your Maintenance Request Was Successfully Received"));
+			navigation = "/TenantMaintenanceConfirmation.xhtml?face-redirect=true";
+
+		} else {
+			FacesContext.getCurrentInstance().addMessage("maintForm:jobType",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "There Was An Error, Please Resubmit Your Request",
+							"There Was An Error, Please Resubmit Your Request"));
+			navigation = "/TenantMaintenance.xhtml?faces-redirect=true";
+		}
+
+		return "/TenantMaintenance.xhtml?faces-redirect=true";
+		// return navigation;
+
+	}
+
+	public static String insertIntoPaymentInDB(Tenant tenantRecordObj, int payTenID) {
+		int saveResult = 0;
+		Date date = new Date();
+		LocalDate today = date.toInstant().atZone(ZoneId.of("America/Montreal")).toLocalDate();
+		System.out.println("today : " + today);
+		int monthInt = today.getMonthValue();
+		int yearInt = today.getYear();
+		java.text.DecimalFormat nft = new java.text.DecimalFormat("00");
+		String month = nft.format(monthInt);
+		try {
+			con = DataConnect.getConnection();
+
+			ps = con.prepareStatement(
+					"INSERT INTO payment_records(tenant_id, payment_type, cc_type, cc_num, exp_month, exp_year, cvv_code, bank_type, bank_num, bank_routing, billing_address, billing_city, billing_state, billing_zip) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			ps.setInt(1, payTenID);
+			ps.setString(2, tenantRecordObj.getPaymentType());
+			ps.setString(3, tenantRecordObj.getCreditCardType());
+			ps.setString(4, tenantRecordObj.getCreditCardNum());
+			ps.setString(5, tenantRecordObj.getExpMonth());
+			ps.setString(6, tenantRecordObj.getExpYear());
+			ps.setString(7, tenantRecordObj.getCvvCode());
+			ps.setString(8, tenantRecordObj.getBankType());
+			ps.setString(9, tenantRecordObj.getBankNum());
+			ps.setString(10, tenantRecordObj.getBankRouting());
+			ps.setString(11, tenantRecordObj.getBillingAddress());
+			ps.setString(12, tenantRecordObj.getBillingCity());
+			ps.setString(13, tenantRecordObj.getBillingState());
+			ps.setString(14, tenantRecordObj.getBillingZip());
+
+			saveResult = ps.executeUpdate();
+
+			PreparedStatement prepst = con.prepareStatement("SELECT UNIT_ID FROM UNITS WHERE TENANT_ID = ?");
+			prepst.setInt(1, payTenID);
+			ResultSet rs = prepst.executeQuery();
+			while (rs.next()) {
+				Tenant rentUnitObj = new Tenant();
+				rentUnitObj.setUnit(rs.getInt("UNIT_ID"));
+
+				PreparedStatement pstmt = con.prepareStatement(
+						"INSERT INTO RECORDS(record_name, amount, is_credit, date, invnum, tenant_id, account_name) values('TenantRentPaid',?,'0',?,?,?,'RENT CASH ACCOUNT')");
+				pstmt.setString(1, tenantRecordObj.getAmountPaid());
+				pstmt.setObject(2, today);
+				pstmt.setString(3, "UNIT" + rentUnitObj.getUnit() + "PAID" + month + yearInt);
+				pstmt.setInt(4, payTenID);
+
+				pstmt.executeUpdate();
+
+				PreparedStatement ppstmt = con.prepareStatement(
+						"INSERT INTO RECORDS(record_name, amount, is_credit, date, invnum, account_name) values('TenantRentDeposit',?,'1',?,?,'ACCOUNTS RECEIVABLE')");
+				ppstmt.setString(1, tenantRecordObj.getAmountPaid());
+				ppstmt.setObject(2, today);
+				ppstmt.setString(3, "UNIT" + rentUnitObj.getUnit() + "DEPOSIT" + month + yearInt);
+
+				ppstmt.executeUpdate();
+			}
+			System.out.println("Rent Posted");
+
+		} catch (SQLException e) {
+			System.out.println("Login error -->" + e.getMessage());
+		} finally {
+			DataConnect.close(con);
+		}
+
+		if (saveResult != 0) {
+			FacesContext.getCurrentInstance().addMessage("payForm:payemntType",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Your Payment Request Was Successfully Processed",
+							"Your Payment Request Was Successfully Processed"));
+			// navigation = "/TenantPaymentConfirmation.xhtml?face-redirect=true";
+
+		} else {
+			FacesContext.getCurrentInstance().addMessage("payForm:paymentType",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "There Was An Error, Please Resubmit Your Payment",
+							"There Was An Error, Please Resubmit Your Payment"));
+			// navigation = "/TenantPayment.xhtml?faces-redirect=true";
+		}
+
+		return "/TenantPayment.xhtml?faces-redirect=true";
+		// return navigation;
+
+	}
+
+	public static String getTenantPropertyUnitFromDB(int tenantID) {
+		String property = null;
+		Tenant tenUnit = null;
+		Connection con = null;
+		Map<String, Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		try {
+			con = DataConnect.getConnection();
+			ps = con.prepareStatement("SELECT building FROM UNITS WHERE TENANT_ID = ?");
+			ps.setObject(1, tenantID);
+			resultSetObj = ps.executeQuery();
+
+			if (resultSetObj != null) {
+				resultSetObj.next();
+				tenUnit = new Tenant();
+
+				tenUnit.setBuilding(resultSetObj.getString("BUILDING"));
+
+				PreparedStatement ppstmt = con.prepareStatement("SELECT * from waystone_properties WHERE building = ?");
+				ppstmt.setString(1, tenUnit.getBuilding());
+				ResultSet rs = ppstmt.executeQuery();
+				while (rs.next()) {
+					tenUnit.setPropertyAddress(resultSetObj.getString("address"));
+					tenUnit.setPropertyCity(resultSetObj.getString("city"));
+					tenUnit.setPropertyState(resultSetObj.getString("state"));
+					tenUnit.setPropertyZip(resultSetObj.getString("zip"));
+					tenUnit.setPropertyPhone(resultSetObj.getString("phone"));
+				}
+				sessionMapObj.put("tenantUnitObj", tenUnit);
+			}
+		} catch (SQLException e) {
+			System.out.println("Login error -->" + e.getMessage());
+		} finally {
+			DataConnect.close(con);
+		}
+
+		return property;
 	}
 }

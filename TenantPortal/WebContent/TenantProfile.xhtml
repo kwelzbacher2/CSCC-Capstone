@@ -1,40 +1,69 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html">
 <h:head>
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/waystoneTenant.js"></script>
 	<title>Profile</title>
-
+	<h:outputStylesheet library="css" name="waystoneTenant.css" />
 </h:head>
-<body>
-	<h:form>
-		<h1>Profile</h1>
-		<h:panelGrid columns="4">
-			<h3>Email</h3>
-			<p>Display current email- pull from database</p>
-			<p>this is an editable textfield</p>
-		</h:panelGrid>
+<h:body>
+	<ui:composition template="templates/commonTemplate.html">
+		<ui:define name="content">
+			<h:form id="form">
+				<div class="empInfo">
+					<h1 class="pageTitle">Profile</h1>
+					<div class="profileBox">
 
-		<h:panelGrid columns="4">
-			<h3>Phone</h3>
-			<p>Display current phone- pull from database</p>
-			<p>this is an editable textfield</p>
-		</h:panelGrid>
+						<h:panelGrid class="info" columns="4">
+							<h:outputText value="Name:  " />
+							<h:outputText value="#{tenantProfObj.firstName} " />
+							<h:outputText value="#{tenantProfObj.mi} " />
+							<h:outputText value="#{tenantProfObj.lastName}" />
+						</h:panelGrid>
 
-		<h:panelGrid columns="4">
-			<h3>Password Reset</h3>
-			<p>Do not Display current info</p>
-			<p>this is an editable textfield</p>
-		</h:panelGrid>
+						<h:panelGrid class="info" columns="5">
+							<h:outputText value="Address:  " />
+							<h:outputText value="#{tenantProfObj.permAddress}, " />
+							<h:outputText value="#{tenantProfObj.permCity}, " />
+							<h:outputText value="#{tenantProfObj.permState}" />
+							<h:outputText value="#{tenantProfObj.permZip}" />
+						</h:panelGrid>
 
-		<h:panelGrid columns="4">
-			<h3>Saved payment method</h3>
-			<p>Display last 4 digits of current info- pull from database</p>
-			<p>this is an editable textfield</p>
-		</h:panelGrid>
+						<h:panelGrid class="info" columns="2">
+							<h:outputText value="Phone Number:  " />
+							<h:outputText value="#{tenantProfObj.phone}" />
+						</h:panelGrid>
 
-		<!-- Use command button -->
-		<h:commandButton value="Update" />
-	</h:form>
-</body>
+						<h:panelGrid class="info" columns="2">
+							<h:outputText value="Employee Email:  " />
+							<h:outputText value="#{tenantProfObj.email}" />
+						</h:panelGrid>
+
+						<h:panelGrid class="info" columns="2">
+							<h:outputText value="DOB: 	" />
+							<h:outputText value="#{tenantProfObj.dob}" />
+						</h:panelGrid>
+
+						<h:panelGrid class="info" columns="4">
+							<h4>Saved payment method</h4>
+							<p>Display method w/ last 4 digits- pull from database</p>
+						</h:panelGrid>
+
+						<h:panelGrid class="info" columns="3">
+							<h:commandButton value="Edit Information"
+								action="TenantEditProfile" />
+							<h:commandButton value="Edit Password"
+								action="TenantEditPassword" />
+							<h:commandButton value="Edit Saved Payment Method"
+								action="TenantEditPayment" />
+						</h:panelGrid>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
 </html>

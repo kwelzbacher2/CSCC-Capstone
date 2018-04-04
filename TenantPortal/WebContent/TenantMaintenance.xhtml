@@ -2,42 +2,71 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/waystoneTenant.js"></script>
 	<title>Maintenance</title>
+	<h:outputStylesheet library="css" name="waystoneTenant.css" />
 </h:head>
 <h:body>
-	<h:form>
-		<h1>Maintenance Request</h1>
+	<ui:composition template="templates/commonTemplate.html">
+		<ui:define name="content">
+			<h:form id="maintForm">
+				<div class="empInfo">
+					<h1 class="pageTitle">Maintenance Request</h1>
+					<div class="profileBox">
 
-		<!-- Use drop down menu -->
-		<h:panelGrid columns="5">
-			<h:outputLabel value="Maintanence Request: " />"
-                <h:selectOneMenu id="maintenanceOneMenu"
-				value="#{tenant.maintJobType}">
-				<f:selectItem itemValue="Electric" />
-				<f:selectItem itemValue="Damage" />
-				<f:selectItem itemValue="HVAC" />
-				<f:selectItem itemValue="Plumbing" />
-				<f:selectItem itemValue="Other" />
-			</h:selectOneMenu>
-		</h:panelGrid>
+						<!-- Use drop down menu -->
+						<h:panelGrid columns="5">
+							<h:outputLabel value="Maintanence Type: " />
+							<h:selectOneMenu id="jobType"
+								value="#{tenant.maintJobType}" required="true"
+								requiredMessage="Maintanence Type is required"
+								validatorMessage="Please choose a maintenance type">
+								<f:selectItem itemValue="" />
+								<f:selectItem itemValue="Electric" />
+								<f:selectItem itemValue="Damage" />
+								<f:selectItem itemValue="HVAC" />
+								<f:selectItem itemValue="Plumbing" />
+								<f:selectItem itemValue="Other" />
+							</h:selectOneMenu>
+						</h:panelGrid>
 
-		<!-- Use text area -->
-		<h:panelGrid columns="1">
-			<h:outputLabel>Job Description:</h:outputLabel>
-			<h:inputTextarea id="maintJobDescInputTextarea"
-				style="width:400px; height:50px;" value="#{tenant.maintJobDesc}" />
-		</h:panelGrid>
+						<!-- Use text area -->
+						<h:panelGrid columns="2">
+							<h:outputLabel>Job Description:</h:outputLabel>
+							<h:inputTextarea id="jobDesc"
+								style="width:400px; height:50px;"
+								value="#{tenant.maintJobDesc}" />
+						</h:panelGrid>
 
-		<!-- Use Calendar -->
-		<h:panelGrid>
-			<h:outputLabel value="Availablity Date: " />
-			<p>Figure out how to add a calendar for availability date</p>
-		</h:panelGrid>
+						<!-- Use Calendar -->
+						<h:panelGrid class="editInfo" columns="2">
+							<h:outputText value="Availability Date:  " />
+							<h:inputText id="availDate" value="#{tenant.maintDate}"
+								required = "true" class="availDate" size="10"
+								validatorMessage="Please enter digits in the form of 1999-01-01 for Availability Date">
+								<f:validateRegex pattern="\d{4}-\d{2}-\d{2}" />
+							</h:inputText>
+						</h:panelGrid>
+						
+						<h:panelGrid class="warning" columns="1">
+							<h:message for="jobType" />
+							<h:message for="jobDesc" />
+							<h:message for="availDate" />
+						</h:panelGrid>
 
-		<!-- Use command button -->
-		<h:commandButton value="Submit" />
-	</h:form>
+						<!-- Use command button -->
+						<h:panelGrid columns="2">
+							<h:commandButton value="Submit" action="#{tenant.insertMaintenanceRequest(tenant, tenantProfObj.tenantID)}" />
+							<h:commandButton value="Clear" type="reset" />
+						</h:panelGrid>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

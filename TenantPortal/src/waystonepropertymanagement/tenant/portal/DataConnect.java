@@ -12,8 +12,8 @@ public class DataConnect {
 					+ "user=waystoneadmin@waystonepm;password=waystoneMGMT!;"
 					+ "encrypt=true;trustServerCertificate=false;"
 					+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30";
-			Connection conn = DriverManager.getConnection(connectionUrl);
-			return conn;
+			Connection con = DriverManager.getConnection(connectionUrl);
+			return con;
 
 		} catch (Exception ex) {
 			System.out.println("Database.getConnection() Error -->" + ex.getMessage());
@@ -21,9 +21,9 @@ public class DataConnect {
 		}
 	}
 
-	public static void close(Connection conn) {
+	public static void close(Connection con) {
 		try {
-			conn.close();
+			con.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
