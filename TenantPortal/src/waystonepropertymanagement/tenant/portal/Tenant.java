@@ -463,7 +463,7 @@ public class Tenant implements Serializable {
 		return DatabaseOperation.insertIntoMaintInDB(tenantMaintObj, maintTenID);
 	}
 
-	public Double getTenantRecordBalance(int tenantID) {
+	public String getTenantRecordBalance(int tenantID) {
 		return DatabaseOperation.getTenantRecordBalanceInDB(tenantID);
 	}
 

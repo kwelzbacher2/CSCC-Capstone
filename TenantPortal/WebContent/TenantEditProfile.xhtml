@@ -16,9 +16,10 @@
 			<h:form id="form">
 				<div class="empInfo">
 					<h3 class="pageTitle">Edit Profile</h3>
-					<div class="profileBox">
+					<div class="editBox">
 
-						<h:panelGrid class="editInfo" columns="6">
+						<h:panelGrid class="editInfo" columns="6"
+							columnClasses="firstLeft, firstRight, mLeft, midRight, lastLeft, lastRight">
 
 							<h:outputText value="First Name:  " />
 							<h:inputText id="tenFirstName" value="#{tenantProfObj.firstName}"
@@ -45,7 +46,8 @@
 							</h:inputText>
 						</h:panelGrid>
 
-						<h:panelGrid class="editInfo" columns="2">
+						<h:panelGrid class="editInfo" columns="2"
+							columnClasses="addLeft, addRight">
 
 							<h:outputText value="Address:  " />
 							<h:inputText id="tenPermAddress"
@@ -55,7 +57,8 @@
 							</h:inputText>
 						</h:panelGrid>
 
-						<h:panelGrid class="editInfo" columns="6">
+						<h:panelGrid class="editInfo" columns="6"
+							columnClasses="citLeft, citRight, staLeft, midRight, zLeft, zRight">
 
 							<h:outputText value="City:  " />
 							<h:inputText id="tenPermCity" value="#{tenantProfObj.permCity}"
@@ -125,7 +128,7 @@
 							</h:inputText>
 						</h:panelGrid>
 
-						<h:panelGrid columns="2">
+						<h:panelGrid class="editInfo" columns="2" columnClasses="tenantLeft, tenantRight">
 							<h:outputText value="Phone Number:  " />
 							<h:inputText id="tenPhone" value="#{tenantProfObj.phone}"
 								required="true" requiredMessage="Phone Number is required"
@@ -133,22 +136,19 @@
 								size="12">
 								<f:validateRegex pattern="\d{3}-\d{3}-\d{4}" />
 							</h:inputText>
-						</h:panelGrid>
 
-						<h:panelGrid columns="2">
 							<h:outputText value="Email:  " />
 							<h:inputText id="tenEmail" value="#{tenantProfObj.email}"
 								required="true" size="25">
 								<f:validateRegex
 									pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" />
 							</h:inputText>
-						</h:panelGrid>
 
-						<h:panelGrid columns="2">
 							<h:outputText id="editInfo" value="Date of Birth:  " />
 							<h:inputText id="dobDate" value="#{tenantProfObj.dob}"
-								required ="true" class="dobDate" size="10"
-								validatorMessage="Please enter digits in the form of 1999-01-01 for Date of Birth" enable="false">
+								required="true" class="dobDate" size="10"
+								validatorMessage="Please enter digits in the form of 1999-01-01 for Date of Birth"
+								enable="false">
 								<f:validateRegex pattern="\d{4}-\d{2}-\d{2}" />
 							</h:inputText>
 						</h:panelGrid>

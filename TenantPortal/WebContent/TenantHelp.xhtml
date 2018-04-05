@@ -12,19 +12,149 @@
 <body>
 	<ui:composition template="templates/commonTemplate.html">
 		<ui:define name="content">
-			<h:form id="form">
-				<div class="empInfo">
-					<h1 class="pageTitle">Help</h1>
-					<div class="profileBox">
-						<h:panelGrid columns="6">
+			<h:form>
+				<h3>Waystone Property Management Locations:</h3>
+				<p class="locTitle">Miami Locations</p>
+				<div class="locations">
+					<table class="locationTable">
+						<tr>
+							<td>Suncrest Grove</td>
+							<td>Hidden Palms</td>
+							<td>Bayside Heights</td>
+						</tr>
+						<tr>
+							<td>5638 North River Dr</td>
+							<td>1295 Green Ln</td>
+							<td>4832 Palm Ln</td>
+						</tr>
+						<tr>
+							<td>Miami, FL 33135</td>
+							<td>Miami, FL 33135</td>
+							<td>Miami, FL 33132</td>
+						</tr>
+						<tr>
+							<td>(305) 363-6732</td>
+							<td>(305) 547-8936</td>
+							<td>(305) 326-8156</td>
+						</tr>
+
+					</table>
+				</div>
+				<br />
+				<p class="locTitle">New York Locations</p>
+				<div class="locations">
+					<table class="locationTable">
+						<tr>
+							<td>Highland Square</td>
+							<td>Hudson Court</td>
+							<td>Fairway Manor</td>
+						</tr>
+						<tr>
+							<td>3296 Lexington Ave</td>
+							<td>1249 Madison Ave</td>
+							<td>2677 Dyer Ave</td>
+						</tr>
+						<tr>
+							<td>New York City, NY 10118</td>
+							<td>New York City, NY 10016</td>
+							<td>New York City, NY 10001</td>
+						</tr>
+						<tr>
+							<td>(929) 538-3262</td>
+							<td>(929) 235-7291</td>
+							<td>(929) 263-5381</td>
+						</tr>
+					</table>
+				</div>
+				<br />
+				<p class="locTitle">Chicago Locations</p>
+				<div class="locations">
+					<table class="locationTable">
+						<tr>
+							<td>Primrose Heights</td>
+							<td>Bridgewater Park</td>
+							<td>Stoneridge Terrace</td>
+						</tr>
+						<tr>
+							<td>4635 Ashland Ave</td>
+							<td>8917 Magnolia Ave</td>
+							<td>1389 Edgewater Ave</td>
+						</tr>
+						<tr>
+							<td>Chicago, IL 60613</td>
+							<td>Chicago, IL 60640</td>
+							<td>Chicago, IL 60660</td>
+						</tr>
+						<tr>
+							<td>(773) 585-7895</td>
+							<td>(773) 489-7892</td>
+							<td>(773) 895-1632</td>
+						</tr>
+					</table>
+				</div>
+				<br />
+				<p class="locTitle">Las Vegas Locations</p>
+				<div class="locations">
+					<table class="locationTable">
+						<tr>
+							<td>Sandy Ridge</td>
+							<td>Desert Estates</td>
+							<td>Emerald Springs</td>
+						</tr>
+						<tr>
+							<td>4891 Stewart Ave</td>
+							<td>2357 Valley View Blvd</td>
+							<td>3572 Flamingo Rd</td>
+						</tr>
+						<tr>
+							<td>Las Vegas, NV 89101</td>
+							<td>Las Vegas, NV 89119</td>
+							<td>Las Vegas, NV 89119</td>
+						</tr>
+						<tr>
+							<td>(702) 786-8735</td>
+							<td>(702) 602-3942</td>
+							<td>(702) 894-3846</td>
+						</tr>
+					</table>
+				</div>
+				<br />
+				<p class="locTitle">Los Angeles Locations</p>
+				<div class="locations">
+					<table class="locationTable">
+						<tr>
+							<td>Fairview Villa</td>
+							<td>Broadview Terrace</td>
+							<td>Woodland Hills</td>
+						</tr>
+						<tr>
+							<td>7891 Palms Blvd</td>
+							<td>1678 Fox Hills Dr</td>
+							<td>8943 Rose Ave</td>
+						</tr>
+						<tr>
+							<td>Los Angeles, CA 90066</td>
+							<td>os Angeles, CA 90230</td>
+							<td>Los Angeles, CA 90291</td>
+						</tr>
+						<tr>
+							<td>(310) 689-2923</td>
+							<td>(310) 248-8762</td>
+							<td>(310) 924-2681</td>
+						</tr>
+					</table>
+				</div>
+
+				<div>
+					<h:panelGrid columns="6">
+						<h:outputText value=" " />
 						<h:outputText value="#{tenantUnitObj.building}" />
 						<h:outputText value="#{tenantUnitObj.propertyAddress}" />
 						<h:outputText value="#{tenantUnitObj.propertyCity}" />
 						<h:outputText value="#{tenantUnitObj.propertyState}" />
 						<h:outputText value="#{tenantUnitObj.propertyZip}" />
 						<h:outputText value="#{tenantUnitObj.propertyPhone}" />
-						</h:panelGrid>
-					</div>
+					</h:panelGrid>
 				</div>
 			</h:form>
 		</ui:define>

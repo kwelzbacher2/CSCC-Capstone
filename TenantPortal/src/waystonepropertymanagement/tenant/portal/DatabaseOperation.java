@@ -1,5 +1,6 @@
 package waystonepropertymanagement.tenant.portal;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -130,10 +131,11 @@ public class DatabaseOperation {
 		return "/TenantProfile.xhtml?faces-redirect=true";
 	}
 
-	public static double getTenantRecordBalanceInDB(int tenantID) {
+	public static String getTenantRecordBalanceInDB(int tenantID) {
 		Connection con = null;
 		double finalAmount = 0;
 		double balance = 0;
+		DecimalFormat df = new DecimalFormat("#0.00");
 		try {
 			con = DataConnect.getConnection();
 			ps = con.prepareStatement("SELECT AMOUNT, IS_CREDIT FROM RECORDS WHERE TENANT_ID = ?");
@@ -164,7 +166,7 @@ public class DatabaseOperation {
 			DataConnect.close(con);
 		}
 
-		return balance;
+		return df.format(balance);
 	}
 
 	public static List<Tenant> getTenantAccRecordsInDB(int tenantID) {
@@ -195,7 +197,7 @@ public class DatabaseOperation {
 
 					tenantRecordsList.add(tenAllRecordsObj);
 				}
-				System.out.println("Total Records Fetched: " + tenantRecordsList.size());
+				//System.out.println("Total Records Fetched: " + tenantRecordsList.size());
 			}
 		} catch (SQLException e) {
 			System.out.println("Login error -->" + e.getMessage());

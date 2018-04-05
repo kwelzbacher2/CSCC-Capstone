@@ -2,6 +2,8 @@
 
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif');
 
+@import url('https://fonts.googleapis.com/css?family=Merriweather');
+
 .title {
 	font-size: 2em;
 	color: black;
@@ -132,6 +134,92 @@ div ul {
 	padding-left: 80px;
 }
 
+.editInfo {
+	text-align: left;
+}
+
+.staLeft {
+	padding-right: 50px;
+}
+
+.zRight {
+	padding-left: 20px;
+}
+
+.empAddRight {
+	padding-left: 55px;
+}
+
+.empFRight {
+	padding-left: 32px;
+	padding-right: 20px;
+}
+
+.empCitRight {
+	padding-left: 87px;
+	padding-right: 20px;
+}
+
+.midRight {
+	padding-right: 20px;
+}
+
+.firstRight {
+	padding-left: 32px;
+	padding-right: 20px;
+}
+
+.addRight {
+	padding-left: 55px;
+}
+
+.citRight {
+	padding-left: 87px;
+	padding-right: 20px;
+}
+
+.staLeft {
+	padding-right: 50px;
+}
+
+.zRight {
+	padding-left: 20px;
+}
+
+.balDueRight {
+	padding-left: 0px;
+}
+
+.payAmountRight {
+	padding-left: 0px;
+}
+
+.payTypeRight {
+	padding-left: 31px;
+}
+
+
+.mTypeRight {
+	padding-left: 0px;
+}
+
+.mDescRight {
+	padding-left: 24px;
+}
+
+.mReqDateRight {
+	padding-left: 14px;
+}
+
+.userRight {
+	padding-left: 0px;
+}
+
+.pwdRight {
+	padding-left: 0px;
+}
+
+
 #welcome {
 	font-family: "Noto Serif";
 	font-weight: bold;
@@ -251,6 +339,7 @@ div ul {
 .datereq {
 	text-align: center;
 }
+
 .paymentDate {
 	text-align: center;
 	width: 200px;
@@ -264,4 +353,34 @@ div ul {
 .recordAmount {
 	text-align: right;
 	width: 150px;
+}
+
+.centerAlign {
+	text-align: center;
+}
+
+
+
+
+
+
+
+
+.locations{
+	text-align: center;
+}
+.locationTable{
+	width:100%;
+	border: 2px solid lightslategray;
+	background-color: rgba(255,255,255,1);
+}
+.locationTable td{
+	width:33%;
+}
+.locationTable td + td{
+	border-left:2px solid lightslategray;
+}
+.locTitle{
+	text-align: center;
+	font-weight: bold;
 }

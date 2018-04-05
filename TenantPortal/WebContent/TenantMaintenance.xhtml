@@ -16,10 +16,10 @@
 			<h:form id="maintForm">
 				<div class="empInfo">
 					<h1 class="pageTitle">Maintenance Request</h1>
-					<div class="profileBox">
+					<div class="editBox">
 
 						<!-- Use drop down menu -->
-						<h:panelGrid columns="5">
+						<h:panelGrid columns="5" columnClasses="mTypeLeft, mTypeRight">
 							<h:outputLabel value="Maintanence Type: " />
 							<h:selectOneMenu id="jobType"
 								value="#{tenant.maintJobType}" required="true"
@@ -35,7 +35,7 @@
 						</h:panelGrid>
 
 						<!-- Use text area -->
-						<h:panelGrid columns="2">
+						<h:panelGrid columns="2" columnClasses="mDescLeft, mDescRight">
 							<h:outputLabel>Job Description:</h:outputLabel>
 							<h:inputTextarea id="jobDesc"
 								style="width:400px; height:50px;"
@@ -43,7 +43,7 @@
 						</h:panelGrid>
 
 						<!-- Use Calendar -->
-						<h:panelGrid class="editInfo" columns="2">
+						<h:panelGrid class="editInfo" columns="2" columnClasses="mReqDateLeft, mReqDateRight">
 							<h:outputText value="Availability Date:  " />
 							<h:inputText id="availDate" value="#{tenant.maintDate}"
 								required = "true" class="availDate" size="10"

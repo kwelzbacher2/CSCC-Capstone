@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html">
 <h:head>
 	<h:outputStylesheet name="waystoneTenant.css" library="css" />
@@ -12,16 +11,16 @@
 	<h:form id="loginForm">
 
 		<div class="title" id="loginTitle">Waystone Property Management</div>
-		<div>
-			<h1 class="pageTitle">Tenant Login</h1>
+
+		<div class="shadowBox">
+			<h1>Tenant Login</h1>
 			<div class="loginAlign">
 				<span style="width: 60px"> <h:outputText value="Email:	" />
 				</span>
 				<h:inputText id="username" value="#{tenant.email}"></h:inputText>
 				<h:message for="username"></h:message>
-				<br></br> <br></br>
-
 			</div>
+			<br></br> <br></br>
 
 			<div class="passwordAlign">
 				<span style="width: 60px"> <h:outputText value="Password:	" />
@@ -34,7 +33,8 @@
 			<h:panelGrid columns="2">
 				<h:commandButton action="#{tenant.validateUsernamePassword}"
 					value="Login"></h:commandButton>
-				<h:commandButton value="Reset Password" action="TenantResetPassword" />
+				<!--<h:commandButton class="centerAlign" value="Reset Password"
+					action="TenantResetPassword" />  -->
 			</h:panelGrid>
 		</div>
 

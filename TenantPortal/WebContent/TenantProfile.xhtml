@@ -38,7 +38,7 @@
 						</h:panelGrid>
 
 						<h:panelGrid class="info" columns="2">
-							<h:outputText value="Employee Email:  " />
+							<h:outputText value="Email:  " />
 							<h:outputText value="#{tenantProfObj.email}" />
 						</h:panelGrid>
 
@@ -47,18 +47,14 @@
 							<h:outputText value="#{tenantProfObj.dob}" />
 						</h:panelGrid>
 
-						<h:panelGrid class="info" columns="4">
-							<h4>Saved payment method</h4>
-							<p>Display method w/ last 4 digits- pull from database</p>
-						</h:panelGrid>
 
 						<h:panelGrid class="info" columns="3">
 							<h:commandButton value="Edit Information"
 								action="TenantEditProfile" />
-							<h:commandButton value="Edit Password"
+							<!-- <h:commandButton value="Edit Password"
 								action="TenantEditPassword" />
 							<h:commandButton value="Edit Saved Payment Method"
-								action="TenantEditPayment" />
+								action="TenantEditPayment" /> -->
 						</h:panelGrid>
 					</div>
 				</div>

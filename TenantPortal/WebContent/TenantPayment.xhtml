@@ -18,12 +18,12 @@
 			<h:form id="payForm">
 				<div class="empInfo">
 					<h1 class="pageTitle">Payments</h1>
-					<div class="profileBox">
+					<div class="editBox">
 
-						<h:panelGrid columns="2">
+						<h:panelGrid columns="2"
+							columnClasses="balDueLeft, balDueRight, payAmountLeft, payAmountRight">
 							<h:outputLabel value="Account Balance: 	$" />
-							<h:outputLabel
-								value="#{tenant.getTenantRecordBalance(tenantProfObj.tenantID)}" />
+							<h:outputLabel style="text-align:left" value="#{tenant.getTenantRecordBalance(tenantProfObj.tenantID)}" />
 							<h:outputLabel value="Payment Amount:	" />
 							<h:inputText id="paymentAmount" value="#{tenant.amountPaid}"
 								required="true" requiredMessage="Payment Amount is required"
@@ -31,7 +31,7 @@
 						</h:panelGrid>
 
 						<!-- Use drop down box  -->
-						<h:panelGrid columns="2">
+						<h:panelGrid columns="2" columnClasses="payTypeLeft, payTypeRight">
 							<h:outputLabel value="Payment Type: " />
 							<h:selectOneMenu id="paymentType" value="#{tenant.paymentType}"
 								required="true" requiredMessage="Payment Type is required"
@@ -119,7 +119,7 @@
 									required="true" />
 							</h:panelGrid>
 
-							
+
 						</h:panelGroup>
 
 						<h:panelGroup layout="block"
@@ -153,9 +153,10 @@
 							</h:panelGrid>
 
 						</h:panelGroup>
-						
-						<h:panelGroup layout="block" rendered="#{tenant.paymentType eq 'Credit Card' or tenant.paymentType eq 'Automated Clearing House'}" >
-						<!-- Billing Address -->
+
+						<h:panelGroup layout="block"
+							rendered="#{tenant.paymentType eq 'Credit Card' or tenant.paymentType eq 'Automated Clearing House'}">
+							<!-- Billing Address -->
 							<h3>Billing address</h3>
 
 							<h:panelGrid columns="2">
@@ -232,7 +233,7 @@
 								<h:inputText id="billingZip" value="#{tenant.billingZip}"
 									size="5" />
 							</h:panelGrid>
-							</h:panelGroup>
+						</h:panelGroup>
 
 						<h:panelGrid class="warning" columns="1">
 							<h:message for="paymentAmount" />
