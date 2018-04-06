@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -94,7 +99,7 @@
                             <h:column> 
                         
                                 <f:facet name="header">Record Amount</f:facet>
-                                <h:commandLink value="#{tenRecordsObj.recordAmount}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
+                                <h:commandLink value="#{tenRecordsObj.formatRecAmount()}" action="#{record.viewIndivRecord(tenRecordsObj.recordID)}" class="table-link"/>
                                 <f:facet name="footer"><h:outputText styleClass="amount" value="Balance: #{tenant.getTenantRecordBalance(tenantViewObj.tenantID)}"/></f:facet>
                                 
                             </h:column>

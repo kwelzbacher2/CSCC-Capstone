@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * CSCI Capstone 2999 Final Project
+ * Waystone Property Management Intranet
  */
 package waystonepropertymanagement.employee.login;
 
@@ -14,13 +13,15 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 /**
- *
- * @author Katie
- */
+* Maintenance is a Managed Bean Class that includes all of the properties and methods for a maintenance
+* @author KWelzbacher
+*/
 @ManagedBean (name="maintenance")
 @ViewScoped
 public class Maintenance implements Serializable{
-    private int requestID;
+    
+	private static final long serialVersionUID = 1L;
+	private int requestID;
     private int tenantID;
     private String building;
     private String aptNum;
@@ -151,44 +152,39 @@ public class Maintenance implements Serializable{
         this.searchType = searchType;
     }
     
-    //originally to obtain all maintenance requests
-    public List<Maintenance> getMaintenanceRecord(){
-        return DatabaseOperation.getMaintenanceListFromDB();
-    }
-    
+    //Obtain list of maintenance requests based on search criteria
     public void getMaintenanceSearchList(String searchBuild, String searchType){
-        
-            maintenanceSearch = DatabaseOperation.getMaintenanceSearchListFromDB(searchBuild, searchType);
-                
+            maintenanceSearch = DatabaseOperation.getMaintenanceSearchListFromDB(searchBuild, searchType); 
     }
-    
+    //Add Employee ID and Date Started to the database
     public String startMainRequest(Maintenance request, int employeeID){
     	int reqstID = request.getRequestID();
     	return DatabaseOperation.startMainRequestInDB(reqstID, employeeID);
     }
-    
+    //Obtain list of maintenance requests employee is currently working on
     public List<Maintenance> getCurrentEmpMainList(int employeeID){
     	System.out.println(employeeID);
     	currentMainList = DatabaseOperation.getCurrentEmpMainListInDB(employeeID);
     	return currentMainList;
     }
-        
+     //Add EmployeeID and Date Ended to the databased and remove it from the list of requests shown   
     public String endMainRequest(Maintenance request, int employeeID){
     	int reqID = request.getRequestID(); 
-    	
     	return DatabaseOperation.endMainRequestInDB(reqID, employeeID);
     }
+    //Obtain list of maintenance requests completed by employee
     public List<Maintenance> getDoneEmpMainList(int employeeID){
     	System.out.println(employeeID);
     	doneMainList = DatabaseOperation.getDoneEmpMainListInDB(employeeID);
     	return doneMainList;
     }
-    
-    
+    //Remove EmployeeID and Date Started from request in database
     public String removeMainRequest(Maintenance request, int employeeID){
     	int reqRemoveID = request.getRequestID(); 
-    	
     	return DatabaseOperation.removeMainRequestInDB(reqRemoveID, employeeID);
     }
-    
+    //Insert new request in database
+    public String createNewRequest(Maintenance newMaintObj){
+    	return DatabaseOperation.createNewRequestInDB(newMaintObj);
+    }
 }

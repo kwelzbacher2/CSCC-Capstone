@@ -1,3 +1,7 @@
+/*
+ * CSCI Capstone 2999 Final Project
+ * Waystone Property Management Intranet
+ */
 package waystonepropertymanagement.employee.login;
 
 import java.io.Serializable;
@@ -8,7 +12,10 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
+/**
+* Timesheet is a Managed Bean Class that includes all of the properties and methods for a timesheet
+* @author KWelzbacher
+*/
 @ManagedBean (name="timesheet")
 @ViewScoped
 public class Timesheet implements Serializable{
@@ -197,18 +204,19 @@ public class Timesheet implements Serializable{
    
     
    
-    
+    //Method to set time and employee ID to clock-in in database
     public String employeeClockIn(int empID){
-    	System.out.println(empID);
     	return DatabaseOperation.employeeClockInToDB(empID);
     }
+    //Method to set time and employee ID to clock-out in database
     public String employeeClockOut(int empID){
-    	
     	return DatabaseOperation.employeeClockOutToDB(empID);
     }
+    //Obtain all of employee times for the week
     public List<Timesheet> getEmployeeTimesheet(int empID){
     	return DatabaseOperation.getEmployeeTimesheetInDB(empID);
     }
+    //Obtain dates for the current week
      public List<Timesheet> getTimesheetDates(){
     	 return DatabaseOperation.getTimesheetDatesInDB();
      }

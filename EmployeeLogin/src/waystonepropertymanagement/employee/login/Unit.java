@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * CSCI Capstone 2999 Final Project
+ * Waystone Property Management Intranet
  */
 package waystonepropertymanagement.employee.login;
 
@@ -9,18 +8,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
- *
- * @author Katie
- * 
+ * Unit class is a Managed Bean that contains properties and methods for a unit
+ * @author KWelzbacher
  * 
  */
 @ManagedBean (name="unit")
-@ViewScoped
+@SessionScoped
 public class Unit implements Serializable{
-    private int unitID;
+	private static final long serialVersionUID = 1L;
+	private int unitID;
     private String unitBuilding;
     private String unitAptNum;
     private String unitAddress;
@@ -124,26 +123,28 @@ public class Unit implements Serializable{
         this.unitTenLastName = unitTenLastName;
     }
     
+    //Obtain list of units based on search criteria
     public void getUnitList(String unitBuildSearch, String vacancy){
         unitList = DatabaseOperation.getUnitListFromDB(unitBuildSearch, vacancy);
     }
+    //Obtain information of chosen unit
     public String viewUnitRecord(int unitID){
         return DatabaseOperation.viewUnitRecordInDB(unitID);
     }
-    
+    //Update unit information in database
     public String updateUnitDetails(Unit updateUnitObj){
         return DatabaseOperation.updateUnitDetailsInDB(updateUnitObj);
     }
-    
+    //Insert new unit into database
     public String insertNewUnit(Unit newUnitObj){
         return DatabaseOperation.insertNewUnitInDB(newUnitObj);
     }
-    
+    //Delete Unit from database
     public String deleteUnit(Unit delUnitObj){
     	int delUnitID = delUnitObj.getUnitID();
         return DatabaseOperation.deleteUnitInDB(delUnitID);
     }
-    
+    //Obtain list of all current Buildings
     public List<String> viewAllBuildingNames(){
         return DatabaseOperation.viewAllBuildingNamesInDB();
     }

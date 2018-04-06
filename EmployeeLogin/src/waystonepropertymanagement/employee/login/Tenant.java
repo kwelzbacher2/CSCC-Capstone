@@ -1,15 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * CSCI Capstone 2999 Final Project
+ * Waystone Property Management Intranet
  */
 package waystonepropertymanagement.employee.login;
 import java.io.Serializable;
 import java.sql.Connection;
-
 import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +21,9 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Katie
- */
+* Tenant is a Managed Bean Class that includes all of the properties and methods for a tenant
+* @author KWelzbacher
+*/
 @ManagedBean (name="tenant")
 @SessionScoped
 public class Tenant implements Serializable{
@@ -56,7 +55,7 @@ public class Tenant implements Serializable{
     private List<Tenant> tenantList = new ArrayList();
     private List<Tenant> payTenantList = new ArrayList();
    
-   
+    DecimalFormat df = new DecimalFormat("#0.00");
     
     public String getSearchCrit() {
         return searchCrit;
@@ -164,13 +163,8 @@ public class Tenant implements Serializable{
     }
     
     public void setDOB(String dob){
-        this.dob = dob;
-        
+        this.dob = dob;  
     }
-    
-    
-    
-    
     public String getRentPaid(){
         return rentPaid;
     }
@@ -253,31 +247,33 @@ public class Tenant implements Serializable{
         tenantList =  DatabaseOperation.getTenantListFromDB(searchCrit, searchInfo);
         }
     	
+    	if (tenantList.size() == 0){
+    		Tenant ten = new Tenant();
+    		ten.setEmail("No results found");
+    		tenantList.add(ten);
+    	}
+    	
     } 
-    
-    public void getTenantPayments(String payCrit, String payInfo){
-        
-        payTenantList = DatabaseOperation.getPaymentListFromDB(payCrit, payInfo);
-        
-    }
-    
+   //Obtain Tenant information
     public String viewTenantRecord(int tenantID){
         return DatabaseOperation.viewTenantRecordInDB(tenantID);
     }
-    
+    //Update tenant in database
     public String updateTenantDetails(Tenant updateTenObj){
         return DatabaseOperation.updateTenantDetailsInDB(updateTenObj);
     }
-    
+    //Insert new tenant in database
     public String insertNewTenant(Tenant newTenantObj){
         return DatabaseOperation.insertNewTenantInDB(newTenantObj);
     }
+    //Delete tenant in database
     public String deleteTenant(Tenant delTenantObj){
     	int delTenantID = delTenantObj.getTenantID();
         return DatabaseOperation.deleteTenantInDB(delTenantID);
     }
-    
-    public double getTenantRecordBalance(int tenantID){
-    	return DatabaseOperation.getTenantRecordBalanceInDB(tenantID);
+    //Obtain tenant record balance
+    public String getTenantRecordBalance(int tenantID){
+    	double balance =  DatabaseOperation.getTenantRecordBalanceInDB(tenantID);
+    	return df.format(balance);
     }
 }

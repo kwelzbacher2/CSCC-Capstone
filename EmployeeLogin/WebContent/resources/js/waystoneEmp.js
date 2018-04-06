@@ -1,14 +1,20 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+*	CSCI 2999 Capstone Project 
+*	Waystone Property Management Intranet
+*   Created on : Feb 21, 2018, 10:56:23 AM
+*   Author     : KWelzbacher
+*/
 $(function(){
     $(".dobDate").datepicker({
     	dateFormat: 'yy-mm-dd',
     	changeYear:true,
     	yearRange: "-100:+0",
     	maxDate: 0,
+    });
+    
+    $(".maintDate").datepicker({
+    	dateFormat: 'yy-mm-dd',
+    	minDate: 0,
     });
     
     $(".confirm").on('click', function(){
@@ -41,6 +47,9 @@ $(function(){
     });
     $(".done").on('click', function(){
     	return confirm("Are you sure you want to mark this request as finished?");
+    });
+    $(".finish").on('click', function(){
+    	return confirm("Are you sure you want to mark this request as contacted and remove it from the list?");
     });
     
     

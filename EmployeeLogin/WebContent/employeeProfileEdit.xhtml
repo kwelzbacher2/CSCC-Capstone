@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -46,8 +51,8 @@
                     <h:panelGrid class="editInfo" columns="2" columnClasses="empAddLeft, empAddRight">
                         
                         <h:outputText value="Address:  " />
-                        <h:inputText id="address" value ="#{empRecordObj.address}" size="30">
-                            <!--<f:validateRegex pattern="[\d+[ ](?:[A-Za-z0-9.-]+[ ]?)+(?:Avenue|Lane|Road|Boulevard|Drive|Street|Ave|Dr|Rd|Blvd|Ln|St).?" /> -->
+                        <h:inputText id="address" value ="#{empRecordObj.address}" size="30" validatorMessage="Incorrect Address">
+                            <f:validateRegex pattern="\w+(\s\w+){2,}" /> 
                         </h:inputText>
                         </h:panelGrid>
                     <h:panelGrid class="editInfo" columns="6" columnClasses="empCitLeft, empCitRight, staLeft, midRight, empZLeft, zRight">

@@ -36,4 +36,23 @@
     	<filter-name>AuthorizationFilter</filter-name>
     	<url-pattern>*.xhtml</url-pattern>
     </filter-mapping>
+    
+    <context-param>
+    	<param-name>javax.faces.CONFIG_FILES</param-name>
+    	<param-value>
+        	META-INF/path/to/faces-config.xml
+   		</param-value>
+	</context-param>
+	
+	<resource-ref>
+ 	 	<description>
+  	 	 Resource reference to a factory for javax.mail.Session
+   	 	instances that may be used for sending electronic mail
+   	 	messages, preconfigured to connect to the appropriate
+   	 	SMTP server.
+ 	 	</description>
+ 	 	<res-ref-name> mail/Session</res-ref-name>
+  		<res-type>javax.mail.Session</res-type>
+ 	 	<res-auth>Container</res-auth>
+	</resource-ref>
 </web-app>

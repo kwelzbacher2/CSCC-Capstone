@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/waystoneEmp.js"></script>
+        <title>Tenant Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="viewEmpForm">
+                	<br/>
+                	<h:commandLink value="Back to Employee Search" action="/searchEmployees.xhtml?faces-redirect=true" />
+                    <div class="empInfo">
+                        <h3 class="pageTitle">Employee Account Information</h3>
+                        <div class="profileBox">
+                            <h:panelGrid class="info" columns="4">
+                                
+                                <h:outputText value="Name:  " />
+                                <h:outputText value ="#{employeeViewObj.firstName} " />
+                                <h:outputText value ="#{employeeViewObj.middleInit} " />
+                                <h:outputText value="#{employeeViewObj.lastName}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="5">
+                                
+                                <h:outputText value="Address:  " />
+                                <h:outputText value ="#{employeeViewObj.address} " />
+                                <h:outputText value="#{employeeViewObj.city}, " />
+                                <h:outputText value="#{employeeViewObj.state} " />
+                                <h:outputText value="#{employeeViewObj.zipcode}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Phone Number:  " />
+                                <h:outputText id="phoneNum" value ="#{employeeViewObj.phone}"  />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Date of Birth:  " />
+                                <h:outputText value ="#{employeeViewObj.DOB}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Employee ID:  " />
+                                <h:outputText value ="#{employeeViewObj.employeeID}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Employee Email:  " />
+                                <h:outputText value ="#{employeeViewObj.email}" />
+                                
+                            </h:panelGrid>
+                           
+                            <h:commandButton value="Unlock Account" action="#{employee.unlockEmpAccountStatus(employeeViewObj)}" id="unlockBtn" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}" />                          
+                            <h:commandButton value="Lock Account" action="#{employee.lockEmpAccountStatus(employeeViewObj)}"  rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/><br/>
+                            <h:commandButton value="Reset Password" action="#{employee.resetPassword(employeeViewObj.email)}"  rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/><br/>
+                            <h:message for="unlockBtn" class="warning"/>
+                            <br/><br/>
+                            <h:commandButton value="Delete Employee" action="#{employee.deleteEmployee(employeeViewObj)}" class="confirmEmployee" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
+                        </div>
+                    </div>
+					
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

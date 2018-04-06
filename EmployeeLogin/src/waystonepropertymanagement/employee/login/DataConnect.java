@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * CSCI Capstone 2999 Final Project
+ * Waystone Property Management Intranet
  */
 package waystonepropertymanagement.employee.login;
 
@@ -9,8 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 /**
- *
- * @author Katie
+ * DataConnect Class contains method to connect to the database and close the connection
+ * @author KWelzbacher
  */
 public class DataConnect {
     

@@ -1,3 +1,7 @@
+/*
+ * CSCI Capstone 2999 Final Project
+ * Waystone Property Management Intranet
+ */
 package waystonepropertymanagement.employee.login;
 
 import java.io.Serializable;
@@ -8,17 +12,12 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import javax.faces.model.DataModel;
 
 /**
- *
- * @author Katie
- */
+* Record is a Managed Bean Class that includes all of the properties and methods for a record
+* @author KWelzbacher
+*/
 @ManagedBean (name="record")
 @ViewScoped
 public class Record implements Serializable{
@@ -28,12 +27,11 @@ public class Record implements Serializable{
     
     private String recordIsCredit;
     private String recordDate;
-    private String recordInvNum;  //change to TransactionID
+    private String recordInvNum;  
     private String recordTenantID;
     private String recordAccount;
     private String searchRecCrit;
     private String searchRecInfo;
-   // private Double recordBalance;
     private boolean recCred;
     private double recordDebitAmount;
     private double recordCreditAmount;
@@ -80,6 +78,7 @@ public class Record implements Serializable{
     public void setRecordAmount(double recordAmount){
         this.recordAmount = recordAmount;
     }
+    //Format Record Amount to 2 decimal places
     public String formatRecAmount(){
     	return df.format(getRecordAmount());
     }
@@ -130,6 +129,7 @@ public class Record implements Serializable{
     public void setRecordAccount(String recordAccount){
         this.recordAccount = recordAccount;
     }
+    
     public String getSearchRecCrit(){
         return searchRecCrit;
     }
@@ -142,15 +142,7 @@ public class Record implements Serializable{
     public void setSearchRecInfo(String searchRecInfo){
         this.searchRecInfo = searchRecInfo;
     }
-   /* public Double getRecordBalancet(){
-        return recordBalance;
-    }
-    public void setRecordBalance(Double recordBalance){
-        this.recordBalance = recordBalance;
-    }
-    */
-    
-    
+  
     public List<Record> getRecordList(){
         return recordList;
     }
@@ -165,6 +157,7 @@ public class Record implements Serializable{
     public void setRecordDebitAmount(Double recordDebitAmount){
         this.recordDebitAmount = recordDebitAmount;
     }
+    //Format Debit Amount to 2 deciaml places
     public String formatDebAmount(){
     	String eval;
     	double dD = getRecordDebitAmount();
@@ -182,6 +175,7 @@ public class Record implements Serializable{
     public void setRecordCreditAmount(Double recordCreditAmount){
         this.recordCreditAmount = recordCreditAmount;
     }
+    //format Credit Amount to 2 decimal places
     public String formatCredAmount(){
     	String eval;
     	double dC = getRecordCreditAmount();
@@ -191,52 +185,53 @@ public class Record implements Serializable{
     		eval = df.format(dC);
     	}
     	return eval;
-    	
     }
-    
-    public List<Record> getAllRecords(){
+    //Obtain all records from database
+    public static List<Record> getAllRecords(){
     	return DatabaseOperation.getAllRecordsFromDB();
     }
-    
+    //Obtain all records for account from database
     public List<Record> getAllRecords(String accountName){
     	return DatabaseOperation.getAllRecordsFromDB(accountName);
     }
-    
+    //Obtain all records based on search criteria
     public void getAllRecordList(String searchRecCrit, String searchRecInfo, String accountName){
         recordList = DatabaseOperation.getAllRecordListFromDB(searchRecCrit, searchRecInfo, accountName);
-        
+        if(recordList.size() ==0){
+        	Record rec = new Record();
+        	rec.setRecordName("No results found");
+        	recordList.add(rec);
+        }
     }
-    
+    //Obtain chosen record information
     public String viewIndivRecord(int recordID){
         return DatabaseOperation.viewIndivRecordInDB(recordID);
     }
-    
+    //Update record information in database
     public String updateRecordDetails(Record updateRecObj){
         return DatabaseOperation.updateRecordDetailsInDB(updateRecObj);
     }
-    
+    //Insert new record into database
     public String createNewRecord(Record recNewObj){
-    	
         return DatabaseOperation.createNewRecordInDB(recNewObj);
     }
-    
+    //Obtain all records for chosen tenant
     public List<Record> getTenantAccRecords(int tenantID){
     	return DatabaseOperation.getTenantAccRecordsInDB(tenantID);
     }
-    
+    //Delete record in the database
     public String deleteRecord(Record deleteRecObj){
     	int recordIDDel = deleteRecObj.getRecordID();
-    	System.out.println(recordIDDel);
     	return DatabaseOperation.deleteRecordInDB(recordIDDel);    	
     }
-    
+    //Method to post all rent charges to respective accounts
     public String postRentToAR(){
-    	
     	return DatabaseOperation.postRentToARInDB();
     }
-    
+    //Method to post all late fee charges to respective accounts
     public String postLateFeeToAR(){
-    	
     	return DatabaseOperation.postLateFeeToARInDB();
     }
+    
+ 
 }

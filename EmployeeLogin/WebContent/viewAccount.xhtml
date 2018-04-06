@@ -1,4 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -42,20 +48,30 @@
                                 
                         </div>
                         </div>
+                         
                         <h:panelGrid></h:panelGrid>
                         <br/><br/>
                         <h:panelGrid columns = "4" >
                         <h:outputLabel value="Search By:" />
                         <h:selectOneMenu id="searchRecCrit" value="#{record.searchRecCrit}" required="true" requiredMessage="Search Criteria is required">
                             <f:selectItem itemValue="All"/>
-                            <f:selectItem itemValue="Record Invoice Number"/>
+                            <f:selectItem itemValue="Record Date"/>
                             <f:selectItem itemValue="Record Name"/>
+                            <f:ajax render="@form"/>
                         </h:selectOneMenu>
-                        <h:inputText id="searchRecInfo" value="#{record.searchRecInfo}"/>
+                        <h:inputText id="searchRecInfo" value="#{record.searchRecInfo}" class="dobDate" rendered="#{record.searchRecCrit eq 'Record Date'}" validatorMessage="Please enter digits in the form of 1999-01-01 for Date">     
+                            <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
+                        </h:inputText> 
+                        <h:inputText id="searchRecInfo2" value="#{record.searchRecInfo}" rendered="#{record.searchRecCrit eq 'Record Name'}" />
                         <h:commandButton  value="Submit" actionListener="#{record.getAllRecordList(record.searchRecCrit, record.searchRecInfo, accViewObj.accountName)}"/> 
+                        </h:panelGrid>
+                        <h:panelGrid class ="warning" columns ="1">
+                        <h:message for="searchRecInfo"/>    
+                        <h:message for="searchRecInfo2"/>
                         </h:panelGrid>
                         <h:panelGrid></h:panelGrid>
                         <h3 class="pageTitle">Account Records</h3>
+                        </div>
                         <h:dataTable id="recTable" value="#{record.recordList}"  var="recordObj"
                                  styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
                                  columnClasses="date, name, trans, tenantID, debit, credit">
@@ -91,7 +107,7 @@
                         </h:dataTable>
                             
                                                        
-                        </div>                
+                                       
                        
                     
                 </h:form>

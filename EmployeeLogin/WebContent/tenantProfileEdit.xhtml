@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -54,7 +59,7 @@
                     <h:panelGrid class="editInfo" columns="6" columnClasses="citLeft, citRight, staLeft, midRight, zLeft, zRight">
                         <h:outputText value="City:  " />
                         <h:inputText id="tenPermCity" value="#{tenantViewObj.permCity}" validatorMessage="Incorrect City" size="12">
-                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                            <f:validateRegex pattern="[a-zA-Z\s-]+"/>
                         </h:inputText>
                         <h:outputText value="State:  " />
                             <h:selectOneMenu id="tenPermState" value="#{tenantViewObj.permState}">

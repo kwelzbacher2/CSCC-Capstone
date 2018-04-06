@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * CSCI Capstone 2999 Final Project
+ * Waystone Property Management Intranet
  */
 package waystonepropertymanagement.employee.login;
 
@@ -17,8 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 /**
- *
- * @author Katie
+ * AuthorizationFilter class creates a session for the user to log into their account
+ * @author KWelzbacher
+ * 
  */
 
 public class AuthorizationFilter implements Filter {

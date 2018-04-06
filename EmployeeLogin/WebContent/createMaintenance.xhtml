@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Create New Record</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="newReqForm">
+                                       
+                <div class="empInfo" >
+                    <h3 class="pageTitle">Create Maintenance Request</h3>
+                    <div class="editBox">
+                    
+                    <h:panelGrid class="editInfo" columns="2" columnClasses="left, right"> 
+                        
+                        <h:outputText value="Job Type:  " />
+                        
+                        <h:selectOneMenu id="newJobType" value="#{maintenance.jobType}" required="true" requiredMessage="Job Type is required">
+                            <f:selectItem itemValue=""/>
+                            <f:selectItem itemValue="Electric"/>
+                            <f:selectItem itemValue="Damage"/>
+                            <f:selectItem itemValue="HVAC"/>
+                            <f:selectItem itemValue="Plumbing"/>
+                            <f:selectItem itemValue="Other"/>
+                        </h:selectOneMenu>
+                        <h:outputText value="Job Description:  " />
+                        <h:inputTextarea id="newJobDesc" value ="#{maintenance.jobDesc}" required = "true" requiredMessage="Job Description is required"
+                                      row = "20" col="40">
+                        </h:inputTextarea> 
+                        
+                        <h:outputText value="Date Requested:  " />
+                        <h:inputText id="newDateReq" value ="#{maintenance.dateReq}" class="maintDate" required = "true" requiredMessage ="Date Requested is required"
+                                     size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date">     
+                            <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
+                                     
+                        </h:inputText>
+                        <h:outputText value="Tenant ID:  "/>
+                        <h:inputText id="newTenReq" value="#{maintenance.tenantID}" required="true" requiredMessage="Tenant ID is required" size="12" />
+                    </h:panelGrid>
+                                      
+                        <h:panelGrid class ="warning" columns ="1">
+                        <h:message for="newJobType"/>    
+                        <h:message for="newJobDesc"/>
+                        <h:message for="newDateReq" /> 
+                        <h:message for="newTenReq" />
+                        
+                        </h:panelGrid>
+                    <h:commandButton value="Submit" action="#{maintenance.createNewRequest(maintenance)}" />
+                    <h:commandButton value="Clear" type="reset"/>
+                    </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

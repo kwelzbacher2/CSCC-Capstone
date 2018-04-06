@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Maintenance Requests</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+            
+                    <h3 class="pageTitle">Contact Review</h3>
+                    
+                    <h:dataTable value="#{contact.getContactList()}" var="cont"
+                                 styleClass = "table" headerClass="table-header" rowClasses="table-odd,table-even"
+                                 columnClasses="conFirst, conLast, conEml, conPh, conMess, conYes">
+                        <h:column> 
+                        <f:facet name="header">First Name</f:facet>
+                        <h:outputText value="#{cont.conFirstName}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Last Name</f:facet>
+                        <h:outputText value="#{cont.conLastName}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Email</f:facet>
+                        <h:outputText value="#{cont.conEmail}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Phone</f:facet>
+                        <h:outputText value="#{cont.conPhone}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Messages</f:facet>
+                        <h:outputText value="#{cont.conMessages}"/>
+                    </h:column>
+                    <h:column>
+                    	<f:facet name="header">Contacted?</f:facet>
+                    	<h:commandButton action="#{contact.endContactRequest(cont, empRecordObj.employeeID)}" value="Finished" class="finish"/>
+                    </h:column>                
+                    </h:dataTable>
+                    
+                    
+            
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

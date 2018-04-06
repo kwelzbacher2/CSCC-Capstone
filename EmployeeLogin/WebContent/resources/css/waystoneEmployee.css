@@ -1,7 +1,9 @@
 
 /* 
+	CSCI 2999 Capstone Project 
+	Waystone Property Management Intranet
     Created on : Feb 21, 2018, 10:56:23 AM
-    Author     : Katie
+    Author     : KWelzbacher
 */
 
 @import url('https://fonts.googleapis.com/css?family=Nanum+Myeongjo');
@@ -276,7 +278,7 @@ html body{
 	}
     
 }
-@media screen and (min-width:1440px) and (max-width:1510px){
+@media screen and (min-width:1440px) and (max-width:1520px){
     .primary-nav-wrap {
 		display: none !important;
 	}
@@ -320,7 +322,7 @@ html body{
 	}
     
 }
-@media screen and (min-width:1510px) and (max-width:1599px){
+@media screen and (min-width:1520px) and (max-width:1599px){
     .primary-nav-wrap {
 		display: none !important;
 	}
@@ -594,11 +596,11 @@ div ul {
     text-align: right;
     
 }
-#topLogo {
+.topLogo {
     text-align: left;
     float:left;
     width:60px;
-    height:60px;    
+    height:60px;   
 }
 .shadowBox {
     font-family: "Merriweather";
@@ -785,7 +787,6 @@ div ul {
     position:relative;
     display:inline-block;
     text-decoration:none;
-    
 }
 .loginAlign{
 	display: inline-block;
@@ -796,19 +797,29 @@ div ul {
 	display: inline-block;
 	margin-right: 33px;
 }
-#loginTitle{
+#loginTop{
 	background-color:rgba(255,255,255,1);
-	height: 77px;
+	height: 92px;
 	width:100%;
-	padding-top:33px;
-	
+}
+#loginTitle{
+	padding-top:21px;
 }
 #loginBackground {
-	
 	background-image:url("images/bluebuildinglighter.png");
 	background-size: cover;
-	
-    
+}
+#resetTop{
+	background-color:rgba(255,255,255,1);
+	height: 92px;
+	width:100%;
+}
+#resetTitle{
+	padding-top:21px;
+}
+#resetBackground {
+	background-image:url("images/bluebuildinglighter.png");
+	background-size: cover;
 }
 .intranetBack{
 	background-image:url("images/bluebuildinglighter.png");
@@ -834,13 +845,7 @@ div ul {
 	text-align: center;
 	font-weight: bold;
 }
-#timeTable{
-	border: 2px solid lightslategray;
-	background-color: rgba(255,255,255,1);
-	margin:auto;
-	text-align:center;
-	border-collapse: collapse;
-}
+
 .headTab{
 	border:1px solid lightslategray;
 	border-collapse: collapse;
@@ -855,17 +860,17 @@ div ul {
 	text-align: left;
 }
 .right{
-	padding-left:18px;
+	padding-left:22px;
 }
 .amRight{
-	
+	padding-left: 4px;
 	padding-right:20px;
 }
 .unitRight{
-	padding-left:18px;
+	padding-left:20px;
 }
 .cityRight{
-	padding-left:71px;
+	padding-left:74px;
 	padding-right:20px;
 }
 .midRight{
@@ -876,10 +881,10 @@ div ul {
 	padding-right: 20px;
 }
 .addRight{
-	padding-left:55px;
+	padding-left:57px;
 }
 .citRight{
-	padding-left:87px;
+	padding-left:88px;
 	padding-right:20px;
 }
 
@@ -911,4 +916,52 @@ div ul {
 }
 .amount{
 	text-align: right;
+}
+.conMess{
+	max-width:200px;
+	text-align:left;
+}
+.conPh{
+	width:200px;
+}
+.conFirst{
+	text-align:left;
+}
+.conLast{
+	text-align:left;
+}
+.conEml{
+	text-align:left;
+}
+#timeTable{
+	overflow:hidden;
+	border: 2px solid lightslategray;
+	background-color: rgba(255,255,255,1);
+	margin:auto;
+	text-align:center;
+	border-collapse: collapse;
+	width:60%;
+}
+.sunTable{
+	float:left;
+	width:14.28%;
+}
+.satTable{
+	float:right;
+	width:14.32%;
+}	
+.dateR{
+	padding-left:5px;
+}
+.jobType{
+	padding-left:8px;
+}
+.trainList{
+	font-family:"Merriweather";
+    position:relative;
+    padding-left: 80px;
+    padding-top: 50px;
+}
+.trainLink{
+	color: blue;
 }

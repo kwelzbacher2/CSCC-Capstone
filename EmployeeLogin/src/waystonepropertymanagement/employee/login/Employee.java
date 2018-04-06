@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * CSCI Capstone 2999 Final Project
+ * Waystone Property Management Intranet
  */
 package waystonepropertymanagement.employee.login;
 
@@ -12,16 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.faces.application.FacesMessage;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Katie
+ * Employee is a Managed Bean Class that includes all of the properties and methods for an employee
+ * @author KWelzbacher
  */
 @ManagedBean (name="employee")
 @SessionScoped
@@ -31,7 +30,7 @@ public class Employee implements Serializable{
     private String pwd;
     private String msg;    
     private String email;
-    private String role;
+	private String role;
     private int employeeID;
     private String firstName;
     private String lastName;
@@ -42,8 +41,10 @@ public class Employee implements Serializable{
     private String zipcode;
     private String phone;
     private String dob;
-    
-    
+    private String accStatus;
+    private String searchCriteria;
+    private String searchInform;
+    private String newEmail;
     public List<Employee>employeeListFromDB;
     
     public String getMsg() {
@@ -148,25 +149,96 @@ public class Employee implements Serializable{
         this.dob = dob;
     }
     
+    public String getAccStatus() {
+		return accStatus;
+	}
+
+	public void setAccStatus(String accStatus) {
+		this.accStatus = accStatus;
+	}
+
+	public String getSearchCriteria() {
+		return searchCriteria;
+	}
+
+	public void setSearchCriteria(String searchCriteria) {
+		this.searchCriteria = searchCriteria;
+	}
+
+	public String getSearchInform() {
+		return searchInform;
+	}
+
+	public void setSearchInform(String searchInform) {
+		this.searchInform = searchInform;
+	}
+	public String getNewEmail() {
+		return newEmail;
+	}
+
+	public void setNewEmail(String newEmail) {
+		this.newEmail = newEmail;
+	}
+	public List<Employee> employeeList;
+	
+
+	public List<Employee> getEmployeeList() {
+		return employeeList;
+	}
+
+	public void setEmployeeList(List<Employee> employeeList) {
+		this.employeeList = employeeList;
+	}
+	//initialize attempt counter and the maximum number of login attempts allowed
+	public int totalAttempts;
+    public int getTotalAttempts() {
+		return totalAttempts;
+	}
+
+	public void setTotalAttempts(int totalAttempts) {
+		this.totalAttempts = totalAttempts;
+	}
+	public static final int MAX_ATTEMPTS=3;
+    //Method to count login attempts as well as compare email and password against the database
     public String validateUsernamePassword() {
-         boolean valid = DatabaseOperation.empValidate(email, pwd);
-         if(valid) {
-             HttpSession session = SessionUtils.getSession();
-             session.setAttribute("username", email);
-             DatabaseOperation.getEmployeeRole(email);
-             return "employeeAdmin";
-         } else {
-             FacesContext.getCurrentInstance().addMessage("loginForm:password",
+    	
+    	DatabaseOperation.addUserAttempt(email);
+    	totalAttempts = DatabaseOperation.getUserAttempts(email);
+    	System.out.println(totalAttempts);
+    	if(totalAttempts < MAX_ATTEMPTS){
+    		String active = DatabaseOperation.empAccStatus(email);
+    		boolean valid = DatabaseOperation.empValidate(email, pwd, active);
+    		if(valid && active.equals("ACTIVE")) {
+    			HttpSession session = SessionUtils.getSession();
+    			session.setAttribute("username", email);
+    			DatabaseOperation.getEmployeeRole(email);
+    			return "employeeAdmin";
+    		} else if(valid && active.equals("RESET")) {
+    			HttpSession session = SessionUtils.getSession();
+    			session.setAttribute("username", email);
+    			DatabaseOperation.getEmployeeRole(email);
+    			return "resetPassword";
+    		} else {
+    			System.out.println(totalAttempts);
+    			FacesContext.getCurrentInstance().addMessage("loginForm:password",
                      new FacesMessage(FacesMessage.SEVERITY_WARN, "Incorrect Username and Password",
                      "Please enter correct Username and Password"));
-             return "index";
-         }
+    			totalAttempts ++;
+    			return "index";
+    		}
+    	} else {
+    		DatabaseOperation.lockEmpAccount(email);
+    		FacesContext.getCurrentInstance().addMessage("loginForm:password",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Maximum number of attempts exceeded",
+                    "Maximum number of attempts exceeded. Please call IT to unlock account."));
+    		return "index";
+    	}
      }
-    
+    //Method to allow guest users into intranet
     public String guestUsernamePassword(){
     	email = "kwelz@waystone.com";
     	pwd = "capstone29";
-    	boolean valid = DatabaseOperation.empValidate(email, pwd);
+    	boolean valid = DatabaseOperation.empValidate(email, pwd, "ACTIVE");
         if(valid) {
             HttpSession session = SessionUtils.getSession();
             session.setAttribute("username", email);
@@ -178,28 +250,65 @@ public class Employee implements Serializable{
                     "Please enter correct Username and Password"));
             return "index";
         }
-    }
-    
+    } 
+    //Obtain employee information from database
     public List<Employee> getEmployeeRecord(){
         return DatabaseOperation.getEmployeeListFromDB(email);
     }
-    
+    //Update employee details in the database
     public String updateEmployeeDetails(Employee updateEmployeeObj){
         return DatabaseOperation.updateEmployeeDetailsInDB(updateEmployeeObj);
     }
+    //Update employee password in database
     public String updatePassword(){
         return DatabaseOperation.updateEmployeePassword(pwd, email);
     }
+     //Update employee password in database if forced to reset
+    public String updatePasswordToAdmin(){
+    	return DatabaseOperation.updateEmployeePasswordToAdmin(pwd, email);
+    }
+    //Logout and end session
     public String logout(){
          HttpSession session = SessionUtils.getSession();
          session.invalidate();
          return "index";
      }
-    public boolean isConAdminRole(Employee emp){
-    	return (emp.getRole().equals("ADMIN") || emp.getRole().equals("CONTRACTOR"));
+    //Obtain list of employees based on search criteria given   
+    public void getEmployeeList(String searchCriteria, String searchInform){
+    	employeeList = DatabaseOperation.getAllEmployeesFromDB(searchCriteria, searchInform);
+    	if (employeeList.size() == 0){
+    		Employee emp = new Employee();
+    		emp.setEmail("No results found");
+    		employeeList.add(emp);
+    	}
     }
-   
-    
+    //Obtain information of chosen employee from database
+    public String viewEmployeeRecord(int currentEmpID){
+    	return DatabaseOperation.viewEmployeeRecordFromDB(currentEmpID);
+    }
+    //Delete the employee in the database
+    public String deleteEmployee(Employee delEmployeeObj){
+    	int delEmployeeID = delEmployeeObj.getEmployeeID();
+        return DatabaseOperation.deleteEmployeeInDB(delEmployeeID);
+    }
+    //Insert a new employee in the database
+    public String insertNewEmployee(Employee newEmpObj){
+    	return DatabaseOperation.insertNewEmployeeInDB(newEmpObj);
+    }
+    //Unlock or set employee account status to 'ACTIVE' in database
+    public String unlockEmpAccountStatus(Employee accEmpObj){
+    	String accEmpEmail = accEmpObj.getEmail();
+    	return DatabaseOperation.unlockEmpAccountStatusInDB(accEmpEmail);
+    }
+    //Lock or set employee account status to 'LOCKED' in database
+    public String lockEmpAccountStatus(Employee accEmpObj){
+    	String accEmpEmail = accEmpObj.getEmail();
+    	return DatabaseOperation.lockEmpAccountStatusInDB(accEmpEmail);
+    }
+    //Reset employee password to randomly generated temporary password
+    public String resetPassword(String empEmail){
+    	return DatabaseOperation.resetPasswordInDB(empEmail);
+    }
 }   
     
     

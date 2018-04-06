@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -47,8 +52,8 @@
                         </h:panelGrid>
                        <h:panelGrid class="editInfo" columns="6" columnClasses="cityLeft, cityRight, stateLeft, midRight, zipLeft, zipRight">
                         <h:outputText value="City:  " />
-                        <h:inputText id="newUnitCity" value="#{unit.unitCity}" required="true" requiredMessage="Address is required" validatorMessage="Incorrect City" size="12">
-                            <f:validateRegex pattern="^[a-zA-Z\- ]+$" />
+                        <h:inputText id="newUnitCity" value="#{unit.unitCity}" required="true" requiredMessage="City is required" validatorMessage="Incorrect City" size="12">
+                            <f:validateRegex pattern="[a-zA-Z\s-]+"/>
                         </h:inputText>
                         <h:outputText value="State:  " />
                             <h:selectOneMenu id="newUnitState" value="#{unit.unitState}" required="true" requiredMessage="State is required" >
@@ -133,6 +138,7 @@
                                                                     
                         </h:panelGrid>
                     <h:commandButton value="Submit" action="#{unit.insertNewUnit(unit)}" />
+                    <h:commandButton value="Clear" type="reset"/>
                     </div>
                     </div>   
                 </h:form>

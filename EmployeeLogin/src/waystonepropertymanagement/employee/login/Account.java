@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * CSCI Capstone 2999 Final Project
+ * Waystone Property Management Intranet
  */
 package waystonepropertymanagement.employee.login;
 
@@ -13,9 +12,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 /**
- *
- * @author Katie
- * 
+ * Account class is Managed Bean that contains all of the properties and methods of an account
+ * @author KWelzbacher
  * 
  */
 @ManagedBean (name="account")
@@ -71,28 +69,32 @@ public class Account implements Serializable {
         this.allAccountNames = allAccountNames;
     }
     
-    
+    //Method to obtain all accounts based on search criteria given
     public void getAllAccountList(String accSearchName, String accSearchType){
         accountList = DatabaseOperation.getAccountListFromDB(accSearchName, accSearchType);
+        if(accountList.size() == 0){
+        	Account acc = new Account();
+        	acc.setAccountName("No results found");
+        	accountList.add(acc);
+        }
     }
+    //Method to obtain the information of the individual account chosen
     public String viewAccountInfo(String accountName){
         return DatabaseOperation.viewAccountInfoInDB(accountName);
     }
-    
+    //Method that places all account names in a list to be used for selectOneMenu
     public List<String> viewAllAccountNames(){
         return DatabaseOperation.viewAllAccountNamesInDB();
     }
-    
-   
+    //Method to update Account information to database
     public String updateAccountDetails(Account updateAccountObj){
         return DatabaseOperation.updateAccountDetailsInDB(updateAccountObj);
     }
-    
-    
+    //Method to insert new Account into database
     public String createNewAccount(Account newAccountObj){
         return DatabaseOperation.createNewAccountInDB(newAccountObj);
     }
-    
+    //Method to delete account from database
     public String deleteAccount(Account deleteAccountObj){
     	String deleteAccName = deleteAccountObj.getAccountName();
         return DatabaseOperation.deleteAccountInDB(deleteAccName);

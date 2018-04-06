@@ -1,4 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -65,11 +71,11 @@
                             
                             
                             <div class="edit">    
-                                <h:commandButton value="Edit Unit Information" action="editUnit" />
+                                <h:commandButton value="Edit Unit Information" action="editUnit" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
                             </div>
                             <br/><br/>
                             <div class="delete">
-                            	<h:commandButton value="Delete Unit" action="#{unit.deleteUnit(unitViewObj)}" class="confirmUnit" />
+                            	<h:commandButton value="Delete Unit" action="#{unit.deleteUnit(unitViewObj)}" class="confirmUnit"  rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
                             </div>
                             
                         </div>                

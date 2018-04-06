@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -36,32 +41,17 @@
                        		</h:panelGrid>
                         </div>
                                          
-                    <table id="timeTable">
-                    <ui:repeat value="#{timesheet.getTimesheetDates()}" var="timeDate">
-                    <tr > 
-                        <th class="headTab">#{timeDate.sunDate}</th>
-                        <th class="headTab">#{timeDate.monDate}</th>
-                        <th class="headTab">#{timeDate.tueDate}</th>
-                        <th class="headTab">#{timeDate.wedDate}</th>
-                        <th class="headTab">#{timeDate.thurDate}</th>
-                        <th class="headTab">#{timeDate.friDate}</th>
-                        <th class="headTab">#{timeDate.satDate}</th>
-                    </tr>
-                    </ui:repeat>
-                    <tr > 
-                        <th class="headTab" >Sunday</th>
-                        <th class="headTab">Monday</th>
-                        <th class="headTab">Tuesday</th>
-                        <th class="headTab">Wednesday</th>
-                        <th class="headTab">Thursday</th>
-                        <th class="headTab">Friday</th>
-                        <th class="headTab">Saturday</th>
-                    </tr>
-                                       
-                    <tr valign="top"> 
+                    <div id="timeTable">
                     
-                    	<td><table class="clockTable">
-                    		
+                    	<table class="clockTable sunTable">
+                    		<ui:repeat value="#{timesheet.getTimesheetDates()}" var="timeDate">
+                    		<tr>
+                    			<th class="headTab" colspan="2">#{timeDate.sunDate}</th>
+                    		</tr>
+                    		</ui:repeat>
+                    		<tr>
+                    			<th class="headTab" colspan="2" >Sunday</th>
+                    		</tr>
                     		<tr valign="top">
                     			<th class="headTab">Clock-In</th>
                     			<th class="headTab">Clock-Out</th>
@@ -73,9 +63,15 @@
                     		</tr>
                     		</ui:repeat>
                     	</table>
-                    	</td>
-                    	<td><table class="clockTable">
-                    	
+                    	<table class="clockTable sunTable">
+                    		<ui:repeat value="#{timesheet.getTimesheetDates()}" var="timeDate">
+                    		<tr>
+                    			<th class="headTab" colspan="2">#{timeDate.monDate}</th>
+                    		</tr>
+                    		</ui:repeat>
+                    		<tr>
+                    			<th class="headTab" colspan="2" >Monday</th>
+                    		</tr>
                     		<tr valign="top" >
                     			<th class="headTab">Clock-In</th>
                     			<th class="headTab">Clock-Out</th>
@@ -86,9 +82,16 @@
                     			<td>#{empTime.monOut}</td>
                     		</tr>
                     		</ui:repeat>
-                    	</table></td>
-                    	<td><table class="clockTable">
-                    	
+                    	</table>
+                    	<table class="clockTable sunTable">
+                    		<ui:repeat value="#{timesheet.getTimesheetDates()}" var="timeDate">
+                    		<tr>
+                    			<th class="headTab" colspan="2">#{timeDate.tueDate}</th>
+                    		</tr>
+                    		</ui:repeat>
+                    		<tr>
+                    			<th class="headTab" colspan="2" >Tuesday</th>
+                    		</tr>
                     		<tr valign="top" >
                     			<th class="headTab">Clock-In</th>
                     			<th class="headTab">Clock-Out</th>
@@ -99,9 +102,16 @@
                     			<td>#{empTime.tuesOut}</td>
                     		</tr>
                     		</ui:repeat>
-                    	</table></td>
-                    	<td><table class="clockTable">
-                    		
+                    	</table>
+                    	<table class="clockTable sunTable">
+                    		<ui:repeat value="#{timesheet.getTimesheetDates()}" var="timeDate">
+                    		<tr>
+                    			<th class="headTab" colspan="2">#{timeDate.wedDate}</th>
+                    		</tr>
+                    		</ui:repeat>
+                    		<tr>
+                    			<th class="headTab" colspan="2" >Wednesday</th>
+                    		</tr>
                     		<tr valign="top" >
                     			<th class="headTab">Clock-In</th>
                     			<th class="headTab">Clock-Out</th>
@@ -112,9 +122,16 @@
                     			<td>#{empTime.wedOut}</td>
                     		</tr>
                     		</ui:repeat>
-                    	</table></td>
-                    	<td><table class="clockTable">
-                    		
+                    	</table>
+                    	<table class="clockTable sunTable">
+                    		<ui:repeat value="#{timesheet.getTimesheetDates()}" var="timeDate">
+                    		<tr>
+                    			<th class="headTab" colspan="2">#{timeDate.thurDate}</th>
+                    		</tr>
+                    		</ui:repeat>
+                    		<tr>
+                    			<th class="headTab" colspan="2" >Thursday</th>
+                    		</tr>
                     		<tr valign="top">
                     			<th class="headTab">Clock-In</th>
                     			<th class="headTab">Clock-Out</th>
@@ -125,9 +142,16 @@
                     			<td>#{empTime.thurOut}</td>
                     		</tr>
                     		</ui:repeat>
-                    	</table></td>
-                    	<td><table class="clockTable">
-                    	
+                    	</table>
+                    	<table class="clockTable sunTable">
+                    		<ui:repeat value="#{timesheet.getTimesheetDates()}" var="timeDate">
+                    		<tr>
+                    			<th class="headTab" colspan="2">#{timeDate.friDate}</th>
+                    		</tr>
+                    		</ui:repeat>
+                    		<tr>
+                    			<th class="headTab" colspan="2" >Friday</th>
+                    		</tr>
                     		<tr valign="top">
                     			<th class="headTab">Clock-In</th>
                     			<th class="headTab">Clock-Out</th>
@@ -138,9 +162,16 @@
                     			<td>#{empTime.friOut}</td>
                     		</tr>
                     		</ui:repeat>
-                    	</table></td>
-                    	<td><table class="clockTable">
-                    		
+                    	</table>
+                    	<table class="clockTable satTable">
+                    		<ui:repeat value="#{timesheet.getTimesheetDates()}" var="timeDate">
+                    		<tr>
+                    			<th class="headTab" colspan="2">#{timeDate.satDate}</th>
+                    		</tr>
+                    		</ui:repeat>
+                    		<tr>
+                    			<th class="headTab" colspan="2" >Saturday</th>
+                    		</tr>
                     		<tr valign="top">
                     			<th class="headTab">Clock-In</th>
                     			<th class="headTab">Clock-Out</th>
@@ -151,12 +182,8 @@
                     			<td>#{empTime.satOut}</td>
                     		</tr>
                     		</ui:repeat>
-                    	</table></td>
-                    	
-                    </tr>          
-                </table>
-                      
-                    
+                    	</table>
+                    </div>
                 </h:form>
                 
                 

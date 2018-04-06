@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -20,7 +25,7 @@
                     <h3 class="pageTitle">Create New Record</h3>
                     <div class="editBox">
                     
-                    <h:panelGrid class="editInfo" columns="2" columnClasses="left, right"> 
+                    <h:panelGrid class="editInfo" columns="2" columnClasses="left, right clearInput"> 
                         
                         <h:outputText value="Record Name:  " />
                         <h:inputText id="recNewName" value ="#{record.recordName}" tabindex="1" required="true" requiredMessage="Name is required"
@@ -28,7 +33,7 @@
                             
                         </h:inputText>
                     </h:panelGrid>
-                    <h:panelGrid class="editInfo" columns="4" columnClasses="left, amRight, endLeft, endRight">
+                    <h:panelGrid class="editInfo" columns="4" columnClasses="left, amRight clearInput, endLeft, endRight clearSelect">
                         <h:outputText value="Record Amount:  " />
                         <h:inputText id="recNewAmount" value ="#{record.entryAmount}" required = "true" requiredMessage="Amount is required"
                                      converterMessage="Please enter only digits for amount such as 1234.00" size="12">
@@ -45,24 +50,24 @@
                     <h:panelGrid class="editInfo" columns="2">
                         
                         <h:outputText value="Record Date:  " />
-                        <h:inputText id="recNewDate" value ="#{record.recordDate}" class="dobDate" required = "true" requiredMessage ="Date is required"
+                        <h:inputText id="recNewDate" value ="#{record.recordDate}" class="dobDate clearInput" required = "true" requiredMessage ="Date is required"
                                      size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date">     
                             <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
                                      
                         </h:inputText>
                         <h:outputText value="Transaction No.:  " />
                         <h:inputText id="recNewInv" value="#{record.recordInvNum}" 
-                                     validatorMessage="Please enter Transaction Number using alphabetical letters and/or numbers" size="20">
+                                     validatorMessage="Please enter Transaction Number using alphabetical letters and/or numbers" size="20" class="clearInput">
                             <f:validateRegex pattern="^[a-zA-Z0-9]+$"/>
                         </h:inputText>
                                                  
                         <h:outputText value="Tenant ID:  " />
                         <h:inputText id="recNewTen" value="#{record.recordTenantID}" 
-                                     validatorMessage="Please enter Tenant ID using digits in form of 1234" size="12">
+                                     validatorMessage="Please enter Tenant ID using digits in form of 1234" size="12" class="clearInput">
                             <f:validateRegex pattern="[0-9]+"/>
                          </h:inputText>   
                         <h:outputText value="Account Name:  " />
-                        <h:selectOneMenu id="recNewAccount" value="#{record.recordAccount}" required="true" requiredMessage="Account Name is required">
+                        <h:selectOneMenu id="recNewAccount" value="#{record.recordAccount}" required="true" requiredMessage="Account Name is required" class="clearSelect">
                             <f:selectItems value="#{account.viewAllAccountNames()}" />
                             
                         </h:selectOneMenu>
@@ -80,6 +85,8 @@
                         
                         </h:panelGrid>
                     <h:commandButton value="Submit" action="#{record.createNewRecord(record)}" />
+                    <h:commandButton value="Clear" type="reset"/>
+                    
                     </div>
                     </div>
                 </h:form>
