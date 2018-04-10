@@ -67,12 +67,12 @@
                                 
                             </h:panelGrid>
                            
-                            <h:commandButton value="Unlock Account" action="#{employee.unlockEmpAccountStatus(employeeViewObj)}" id="unlockBtn" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}" />                          
-                            <h:commandButton value="Lock Account" action="#{employee.lockEmpAccountStatus(employeeViewObj)}"  rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/><br/>
-                            <h:commandButton value="Reset Password" action="#{employee.resetPassword(employeeViewObj.email)}"  rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/><br/>
+                            <h:commandButton value="Unlock Account" action="#{employee.unlockEmpAccountStatus(employeeViewObj)}" id="unlockBtn" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'HR' or empRoleObj.role eq 'IT'}" />                          
+                            <h:commandButton value="Lock Account" action="#{employee.lockEmpAccountStatus(employeeViewObj)}"  rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'HR' or empRoleObj.role eq 'IT'}"/><br/>
+                            <h:commandButton value="Reset Password" action="#{employee.resetPassword(employeeViewObj.email)}"  rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'HR' or empRoleObj.role eq 'IT'}"/><br/>
                             <h:message for="unlockBtn" class="warning"/>
                             <br/><br/>
-                            <h:commandButton value="Delete Employee" action="#{employee.deleteEmployee(employeeViewObj)}" class="confirmEmployee" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
+                            <h:commandButton value="Delete Employee" action="#{employee.deleteEmployee(employeeViewObj)}" class="confirmEmployee" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'HR'}"/>
                         </div>
                     </div>
 					

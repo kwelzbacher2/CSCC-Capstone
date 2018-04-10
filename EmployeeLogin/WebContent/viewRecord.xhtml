@@ -19,7 +19,9 @@
             <ui:define name="content">
                 
                 <h:form>
-                	
+                	<br/>
+                	<h:commandLink value="Back to Tenant" action="#{tenant.viewTenantRecord(recViewObj.recordTenantID)}" /><br/>
+                	<h:commandLink value="Back to Account" action="#{account.viewAccountInfo(accountObj.accountName)}" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
                     <div class="empInfo">
                         <h3 class="pageTitle">Record Information</h3>
                         <div class="profileBox">
@@ -72,11 +74,11 @@
                             </h:panelGrid>
                             
                             <div class="edit">    
-                                <h:commandButton value="Edit Record Information" action="editRecord" />
+                                <h:commandButton value="Edit Record Information" action="editRecord"  rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}" />
                             </div>
                             <br/><br/>
                             <div class="delete">    
-                                <h:commandButton value="Delete Record" action="#{record.deleteRecord(recViewObj)}" class="confirm" />
+                                <h:commandButton value="Delete Record" action="#{record.deleteRecord(recViewObj)}" class="confirm"   rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
                             </div>
                         </div>                
                        
