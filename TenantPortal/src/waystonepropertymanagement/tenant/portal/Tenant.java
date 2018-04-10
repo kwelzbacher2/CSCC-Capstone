@@ -1,7 +1,6 @@
 package waystonepropertymanagement.tenant.portal;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -454,10 +453,10 @@ public class Tenant implements Serializable {
 	public String updateTenantDetails(Tenant updateTenantObj) {
 		return DatabaseOperation.updateTenantDetailsInDB(updateTenantObj);
 	}
-
-	public String updatePassword() {
-		return DatabaseOperation.updateTenantPassword(pwd, email);
-	}
+	
+	public String updatePassword(){
+        return DatabaseOperation.updateTenantPassword(pwd, email);
+    }
 
 	public String insertMaintenanceRequest(Tenant tenantMaintObj, int maintTenID) {
 		return DatabaseOperation.insertIntoMaintInDB(tenantMaintObj, maintTenID);

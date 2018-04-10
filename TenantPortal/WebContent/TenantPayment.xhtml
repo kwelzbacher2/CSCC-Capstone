@@ -13,7 +13,7 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </h:head>
 <h:body>
-	<ui:composition template="templates/commonTemplate.html">
+	<ui:composition template="templates/commonTemplate.xhtml">
 		<ui:define name="content">
 			<h:form id="payForm">
 				<div class="empInfo">
@@ -23,18 +23,21 @@
 						<h:panelGrid columns="2"
 							columnClasses="balDueLeft, balDueRight, payAmountLeft, payAmountRight">
 							<h:outputLabel value="Account Balance: 	$" />
-							<h:outputLabel style="text-align:left" value="#{tenant.getTenantRecordBalance(tenantProfObj.tenantID)}" />
+							<h:outputLabel style="text-align:left"
+								value="#{tenant.getTenantRecordBalance(tenantProfObj.tenantID)}" />
 							<h:outputLabel value="Payment Amount:	" />
 							<h:inputText id="paymentAmount" value="#{tenant.amountPaid}"
-								required="true" requiredMessage="Payment Amount is required"
-								validatorMessage="Please select a maintenance type" />
+								required="true" requiredMessage="Payment Amount is required!"
+								validatorMessage="Please enter a payment amount in numberic form between 0-9999">
+								<f:validateRegex pattern="[0-9]{1,4}" />
+							</h:inputText>
 						</h:panelGrid>
 
 						<!-- Use drop down box  -->
 						<h:panelGrid columns="2" columnClasses="payTypeLeft, payTypeRight">
 							<h:outputLabel value="Payment Type: " />
 							<h:selectOneMenu id="paymentType" value="#{tenant.paymentType}"
-								required="true" requiredMessage="Payment Type is required"
+								required="true" requiredMessage="Payment Type is required!"
 								validatorMessage="Please select a payment type">
 								<f:selectItem itemValue="" />
 								<f:selectItem itemValue="Credit Card" />
@@ -50,16 +53,16 @@
 							<h3>Card information</h3>
 
 
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="2" columnClasses="pNameLeft, pNameRight">
 								<h:outputLabel value="Name on Card: " />
 								<h:inputText id="nameOnCardInputText" size="30" />
 							</h:panelGrid>
 
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="2" columnClasses="pCTypeLeft, pCTypeRight">
 								<h:outputLabel value="Card Type: " />
 								<h:selectOneMenu id="creditCardType"
 									value="#{tenant.creditCardType}" required="true"
-									requiredMessage="Card Type is required"
+									requiredMessage="Card Type is required!"
 									validatorMessage="Please select a card type">
 									<f:selectItem itemValue="" />
 									<f:selectItem itemValue="Visa" />
@@ -69,15 +72,18 @@
 								</h:selectOneMenu>
 							</h:panelGrid>
 
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="2" columnClasses="pCNumLeft, pCNumRight">
 								<h:outputLabel value="Card Number: " />
 								<h:inputText id="creditCardNum" size="25"
 									value="#{tenant.creditCardNum}" required="true"
-									requiredMessage="Card Number is required"
-									validatorMessage="Please enter Card Number using numeric values" />
+									requiredMessage="Card Number is required!"
+									validatorMessage="Please enter Card Number using numeric values XXXX-XXXX-XXXX-XXXX">
+									<f:validateRegex pattern="\d{4}-\d{4}-\d{4}-\d{4}" />
+								</h:inputText>
 							</h:panelGrid>
 
-							<h:panelGrid columns="5">
+							<h:panelGrid columns="5"
+								columnClasses="pExpMoLeft, pExpMoRight, pExpYrLeft, pExpYrRight">
 								<h:outputLabel value="Expiration date: " />
 								<h:selectOneMenu id="expMonth" value="#{tenant.expMonth}"
 									required="true">
@@ -113,10 +119,12 @@
 								</h:selectOneMenu>
 							</h:panelGrid>
 
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="2" columnClasses="pCvvLeft, pCvvRight">
 								<h:outputLabel value="Security code: " />
 								<h:inputText id="cvvCode" size="3" value="#{tenant.cvvCode}"
-									required="true" />
+									required="true" requiredMessage="Security Code is required!">
+									<f:validateRegex pattern="[0-9]{3}" />
+								</h:inputText>
 							</h:panelGrid>
 
 
@@ -126,10 +134,10 @@
 							rendered="#{tenant.paymentType eq 'Automated Clearing House'}">
 							<!-- Bank Account Info  -->
 							<h3>Bank Account Information</h3>
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="2" columnClasses="pBTypeLeft, pBTypeRight">
 								<h:outputLabel value="Account Type: " />
 								<h:selectOneMenu id="bankType" value="#{tenant.bankType}"
-									required="true" requiredMessage="account Type is required"
+									required="true" requiredMessage="Account Type is required!"
 									validatorMessage="Please select a bank account type">
 									<f:selectItem itemValue="" />
 									<f:selectItem itemValue="Checking" />
@@ -137,19 +145,23 @@
 								</h:selectOneMenu>
 							</h:panelGrid>
 
-							<h:panelGrid columns="2">
-								<h:outputLabel value="Account Number: " />
-								<h:inputText id="bankNum" value="#{tenant.bankNum}"
-									required="true"
-									requiredMessage="Bank Account Number is required"
-									validatorMessage="Please enter a bank account number" />
-							</h:panelGrid>
-
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="2" columnClasses="pBRoutLeft, pBRoutRight">
 								<h:outputLabel value="Routing Number: " />
 								<h:inputText id="bankRouting" value="#{tenant.bankRouting}"
-									required="true" requiredMessage="Routing Number is required"
-									validatorMessage="Please enter a bank routing number" />
+									required="true" requiredMessage="Routing Number is required!"
+									validatorMessage="Please enter a valid nine digit bank routing number">
+									<f:validateRegex pattern="[0-9]{9}" />
+								</h:inputText>
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" columnClasses="pBAcctLeft, pBAcctRight">
+								<h:outputLabel value="Account Number: " />
+								<h:inputText id="bankAcctNum" value="#{tenant.bankNum}"
+									required="true"
+									requiredMessage="Account Number is required!"
+									validatorMessage="Please enter a valid eight digit bank account number">
+									<f:validateRegex pattern="[0-9]{8}" />
+								</h:inputText>
 							</h:panelGrid>
 
 						</h:panelGroup>
@@ -159,18 +171,18 @@
 							<!-- Billing Address -->
 							<h3>Billing address</h3>
 
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="2" columnClasses="pAddLeft, pAddRight">
 								<h:outputLabel value="Street address:   " />
 								<h:inputText id="billingAddress"
 									value="#{tenant.billingAddress}" />
 							</h:panelGrid>
 
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="2" columnClasses="pCityLeft, pCityRight">
 								<h:outputLabel value="City:		 " />
 								<h:inputText id="billingCity" value="#{tenant.billingCity}" />
 							</h:panelGrid>
 
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="2" columnClasses="pStateLeft, pStateRight">
 								<h:outputLabel value="State:    " />
 								<h:selectOneMenu id="billingState"
 									value="#{tenant.billingState}">
@@ -228,7 +240,7 @@
 								</h:selectOneMenu>
 							</h:panelGrid>
 
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="2" columnClasses="pZipeft, pZipRight">
 								<h:outputLabel value="Zip Code:	 " />
 								<h:inputText id="billingZip" value="#{tenant.billingZip}"
 									size="5" />
@@ -244,8 +256,8 @@
 							<h:message for="expYear" />
 							<h:message for="cvvCode" />
 							<h:message for="bankType" />
-							<h:message for="bankNum" />
 							<h:message for="bankRouting" />
+							<h:message for="bankAcctNum" />
 						</h:panelGrid>
 
 						<!-- Use command button -->

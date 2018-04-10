@@ -11,7 +11,7 @@
 	<h:outputStylesheet library="css" name="waystoneTenant.css" />
 </h:head>
 <h:body>
-	<ui:composition template="templates/commonTemplate.html">
+	<ui:composition template="templates/commonTemplate.xhtml">
 		<ui:define name="content">
 			<h:form id="maintForm">
 				<div class="empInfo">
@@ -23,7 +23,7 @@
 							<h:outputLabel value="Maintanence Type: " />
 							<h:selectOneMenu id="jobType"
 								value="#{tenant.maintJobType}" required="true"
-								requiredMessage="Maintanence Type is required"
+								requiredMessage="Maintanence Type is required!"
 								validatorMessage="Please choose a maintenance type">
 								<f:selectItem itemValue="" />
 								<f:selectItem itemValue="Electric" />
@@ -47,6 +47,7 @@
 							<h:outputText value="Availability Date:  " />
 							<h:inputText id="availDate" value="#{tenant.maintDate}"
 								required = "true" class="availDate" size="10"
+								requiredMessage="Date is required!"
 								validatorMessage="Please enter digits in the form of 1999-01-01 for Availability Date">
 								<f:validateRegex pattern="\d{4}-\d{2}-\d{2}" />
 							</h:inputText>
@@ -60,7 +61,7 @@
 
 						<!-- Use command button -->
 						<h:panelGrid columns="2">
-							<h:commandButton value="Submit" action="#{tenant.insertMaintenanceRequest(tenant, tenantProfObj.tenantID)}" />
+							<h:commandButton value="Submit" action="#{tenant.insertMaintenanceRequest(tenant, tenantProfObj.tenantID)}"/>
 							<h:commandButton value="Clear" type="reset" />
 						</h:panelGrid>
 					</div>

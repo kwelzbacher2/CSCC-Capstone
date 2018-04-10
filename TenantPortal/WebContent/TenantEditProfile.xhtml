@@ -8,10 +8,9 @@
 	<script type="text/javascript"
 		src="#{request.contextPath}/resources/js/waystoneTenant.js"></script>
 	<title>Edit Profile</title>
-	<h:outputStylesheet library="css" name="waystoneTenant.css" />
 </h:head>
 <body>
-	<ui:composition template="templates/commonTemplate.html">
+	<ui:composition template="templates/commonTemplate.xhtml">
 		<ui:define name="content">
 			<h:form id="form">
 				<div class="empInfo">
@@ -27,7 +26,7 @@
 								requiredMessage="First Name is required"
 								validatorMessage="Please enter First Name using alphabetical letters"
 								size="20">
-								<f:validateRegex pattern="[a-zA-Z]+" />
+								<f:validateRegex pattern="[a-zA-Z\s\']+" />
 							</h:inputText>
 
 							<h:outputText value="Middle Initial:  " />
@@ -42,7 +41,7 @@
 								required="true" requiredMessage="Last Name is required"
 								validatorMessage="Please enter Last Name using alphabetical letters"
 								size="20">
-								<f:validateRegex pattern="[a-zA-Z]+" />
+								<f:validateRegex pattern="[a-zA-Z\s\']+" />
 							</h:inputText>
 						</h:panelGrid>
 
@@ -63,7 +62,7 @@
 							<h:outputText value="City:  " />
 							<h:inputText id="tenPermCity" value="#{tenantProfObj.permCity}"
 								validatorMessage="Incorrect City" size="15">
-								<f:validateRegex pattern="[a-zA-Z]+" />
+								<f:validateRegex pattern="[a-zA-Z\s]+" />
 							</h:inputText>
 
 							<h:outputText value="State:  " />

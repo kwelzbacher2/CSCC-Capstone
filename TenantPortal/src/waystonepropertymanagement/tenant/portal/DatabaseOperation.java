@@ -1,6 +1,5 @@
 package waystonepropertymanagement.tenant.portal;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -115,21 +114,21 @@ public class DatabaseOperation {
 		}
 		return "/TenantProfile.xhtml?faces-redirect=true";
 	}
-
-	public static String updateTenantPassword(String password, String email) {
-		try {
-			con = DataConnect.getConnection();
-			ps = con.prepareStatement("UPDATE ten_login SET password = ? WHERE email = ?");
-			ps.setString(1, password);
-			ps.setString(2, email);
-			ps.executeQuery();
-		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
-		} finally {
-			DataConnect.close(con);
-		}
-		return "/TenantProfile.xhtml?faces-redirect=true";
-	}
+	
+	public static String updateTenantPassword(String password,String email){
+        try{
+            con = DataConnect.getConnection();
+            ps = con.prepareStatement("UPDATE emp_login SET password = ? WHERE email = ?");
+            ps.setString(1, password);
+            ps.setString(2, email);
+            ps.executeQuery();
+        } catch(SQLException e){
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+            DataConnect.close(con);
+        }
+        return "/TenantProfile.xhtml?faces-redirect=true";
+    }
 
 	public static String getTenantRecordBalanceInDB(int tenantID) {
 		Connection con = null;
@@ -197,7 +196,7 @@ public class DatabaseOperation {
 
 					tenantRecordsList.add(tenAllRecordsObj);
 				}
-				//System.out.println("Total Records Fetched: " + tenantRecordsList.size());
+				// System.out.println("Total Records Fetched: " + tenantRecordsList.size());
 			}
 		} catch (SQLException e) {
 			System.out.println("Login error -->" + e.getMessage());
@@ -309,16 +308,16 @@ public class DatabaseOperation {
 			FacesContext.getCurrentInstance().addMessage("maintForm:jobType",
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Your Maintenance Request Was Successfully Received",
 							"Your Maintenance Request Was Successfully Received"));
-			navigation = "/TenantMaintenanceConfirmation.xhtml?face-redirect=true";
+			// navigation = "/TenantMaintenanceConfirmation.xhtml?face-redirect=true";
 
 		} else {
 			FacesContext.getCurrentInstance().addMessage("maintForm:jobType",
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "There Was An Error, Please Resubmit Your Request",
 							"There Was An Error, Please Resubmit Your Request"));
-			navigation = "/TenantMaintenance.xhtml?faces-redirect=true";
+			// navigation = "/TenantMaintenance.xhtml?faces-redirect=true";
 		}
 
-		return "/TenantMaintenance.xhtml?faces-redirect=true";
+		return "/tenantAdmin.xhtml?faces-redirect=true";
 		// return navigation;
 
 	}
@@ -399,7 +398,7 @@ public class DatabaseOperation {
 			// navigation = "/TenantPayment.xhtml?faces-redirect=true";
 		}
 
-		return "/TenantPayment.xhtml?faces-redirect=true";
+		return "/tenantAdmin.xhtml?faces-redirect=true";
 		// return navigation;
 
 	}

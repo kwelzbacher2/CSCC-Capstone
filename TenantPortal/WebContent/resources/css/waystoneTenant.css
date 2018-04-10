@@ -12,6 +12,12 @@
 	position: relative;
 }
 
+.topHeader {
+	background-color: rgba(255, 255, 255, 1);
+	margin: 0;
+	padding: 0;
+}
+
 #nav {
 	background-color: rgba(255, 255, 255, 1);
 	height: 1.2em;
@@ -20,11 +26,27 @@
 	border-bottom: 2px solid lightslategray;
 }
 
-.link {
-	color: black;
-	text-decoration: none;
-	font-size: 1em;
-	font-family: "Noto Serif";
+.tenantBack {
+	background-image: url("images/miami-beach-blur.png");
+	background-size: 100% 100%;
+	background-attachment: fixed;
+}
+
+.loginAlign {
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.passwordAlign {
+	display: inline-block;
+	margin-right: 33px;
+}
+
+#loginTitle {
+	background-color: rgba(255, 255, 255, 1);
+	height: 77px;
+	width: 100%;
+	padding-top: 33px;
 }
 
 @media screen and (max-width:1280px) {
@@ -62,6 +84,13 @@
 	}
 }
 
+.link {
+	color: black;
+	text-decoration: none;
+	font-size: 1em;
+	font-family: "Noto Serif";
+}
+
 .link:hover {
 	color: lightslategray;
 	text-decoration: none;
@@ -73,6 +102,13 @@ div ul {
 
 #signOut {
 	text-align: right;
+}
+
+.topLogo {
+	text-align: left;
+	float: left;
+	width: 60px;
+	height: 60px;
 }
 
 .shadowBox {
@@ -164,13 +200,17 @@ div ul {
 	padding-right: 20px;
 }
 
+.firstleft {
+	padding-right: 50px;
+}
+
 .firstRight {
-	padding-left: 32px;
+	padding-left: 67px;
 	padding-right: 20px;
 }
 
 .addRight {
-	padding-left: 55px;
+	padding-left: 56px;
 }
 
 .citRight {
@@ -198,6 +238,57 @@ div ul {
 	padding-left: 31px;
 }
 
+.pNameRight {
+	padding-left: 31px;
+}
+
+.pCTypeRight {
+	padding-left: 62px;
+}
+
+.pCNumRight {
+	padding-left: 36px;
+}
+
+.pExpMoRight {
+	padding-left: 21px;
+}
+
+.pExpYrRight {
+	padding-left: 0px;
+}
+
+.pCvvRight {
+	padding-left: 37px;
+}
+
+.pBTypeRight {
+	padding-left: 36px;
+}
+
+.pBAcctRight {
+	padding-left: 10px;
+}
+
+.pBRoutRight {
+	padding-left: 13px;
+}
+
+.pAddRight {
+	padding-left: 32px;
+}
+
+.pCityRight {
+	padding-left: 110px;
+}
+
+.pStateRight {
+	padding-left: 102px;
+}
+
+.pZipRight {
+	padding-left: 74px;
+}
 
 .mTypeRight {
 	padding-left: 0px;
@@ -218,7 +309,6 @@ div ul {
 .pwdRight {
 	padding-left: 0px;
 }
-
 
 #welcome {
 	font-family: "Noto Serif";
@@ -306,28 +396,6 @@ div ul {
 	text-decoration: none;
 }
 
-.loginAlign {
-	display: inline-block;
-	margin-right: 5px;
-}
-
-.passwordAlign {
-	display: inline-block;
-	margin-right: 33px;
-}
-
-#loginTitle {
-	background-color: rgba(255, 255, 255, 1);
-	height: 77px;
-	width: 100%;
-	padding-top: 33px;
-}
-
-#loginBackground {
-	background-image: url("images/bluebuildinglighter.png");
-	background-size: cover;
-}
-
 .jobType {
 	text-align: left;
 }
@@ -359,28 +427,25 @@ div ul {
 	text-align: center;
 }
 
-
-
-
-
-
-
-
-.locations{
+.locations {
 	text-align: center;
 }
-.locationTable{
-	width:100%;
+
+.locationTable {
+	width: 100%;
 	border: 2px solid lightslategray;
-	background-color: rgba(255,255,255,1);
+	background-color: rgba(255, 255, 255, 1);
 }
-.locationTable td{
-	width:33%;
+
+.locationTable td {
+	width: 33%;
 }
-.locationTable td + td{
-	border-left:2px solid lightslategray;
+
+.locationTable td+td {
+	border-left: 2px solid lightslategray;
 }
-.locTitle{
+
+.locTitle {
 	text-align: center;
 	font-weight: bold;
 }

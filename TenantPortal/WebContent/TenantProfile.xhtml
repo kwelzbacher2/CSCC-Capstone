@@ -7,17 +7,16 @@
 	<script type="text/javascript"
 		src="#{request.contextPath}/resources/js/waystoneTenant.js"></script>
 	<title>Profile</title>
-	<h:outputStylesheet library="css" name="waystoneTenant.css" />
 </h:head>
 <h:body>
-	<ui:composition template="templates/commonTemplate.html">
+	<ui:composition template="templates/commonTemplate.xhtml">
 		<ui:define name="content">
 			<h:form id="form">
 				<div class="empInfo">
 					<h1 class="pageTitle">Profile</h1>
-					<div class="profileBox">
+					<div class="editBox">
 
-						<h:panelGrid class="info" columns="4">
+						<h:panelGrid class="editInfo" columns="4">
 							<h:outputText value="Name:  " />
 							<h:outputText value="#{tenantProfObj.firstName} " />
 							<h:outputText value="#{tenantProfObj.mi} " />
@@ -51,7 +50,8 @@
 						<h:panelGrid class="info" columns="3">
 							<h:commandButton value="Edit Information"
 								action="TenantEditProfile" />
-							<!-- <h:commandButton value="Edit Password"
+
+							<!-- 							<h:commandButton value="Edit Password"
 								action="TenantEditPassword" />
 							<h:commandButton value="Edit Saved Payment Method"
 								action="TenantEditPayment" /> -->
