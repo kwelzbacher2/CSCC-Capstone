@@ -381,7 +381,7 @@ public class DatabaseOperation {
     	int saveResult = 0;
     	try{
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("UPDATE emp_login SET acc_stat = ? WHERE EMAIL = ?");
+            pstmt = connObj.prepareStatement("UPDATE emp_login SET acc_stat = ?, attempts = '0' WHERE EMAIL = ?");
             pstmt.setString(1, "ACTIVE");
             pstmt.setString(2, accEmpEmail);
             saveResult = pstmt.executeUpdate();
@@ -436,11 +436,11 @@ public class DatabaseOperation {
     	String pword = randomString(12);
     	try{
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("UPDATE emp_login SET PASSWORD = ?, acc_stat = ? WHERE EMAIL = ?");
+            pstmt = connObj.prepareStatement("UPDATE emp_login SET PASSWORD = ?, acc_stat = ?, attempts = '0' WHERE EMAIL = ?");
             pstmt.setString(1, pword);
             pstmt.setString(2, "RESET");
             pstmt.setString(3, empEmail);
-            saveResult = pstmt.executeUpdate();
+            saveResult = pstmt.executeUpdate(); 
             
             SendMail.sendMail(empEmail, pword);
             	
@@ -458,9 +458,9 @@ public class DatabaseOperation {
         	   FacesContext.getCurrentInstance().addMessage("viewEmpForm:unlockBtn",
                        new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem resetting the Employee password",
                        "There was a problem resetting the Employee password"));
-           }
+           } 
         
-    	return "viewEmployee";
+    	return "viewEmployee"; 
     }
     
     

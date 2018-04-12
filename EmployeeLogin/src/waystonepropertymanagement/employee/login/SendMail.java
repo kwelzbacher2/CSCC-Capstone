@@ -14,44 +14,34 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-//SendMail class sends an email through gmail SMTP
+import com.sendgrid.*;
+
+import java.io.IOException;
+//SendMail class sends an email through sendgrid
 public class SendMail {
 
 	public static void sendMail(String email, String pwd) {
+			
+			Email from = new Email("contact@waystone.com");
+		    String subject = "Your Waystone Property Management Password";
+		    Email to = new Email(email);
+		    Content content = new Content("text/plain", "Dear Waystone Employee,"
+					+ " \n\nYour password has been reset. Your temporary password is: " + pwd + ". Please log in with this temporary password and update the password to your choice.");
+		    Mail mail = new Mail(from, subject, to, content);
 
-		final String username = "ktjanson2@gmail.com";
-		final String password = "aveverum4";
-		
-		
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-
-		Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		  });
-		
-		try {
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("ktjanson2@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse(email));
-			message.setSubject("Your Waystone Property Management Password");
-			message.setText("Dear Waystone Employee,"
-				+ " \n\nYour password has been reset. Your temporary password is: " + pwd + ". Please log in with this temporary password and update the password to your choice.");
-
-			Transport.send(message);
-
-			System.out.println("Done");
-
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
+		    SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
+		    
+		    Request request = new Request();
+		    try {
+		      request.setMethod(Method.POST);
+		      request.setEndpoint("mail/send");
+		      request.setBody(mail.build());
+		      Response response = sg.api(request);
+		      System.out.println(response.getStatusCode());
+		      System.out.println(response.getBody());
+		      System.out.println(response.getHeaders());
+		    } catch (IOException e) {
+		      System.out.println("Login error -->" + e.getMessage());
+		    }
 	}
 }
