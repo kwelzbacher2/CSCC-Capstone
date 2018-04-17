@@ -167,7 +167,7 @@ public class Maintenance implements Serializable{
     	currentMainList = DatabaseOperation.getCurrentEmpMainListInDB(employeeID);
     	return currentMainList;
     }
-     //Add EmployeeID and Date Ended to the databased and remove it from the list of requests shown   
+     //Add EmployeeID and Date Ended to the database and remove it from the list of requests shown   
     public String endMainRequest(Maintenance request, int employeeID){
     	int reqID = request.getRequestID(); 
     	return DatabaseOperation.endMainRequestInDB(reqID, employeeID);

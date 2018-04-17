@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Inventory Center</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+            <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        
+        <h:outputScript name="js/waystoneEmp.js"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="inventForm">
+                     
+                 <div class="empInfo" >
+                    <h3 class="pageTitle">Office Inventory Center</h3>
+                    <div class="editBox">
+                    
+                    <h:panelGrid class="editInfo" columns="2" columnClasses="left, right clearInput"> 
+                        
+                        <h:outputText value="Item Type:  " />
+                        <h:selectOneMenu id="newItem" value="#{inventory.invItem}" required="true" requiredMessage="Item Type is required" class="clearSelect">
+                            <f:selectItem itemValue="" />
+                            <f:selectItems value="#{inventory.viewAllItemTypes()}" />
+                            <f:selectItem itemValue="Other" />
+                            <f:ajax render="@form"/>
+                        </h:selectOneMenu>
+                        <h:outputText value="Input Other Item Type:  "  rendered = "#{inventory.invItem eq 'Other'}"/>
+                        <h:inputText id="addItem" value="#{inventory.addItem}" required="true" rendered = "#{inventory.invItem eq 'Other'}"
+                        	validatorMessage = "Please enter only letters or dashes" requiredMessage="Must enter item type">
+                        	<f:validateRegex pattern="[A-Za-z\-]+"/>
+                        </h:inputText>
+                     
+                        <h:outputText value="Cost:  " />
+                        <h:inputText id="invCost" value ="#{inventory.itemCostEntry}" required = "true" requiredMessage="Item Cost is required"
+                        				converterMessage="Please enter only digits for cost such as 1234.00" >
+                             <f:convertNumber />
+                        </h:inputText> 
+               
+                        <h:outputText value="Date Obtained:  " />
+                        <h:inputText id="invDate" value ="#{inventory.purchDate}" class="dobDate clearInput" required = "true" requiredMessage ="Date is required"
+                                     size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date">     
+                            <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
+                                     
+                        </h:inputText>          
+                        <h:outputText value="Description:  " />
+                        <h:inputTextarea id="invDesc" value="#{inventory.itemDesc}"  class="clearInput" required = "true" requiredMessage="Description is required"
+                                      row = "20" col="40" validatorMessage="Please limit to 255 characters">
+                           <f:validateLength maximum="255"/>
+                       </h:inputTextarea> 
+                        <h:outputText value="Is it Paid for?  " />
+                        <h:selectOneMenu id="invPaid" value="#{inventory.invPaid}" required="true" requiredMessage="'Is it Paid?' is required" class="clearSelect">
+                            <f:selectItem itemValue="Yes" />
+                            <f:selectItem itemValue="No" />
+                        </h:selectOneMenu>
+                        
+                    </h:panelGrid>
+                                      
+                        <h:panelGrid class ="warning" columns ="1">
+                        <h:message for="newItem"/>    
+                        <h:message for="addItem"/>
+                        <h:message for="invCost" />
+                        <h:message for="invDate" />
+                        <h:message for="invDesc"/>
+                        
+                        </h:panelGrid>
+                    <h:commandButton value="Submit" action="#{inventory.createNewInventory(inventory)}" />
+                    <h:commandButton value="Clear" type="reset"/>
+                    
+                    </div>
+                    </div>
+                     <br/><br/>
+                     <h:dataTable id="invTable" value="#{inventory.viewItemsQuantity()}"  var="invObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="itemTy, quan">
+                    <h:column> 
+                        <f:facet name="header">Item Type</f:facet>
+                        <h:outputText value="#{invObj.itemType}"/>
+                    </h:column>
+                    <h:column> 
+                        
+                        <f:facet name="header">Quantity</f:facet>
+                        <h:outputText value="#{invObj.quantity}"/>
+                    </h:column>
+                </h:dataTable>
+                        
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

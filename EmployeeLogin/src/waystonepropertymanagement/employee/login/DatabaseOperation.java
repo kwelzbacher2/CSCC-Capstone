@@ -2284,4 +2284,120 @@ public class DatabaseOperation {
         }
     	return "/contactReview.xhtml?faces-redirect=true";
     }
+    
+    //Inventory methods
+    public static String createNewInventoryInDB(Inventory newInvObj){
+	    int saveResult = 0;
+	    if(newInvObj.getInvItem().equals("Other")){
+	    	newInvObj.setInvItem(newInvObj.getAddItem());
+	    }
+	    try{
+	        connObj = DataConnect.getConnection();
+	        pstmt = connObj.prepareStatement("INSERT INTO INVENTORY (ITEM_TYPE, COST, PCH_DATE, ITEM_DESC, IS_PAID) VALUES (?, ?, ?, ?, ?)");
+	        pstmt.setString(1, newInvObj.getInvItem());
+	        pstmt.setDouble(2, newInvObj.getItemCost());
+	        pstmt.setString(3, newInvObj.getPurchDate());
+	        pstmt.setString(4, newInvObj.getItemDesc());
+	        pstmt.setBoolean(5, newInvObj.getIsPaid());
+	        saveResult = pstmt.executeUpdate();
+	        
+	        
+	        PreparedStatement pst = connObj.prepareStatement("SELECT TOP 1 ASSET_NUM FROM INVENTORY ORDER BY ASSET_NUM DESC");
+	        resultSetObj = pst.executeQuery();
+	        if(resultSetObj.next()){
+	        	newInvObj.setAssetNum(resultSetObj.getInt("ASSET_NUM"));
+	        	
+		        PreparedStatement prep = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, ACCOUNT_NAME) VALUES ('OFFICE INVENTORY', ?, '0', ?, ?, 'FIXED ASSETS')");
+		        prep.setDouble(1, newInvObj.getItemCost());
+		        prep.setString(2, newInvObj.getPurchDate());
+		        prep.setString(3, "ASSET"+newInvObj.getAssetNum());
+		        prep.executeUpdate();
+		        
+		        PreparedStatement prepst = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, ACCOUNT_NAME) VALUES ('OFFICE INV PURCH', ?, '1', ?, ?, 'ACCOUNTS PAYABLE')");
+		        prepst.setDouble(1, newInvObj.getItemCost());
+		        prepst.setString(2, newInvObj.getPurchDate());
+		        prepst.setString(3, "ASSET"+newInvObj.getAssetNum()+"PURCH");
+		        prepst.executeUpdate();
+		        System.out.println("Got Here TOO");
+		        if(newInvObj.getIsPaid()){
+		        	PreparedStatement preps = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, ACCOUNT_NAME) VALUES ('OFFICE INV PAY', ?, '0', ?, ?, 'ACCOUNTS PAYABLE')");
+		        	preps.setDouble(1, newInvObj.getItemCost());
+		        	preps.setString(2, newInvObj.getPurchDate());
+		        	preps.setString(3, "ASSET"+newInvObj.getAssetNum()+"PAY");
+		        	preps.executeUpdate();
+		        	
+		        	PreparedStatement pres = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, ACCOUNT_NAME) VALUES ('OFFICE INV PAID', ?, '1', ?, ?, 'BANK ACCOUNT')");
+		        	pres.setDouble(1, newInvObj.getItemCost());
+		        	pres.setString(2, newInvObj.getPurchDate());
+		        	pres.setString(3, "ASSET"+newInvObj.getAssetNum()+"PAID");
+		        	pres.executeUpdate();
+		        }
+	        } else {
+	        	System.out.println("No resultset");
+	        }
+	        
+	    } catch (SQLException e) {
+	            System.out.println("Login error -->" + e.getMessage());        
+	    } finally {    
+	             DataConnect.close(connObj);
+	    }
+	    
+	    if(saveResult !=0){
+	    	FacesContext.getCurrentInstance().addMessage("inventForm:newItem",
+	                new FacesMessage(FacesMessage.SEVERITY_WARN, "The New Inventory was successfully created",
+	                "The New Inventory was successfully created"));
+	        
+	    } else {
+	    	FacesContext.getCurrentInstance().addMessage("inventForm:newItem",
+	                new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem creating the new Inventory",
+	                "There was a problem creating the new Inventory"));
+	    }
+	    return"inventory.xhtml?faces=redirect=true";
+	 }
+    
+    public static List<String> viewAllItemTypesInDB(){
+    	List<String> typeList = new ArrayList();
+        try{
+           connObj = DataConnect.getConnection();
+           pstmt = connObj.prepareStatement("SELECT DISTINCT ITEM_TYPE FROM INVENTORY");
+           resultSetObj = pstmt.executeQuery();
+           while( resultSetObj.next()){
+               typeList.add(resultSetObj.getString("ITEM_TYPE"));
+           }
+       } catch (SQLException e) {
+           System.out.println("Login error -->" + e.getMessage());        
+       } finally {    
+             DataConnect.close(connObj);
+       }
+       return typeList;
+    }
+    
+    
+    public static List<Inventory> viewItemsQuantityinDB(){
+    	List<Inventory> invList = new ArrayList();
+    	int quantity = 0;
+    	try{
+    		connObj = DataConnect.getConnection();
+    		pstmt = connObj.prepareStatement("SELECT DISTINCT ITEM_TYPE FROM INVENTORY");
+    		resultSetObj = pstmt.executeQuery();
+    		while(resultSetObj.next()){
+    			Inventory invListObj = new Inventory();
+    			String item = resultSetObj.getString("ITEM_TYPE");
+    			invListObj.setItemType(item);
+    			PreparedStatement pst = connObj.prepareStatement("SELECT COUNT(*) as 'QUANTITY' FROM INVENTORY WHERE ITEM_TYPE = ?");
+    	        pst.setString(1, item);
+    	        ResultSet result = pst.executeQuery();
+    	          while(result.next()){
+    	        	  	System.out.println(item);
+    	        	  	invListObj.setQuantity(result.getInt("QUANTITY"));
+    	          }
+    			invList.add(invListObj);
+    		}
+    	} catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return invList;
+    }
 }
