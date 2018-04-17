@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/waystoneEmp.js"></script>
+        <title>Employee Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+                    <div class="empInfo">
+                        <h3 class="pageTitle">Employee Profile Page</h3>
+                        <div class="profileBox">
+                            <h:panelGrid class="info" columns="4">
+                                
+                                <h:outputText value="Name:  " />
+                                <h:outputText value ="#{empRecordObj.firstName} " />
+                                <h:outputText value ="#{empRecordObj.middleInit} " />
+                                <h:outputText value="#{empRecordObj.lastName}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="5">
+                                
+                                <h:outputText value="Address:  " />
+                                <h:outputText value ="#{empRecordObj.address} " />
+                                <h:outputText value="#{empRecordObj.city}, " />
+                                <h:outputText value="#{empRecordObj.state} " />
+                                <h:outputText value="#{empRecordObj.zipcode}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Phone Number:  " />
+                                <h:outputText id="phoneNum" value ="#{empRecordObj.phone}"  />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Date of Birth:  " />
+                                <h:outputText value ="#{empRecordObj.DOB}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Employee ID:  " />
+                                <h:outputText value ="#{empRecordObj.employeeID}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Employee Email:  " />
+                                <h:outputText value ="#{empRecordObj.email}" />
+                                
+                            </h:panelGrid>
+                            <div class="edit">    
+                                <h:commandButton value="Edit Information" action="employeeProfileEdit" />
+                                <h:commandButton value="Edit Password" action="employeePasswordEdit" />
+                            </div>
+                            
+                        </div>
+                        
+                       
+                    </div>
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

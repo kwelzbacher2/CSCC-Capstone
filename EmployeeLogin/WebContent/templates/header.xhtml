@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+	 <h:outputStylesheet library="css" name="waystoneEmployee.css" /> 
+         <link rel="icon" type ="image/x-icon" href="#{resource['images/Way1.png']}"/>
+    </h:head>
+    <h:body>
+	    <ui:composition>
+                <h:form>
+                	<div class="topHeader">
+                	<div ><img src ="#{resource['images/Way1.png']}" alt=""  class="topLogo"/></div>  
+                    <div id="signOut"> <h:commandLink action="#{employee.logout}" value="Sign Out" class="link"></h:commandLink></div>
+                    <div class="title">WAYSTONE PROPERTY MANAGEMENT</div>
+                    
+                    <h:panelGroup class="nav" layout="block" rendered="#{empRoleObj.role eq 'ADMIN'}">
+                        <ul>
+                            <li class="navList"><h:link value="Home" outcome="employeeAdmin" class="link" /></li>
+                            <li class="navList dropdown">
+                                    <h:link value="Employee" outcome="employeeProfile" class="link"/>
+                                        <div class="dropdown-content">
+                                            	<h:link value="My Profile" outcome="employeeProfile" class="content"/><br/>
+                                                <h:link value="Employee Search" outcome="searchEmployees" class="content"/> <br/>
+                                                <h:link value="Create Employee" outcome="createEmployee" class="content"/>                                 
+                                        </div>
+                            </li>
+                            <li class="navList dropdown">
+                                    <h:link value="Action Center" outcome="actionCenter" class="link"/>
+                                        <div class="dropdown-content">
+                                        		<h:link value="Action Center" outcome="actionCenter" class="content"/><br/>
+                                                <h:link value="General Ledger" outcome="generalLedger" class="content"/> <br/>
+                                                <h:link value="Accounts" outcome="accounts" class="content"/><br/>
+                                                <h:link value="Create New Account" outcome="createAccount" class="content"/><br/>
+                                                <h:link value="Create New Record" outcome="createRecord" class="content"/><br/>
+                                                <h:link value="Inventory" outcome="inventory" class="content" />                                          
+                                        </div> 
+                            </li>
+                            <li class="navList">
+                                <div class="dropdown">
+                                    <h:link value="Units" outcome="units" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Unit Search" outcome="units" class="content"/><br/>
+                                                <h:link value="Create New Unit" outcome="createUnit" class="content"/>                                          
+                                        </div>    
+                                </div>
+                            </li>
+                            <li class="navList dropdown">
+                                    <h:link value="Tenant Accounts" outcome="tenantAccounts" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Tenant Search" outcome="tenantAccounts" class="content"/><br/>
+                                                <h:link value="Create New Tenant" outcome="insertTenant" class="content"/>  
+                                        </div> 
+                            </li>    
+                            <li class="navList dropdown">
+                            		<h:link value="Maintenance Requests" outcome="maintenanceRequests" class="link"/>
+                            		<div class="dropdown-content">
+                                                <h:link value="Current Requests" outcome="maintenanceRequests" class="content"/><br/>
+                                                <h:link value="Create New Request" outcome="createMaintenance" class="content"/> 
+                                        </div>
+                            </li>
+                            <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
+                            <li class="navList dropdown">
+                            	<h:link value="Additional Company Information" outcome="companyInfo" class="link"/>
+                            		<div class="dropdown-content">
+                                                <h:link value="Waystone Properties" outcome="companyInfo" class="content"/><br/>
+                                                <h:link value="Contact Review" outcome="contactReview" class="content"/>
+                                    </div>
+                            </li>
+                        </ul>
+                    </h:panelGroup>
+                    
+                    
+                    <h:panelGroup class="nav" layout="block" rendered="#{empRoleObj.role eq 'CONTRACTOR'}">
+                        <ul>
+                            <li class="navList"><h:link value="Home" outcome="employeeAdmin" class="link" /></li>
+                            <li class="navList dropdown">
+                                    <h:link value="Employee" outcome="employeeProfile" class="link"/>
+                                        <div class="dropdown-content">
+                                            	<h:link value="My Profile" outcome="employeeProfile" class="content"/><br/>
+                                                <h:link value="Timesheet" outcome="employeeTimesheet" class="content"/> <br/>
+                                                <h:link value="Employee Search" outcome="searchEmployees" class="content"/>                                
+                                        </div>
+                            </li>
+                            <li class="navList">
+                                <div class="dropdown">
+                                    <h:link value="Units" outcome="units" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Unit Search" outcome="units" class="content"/>                        
+                                        </div>    
+                                </div>
+                            </li>
+                            <li class="navList dropdown">
+                                    <h:link value="Tenant Accounts" outcome="tenantAccounts" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Tenant Search" outcome="tenantAccounts" class="content"/>
+                                        </div>  
+                            </li>    
+                            <li class="navList dropdown">
+                            		<h:link value="Maintenance Requests" outcome="maintenanceRequests" class="link"/>
+                            		<div class="dropdown-content">
+                                                <h:link value="Current Requests" outcome="maintenanceRequests" class="content"/><br/>
+                                                <h:link value="Create New Request" outcome="createMaintenance" class="content"/>
+                                        </div>
+                            </li>
+                            <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
+                            <li class="navList dropdown">
+                            	<h:link value="Additional Company Information" outcome="companyInfo" class="link"/>
+                            		<div class="dropdown-content">
+                                                <h:link value="Waystone Properties" outcome="companyInfo" class="content"/>
+                                    </div>
+                            </li>
+                        </ul>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup class="nav" layout="block" rendered="#{empRoleObj.role eq 'HR'}">
+                        <ul>
+                            <li class="navList"><h:link value="Home" outcome="employeeAdmin" class="link" /></li>
+                            <li class="navList dropdown">
+                                    <h:link value="Employee" outcome="employeeProfile" class="link"/>
+                                        <div class="dropdown-content">
+                                            	<h:link value="My Profile" outcome="employeeProfile" class="content"/><br/>
+                                                <h:link value="Timesheet" outcome="employeeTimesheet" class="content"/> <br/>
+                                                <h:link value="Employee Search" outcome="searchEmployees" class="content"/> <br/>
+                                                <h:link value="Create Employee" outcome="createEmployee" class="content"/>                                 
+                                        </div>
+                            </li>
+                            <li class="navList">
+                                <div class="dropdown">
+                                    <h:link value="Units" outcome="units" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Unit Search" outcome="units" class="content"/>                                          
+                                        </div>    
+                                </div>
+                            </li>
+                            <li class="navList dropdown">
+                                    <h:link value="Tenant Accounts" outcome="tenantAccounts" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Tenant Search" outcome="tenantAccounts" class="content"/><br/>
+                                                <h:link value="Create New Tenant" outcome="insertTenant" class="content"/>  
+                                        </div> 
+                            </li>
+                            <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
+                            <li class="navList dropdown">
+                            	<h:link value="Additional Company Information" outcome="companyInfo" class="link"/>
+                            		<div class="dropdown-content">
+                                                <h:link value="Waystone Properties" outcome="companyInfo" class="content"/><br/>
+                                                <h:link value="Contact Review" outcome="contactReview" class="content"/>
+                                    </div>
+                            </li>
+                        </ul>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup class="nav" layout="block" rendered="#{empRoleObj.role eq 'OFFICE'}">
+                        <ul>
+                            <li class="navList"><h:link value="Home" outcome="employeeAdmin" class="link" /></li>
+                            <li class="navList dropdown">
+                                    <h:link value="Employee" outcome="employeeProfile" class="link"/>
+                                        <div class="dropdown-content">
+                                            	<h:link value="My Profile" outcome="employeeProfile" class="content"/><br/>
+                                                <h:link value="Timesheet" outcome="employeeTimesheet" class="content"/> <br/>
+                                                <h:link value="Employee Search" outcome="searchEmployees" class="content"/>                                  
+                                        </div>
+                            </li>
+                            <li class="navList">
+                                <div class="dropdown">
+                                    <h:link value="Units" outcome="units" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Unit Search" outcome="units" class="content"/><br/>
+                                                <h:link value="Create New Unit" outcome="createUnit" class="content"/>                                          
+                                        </div>    
+                                </div>
+                            </li>
+                            <li class="navList dropdown">
+                                    <h:link value="Tenant Accounts" outcome="tenantAccounts" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Tenant Search" outcome="tenantAccounts" class="content"/><br/>
+                                                <h:link value="Create New Tenant" outcome="insertTenant" class="content"/>  
+                                        </div> 
+                            </li>    
+                            <li class="navList dropdown">
+                            		<h:link value="Maintenance Requests" outcome="maintenanceRequests" class="link"/>
+                            		<div class="dropdown-content">
+                                                <h:link value="Create New Request" outcome="createMaintenance" class="content"/> 
+                                        </div>
+                            </li>
+                            <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
+                            <li class="navList dropdown">
+                            	<h:link value="Additional Company Information" outcome="companyInfo" class="link"/>
+                            		<div class="dropdown-content">
+                                                <h:link value="Waystone Properties" outcome="companyInfo" class="content"/><br/>
+                                                <h:link value="Contact Review" outcome="contactReview" class="content"/>
+                                    </div>
+                            </li>
+                        </ul>
+                    </h:panelGroup>
+                   
+                   
+                    <h:panelGroup class="nav" layout="block" rendered="#{empRoleObj.role eq 'ACCOUNTS'}">
+                        <ul>
+                            <li class="navList"><h:link value="Home" outcome="employeeAdmin" class="link" /></li>
+                            <li class="navList dropdown">
+                                    <h:link value="Employee" outcome="employeeProfile" class="link"/>
+                                        <div class="dropdown-content">
+                                            	<h:link value="My Profile" outcome="employeeProfile" class="content"/><br/>
+                                                <h:link value="Timesheet" outcome="employeeTimesheet" class="content"/> <br/>
+                                                <h:link value="Employee Search" outcome="searchEmployees" class="content"/>                                 
+                                        </div>
+                            </li>
+                            <li class="navList dropdown">
+                                    <h:link value="Company Accounts" outcome="accounts" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Accounts" outcome="accounts" class="content"/><br/>
+                                                <h:link value="Create New Account" outcome="createAccount" class="content"/><br/>
+                                                <h:link value="Create New Record" outcome="createRecord" class="content"/><br/>
+                                                <h:link value="Action Center" outcome="actionCenter" class="content"/><br/>
+                                                <h:link value="General Ledger" outcome="generalLedger" class="content"/>                                           
+                                        </div> 
+                            </li>
+                            <li class="navList">
+                                <div class="dropdown">
+                                    <h:link value="Units" outcome="units" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Unit Search" outcome="units" class="content"/><br/>
+                                                <h:link value="Create New Unit" outcome="createUnit" class="content"/>                                          
+                                        </div>    
+                                </div>
+                            </li>
+                            <li class="navList dropdown">
+                                    <h:link value="Tenant Accounts" outcome="tenantAccounts" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Tenant Search" outcome="tenantAccounts" class="content"/><br/>
+                                                <h:link value="Create New Tenant" outcome="insertTenant" class="content"/>  
+                                        </div> 
+                            </li>
+                            <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
+                            <li class="navList dropdown">
+                            	<h:link value="Additional Company Information" outcome="companyInfo" class="link"/>
+                            		<div class="dropdown-content">
+                                                <h:link value="Waystone Properties" outcome="companyInfo" class="content"/>
+                                    </div>
+                            </li>
+                        </ul>
+                    </h:panelGroup>
+                    
+                    
+                    <div id="primary_nav_wrap">
+                    	<ul>
+                    		<li class="has-dropdown contentMenu"><h:outputText value="Menu" class="linkMenu" />
+                    			
+                    			<ul class="dropdown-contentMenu">
+                    			
+                            		<li class="contentMenu"><h:link value="Home" outcome="employeeAdmin" class="linkMenu" /></li>
+                            		<li class="contentMenu"><h:link value="My Profile" outcome="employeeProfile" class="linkMenu" /></li>
+                            		<li class="contentMenu has-dropdown" ><h:link value="Company Accounts" outcome="accounts" class="linkMenu"/>
+                                		
+                                        <ul class="menu-dropdown-content">
+                                            
+                                                <li class="contentMenu"><h:link value="Accounts" outcome="accounts" class="inner-content linkMenu"/></li>
+                                                <li class="contentMenu"><h:link value="Create New Account" outcome="createAccount" class="inner-content linkMenu"/></li>
+                                                                                            
+                                        </ul> 
+                            		</li>
+                            		<li class="contentMenu has-dropdown"><h:link value="Units" outcome="units" class="linkMenu" />
+                                		
+                                        <ul class="menu-dropdown-content">
+                                            
+                                              <li class="contentMenu"><h:link value="Unit Search" outcome="units" class="inner-content linkMenu"/></li>
+                                              <li class="contentMenu"><h:link value="Create New Unit" outcome="createUnit" class="inner-content linkMenu"/></li>
+                                                                                            
+                                        </ul> 
+                            		</li>
+                           			<li class="contentMenu has-dropdown"><h:link value="Tenant Accounts" outcome="tenantAccounts" class="linkMenu"/>
+                               		 
+                                       	<ul class="menu-dropdown-content">
+                                            
+                                               	<li class="contentMenu"><h:link value="Tenant Search" outcome="tenantAccounts" class="inner-content linkMenu"/></li>
+                                                <li class="contentMenu"><h:link value="Create New Tenant" outcome="insertTenant" class="inner-content linkMenu"/></li>                                
+                                           
+                                        </ul>
+                            		</li>    
+                            		<li class="contentMenu"><h:link value="Maintenance Requests" outcome="maintenanceRequests" class="linkMenu"/></li>
+                            		<li class="contentMenu"><h:link value="Training Materials" outcome="training" class="linkMenu"/></li>
+                            		<li class="contentMenu"><h:link value="Additional Company Information" outcome="companyInfo" class="linkMenu"/></li>
+                        	</ul>
+                          </li>
+                        </ul>
+                    </div>
+                    </div>
+                    
+                </h:form>
+
+	    </ui:composition>
+    </h:body>
+</html>

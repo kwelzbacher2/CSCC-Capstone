@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Action Center</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+            <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        
+        <h:outputScript name="js/waystoneEmp.js"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="actionForm">
+                                          
+                        <h3 class="pageTitle">Account Action Center</h3>
+                       
+                       <div class="empInfo">
+                       		<h:panelGrid columns="2" class="info">
+                       			<h:outputText value="Post Rent for all Leased Units to Accounts Receivable for this month: "/>
+                       			<h:commandButton value="Post Rent" action="#{record.postRentToAR()}" id="rentButton"/>
+                        		<h:message for="rentButton" class="warning"/>
+                       		</h:panelGrid>
+                       		<h:panelGrid columns="2" class="info">
+                        		<h:outputText value="Post Late Fees to Accounts Receivable for all Leased Units that have not paid rent this month: "/>
+                       			<h:commandButton value="Post Late Fee" action="#{record.postLateFeeToAR()}" id="lateFeeBtn"/>
+                        		<h:message for="lateFeeBtn" class="warning"/>
+                        	</h:panelGrid>
+                        </div> 
+                        
+                        <h3 class="pageTitle">General Journal</h3>
+                        
+                        <h:dataTable id="journalTable" value="#{record.getAllRecords()}"  var="journalObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, name, trans, debit, credit">
+                            <h:column> 
+                                <f:facet name="header">Date</f:facet>
+                                <h:commandLink value="#{journalObj.recordDate}" action="#{record.viewIndivRecord(journalObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{journalObj.recordName}" action="#{record.viewIndivRecord(journalObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Transaction No.</f:facet>
+                                <h:commandLink value="#{journalObj.recordInvNum}" action="#{record.viewIndivRecord(journalObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">DEBIT</f:facet>
+                                <h:commandLink value="#{journalObj.formatDebAmount()}" action="#{record.viewIndivRecord(journalObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">CREDIT</f:facet>
+                                <h:commandLink value="#{journalObj.formatCredAmount()}" action="#{record.viewIndivRecord(journalObj.recordID)}" class="table-link"/>
+                            </h:column>
+                                                                        
+                        </h:dataTable>
+                        
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

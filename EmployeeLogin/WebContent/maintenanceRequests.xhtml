@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Maintenance Requests</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+            
+                    <h3 class="pageTitle">Maintenance Requests Page</h3>
+                    
+                     <h:panelGrid columnClasses="pageSearch">
+                        <h:outputLabel value="Building" />
+                        <h:selectOneMenu id="searchBuild" value="#{maintenance.searchBuild}" required="true">
+                            <f:selectItems value="#{unit.viewAllBuildingNames()}" />
+                        </h:selectOneMenu>
+                        
+                        <h:outputLabel value="Job Type" />
+                        <h:selectOneMenu id="searchType" value="#{maintenance.searchType}" >
+                            <f:selectItem itemValue=""/>
+                            <f:selectItem itemValue="Electric"/>
+                            <f:selectItem itemValue="Damage"/>
+                            <f:selectItem itemValue="HVAC"/>
+                            <f:selectItem itemValue="Plumbing"/>
+                            <f:selectItem itemValue="Other"/>
+                        </h:selectOneMenu> 
+                        <h:commandButton  value="Search" actionListener="#{maintenance.getMaintenanceSearchList(maintenance.searchBuild, maintenance.searchType)}" />                       
+                        </h:panelGrid>
+                    <h3 class="pageTitle">Open Requests</h3>
+                    <h:dataTable value="#{maintenance.maintenanceSearch}" var="req"
+                                 styleClass = "table" headerClass="table-header" rowClasses="table-odd,table-even"
+                                 columnClasses="requestID, tenantID, building, apt, jobType, jobDesc, dateR, started, startDate, reqDone">
+                        <h:column> 
+                        <f:facet name="header">Request ID</f:facet>
+                        <h:outputText value="#{req.requestID}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Tenant ID</f:facet>
+                        <h:outputText value="#{req.tenantID}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Building</f:facet>
+                        <h:outputText value="#{req.building}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Apartment No.</f:facet>
+                        <h:outputText value="#{req.aptNum}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Job Type</f:facet>
+                        <h:outputText value="#{req.jobType}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Job Description</f:facet>
+                        <h:outputText value="#{req.jobDesc}"/>
+                    </h:column>
+                        <h:column> 
+                        <f:facet name="header">Date Request</f:facet>
+                        <h:outputText value="#{req.dateReq}"/>
+                    </h:column>
+                    <h:column>
+                    	<f:facet name="header">Started By</f:facet>
+                    	<h:outputText value="#{req.startEmp}"/>
+                    </h:column>
+                    <h:column>
+                    	<f:facet name="header">Start Request</f:facet>
+                    	<h:commandButton action="#{maintenance.startMainRequest(req, empRecordObj.employeeID)}" value="Start" class="start"/>
+                    </h:column>  
+                    <h:column>
+                    	<f:facet name="header">Request Done</f:facet>
+                    	<h:commandButton action="#{maintenance.endMainRequest(req.requestID, empRecordObj.employeeID)}" value="Done" class="done"/>
+                    </h:column>                  
+                    </h:dataTable>
+                    
+                    <h3 class="pageTitle">Assigned Requests</h3>
+                    <h:dataTable value="#{maintenance.getCurrentEmpMainList(empRecordObj.employeeID)}" var="current"
+                                 styleClass = "table" headerClass="table-header" rowClasses="table-odd,table-even"
+                                 columnClasses="requestID, tenantID, building, apt, jobType, jobDesc, dateR, startDate, removeReq">
+                        <h:column> 
+                        <f:facet name="header">Request ID</f:facet>
+                        <h:outputText value="#{current.requestID}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Tenant ID</f:facet>
+                        <h:outputText value="#{current.tenantID}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Building</f:facet>
+                        <h:outputText value="#{current.building}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Apartment No.</f:facet>
+                        <h:outputText value="#{current.aptNum}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Job Type</f:facet>
+                        <h:outputText value="#{current.jobType}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Job Description</f:facet>
+                        <h:outputText value="#{current.jobDesc}"/>
+                    </h:column>
+                        <h:column> 
+                        <f:facet name="header">Date Request</f:facet>
+                        <h:outputText value="#{current.dateReq}"/>
+                    </h:column>
+                    
+                        <h:column> 
+                        <f:facet name="header">Start Date</f:facet>
+                        <h:outputText value="#{current.startDate}"/>
+                    </h:column>
+                    <h:column>
+                    	<f:facet name="header">Remove Request</f:facet>
+                    	<h:commandButton action="#{maintenance.removeMainRequest(current, empRecordObj.employeeID)}" value="Remove" class="remove"/>
+                    </h:column>
+                    
+                    <h:column>
+                    	<f:facet name="header">Request Done</f:facet>
+                    	<h:commandButton action="#{maintenance.endMainRequest(current, empRecordObj.employeeID)}" value="Done" class="done"/>
+                    </h:column>                  
+                    </h:dataTable>
+                    <h3 class="pageTitle">Finished Requests</h3>
+                    <h:dataTable value="#{maintenance.getDoneEmpMainList(empRecordObj.employeeID)}" var="done"
+                                 styleClass = "table" headerClass="table-header" rowClasses="table-odd,table-even"
+                                 columnClasses="requestID, tenantID, building, apt, jobType, jobDesc, finishR">
+                        <h:column> 
+                        <f:facet name="header">Request ID</f:facet>
+                        <h:outputText value="#{done.requestID}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Tenant ID</f:facet>
+                        <h:outputText value="#{done.tenantID}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Building</f:facet>
+                        <h:outputText value="#{done.building}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Apartment No.</f:facet>
+                        <h:outputText value="#{done.aptNum}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Job Type</f:facet>
+                        <h:outputText value="#{done.jobType}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Job Description</f:facet>
+                        <h:outputText value="#{done.jobDesc}"/>
+                    </h:column>
+                    <h:column>
+                    	<f:facet name="header">Request Finished</f:facet>
+                    	<h:outputText value="#{done.doneDate}"/>
+                    </h:column>                  
+                    </h:dataTable>
+            
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

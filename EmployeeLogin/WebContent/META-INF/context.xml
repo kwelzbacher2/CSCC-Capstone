@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/EmployeeLogin">
+<WatchedResource>WEB-INF/web.xml</WatchedResource>
+  
+    <!-- Resource factory for Email Session -->
+    <Resource name="mail/Session" auth="Container" type="javax.mail.Session"
+            mail.smtp.host="smtp.gmail.com" />
+    
+</Context>

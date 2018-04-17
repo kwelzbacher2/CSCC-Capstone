@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Search Tenant Accounts</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+            <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <h:outputScript name="js/waystoneEmp.js"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="tenantForm">
+                    
+                    <h3 class="pageTitle">Search Employee Accounts </h3>
+                    
+                    <h:panelGrid columnClasses="pageSearch">
+                        <h:outputText value="Search Employee(s) By: " />
+                        <h:selectOneMenu id="searchCr" value="#{employee.searchCriteria}" required="true" requiredMessage="Must choose item for Search Tenant(s) By:">
+                            <f:selectItem itemValue=""/>
+                            <f:selectItem itemValue="Employee ID"/>
+                            <f:selectItem itemValue="Last Name"/>
+                        </h:selectOneMenu> 
+                        <h:inputText id="searchIn" value="#{employee.searchInform}" required="true" 
+                        	validatorMessage = "Please enter only letters, numbers, or dashes" requiredMessage="Must enter search criteria in textbox">
+                        	<f:validateRegex pattern="[A-Za-z0-9\-]+"/>
+                        </h:inputText>
+                        <h:commandButton  value="Submit" actionListener="#{employee.getEmployeeList(employee.searchCriteria, employee.searchInform)}"/>                       
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                        	<h:message for="searchCr" class="warning"/>
+                        	<h:message for="searchIn" class="warning"/>
+                        </h:panelGrid>
+                    
+                    <h:dataTable id="empTable" value="#{employee.employeeList}"  var="empRecObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="empEail, empID, empFirstName, empLastName, empCity, empState">
+                    <h:column> 
+                        <f:facet name="header">Email</f:facet>
+                        <h:commandLink value="#{empRecObj.email}" action="#{employee.viewEmployeeRecord(empRecObj.employeeID)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Employee ID</f:facet>
+                        <h:commandLink value="#{empRecObj.employeeID}" action="#{employee.viewEmployeeRecord(empRecObj.employeeID)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">First Name</f:facet>
+                        <h:commandLink value="#{empRecObj.firstName}" action="#{employee.viewEmployeeRecord(empRecObj.employeeID)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Last Name</f:facet>
+                        <h:commandLink value="#{empRecObj.lastName}" action="#{employee.viewEmployeeRecord(empRecObj.employeeID)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">City</f:facet>
+                        <h:commandLink value="#{empRecObj.city}" action="#{employee.viewEmployeeRecord(empRecObj.employeeID)}" class="table-link"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">State</f:facet>
+                        <h:commandLink value="#{empRecObj.state}" action="#{employee.viewEmployeeRecord(empRecObj.employeeID)}" class="table-link"/>
+                    </h:column>
+                </h:dataTable>
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="adminForm">
+                                          
+                        <h3 id="welcome">Welcome Employee</h3>
+                        <!--this is needed to get employee info initially! -->
+                        <ui:repeat value="#{employee.getEmployeeRecord()}" var="emp"> 
+                        <h:outputText value="#{emp.firstName} #{emp.lastName}" class="empInfo"/>                  
+                        <div class="shadowBox">
+                            <h:outputText class="pageTitle" value="Quick Links"/><br/><br/><br/>
+                            
+                             <h:panelGrid columns = "2" styleClass="smallLink" columnClasses="qlink, qlink, qlink, qlast">
+                            
+                            	<h:link outcome="employeeProfile" class="link"> <img src ="#{resource['images/information.png']}" alt=""><br/> Employee<br/> Profile</img> </h:link>
+                            	<h:link outcome="employeeTimesheet" class="link"><img src ="#{resource['images/clipboard.png']}" alt=""><br/>Employee<br/> Timesheet</img></h:link>
+                            	<h:link outcome="training" class="link"><img src ="#{resource['images/triple-search.png']}" alt=""><br/>Training<br/> Materials</img></h:link>
+                            	<h:link outcome="tenantAccounts" class="link"><img src ="#{resource['images/database-search.png']}" alt=""><br/>Tenant<br/> Search</img></h:link>
+                            	
+                            </h:panelGrid>
+                            
+                            <h:panelGrid columns = "4" styleClass="bigQuick" columnClasses="qlink, qlink, qlink, qLast">
+                            
+                            	<h:link outcome="employeeProfile" class="link"> <img src ="#{resource['images/information.png']}" alt="" class="infoImg"><br/> Employee<br/> Profile</img> </h:link>
+                            	<h:link outcome="employeeTimesheet" class="link"><img src ="#{resource['images/clipboard.png']}" alt="" class="infoImg"><br/>Employee<br/> Timesheet</img></h:link>
+                            	<h:link outcome="training" class="link"><img src ="#{resource['images/triple-search.png']}" alt="" class="infoImg"><br/>Training<br/> Materials</img></h:link>
+                            	<h:link outcome="tenantAccounts" class="link"><img src ="#{resource['images/database-search.png']}" alt="" class="infoImg"><br/>Tenant<br/> Search</img></h:link>
+                            	
+                            </h:panelGrid>
+                            
+                           
+                        </div>
+                        
+                        </ui:repeat>               
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

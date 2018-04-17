@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Training Materials</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+            
+                    <h3 class="pageTitle">Training Materials</h3>
+                    <ul class="trainList">
+                    	<li>Employee Comprehensive Intranet Training PDF: <a href="#{resource['images/WaystoneIntranetTraining.pdf']}" target="_blank" class="trainLink">View</a> 
+                    		<a href="#{resource['images/WaystoneIntranetTraining.pdf']}" download="Intranet Training PDF" class="trainLink">  Download</a></li>
+                    	<li>Maintenance Training PDF: <a href="#{resource['images/WaystoneMaintenanceTraining.pdf']}" target="_blank" class="trainLink">View</a> 
+                    		<a href="#{resource['images/WaystoneMaintenanceTraining.pdf']}" download="Maintenance Training PDF" class="trainLink">  Download</a></li>
+                    	<li>Accounting Training PDF: <a href="#{resource['images/WaystoneAccountingTraining.pdf']}" target="_blank" class="trainLink">View</a>
+                    		<a href="#{resource['images/WaystoneAccountingTraining.pdf']}" download="Accounting Training PDF" class="trainLink">  Download</a></li>
+                    	<li>Employee Profile Training PDF: <a href="#{resource['images/WaystoneProfileTraining.pdf']}" target="_blank" class="trainLink">View</a>
+                    	 	<a href="#{resource['images/WaystoneProfileTraining.pdf']}" download="Employee Profile Training PDF" class="trainLink">  Download</a></li>
+            		</ul>
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

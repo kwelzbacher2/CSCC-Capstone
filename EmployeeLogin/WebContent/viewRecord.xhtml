@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/waystoneEmp.js"></script>
+        <title>Record Information</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+                	<br/>
+                	<h:commandLink value="Back to Tenant" action="#{tenant.viewTenantRecord(recViewObj.recordTenantID)}" /><br/>
+                	<h:commandLink value="Back to Account" action="#{account.viewAccountInfo(accountObj.accountName)}" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
+                    <div class="empInfo">
+                        <h3 class="pageTitle">Record Information</h3>
+                        <div class="profileBox">
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Record Name:  " />
+                                <h:outputText value ="#{recViewObj.recordName}" />
+                                                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="4">
+                                
+                                <h:outputText value="Record Amount:  " />
+                                <h:outputText value ="#{recViewObj.formatRecAmount()}" />
+                            </h:panelGrid>    
+                            <h:panelGrid class="info" columns="2">    
+                                <h:outputText value ="Credit or Debit?: " />
+                                <h:outputText value="#{recViewObj.recordIsCredit}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Date:  " />
+                                <h:outputText value ="#{recViewObj.recordDate} " />
+                                                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Transaction Number:  " />
+                                <h:outputText id="phoneNum" value ="#{recViewObj.recordInvNum}"  />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Tenant ID:  " />
+                                <h:outputText value ="#{recViewObj.recordTenantID}" />
+                                
+                            </h:panelGrid>
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Account Name:  " />
+                                <h:outputText value ="#{recViewObj.recordAccount}" />
+                                
+                            </h:panelGrid>
+                            
+                            <h:panelGrid class="info" columns="2">
+                                
+                                <h:outputText value="Record Number:  " />
+                                <h:outputText value ="#{recViewObj.recordID}" />
+                                
+                            </h:panelGrid>
+                            
+                            <div class="edit">    
+                                <h:commandButton value="Edit Record Information" action="editRecord"  rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}" />
+                            </div>
+                            <br/><br/>
+                            <div class="delete">    
+                                <h:commandButton value="Delete Record" action="#{record.deleteRecord(recViewObj)}" class="confirm"   rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'ACCOUNTS'}"/>
+                            </div>
+                        </div>                
+                       
+                    </div>
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

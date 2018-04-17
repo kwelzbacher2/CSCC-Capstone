@@ -1,0 +1,977 @@
+
+/* 
+	CSCI 2999 Capstone Project 
+	Waystone Property Management Intranet
+    Created on : Feb 21, 2018, 10:56:23 AM
+    Author     : KWelzbacher
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Nanum+Myeongjo');
+@import url('https://fonts.googleapis.com/css?family=Merriweather');
+
+html body{
+	margin: 0;
+	padding: 0;
+}
+
+
+.title {
+	font-size: 1.875em;
+	color: black;
+	text-align: center;
+	font-family:"Nanum Myeongjo";
+	position:relative;
+	margin:auto;
+}
+.topHeader{
+	background-color: rgba(255,255,255,1);
+	margin: 0;
+	padding: 0;
+	
+}
+.nav {
+	background-color: rgba(255,255,255,1);
+	height: 1.2em;
+	text-align: center;
+    padding-bottom:10px;
+    border-bottom: 2px solid lightslategray;
+	
+}
+
+.qlink{
+	
+    padding-right: 10px;
+}
+@media screen and (max-width:525px){
+	.infoImg{
+		height:65px;
+		width:65px;
+	}
+	
+}
+@media screen and (max-width:1170px){
+	
+	.nav{
+		display: none !important;	
+	}
+	#primary-nav-wrap {
+		display: block;
+	}
+	#primary_nav_wrap ul
+	{
+		list-style:none;
+		position:relative;
+		float:left;
+		margin:0;
+		padding:0
+	}
+	.linkMenu
+	{
+		display:block;
+		color:black;
+		text-decoration:none;
+		font-weight:700;
+		font-size:1em;
+		line-height:32px;
+		padding:0 15px;
+		font-family:"Merriweather";
+	}	
+	
+	.linkMenu:hover{
+		color: lightslategray;
+    	text-decoration:none;
+	}
+	.contentMenu
+	{
+		position:relative;
+		float:left;
+		margin:0;
+		padding:0
+	}
+	.menu-dropdown-content{
+		top:0;
+		left:100%;
+	}
+	
+	.has-dropdown:hover > ul{
+		display: block;
+	}
+	.inner-content{
+		float:right;
+		width:100px;
+		text-decoration: none;
+		color:black;
+		font-size: 0.9em;
+    	font-family: "Merriweather";
+    	text-align:left;
+	}
+	.inner-content:hover{
+		color: lightslategray;
+    	text-decoration:none;
+	}
+	.dropdown-contentMenu{
+		display: none;
+		position: absolute;
+		top:100%;
+		left:0;
+		background: ghostwhite;
+		padding:0;
+	}
+	.dropdown-contentMenu .contentMenu{
+		float:none;
+		width:200px;
+	}
+	
+	.navList{
+		display: none !important;
+	}
+	.bigQuick{
+    	display: none !important;
+    	
+    }
+    .smallLink{
+    	display: inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+	}
+    
+}
+@media screen and (min-width:1170px)and (max-width:1200px){
+	
+	.primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+	.navList{
+		display:inline-block;
+		padding-right:5px;
+		letter-spacing: 0px;
+	}
+	.bigQuick{
+    	display: none !important;
+    	
+    }
+    .smallLink{
+    	display: inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+	}
+    
+}
+
+@media screen and (min-width:1200px) and (max-width:1359px){
+	.primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+	.navList{
+		display:inline-block;
+		padding-right:10px;
+		letter-spacing: 0px;
+	}
+	.bigQuick{
+    	display: none !important;
+    	
+    }
+    .smallLink{
+    	display: inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 1px;
+	}
+    
+}
+
+@media screen and (min-width:1360px) and (max-width:1440px){
+	.primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+	.navList{
+		display:inline-block;
+		padding-right:10px;
+		
+	}
+	.bigQuick{
+    	display: none !important;
+    	
+    }
+    .smallLink{
+    	display: inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
+}
+@media screen and (min-width:1440px) and (max-width:1520px){
+    .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+    .navList {
+            display: inline;
+            padding-right: 20px;
+    }
+    
+    .bigQuick{
+    	display:inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+    }
+    .smallLink{
+    	display: none !important;
+    	
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
+}
+@media screen and (min-width:1520px) and (max-width:1599px){
+    .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+    .navList {
+            display: inline;
+            padding-right: 30px;
+            
+    }
+    
+    .bigQuick{
+    	display:inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+    }
+    .smallLink{
+    	display: none !important;
+    	
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
+}
+@media screen and (min-width:1600px) and (max-width:1679px){
+    .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+    .navList {
+            display: inline;
+            padding-right: 40px;
+    }
+    
+    .bigQuick{
+    	display:inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+    }
+    .smallLink{
+    	display: none !important;
+    	
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
+}
+@media screen and (min-width:1680px) and (max-width:1753px){
+    .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+    .navList {
+            display: inline;
+            padding-right: 50px;
+    }
+    
+    .bigQuick{
+    	display:inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+    }
+    .smallLink{
+    	display: none !important;
+    	
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
+}
+@media screen and (min-width:1754px) and (max-width:1789px){
+    .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+    .navList {
+            display: inline;
+            padding-right: 60px;
+    }
+    
+    .bigQuick{
+    	display:inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+    }
+    .smallLink{
+    	display: none !important;
+    	
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
+}
+@media screen and (min-width:1790px) and (max-width:1805px){
+    .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+    .navList {
+            display: inline;
+            padding-right:65px;
+    }
+    
+    .bigQuick{
+    	display:inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+    }
+    .smallLink{
+    	display: none !important;
+    	
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
+}
+@media screen and (min-width:1901px) {
+    .primary-nav-wrap {
+		display: none !important;
+	}
+	.menu-dropdown-content{
+		display: none !important;
+		
+	}
+	.contentMenu{
+		display: none !important;
+	}
+	.linkMenu{
+		display: none !important;
+	}
+    .navList{
+            display: inline;
+            padding-right: 80px;
+    }
+    
+    .bigQuick{
+    	display:inline-block;
+    	text-align:center;
+    	margin-left:auto;
+    	margin-right:auto;
+    }
+    .smallLink{
+    	display: none !important;
+    	
+	}
+	.link {
+    	color:black;
+    	text-decoration:none;
+    	font-size: 1em;
+    	font-family: "Merriweather";
+    	letter-spacing:1px;
+    	transition: .5s letter-spacing;
+	}
+	.link:hover {
+        color: lightslategray;
+        text-decoration: none;
+        letter-spacing: 2px;
+	}
+    
+}
+
+
+div ul {
+	list-style-type: none;
+}
+#signOut {
+    text-align: right;
+    
+}
+.topLogo {
+    text-align: left;
+    float:left;
+    width:60px;
+    height:60px;   
+}
+.shadowBox {
+    font-family: "Merriweather";
+    border: 10px dimgray;
+    background-color: rgba(255,255,255,1);
+    padding: 50px;
+    margin: 100px;
+    width: 33%;
+    position: relative;
+    -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0,0.5);
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.shadowBox h3{
+    padding-top: -50px;
+    padding-bottom: 20px;
+}
+
+.editBox {
+    font-family: "Merriweather";
+    border: 10px dimgray;
+    background-color: rgba(255,255,255,1);
+    padding: 50px;
+    width: 45%;
+    position: relative;
+    -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0,0.5);
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    text-align: center;
+    margin: 0 auto;
+}
+#editPass{
+    width:33%;
+}
+
+.empInfo {
+    font-family:"Merriweather";
+    position:relative;
+    padding-left: 50px;
+    padding-top: 50px;
+    
+}
+.pageTitle{
+    text-align: center;
+    font-size: 1.2em;
+    font-family:"Merriweather";
+}
+.recTitle{
+    text-align: center !important;
+    font-size: 1em;
+    font-family:"Merriweather";
+    margin:auto;
+    font-weight:bold;
+}
+.profileBox {
+    padding: 10px;
+       
+}
+#edit {
+    padding-top: 50px;
+    padding-left: 80px;
+}
+#welcome{
+    font-family:"Merriweather";
+    font-weight:bold;
+    padding-left: 50px;
+    padding-top:50px;
+    
+}
+
+.warning {
+    text-align: left;
+    font-size: 0.8em;
+    color:red;
+}
+.table{
+    border-collapse:collapse;
+    margin: 0 auto;
+    border:1px solid #BBBBBB;
+}
+.table-header{
+    text-align:center;
+    background:none repeat scroll 0 0 rgba(255,255,255,1);
+    border-bottom: 1px solid #BBBBBB;
+    padding: 16px;
+}
+.table-odd{
+    text-align: center;
+    background: none repeat scroll 0 0 #D0E2F5;  
+    border-top: 1px solid #BBBBBB;
+    padding-left: 10px;
+}
+.table-even{
+    text-align: center;
+    background: none repeat scroll 0 0 rgba(255,255,255,1);
+    border-top: 1px solid #BBBBBB;
+    padding-left: 10px;
+}
+.name{
+	text-align:left !important;
+}
+.recordNum{
+	text-align:left !important;
+}
+.building{
+	text-align:left !important;
+}
+.city{
+	text-align:left !important;
+}
+.email{
+	text-align:left !important;
+}
+.lastName{
+	text-align:left !important;
+}
+.firstName{
+	text-align:left !important;
+}
+.accountName{
+	text-align:left !important;
+	width:200px;
+}
+.accountType{
+	text-align:left !important;
+}
+.jobType{
+	text-align:left !important;
+}
+.jobDesc{
+	text-align:left !important;
+}
+.trans{
+	text-align:left !important;
+}
+.debit{
+	text-align:right !important;
+}
+.credit{
+	text-align:right !important;
+}
+.date{
+	text-align:left !important;
+	width: 100px;	
+}
+.tenName{
+	text-align: left !important;
+}
+.name{
+	text-align: left !important;
+	width:160px;
+}
+.table-link{
+    color:black;
+    text-decoration:none;
+}
+.table-link:hover{
+    color: lightslategray;
+    text-decoration: none;
+}
+.dropdown-content {
+    display: none;
+    position:absolute;
+    background-color: rgba(255,255,255,1);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index:1;  
+    text-align:left;
+    width: 150px;
+    max-width:200px;
+}
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+.content {
+    color:black;
+    text-decoration:none;
+    font-size: 0.9em;
+    font-family: "Merriweather";
+    text-align:left;
+}
+.content:hover{
+    color: lightslategray;
+    text-decoration:none;
+}
+.dropdown {
+    position:relative;
+    display:inline-block;
+    text-decoration:none;
+}
+.loginAlign{
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.passwordAlign{
+	display: inline-block;
+	margin-right: 33px;
+}
+#loginTop{
+	background-color:rgba(255,255,255,1);
+	height: 92px;
+	width:100%;
+}
+#loginTitle{
+	padding-top:21px;
+}
+#loginBackground {
+	background-image:url("images/bluebuildinglighter.png");
+	background-size: cover;
+}
+#resetTop{
+	background-color:rgba(255,255,255,1);
+	height: 92px;
+	width:100%;
+}
+#resetTitle{
+	padding-top:21px;
+}
+#resetBackground {
+	background-image:url("images/bluebuildinglighter.png");
+	background-size: cover;
+}
+.intranetBack{
+	background-image:url("images/bluebuildinglighter.png");
+	background-size:cover;
+}
+.locations{
+	font-family:"Merriweather";
+	text-align: center;
+}
+.locationTable{
+	width:100%;
+	border: 2px solid lightslategray;
+	background-color: rgba(255,255,255,1);
+}
+.locationTable td{
+	width:33%;
+}
+.locationTable td + td{
+	border-left:2px solid lightslategray;
+}
+.locTitle{
+	font-family:"Merriweather";
+	text-align: center;
+	font-weight: bold;
+}
+
+.headTab{
+	border:1px solid lightslategray;
+	border-collapse: collapse;
+	height: 20px;
+}
+.clockTable{
+	border: 2px solid lightslategray;
+	border-collapse: collapse;
+	height:240px;
+}
+.editInfo{
+	text-align: left;
+}
+.right{
+	padding-left:22px;
+}
+.amRight{
+	padding-left: 4px;
+	padding-right:20px;
+}
+.unitRight{
+	padding-left:20px;
+}
+.cityRight{
+	padding-left:74px;
+	padding-right:20px;
+}
+.midRight{
+	padding-right:20px;
+}
+.firstRight{
+	padding-left: 32px;
+	padding-right: 20px;
+}
+.addRight{
+	padding-left:57px;
+}
+.citRight{
+	padding-left:88px;
+	padding-right:20px;
+}
+
+.staLeft{
+	padding-right:50px;
+}
+.zRight{
+	padding-left:20px;
+}
+.empAddRight{
+	padding-left:55px;
+}
+.empFRight{
+	padding-left:32px;
+	padding-right:20px;
+}
+.empCitRight{
+	padding-left:87px;
+	padding-right:20px;
+}
+.pageSearch{
+	padding-left:75px;
+	font-family:"Merriweather";
+}
+.testButton{
+	text-align:center;
+	margin: 0 auto;
+	display:block;
+}
+.amount{
+	text-align: right;
+}
+.conMess{
+	max-width:200px;
+	text-align:left;
+}
+.conPh{
+	width:200px;
+}
+.conFirst{
+	text-align:left;
+}
+.conLast{
+	text-align:left;
+}
+.conEml{
+	text-align:left;
+}
+#timeTable{
+	overflow:hidden;
+	border: 2px solid lightslategray;
+	background-color: rgba(255,255,255,1);
+	margin:auto;
+	text-align:center;
+	border-collapse: collapse;
+	width:60%;
+}
+.sunTable{
+	float:left;
+	width:14.28%;
+}
+.satTable{
+	float:right;
+	width:14.32%;
+}	
+.dateR{
+	padding-left:5px;
+}
+.jobType{
+	padding-left:8px;
+}
+.trainList{
+	font-family:"Merriweather";
+    position:relative;
+    padding-left: 80px;
+    padding-top: 50px;
+}
+.trainLink{
+	color: blue;
+}
+.itemTy{
+	text-align:left;
+}
