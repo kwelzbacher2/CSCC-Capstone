@@ -34,15 +34,15 @@
                     <h:panelGrid class="editInfo" columns="2" columnClasses="left, right clearInput"> 
                         
                         <h:outputText value="Item Type:  " />
-                        <h:selectOneMenu id="newItem" value="#{inventory.invItem}" required="true" requiredMessage="Item Type is required" class="clearSelect">
+                        <h:selectOneMenu id="newItem" value="#{inventory.invItem}" required="true" requiredMessage="Item Type is required" class="clearSelect" binding="#{menu}">
                             <f:selectItem itemValue="" />
                             <f:selectItems value="#{inventory.viewAllItemTypes()}" />
                             <f:selectItem itemValue="Other" />
-                            <f:ajax render="@form"/>
+                            
                         </h:selectOneMenu>
-                        <h:outputText value="Input Other Item Type:  "  rendered = "#{inventory.invItem eq 'Other'}"/>
-                        <h:inputText id="addItem" value="#{inventory.addItem}" required="true" rendered = "#{inventory.invItem eq 'Other'}"
-                        	validatorMessage = "Please enter only letters or dashes" requiredMessage="Must enter item type">
+                        <h:outputText value="Input Item Type if Other:  " />
+                        <h:inputText id="addItem" value="#{inventory.addItem}" required="#{menu.value eq 'Other'}"
+                        	validatorMessage = "Please enter only letters or dashes" requiredMessage="Must enter item type for Other">
                         	<f:validateRegex pattern="[A-Za-z\-]+"/>
                         </h:inputText>
                      
@@ -53,7 +53,7 @@
                         </h:inputText> 
                
                         <h:outputText value="Date Obtained:  " />
-                        <h:inputText id="invDate" value ="#{inventory.purchDate}" class="dobDate clearInput" required = "true" requiredMessage ="Date is required"
+                        <h:inputText id="invDate" value ="#{inventory.purchDate}" styleClass="dobDate clearInput" required = "true" requiredMessage ="Date is required"
                                      size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date">     
                             <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
                                      

@@ -975,3 +975,7 @@ div ul {
 .itemTy{
 	text-align:left;
 }
+#loader{
+	text-align:center;
+	margin:auto;
+}

@@ -35,7 +35,8 @@
                                                 <h:link value="Accounts" outcome="accounts" class="content"/><br/>
                                                 <h:link value="Create New Account" outcome="createAccount" class="content"/><br/>
                                                 <h:link value="Create New Record" outcome="createRecord" class="content"/><br/>
-                                                <h:link value="Inventory" outcome="inventory" class="content" />                                          
+                                                <h:link value="Add Inventory" outcome="inventory" class="content" /><br/>
+                                                <h:link value="Search Inventory" outcome="searchInventory" class="content" />                                          
                                         </div> 
                             </li>
                             <li class="navList">
@@ -80,7 +81,6 @@
                                     <h:link value="Employee" outcome="employeeProfile" class="link"/>
                                         <div class="dropdown-content">
                                             	<h:link value="My Profile" outcome="employeeProfile" class="content"/><br/>
-                                                <h:link value="Timesheet" outcome="employeeTimesheet" class="content"/> <br/>
                                                 <h:link value="Employee Search" outcome="searchEmployees" class="content"/>                                
                                         </div>
                             </li>
@@ -122,7 +122,6 @@
                                     <h:link value="Employee" outcome="employeeProfile" class="link"/>
                                         <div class="dropdown-content">
                                             	<h:link value="My Profile" outcome="employeeProfile" class="content"/><br/>
-                                                <h:link value="Timesheet" outcome="employeeTimesheet" class="content"/> <br/>
                                                 <h:link value="Employee Search" outcome="searchEmployees" class="content"/> <br/>
                                                 <h:link value="Create Employee" outcome="createEmployee" class="content"/>                                 
                                         </div>
@@ -160,9 +159,15 @@
                                     <h:link value="Employee" outcome="employeeProfile" class="link"/>
                                         <div class="dropdown-content">
                                             	<h:link value="My Profile" outcome="employeeProfile" class="content"/><br/>
-                                                <h:link value="Timesheet" outcome="employeeTimesheet" class="content"/> <br/>
                                                 <h:link value="Employee Search" outcome="searchEmployees" class="content"/>                                  
                                         </div>
+                            </li>
+                            <li class="navList dropdown">
+                                    <h:link value="Action Center" outcome="actionCenter" class="link"/>
+                                        <div class="dropdown-content">
+                                                <h:link value="Add Inventory" outcome="inventory" class="content" /><br/>
+                                                <h:link value="Search Inventory" outcome="searchInventory" class="content" />                                          
+                                        </div> 
                             </li>
                             <li class="navList">
                                 <div class="dropdown">
@@ -205,18 +210,19 @@
                                     <h:link value="Employee" outcome="employeeProfile" class="link"/>
                                         <div class="dropdown-content">
                                             	<h:link value="My Profile" outcome="employeeProfile" class="content"/><br/>
-                                                <h:link value="Timesheet" outcome="employeeTimesheet" class="content"/> <br/>
                                                 <h:link value="Employee Search" outcome="searchEmployees" class="content"/>                                 
                                         </div>
                             </li>
-                            <li class="navList dropdown">
-                                    <h:link value="Company Accounts" outcome="accounts" class="link"/>
+                             <li class="navList dropdown">
+                                    <h:link value="Action Center" outcome="actionCenter" class="link"/>
                                         <div class="dropdown-content">
+                                        		<h:link value="Action Center" outcome="actionCenter" class="content"/><br/>
+                                                <h:link value="General Ledger" outcome="generalLedger" class="content"/> <br/>
                                                 <h:link value="Accounts" outcome="accounts" class="content"/><br/>
                                                 <h:link value="Create New Account" outcome="createAccount" class="content"/><br/>
                                                 <h:link value="Create New Record" outcome="createRecord" class="content"/><br/>
-                                                <h:link value="Action Center" outcome="actionCenter" class="content"/><br/>
-                                                <h:link value="General Ledger" outcome="generalLedger" class="content"/>                                           
+                                                <h:link value="Add Inventory" outcome="inventory" class="content" /><br/>
+                                                <h:link value="Search Inventory" outcome="searchInventory" class="content" />                                          
                                         </div> 
                             </li>
                             <li class="navList">

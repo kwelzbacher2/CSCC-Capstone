@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<!--
+ * CSCI 2999 Capstone Project
+ * Waystone Property Management Intranet
+ * @author KWelzbacher 
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Search Inventory</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+            <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <h:outputScript name="js/waystoneEmp.js"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="templates/commonTemplate.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form id="tenantForm">
+                    
+                    <h3 class="pageTitle">Search Inventory </h3>
+                    
+                    <h:panelGrid columnClasses="pageSearch">
+                        <h:outputText value="Search Inventory By: " />
+                        <h:selectOneMenu id="invSearch" value="#{inventory.invCrit}" required="true" requiredMessage="Must choose item for Search Inventory By:">
+                            <f:selectItem itemValue=""/>
+                            <f:selectItem itemValue="Asset Number"/>
+                            <f:selectItem itemValue="Item Type"/>
+                            <f:ajax render="@form"/>
+                        </h:selectOneMenu> 
+                        <h:inputText id="invIn" value="#{inventory.invInform}" required="true" rendered="#{inventory.invCrit eq 'Asset Number'}"
+                        	validatorMessage = "Please enter only letters, numbers, or dashes" requiredMessage="Must enter search criteria in textbox">
+                        	<f:validateRegex pattern="[A-Za-z0-9\-]+"/>
+                        </h:inputText>
+                        <h:selectOneMenu id="searchTyp" value="#{inventory.searchTyp}" required="true" requiredMessage="Item Type is required" class="clearSelect" 
+								rendered="#{inventory.invCrit eq 'Item Type'}">
+                            <f:selectItems value="#{inventory.viewAllItemTypes()}" />
+                       	</h:selectOneMenu>
+                        <h:commandButton  value="Submit" actionListener="#{inventory.getInventoryList(inventory.invCrit, inventory.invInform, inventory.searchTyp)}"/>                       
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                        	<h:message for="invSearch" class="warning"/>
+                        	<h:message for="invIn" class="warning"/>
+                        </h:panelGrid>
+                    
+                    <h:dataTable id="invTable" value="#{inventory.invList}"  var="invListObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="asset, date, email, cost, jobDesc">
+                    <h:column> 
+                        <f:facet name="header">Asset No.</f:facet>
+                        <h:outputText value="#{invListObj.assetNum}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Purchase Date</f:facet>
+                        <h:outputText value="#{invListObj.purchDate}" />
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Item Type</f:facet>
+                        <h:outputText value="#{invListObj.itemType}"/>
+                    </h:column>
+                    <h:column> 
+                        <f:facet name="header">Cost</f:facet>
+                        <h:outputText value="#{invListObj.getFormatCost()}" />
+                    </h:column>
+                    
+                    <h:column> 
+                        <f:facet name="header">Item Description</f:facet>
+                        <h:outputText value="#{invListObj.itemDesc}" />
+                    </h:column>
+                    <h:column>
+                    	<f:facet name="header">Delete Item</f:facet>
+                    	<h:commandButton action="#{inventory.deleteInventory(invListObj.assetNum)}" value="Delete" class="delete"/>
+                    </h:column>
+                </h:dataTable>
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>

@@ -46,26 +46,25 @@
                                 
                                 <h:outputText value="Phone Number:  " />
                                 <h:outputText id="phoneNum" value ="#{employeeViewObj.phone}"  />
-                                
-                            </h:panelGrid>
-                            <h:panelGrid class="info" columns="2">
-                                
+                      
                                 <h:outputText value="Date of Birth:  " />
                                 <h:outputText value ="#{employeeViewObj.DOB}" />
-                                
-                            </h:panelGrid>
-                            <h:panelGrid class="info" columns="2">
-                                
+                            
                                 <h:outputText value="Employee ID:  " />
                                 <h:outputText value ="#{employeeViewObj.employeeID}" />
-                                
-                            </h:panelGrid>
-                            <h:panelGrid class="info" columns="2">
-                                
+                              
                                 <h:outputText value="Employee Email:  " />
                                 <h:outputText value ="#{employeeViewObj.email}" />
-                                
+                                <h:outputText value="Employee Role:  "/>
+                                <h:outputText value="#{employeeViewObj.role}" />
                             </h:panelGrid>
+                            
+                          <ui:repeat value="#{employee.getEmployeeStat(employeeViewObj.email)}" var="employ"> 
+                             <h:panelGrid class="info" columns="2">
+                                <h:outputText value="Account Status:  "/>
+                                <h:outputText value="#{employ.accStatus}" />  
+                            </h:panelGrid>
+                           </ui:repeat>
                            
                             <h:commandButton value="Unlock Account" action="#{employee.unlockEmpAccountStatus(employeeViewObj)}" id="unlockBtn" rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'HR' or empRoleObj.role eq 'IT'}" />                          
                             <h:commandButton value="Lock Account" action="#{employee.lockEmpAccountStatus(employeeViewObj)}"  rendered="#{empRoleObj.role eq 'ADMIN' or empRoleObj.role eq 'HR' or empRoleObj.role eq 'IT'}"/><br/>

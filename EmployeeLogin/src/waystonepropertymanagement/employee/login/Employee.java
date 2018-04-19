@@ -45,6 +45,7 @@ public class Employee implements Serializable{
     private String searchCriteria;
     private String searchInform;
     private String newEmail;
+    private String searchRole;
     public List<Employee>employeeListFromDB;
     
     public String getMsg() {
@@ -179,6 +180,13 @@ public class Employee implements Serializable{
 	public void setNewEmail(String newEmail) {
 		this.newEmail = newEmail;
 	}
+	public String getSearchRole() {
+		return searchRole;
+	}
+
+	public void setSearchRole(String searchRole) {
+		this.searchRole = searchRole;
+	}
 	public List<Employee> employeeList;
 	
 
@@ -274,8 +282,9 @@ public class Employee implements Serializable{
          return "index";
      }
     //Obtain list of employees based on search criteria given   
-    public void getEmployeeList(String searchCriteria, String searchInform){
-    	employeeList = DatabaseOperation.getAllEmployeesFromDB(searchCriteria, searchInform);
+    public void getEmployeeList(String searchCriteria, String searchRole, String searchInform){
+        employeeList = DatabaseOperation.getAllEmployeesFromDB(searchCriteria, searchRole, searchInform);
+    	
     	if (employeeList.size() == 0){
     		Employee emp = new Employee();
     		emp.setEmail("No results found");
@@ -308,6 +317,14 @@ public class Employee implements Serializable{
     //Reset employee password to randomly generated temporary password
     public String resetPassword(String empEmail){
     	return DatabaseOperation.resetPasswordInDB(empEmail);
+    }
+    //Obtain role and status of employee
+    public List<Employee> getEmployeeStat(String statEmpEmail){
+    	return DatabaseOperation.getEmployeeStatInDB(statEmpEmail);
+    }
+  //Obtain list of all current employee roles
+    public List<String> viewAllEmpRoles(){
+        return DatabaseOperation.viewAllEmpRolesInDB();
     }
 }   
     

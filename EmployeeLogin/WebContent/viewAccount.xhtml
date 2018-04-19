@@ -59,11 +59,11 @@
                             <f:selectItem itemValue="Record Name"/>
                             <f:ajax render="@form"/>
                         </h:selectOneMenu>
-                        <h:inputText id="searchRecInfo" value="#{record.searchRecInfo}" class="dobDate" rendered="#{record.searchRecCrit eq 'Record Date'}" validatorMessage="Please enter digits in the form of 1999-01-01 for Date">     
+                        <h:inputText id="searchRecInfo" value="#{record.searchRecInfo}" styleClass="dobDate" rendered="#{record.searchRecCrit eq 'Record Date'}" validatorMessage="Please enter digits in the form of 1999-01-01 for Date">     
                             <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
                         </h:inputText> 
                         <h:inputText id="searchRecInfo2" value="#{record.searchRecInfo}" rendered="#{record.searchRecCrit eq 'Record Name'}" />
-                        <h:commandButton  value="Submit" actionListener="#{record.getAllRecordList(record.searchRecCrit, record.searchRecInfo, accViewObj.accountName)}"/> 
+                        <h:commandButton  value="Submit" actionListener="#{record.getAllRecordList(record.searchRecCrit, record.searchRecInfo, accViewObj.accountName)}" onclick="loadFunction()"/> 
                         </h:panelGrid>
                         <h:panelGrid class ="warning" columns ="1">
                         <h:message for="searchRecInfo"/>    
@@ -106,7 +106,7 @@
                                             
                         </h:dataTable>
                             
-                                                       
+                         <img id="loader" src="#{resource['images/Spinner.gif']}" style="display:none" />                              
                                        
                        
                     

@@ -43,9 +43,9 @@
                         </h:selectOneMenu> 
                         <h:inputText id="search" value="#{tenant.searchInfo}" required="true" rendered = "#{tenant.searchCrit eq 'Tenant ID' or tenant.searchCrit eq 'Last Name' or tenant.searchCrit eq 'Phone Number'}"
                         	validatorMessage = "Please enter only letters, numbers, or dashes" requiredMessage="Must enter search criteria in textbox">
-                        	<f:validateRegex pattern="[A_Za-z0-9\-]+"/>
+                        	<f:validateRegex pattern="[A-Za-z0-9\-]+"/>
                         </h:inputText>
-                        <h:commandButton  value="Submit" actionListener="#{tenant.getTenantRecord(tenant.searchCrit, tenant.searchInfo)}"/>                       
+                        <h:commandButton  value="Submit" actionListener="#{tenant.getTenantRecord(tenant.searchCrit, tenant.searchInfo)}" onclick="loadFunction()"/>                       
                         </h:panelGrid>
                         <h:panelGrid columns="1">
                         	<h:message for="searchCriteria" class="warning"/>
@@ -94,7 +94,7 @@
                         <h:commandLink value="#{tenRecordObj.phone}" action="#{tenant.viewTenantRecord(tenRecordObj.tenantID)}" class="table-link"/>
                     </h:column>
                 </h:dataTable>
-                    
+                    <img id="loader" src="#{resource['images/Spinner.gif']}" style="display:none" />
                 </h:form>
                 
                 

@@ -11,6 +11,14 @@ $(function(){
     	yearRange: "-100:+0",
     	maxDate: 0,
     });
+    $("#invDate").on('click', function(){
+    	$(this).datepicker({
+    		dateFormat: 'yy-mm-dd',
+    		changeYear:true,
+    		yearRange: "-100:+0",
+    		maxDate: 0,
+    	});
+    });
     
     $(".maintDate").datepicker({
     	dateFormat: 'yy-mm-dd',
@@ -51,9 +59,43 @@ $(function(){
     $(".finish").on('click', function(){
     	return confirm("Are you sure you want to mark this request as contacted and remove it from the list?");
     });
+    $(".delete").on('click', function(){
+    	return confirm("Are you sure you want to delete this item from Inventory?");
+    });
+    
+    $.ajax({
+    	success: function(response){
+    		if(response.success){
+    			$("#invDate").datepicker({
+    	    		dateFormat: 'yy-mm-dd',
+    	    		changeYear:true,
+    	    		yearRange: "-100:+0",
+    	    		maxDate: 0,
+    	    	});
+    		}
+    	}
+    })
     
     
 });
+function loadFunction(){
+	document.getElementById('loader').style.display='block';
+	jQuery(function($){
+		$(".table-odd").remove();
+		$(".table-even").remove();
+	
+	});
+}
+function calendar(){
+	jQuery(function($){
+		$('.datepick').datepicker({
+			dateFormat: 'yy-mm-dd',
+	    	changeYear:true,
+	    	yearRange: "-100:+0",
+	    	maxDate: 0,
+		});
+	});
+}
 
 //Getter
 var dateFormat = $(".dobDate").datepicker("option", "dateFormat");

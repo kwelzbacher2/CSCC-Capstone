@@ -84,14 +84,12 @@ public class DatabaseOperation {
     	LocalDateTime now = LocalDateTime.now(); 
     	userAttempts++;
     	try {
-    		System.out.println("before");
             connObj = DataConnect.getConnection();
             pstmt = connObj.prepareStatement("UPDATE emp_login SET attempts = ?, last_datetime = ? WHERE email = ?");
             pstmt.setInt(1, userAttempts);
             pstmt.setObject(2, now);
             pstmt.setString(3, email);
             pstmt.executeUpdate();
-            System.out.println("after");
             	
         } catch (SQLException e) {
             System.out.println("Login error -->" + e.getMessage());
@@ -130,7 +128,31 @@ public class DatabaseOperation {
         return false;
     }
     
- 
+    public static List<Employee> getEmployeeStatInDB(String email) {
+        Employee empStat = null;
+        List<Employee> empStatList = new ArrayList();
+        try {
+            
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("Select acc_stat FROM emp_login WHERE email = ?");
+            pstmt.setString(1, email);
+                        
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+            	while(resultSetObj.next()){
+            		empStat = new Employee();
+            		empStat.setAccStatus(resultSetObj.getString("acc_stat"));
+            		empStatList.add(empStat);
+            	}
+            }
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());
+                   
+        } finally {
+              DataConnect.close(connObj);
+        }
+        return empStatList;
+    }
     
     public static String empAccStatus(String email){
     	String empStat;
@@ -210,18 +232,23 @@ public class DatabaseOperation {
         System.out.println(empRole.getRole());
         return empRoleList;
     }
+   
     
-    public static List<Employee> getAllEmployeesFromDB(String searchCriteria, String searchInform){
+    public static List<Employee> getAllEmployeesFromDB(String searchCriteria, String searchRole, String searchInform){
     	List<Employee> empSearchList = new ArrayList();
     	String query = "";
         
         switch (searchCriteria) {
-            case "Tenant ID":
-                query = ("SELECT * FROM EMPLOYEE WHERE EMPID = ?");
+            case "Employee ID":
+                query = "SELECT * FROM EMPLOYEE WHERE EMPID = ?";
                 break;
             case "Last Name":
-                query = ("SELECT * FROM EMPLOYEE WHERE LASTNAME = ?");
+                query = "SELECT * FROM EMPLOYEE WHERE LASTNAME = ?";
                 break;
+            case "Role":
+            	query = "SELECT employee.*, emp_login.role FROM employee FULL OUTER JOIN emp_login ON employee.email=emp_login.email WHERE emp_login.role = ?";
+            	searchInform = searchRole;
+            	break;
         }
         try {
             
@@ -266,7 +293,7 @@ public class DatabaseOperation {
          
          try{
              connObj = DataConnect.getConnection();
-             pstmt = connObj.prepareStatement("SELECT * FROM EMPLOYEE WHERE EMPID = ?");
+             pstmt = connObj.prepareStatement("SELECT EMPLOYEE.*, emp_login.role FROM EMPLOYEE FULL OUTER JOIN emp_login ON employee.email=emp_login.email WHERE EMPID = ?");
              pstmt.setInt(1, currentEmpID);
              resultSetObj = pstmt.executeQuery();
              if(resultSetObj != null) {
@@ -284,7 +311,8 @@ public class DatabaseOperation {
                 	viewEmp.setPhone(resultSetObj.getString("PHONE"));
                 	viewEmp.setEmail(resultSetObj.getString("EMAIL"));
                 	viewEmp.setDOB(resultSetObj.getString("DOB"));
-                 
+                	viewEmp.setRole(resultSetObj.getString("role"));
+                	
                  sessionMapObj.put("employeeViewObj", viewEmp);
                 }             
              }
@@ -501,6 +529,23 @@ public class DatabaseOperation {
         
         return empList;
      }
+    
+    public static List<String> viewAllEmpRolesInDB(){
+        List<String> roleNameList = new ArrayList();
+        try{
+           connObj = DataConnect.getConnection();
+           pstmt = connObj.prepareStatement("SELECT DISTINCT role FROM emp_login");
+           resultSetObj = pstmt.executeQuery();
+           while( resultSetObj.next()){
+               roleNameList.add(resultSetObj.getString("role"));
+           }
+       } catch (SQLException e) {
+           System.out.println("Login error -->" + e.getMessage());        
+       } finally {    
+             DataConnect.close(connObj);
+       }
+       return roleNameList;
+    }
     
     public static String updateEmployeeDetailsInDB(Employee updateEmployeeObj){
         try{      
@@ -753,7 +798,6 @@ public class DatabaseOperation {
     public static String insertNewTenantInDB(Tenant newTenantObj){
         int saveResult = 0;
         String navigationResult = "";
-        
         try{
             connObj = DataConnect.getConnection();
             pstmt = connObj.prepareStatement("INSERT INTO TENANT (FIRSTNAME, LASTNAME, MI, PERM_ADDRESS, PERM_CITY, PERM_STATE, PERM_ZIP, PHONE, EMAIL, DOB) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -773,13 +817,19 @@ public class DatabaseOperation {
         } finally {    
                  DataConnect.close(connObj);
         }
-        
+       
         if(saveResult !=0){
-            navigationResult = "tenantAccounts.xhtml?faces=redirect=true";
+        	FacesContext.getCurrentInstance().addMessage("createTenForm:newMI",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "New Tenant was successfully created",
+                    "New Tenant was successfully created"));
+        	
+            
         } else {
-            navigationResult = "insertTenant.xhtml?faces=redirect=true";
+        	FacesContext.getCurrentInstance().addMessage("createTenForm:newMI",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem when creating the new Tenant",
+                    "There was a problem when creating the new Tenant"));
         }
-        return navigationResult;
+        return "insertTenant.xhtml?faces-redirect=true";
     }
     
     public static double getTenantRecordBalanceInDB(int tenantID){
@@ -2344,8 +2394,8 @@ public class DatabaseOperation {
 	    
 	    if(saveResult !=0){
 	    	FacesContext.getCurrentInstance().addMessage("inventForm:newItem",
-	                new FacesMessage(FacesMessage.SEVERITY_WARN, "The New Inventory was successfully created",
-	                "The New Inventory was successfully created"));
+	                new FacesMessage(FacesMessage.SEVERITY_WARN, "The New Inventory was successfully created. Assigned Asset Number: " + newInvObj.getAssetNum(),
+	                "The New Inventory was successfully created. Assigned Asset Number:  "+ newInvObj.getAssetNum()));
 	        
 	    } else {
 	    	FacesContext.getCurrentInstance().addMessage("inventForm:newItem",
@@ -2399,5 +2449,57 @@ public class DatabaseOperation {
               DataConnect.close(connObj);
         }
         return invList;
+    }
+    
+    public static String deleteInventoryInDB(int delAssetNum){
+    	System.out.println("delete Inventory Asset Number:" + delAssetNum);
+    	try{
+    		connObj = DataConnect.getConnection();
+    		    		
+    		pstmt = connObj.prepareStatement("DELETE FROM INVENTORY WHERE ASSET_NUM = ?" );
+    		pstmt.setInt(1, delAssetNum);
+    		pstmt.executeUpdate();
+    		
+    	} catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+    	} finally {    
+    		DataConnect.close(connObj);
+    	}
+    	return "/searchInventory.xhtml?faces-redirect=true";
+    }
+    public static List<Inventory> getInventoryListInDB(String searchCrit, String searchInf, String searchType){
+    	List<Inventory> searchInvList = new ArrayList();
+    	String query = "";
+    	switch (searchCrit) {
+        	case "Asset Number":
+        		query = "SELECT * FROM INVENTORY WHERE ASSET_NUM = ?";
+        		break;
+        	case "Item Type":
+        		query = "SELECT * FROM INVENTORY WHERE ITEM_TYPE = ?";
+        		searchInf = searchType;
+        		break;
+        
+    	}
+    	try{
+    		connObj = DataConnect.getConnection();
+    		pstmt = connObj.prepareStatement(query);
+    		pstmt.setString(1, searchInf);
+    		resultSetObj = pstmt.executeQuery();
+    		while(resultSetObj.next()){
+    			Inventory invObj = new Inventory();
+    			invObj.setAssetNum(resultSetObj.getInt("ASSET_NUM"));
+    			invObj.setItemType(resultSetObj.getString("ITEM_TYPE"));
+    			invObj.setItemCost(resultSetObj.getDouble("COST"));
+    			invObj.setPurchDate(resultSetObj.getString("PCH_DATE"));
+    			invObj.setItemDesc(resultSetObj.getString("ITEM_DESC"));
+    			
+    			searchInvList.add(invObj);
+    		}
+    	} catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+    	return searchInvList;
     }
 }

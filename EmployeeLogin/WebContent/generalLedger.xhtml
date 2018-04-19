@@ -191,6 +191,34 @@
                             </h:column> 
                                                                                                     
                         </h:dataTable>
+                        
+                        <h3 class="pageTitle">Fixed Assets Account</h3> 
+                        <h:dataTable id="fixedTable" value="#{record.getAllRecords('FIXED ASSETS')}"  var="fixObj"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="date, name, trans, debit, credit">
+                            <h:column> 
+                                <f:facet name="header">Date</f:facet>
+                                <h:commandLink value="#{fixObj.recordDate}" action="#{record.viewIndivRecord(fixObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Record Name</f:facet>
+                                <h:commandLink value="#{fixObj.recordName}" action="#{record.viewIndivRecord(fixObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Transaction No.</f:facet>
+                                <h:commandLink value="#{fixObj.recordInvNum}" action="#{record.viewIndivRecord(fixObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                        
+                                <f:facet name="header">DEBIT</f:facet>
+                                <h:commandLink value="#{fixObj.formatDebAmount()}" action="#{record.viewIndivRecord(fixObj.recordID)}" class="table-link"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">CREDIT</f:facet>
+                                <h:commandLink value="#{fixObj.formatCredAmount()}" action="#{record.viewIndivRecord(fixObj.recordID)}" class="table-link"/>
+                            </h:column> 
+                                                                                                    
+                        </h:dataTable>
                                    
                 </h:form>
             </ui:define>

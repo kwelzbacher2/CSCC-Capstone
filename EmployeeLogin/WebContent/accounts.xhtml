@@ -41,7 +41,7 @@
                             <f:selectItem itemValue="Income"/>
                         </h:selectOneMenu>
                         
-                        <h:commandButton  value="Submit" actionListener="#{account.getAllAccountList(account.accSearchName, account.accSearchType)}"/>  
+                        <h:commandButton  value="Submit" actionListener="#{account.getAllAccountList(account.accSearchName, account.accSearchType)}" onclick="loadFunction()"/>  
                     </h:panelGrid>
                     <h:dataTable id="tenTable" value="#{account.accountList}"  var="accountObj"
                                  styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
@@ -58,7 +58,7 @@
                     
                     
                 </h:dataTable>
-
+					<img id="loader" src="#{resource['images/Spinner.gif']}" style="display:none" />
                 </h:form>
             </ui:define>
         </ui:composition>

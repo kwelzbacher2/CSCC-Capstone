@@ -5,6 +5,7 @@
 package waystonepropertymanagement.employee.login;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +30,14 @@ public class Inventory implements Serializable{
     private String invPaid;
     private boolean isPaid;
     private double itemCost;
+    private String invCrit;
+    private String invInform;
+    private String searchTyp;
     
     private int quantity;
     private String itemType;
+    private List<Inventory> invList = new ArrayList();
+    DecimalFormat df = new DecimalFormat("#0.00");
     
     public String getInvItem() {
 		return invItem;
@@ -96,7 +102,25 @@ public class Inventory implements Serializable{
 	}
 	
  
-    public int getQuantity() {
+    public String getInvCrit() {
+		return invCrit;
+	}
+	public void setInvCrit(String invCrit) {
+		this.invCrit = invCrit;
+	}
+	public String getInvInform() {
+		return invInform;
+	}
+	public void setInvInform(String invInform) {
+		this.invInform = invInform;
+	}
+	public String getSearchTyp() {
+		return searchTyp;
+	}
+	public void setSearchTyp(String searchTyp) {
+		this.searchTyp = searchTyp;
+	}
+	public int getQuantity() {
 		return quantity;
 	}
 	public void setQuantity(int quantity) {
@@ -108,6 +132,15 @@ public class Inventory implements Serializable{
 	public void setItemType(String itemType) {
 		this.itemType = itemType;
 	}
+	public List<Inventory> getInvList() {
+		return invList;
+	}
+	public void setInvList(List<Inventory> invList) {
+		this.invList = invList;
+	}
+	public String getFormatCost(){
+		return df.format(getItemCost());
+	}
 	//Insert new request in database
     public String createNewInventory(Inventory newInvObj){
     	return DatabaseOperation.createNewInventoryInDB(newInvObj);
@@ -118,6 +151,13 @@ public class Inventory implements Serializable{
     }
     public List<Inventory> viewItemsQuantity(){
     	return DatabaseOperation.viewItemsQuantityinDB();
+    }
+    public String deleteInventory(int invAssetNum){
+    	return DatabaseOperation.deleteInventoryInDB(invAssetNum);
+    }
+    public List<Inventory> getInventoryList(String searchCrit, String searchInf, String searchType){
+    	invList = DatabaseOperation.getInventoryListInDB(searchCrit, searchInf, searchType);
+    	return invList;
     }
 }
 
