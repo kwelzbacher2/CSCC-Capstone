@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+<faces-config version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
 	http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
@@ -14,6 +15,29 @@
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/tenantAdmin.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>index</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/TenantEditPassword.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>TenantProfile</from-outcome>
+			<to-view-id>/TenantProfile.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<validator>
+		<validator-id>passwordValidator</validator-id>
+		<validator-class>waystonepropertymanagement.tenant.login.PasswordValidator</validator-class>
+	</validator>
 
 
 </faces-config>

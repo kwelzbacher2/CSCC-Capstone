@@ -1,5 +1,12 @@
+/**
+ * Roxanne Woodruff
+ * CSCI 2999 Capstone 
+ * Waystone Property Management Tenant Portal
+ * DatabaseOperation.java
+ */
 package waystonepropertymanagement.tenant.portal;
 
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,12 +23,18 @@ import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+/**
+ * Database Operations is a Class that has methods that access the database to execute CRUD commands.
+ * @author Roxanne
+ *
+ */
 public class DatabaseOperation {
 	public static Statement stmt;
 	public static Connection con;
 	public static ResultSet resultSetObj;
 	public static PreparedStatement ps;
 
+	// used when Tenant logs in
 	public static boolean tenantValidate(String email, String password) {
 
 		try {
@@ -37,7 +50,7 @@ public class DatabaseOperation {
 				return true;
 			}
 		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
+			System.out.println("tenantValidate error -->" + e.getMessage());
 			return false;
 
 		} finally {
@@ -48,6 +61,7 @@ public class DatabaseOperation {
 		return false;
 	}
 
+	// used to display Tenant profile information
 	public static List<Tenant> getTenantListFromDB(String username) {
 		Tenant tenRecord = null;
 		List<Tenant> tenList = new ArrayList<>();
@@ -79,13 +93,14 @@ public class DatabaseOperation {
 			}
 			sessionMapObj.put("tenantProfObj", tenRecord);
 		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
+			System.out.println("getTenantListFromDB error -->" + e.getMessage());
 		} finally {
 			DataConnect.close(con);
 		}
 		return tenList;
 	}
 
+	// used to edit/update Tenant profile information
 	public static String updateTenantDetailsInDB(Tenant updateTenantObj) {
 		try {
 
@@ -108,26 +123,69 @@ public class DatabaseOperation {
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
+			System.out.println("updateTenantDetailsInDB error -->" + e.getMessage());
 		} finally {
 			DataConnect.close(con);
 		}
 		return "/TenantProfile.xhtml?faces-redirect=true";
 	}
 	
+	// used to update Tenant password - not currently working
 	public static String updateTenantPassword(String password,String email){
         try{
             con = DataConnect.getConnection();
-            ps = con.prepareStatement("UPDATE emp_login SET password = ? WHERE email = ?");
+            ps = con.prepareStatement("UPDATE ten_login SET password = ? WHERE email = ?");
             ps.setString(1, password);
             ps.setString(2, email);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch(SQLException e){
-            System.out.println("Login error -->" + e.getMessage());        
+            System.out.println("updateTenantPassword -->" + e.getMessage());        
         } finally {    
             DataConnect.close(con);
         }
         return "/TenantProfile.xhtml?faces-redirect=true";
+    }
+	
+	public static final String AB ="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    public static SecureRandom rnd = new SecureRandom();
+    public static String randomString(int lim){
+    	StringBuilder sb = new StringBuilder(lim);
+    	for(int i = 0; i < lim; i++){
+    		sb.append(AB.charAt(rnd.nextInt(AB.length())));
+    	}
+    	return sb.toString();
+    }
+    
+    public static String resetPasswordInDB(String tenEmail){
+    	int saveResult = 0;
+    	String pword = randomString(12);
+    	try{
+            con = DataConnect.getConnection();
+            ps = con.prepareStatement("UPDATE ten_login SET PASSWORD = ?, acc_stat = ? WHERE EMAIL = ?");
+            ps.setString(1, pword);
+            ps.setString(2, "RESET");
+            ps.setString(3, tenEmail);
+            saveResult = ps.executeUpdate();
+            
+            SendMail.sendMail(tenEmail, pword);
+            	
+        } catch (SQLException e) {
+                System.out.println("resetPasswordInDB -->" + e.getMessage());        
+        } finally {    
+                 DataConnect.close(con);
+        }
+        if(saveResult !=0){
+    		FacesContext.getCurrentInstance().addMessage("viewEmpForm:unlockBtn",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Employee password was successfully reset",
+                    "Employee password was successfully reset"));
+               
+           } else {
+        	   FacesContext.getCurrentInstance().addMessage("viewEmpForm:unlockBtn",
+                       new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem resetting the Employee password",
+                       "There was a problem resetting the Employee password"));
+           }
+        
+    	return "/tenantAdmin.xhtml?faces-redirect=true";
     }
 
 	public static String getTenantRecordBalanceInDB(int tenantID) {
@@ -160,7 +218,7 @@ public class DatabaseOperation {
 
 			}
 		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
+			System.out.println("getTenantRecordBalanceInD error -->" + e.getMessage());
 		} finally {
 			DataConnect.close(con);
 		}
@@ -168,6 +226,7 @@ public class DatabaseOperation {
 		return df.format(balance);
 	}
 
+	// used to display Tenant balance
 	public static List<Tenant> getTenantAccRecordsInDB(int tenantID) {
 		List<Tenant> tenantRecordsList = new ArrayList();
 
@@ -199,7 +258,7 @@ public class DatabaseOperation {
 				// System.out.println("Total Records Fetched: " + tenantRecordsList.size());
 			}
 		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
+			System.out.println("getTenantAccRecordsInDB error -->" + e.getMessage());
 		} finally {
 			DataConnect.close(con);
 		}
@@ -208,6 +267,7 @@ public class DatabaseOperation {
 	}
 
 	// the first one I tried to use
+	// used to get past Tenant maintenance requests
 	public static List<Tenant> getTenantMaintFromDB(int maintTenID) {
 		Tenant tenMaint = null;
 		List<Tenant> tenMaintList = new ArrayList<>();
@@ -235,13 +295,14 @@ public class DatabaseOperation {
 			}
 			sessionMapObj.put("tenantMaintObj", tenMaint);
 		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
+			System.out.println("getTenantMaintFromDB error -->" + e.getMessage());
 		} finally {
 			DataConnect.close(con);
 		}
 		return tenMaintList;
 	}
 
+	// used to get past Tenant payments
 	public static List<Tenant> getTenantPaymentsFromDB(String username) {
 		Tenant tenPay = null;
 		List<Tenant> tenPayList = new ArrayList<>();
@@ -277,13 +338,14 @@ public class DatabaseOperation {
 			}
 			sessionMapObj.put("tenantRecordObj", tenPay);
 		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
+			System.out.println("getTenantPaymentsFromDB error -->" + e.getMessage());
 		} finally {
 			DataConnect.close(con);
 		}
 		return tenPayList;
 	}
 
+	// used to insert Tenant maintenance request to database 
 	public static String insertIntoMaintInDB(Tenant tenantMaintObj, int maintTenID) {
 		int saveResult = 0;
 		String navigation;
@@ -299,7 +361,7 @@ public class DatabaseOperation {
 			saveResult = ps.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
+			System.out.println("insertIntoMaintInDB error -->" + e.getMessage());
 		} finally {
 			DataConnect.close(con);
 		}
@@ -322,6 +384,7 @@ public class DatabaseOperation {
 
 	}
 
+	// used to insert Tenant payment into database
 	public static String insertIntoPaymentInDB(Tenant tenantRecordObj, int payTenID) {
 		int saveResult = 0;
 		Date date = new Date();
@@ -380,7 +443,7 @@ public class DatabaseOperation {
 			System.out.println("Rent Posted");
 
 		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
+			System.out.println("insertIntoPaymentInDB error -->" + e.getMessage());
 		} finally {
 			DataConnect.close(con);
 		}
@@ -403,6 +466,7 @@ public class DatabaseOperation {
 
 	}
 
+	// used to display Tenant unit and building information
 	public static String getTenantPropertyUnitFromDB(int tenantID) {
 		String property = null;
 		Tenant tenUnit = null;
@@ -410,7 +474,7 @@ public class DatabaseOperation {
 		Map<String, Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		try {
 			con = DataConnect.getConnection();
-			ps = con.prepareStatement("SELECT building FROM UNITS WHERE TENANT_ID = ?");
+			ps = con.prepareStatement("SELECT BUILDING FROM UNITS WHERE TENANT_ID = ?");
 			ps.setObject(1, tenantID);
 			resultSetObj = ps.executeQuery();
 
@@ -419,21 +483,21 @@ public class DatabaseOperation {
 				tenUnit = new Tenant();
 
 				tenUnit.setBuilding(resultSetObj.getString("BUILDING"));
-
-				PreparedStatement ppstmt = con.prepareStatement("SELECT * from waystone_properties WHERE building = ?");
+				PreparedStatement ppstmt = con.prepareStatement("SELECT address, city, state, zip, phone from waystone_properties WHERE building = ?");
 				ppstmt.setString(1, tenUnit.getBuilding());
 				ResultSet rs = ppstmt.executeQuery();
 				while (rs.next()) {
-					tenUnit.setPropertyAddress(resultSetObj.getString("address"));
-					tenUnit.setPropertyCity(resultSetObj.getString("city"));
-					tenUnit.setPropertyState(resultSetObj.getString("state"));
-					tenUnit.setPropertyZip(resultSetObj.getString("zip"));
-					tenUnit.setPropertyPhone(resultSetObj.getString("phone"));
+					tenUnit.setPropertyAddress(rs.getString("address"));
+					tenUnit.setPropertyCity(rs.getString("city"));
+					tenUnit.setPropertyState(rs.getString("state"));
+					tenUnit.setPropertyZip(rs.getString("zip"));
+					tenUnit.setPropertyPhone(rs.getString("phone"));
 				}
 				sessionMapObj.put("tenantUnitObj", tenUnit);
 			}
+			
 		} catch (SQLException e) {
-			System.out.println("Login error -->" + e.getMessage());
+			System.out.println("getTenantPropertyUnitFromDB error -->" + e.getMessage());
 		} finally {
 			DataConnect.close(con);
 		}

@@ -1,8 +1,19 @@
+/**
+ * Roxanne Woodruff
+ * CSCI 2999 Capstone 
+ * Waystone Property Management Tenant Portal
+ * DataConnect.java
+ */
 package waystonepropertymanagement.tenant.portal;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ * Data Connect is a Class that connects to the database.
+ * @author Roxanne
+ *
+ */
 public class DataConnect {
 
 	public static Connection getConnection() {

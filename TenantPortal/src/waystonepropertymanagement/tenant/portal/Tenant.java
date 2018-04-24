@@ -1,7 +1,15 @@
+/**
+ * Roxanne Woodruff
+ * CSCI 2999 Capstone 
+ * Waystone Property Management Tenant Portal
+ * Tenant.java
+ */
 package waystonepropertymanagement.tenant.portal;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,7 +18,9 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Tenant is a Managed Bean Class the includes all of the properties and methods
+ * for a tenant.
+ * 
  * @author Roxanne
  */
 @ManagedBean(name = "tenant")
@@ -19,9 +29,11 @@ import javax.servlet.http.HttpSession;
 public class Tenant implements Serializable {
 	private static final long serialVersionUID = 1094801825228386363L;
 
+	// declare instance variables by creating private fields
 	private String email;
 	private String pwd;
 	private String msg;
+	private String newEmail;
 
 	private int tenantID;
 	private String firstName;
@@ -68,18 +80,11 @@ public class Tenant implements Serializable {
 	private String billingState;
 	private String billingZip;
 
-	/**
-	 * Creates a new instance of TenantJSFBean
-	 */
+	// Creates a new instance of Tenant
 	public Tenant() {
 	}
 
-	private List<Tenant> tenantListFromDB;
-
-	public List<Tenant> getTenantListFromDB() {
-		return tenantListFromDB;
-	}
-
+	// setters and getters for all fields
 	public String getEmail() {
 		return email;
 	}
@@ -102,6 +107,14 @@ public class Tenant implements Serializable {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+
+	public String getNewEmail() {
+		return newEmail;
+	}
+
+	public void setNewEmail(String newEmail) {
+		this.newEmail = newEmail;
 	}
 
 	public int getTenantID() {
@@ -433,50 +446,68 @@ public class Tenant implements Serializable {
 			return "tenantAdmin";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"Incorrect Username and Password", "Please enter correct Username and Password"));
+					"Please enter correct Username and Password", "Please enter correct Username and Password"));
 			return "index";
 		}
 	}
 
+	
+
+	private List<Tenant> tenantListFromDB;
+
+	public List<Tenant> getTenantListFromDB() {
+		return tenantListFromDB;
+	}
+
+	// obtains tenant demographics from database
 	public List<Tenant> getTenantRecord() {
 		return DatabaseOperation.getTenantListFromDB(email);
 	}
 
+	// obtains previous tenant maintenance requests from database
 	public List<Tenant> getTenantMaint(int maintTenID) {
 		return DatabaseOperation.getTenantMaintFromDB(maintTenID);
 	}
-	public List<Tenant> getTenantAcctRecords(int maintRecordID) {
-		return DatabaseOperation.getTenantAccRecordsInDB(maintRecordID);
-	}
-	
 
+	// obtains current tenant balance from database
+	public List<Tenant> getTenantAcctRecords(int recordTenID) {
+		return DatabaseOperation.getTenantAccRecordsInDB(recordTenID);
+	}
+
+	// updates tenant demographics into database
 	public String updateTenantDetails(Tenant updateTenantObj) {
 		return DatabaseOperation.updateTenantDetailsInDB(updateTenantObj);
 	}
-	
-	public String updatePassword(){
-        return DatabaseOperation.updateTenantPassword(pwd, email);
-    }
 
+	// updates tenant password into database
+	public String updatePassword() {
+		return DatabaseOperation.updateTenantPassword(pwd, email);
+	}
+
+	// inserts tenant maintenance request into database
 	public String insertMaintenanceRequest(Tenant tenantMaintObj, int maintTenID) {
 		return DatabaseOperation.insertIntoMaintInDB(tenantMaintObj, maintTenID);
 	}
 
+	// obtains previous debits and credits in tenant record from database
 	public String getTenantRecordBalance(int tenantID) {
 		return DatabaseOperation.getTenantRecordBalanceInDB(tenantID);
 	}
 
+	// inserts tenant payment into database
 	public String insertTenantPayment(Tenant tenantRecordObj, int payTenID) {
 		return DatabaseOperation.insertIntoPaymentInDB(tenantRecordObj, payTenID);
 	}
-	
+
+	// obtains tenant unit and building
 	public String getTenantPropertyUnit(int tenantID) {
 		return DatabaseOperation.getTenantPropertyUnitFromDB(tenantID);
 	}
-	
-	
 
-
+	// Reset tenant password to randomly generated temporary password
+	public String resetPassword(String empEmail) {
+		return DatabaseOperation.resetPasswordInDB(empEmail);
+	}
 
 	// logout event, invalidate session
 	public String logout() {

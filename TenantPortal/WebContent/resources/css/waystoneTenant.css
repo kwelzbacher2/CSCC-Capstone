@@ -150,7 +150,7 @@ div ul {
 	width: 33%;
 }
 
-.empInfo {
+.tenInfo {
 	font-family: "Noto Serif";
 	position: relative;
 	padding: 50px;
@@ -196,17 +196,17 @@ div ul {
 	padding-right: 20px;
 }
 
-.midRight {
-	padding-right: 20px;
-}
-
-.firstleft {
-	padding-right: 50px;
-}
-
 .firstRight {
-	padding-left: 67px;
-	padding-right: 20px;
+	padding-left: 33px;
+	padding-right: 15px;
+}
+
+.midRight {
+	padding-left: 10px;
+}
+
+.lastRight {
+	padding-left: 33px;
 }
 
 .addRight {
@@ -215,15 +215,16 @@ div ul {
 
 .citRight {
 	padding-left: 87px;
-	padding-right: 20px;
-}
-
-.staLeft {
 	padding-right: 50px;
 }
 
+.staRight {
+	padding-left: 0px;
+	padding-right: 20px;
+}
+
 .zRight {
-	padding-left: 20px;
+	padding-left: 10px;
 }
 
 .balDueRight {
@@ -448,4 +449,19 @@ div ul {
 .locTitle {
 	text-align: center;
 	font-weight: bold;
+}
+
+#resetTop{
+	background-color:rgba(255,255,255,1);
+	height: 92px;
+	width:100%;
+}
+
+#resetTitle{
+	padding-top:21px;
+}
+
+#resetBackground {
+	background-image: url("images/miami-beach-blur.png");
+	background-size: cover;
 }

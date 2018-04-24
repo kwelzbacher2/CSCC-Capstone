@@ -1,6 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <!-- 
+ * Roxanne Woodruff
+ * CSCI 2999 Capstone 
+ * Waystone Property Management Tenant Portal
+ * tenantAdmin.xhtml
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -12,7 +18,7 @@
 	<ui:composition template="templates/commonTemplate.xhtml">
 		<ui:define name="content">
 			<h:form id="form">
-				<div class="empInfo">
+				<div class="tenInfo">
 					<ui:repeat value="#{tenant.getTenantRecord()}" var="ten">
 						<h:outputText
 							value="WELCOME HOME #{ten.firstName} #{ten.lastName}!" />
@@ -20,7 +26,7 @@
 						<h3 class="centerAlign" id="Welcome">Welcome Home</h3> -->
 
 
-						<h3 class="centerAlign">Your Account Balance</h3>
+						<h3 class="centerAlign">My Account Transactions</h3>
 						<!-- <h:outputLabel value="Current Balance Due: 	$" />
 						<h:outputLabel
 							value="#{tenant.getTenantRecordBalance(tenantProfObj.tenantID)}" /> -->
@@ -46,7 +52,7 @@
 						<br></br>
 						<br></br>
 
-						<h3 class="centerAlign">Your Maintenance Requests</h3>
+						<h3 class="centerAlign">My Maintenance Requests</h3>
 						<h:dataTable id="maintenanceTable"
 							value="#{tenant.getTenantMaint(tenantProfObj.tenantID)}"
 							var="maint" styleClass="table" headerClass="table-header"

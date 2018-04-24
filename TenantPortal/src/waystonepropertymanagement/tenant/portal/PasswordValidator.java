@@ -1,3 +1,9 @@
+/**
+ * Roxanne Woodruff
+ * CSCI 2999 Capstone 
+ * Waystone Property Management Tenant Portal
+ * PasswordValidator.java
+ */
 package waystonepropertymanagement.tenant.portal;
 
 import javax.faces.application.FacesMessage;

@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- 
+ * Roxanne Woodruff
+ * CSCI 2999 Capstone 
+ * Waystone Property Management Tenant Portal
+ * TenantEditProfile.xhtml
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -13,12 +19,12 @@
 	<ui:composition template="templates/commonTemplate.xhtml">
 		<ui:define name="content">
 			<h:form id="form">
-				<div class="empInfo">
+				<div class="tenInfo">
 					<h3 class="pageTitle">Edit Profile</h3>
 					<div class="editBox">
 
 						<h:panelGrid class="editInfo" columns="6"
-							columnClasses="firstLeft, firstRight, mLeft, midRight, lastLeft, lastRight">
+							columnClasses="firstLeft, firstRight, midLeft, midRight, lastLeft, lastRight">
 
 							<h:outputText value="First Name:  " />
 							<h:inputText id="tenFirstName" value="#{tenantProfObj.firstName}"
@@ -27,14 +33,14 @@
 								validatorMessage="Please enter First Name using alphabetical letters"
 								size="20">
 								<f:validateRegex pattern="[a-zA-Z\s\']+" />
-							</h:inputText>
+							</h:inputText><br></br>
 
 							<h:outputText value="Middle Initial:  " />
 							<h:inputText id="tenMi" value="#{tenantProfObj.mi}"
 								validatorMessage="Please enter 1 letter for Middle Initial"
 								size="1">
 								<f:validateRegex pattern="^[a-zA-Z]$" />
-							</h:inputText>
+							</h:inputText><br></br>
 
 							<h:outputText value="Last Name:  " />
 							<h:inputText id="tenLastName" value="#{tenantProfObj.lastName}"
@@ -57,7 +63,7 @@
 						</h:panelGrid>
 
 						<h:panelGrid class="editInfo" columns="6"
-							columnClasses="citLeft, citRight, staLeft, midRight, zLeft, zRight">
+							columnClasses="citLeft, citRight, staLeft, staRight, zLeft, zRight">
 
 							<h:outputText value="City:  " />
 							<h:inputText id="tenPermCity" value="#{tenantProfObj.permCity}"
@@ -127,7 +133,8 @@
 							</h:inputText>
 						</h:panelGrid>
 
-						<h:panelGrid class="editInfo" columns="2" columnClasses="tenantLeft, tenantRight">
+						<h:panelGrid class="editInfo" columns="2"
+							columnClasses="tenantLeft, tenantRight">
 							<h:outputText value="Phone Number:  " />
 							<h:inputText id="tenPhone" value="#{tenantProfObj.phone}"
 								required="true" requiredMessage="Phone Number is required"
