@@ -968,9 +968,15 @@ div ul {
     position:relative;
     padding-left: 80px;
     padding-top: 50px;
+    text-align:left;
 }
 .trainLink{
 	color: blue;
+}
+.trainIt{
+	text-align: center;
+	margin:auto;
+	width: 40%;
 }
 .itemTy{
 	text-align:left;

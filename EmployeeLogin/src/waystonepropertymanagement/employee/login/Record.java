@@ -12,7 +12,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.model.DataModel;
 
 /**
 * Record is a Managed Bean Class that includes all of the properties and methods for a record

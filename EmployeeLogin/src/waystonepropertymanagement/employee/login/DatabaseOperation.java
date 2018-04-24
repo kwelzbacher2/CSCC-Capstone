@@ -10,11 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -1596,7 +1592,7 @@ public class DatabaseOperation {
     }
     
     public static String postLateFeeToARInDB(){
-    	double lateFee = 50;
+    	double lateFee = 150;
     	Date date = new Date();
     	LocalDate today = date.toInstant().atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
     	System.out.println( "today : " + today );

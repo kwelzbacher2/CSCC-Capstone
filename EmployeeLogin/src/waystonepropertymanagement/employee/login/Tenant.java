@@ -4,21 +4,12 @@
  */
 package waystonepropertymanagement.employee.login;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.util.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
+
 
 /**
 * Tenant is a Managed Bean Class that includes all of the properties and methods for a tenant
