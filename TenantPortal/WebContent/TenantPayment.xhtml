@@ -64,20 +64,6 @@
 								<h:inputText id="nameOnCardInputText" size="30" />
 							</h:panelGrid>
 
-							<h:panelGrid columns="2" columnClasses="pCTypeLeft, pCTypeRight">
-								<h:outputLabel value="Card Type: " />
-								<h:selectOneMenu id="creditCardType"
-									value="#{tenant.creditCardType}" required="true"
-									requiredMessage="Card Type is required!"
-									validatorMessage="Please select a card type">
-									<f:selectItem itemValue="" />
-									<f:selectItem itemValue="Visa" />
-									<f:selectItem itemValue="Master Card" />
-									<f:selectItem itemValue="Discover" />
-									<f:selectItem itemValue="American Express" />
-								</h:selectOneMenu>
-							</h:panelGrid>
-
 							<h:panelGrid columns="2" columnClasses="pCNumLeft, pCNumRight">
 								<h:outputLabel value="Card Number: " />
 								<h:inputText id="creditCardNum" size="25"
@@ -256,7 +242,6 @@
 						<h:panelGrid class="warning" columns="1">
 							<h:message for="paymentAmount" />
 							<h:message for="paymentType" />
-							<h:message for="creditCardType" />
 							<h:message for="creditCardNum" />
 							<h:message for="expMonth" />
 							<h:message for="expYear" />

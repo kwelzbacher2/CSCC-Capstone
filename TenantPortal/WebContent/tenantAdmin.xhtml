@@ -22,20 +22,14 @@
 					<ui:repeat value="#{tenant.getTenantRecord()}" var="ten">
 						<h:outputText
 							value="WELCOME HOME #{ten.firstName} #{ten.lastName}!" />
-						<!-- <h1 class="pageTitle">Home</h1>
-						<h3 class="centerAlign" id="Welcome">Welcome Home</h3> -->
-
 
 						<h3 class="centerAlign">My Account Transactions</h3>
-						<!-- <h:outputLabel value="Current Balance Due: 	$" />
-						<h:outputLabel
-							value="#{tenant.getTenantRecordBalance(tenantProfObj.tenantID)}" /> -->
 
 						<h:dataTable id="paymentTable"
 							value="#{tenant.getTenantAcctRecords(tenantProfObj.tenantID)}"
 							var="pay" styleClass="table" headerClass="table-header"
 							rowClasses="table-odd, table-even"
-							columnClasses="paymentDate, recordName, recordAmount">
+							columnClasses="paymentDate,  recordName, recordAmount">
 							<h:column>
 								<f:facet name="header">Date</f:facet>
 								<h:commandLink value="#{pay.recordDate}" class="table-link" />

@@ -156,38 +156,6 @@ public class DatabaseOperation {
     	return sb.toString();
     }
     
-    public static String resetPasswordInDB(String tenEmail){
-    	int saveResult = 0;
-    	String pword = randomString(12);
-    	try{
-            con = DataConnect.getConnection();
-            ps = con.prepareStatement("UPDATE ten_login SET PASSWORD = ?, acc_stat = ? WHERE EMAIL = ?");
-            ps.setString(1, pword);
-            ps.setString(2, "RESET");
-            ps.setString(3, tenEmail);
-            saveResult = ps.executeUpdate();
-            
-            SendMail.sendMail(tenEmail, pword);
-            	
-        } catch (SQLException e) {
-                System.out.println("resetPasswordInDB -->" + e.getMessage());        
-        } finally {    
-                 DataConnect.close(con);
-        }
-        if(saveResult !=0){
-    		FacesContext.getCurrentInstance().addMessage("viewEmpForm:unlockBtn",
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Employee password was successfully reset",
-                    "Employee password was successfully reset"));
-               
-           } else {
-        	   FacesContext.getCurrentInstance().addMessage("viewEmpForm:unlockBtn",
-                       new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem resetting the Employee password",
-                       "There was a problem resetting the Employee password"));
-           }
-        
-    	return "/tenantAdmin.xhtml?faces-redirect=true";
-    }
-
 	public static String getTenantRecordBalanceInDB(int tenantID) {
 		Connection con = null;
 		double finalAmount = 0;
@@ -321,7 +289,6 @@ public class DatabaseOperation {
 				tenPay.setPaymentID(resultSetObj.getInt("payment_id"));
 				tenPay.setTenantID(resultSetObj.getInt("tenant_id"));
 				tenPay.setPaymentType(resultSetObj.getString("tenant_id"));
-				tenPay.setCreditCardType(resultSetObj.getString("cc_type"));
 				tenPay.setCreditCardNum(resultSetObj.getString("cc_num"));
 				tenPay.setExpMonth(resultSetObj.getString("exp_month"));
 				tenPay.setExpYear(resultSetObj.getString("exp_year"));
@@ -401,7 +368,6 @@ public class DatabaseOperation {
 					"INSERT INTO payment_records(tenant_id, payment_type, cc_type, cc_num, exp_month, exp_year, cvv_code, bank_type, bank_num, bank_routing, billing_address, billing_city, billing_state, billing_zip) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setInt(1, payTenID);
 			ps.setString(2, tenantRecordObj.getPaymentType());
-			ps.setString(3, tenantRecordObj.getCreditCardType());
 			ps.setString(4, tenantRecordObj.getCreditCardNum());
 			ps.setString(5, tenantRecordObj.getExpMonth());
 			ps.setString(6, tenantRecordObj.getExpYear());

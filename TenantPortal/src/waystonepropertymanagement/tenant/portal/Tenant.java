@@ -8,8 +8,6 @@ package waystonepropertymanagement.tenant.portal;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -67,7 +65,6 @@ public class Tenant implements Serializable {
 
 	private int paymentID;
 	private String paymentType;
-	private String creditCardType;
 	private String creditCardNum;
 	private String expMonth;
 	private String expYear;
@@ -341,14 +338,6 @@ public class Tenant implements Serializable {
 		this.paymentType = paymentType;
 	}
 
-	public String getCreditCardType() {
-		return creditCardType;
-	}
-
-	public void setCreditCardType(String creditCardType) {
-		this.creditCardType = creditCardType;
-	}
-
 	public String getCreditCardNum() {
 		return creditCardNum;
 	}
@@ -502,11 +491,6 @@ public class Tenant implements Serializable {
 	// obtains tenant unit and building
 	public String getTenantPropertyUnit(int tenantID) {
 		return DatabaseOperation.getTenantPropertyUnitFromDB(tenantID);
-	}
-
-	// Reset tenant password to randomly generated temporary password
-	public String resetPassword(String empEmail) {
-		return DatabaseOperation.resetPasswordInDB(empEmail);
 	}
 
 	// logout event, invalidate session
