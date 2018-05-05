@@ -365,20 +365,20 @@ public class DatabaseOperation {
 			con = DataConnect.getConnection();
 
 			ps = con.prepareStatement(
-					"INSERT INTO payment_records(tenant_id, payment_type, cc_type, cc_num, exp_month, exp_year, cvv_code, bank_type, bank_num, bank_routing, billing_address, billing_city, billing_state, billing_zip) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					"INSERT INTO payment_records(tenant_id, payment_type, cc_num, exp_month, exp_year, cvv_code, bank_type, bank_num, bank_routing, billing_address, billing_city, billing_state, billing_zip) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setInt(1, payTenID);
 			ps.setString(2, tenantRecordObj.getPaymentType());
-			ps.setString(4, tenantRecordObj.getCreditCardNum());
-			ps.setString(5, tenantRecordObj.getExpMonth());
-			ps.setString(6, tenantRecordObj.getExpYear());
-			ps.setString(7, tenantRecordObj.getCvvCode());
-			ps.setString(8, tenantRecordObj.getBankType());
-			ps.setString(9, tenantRecordObj.getBankNum());
-			ps.setString(10, tenantRecordObj.getBankRouting());
-			ps.setString(11, tenantRecordObj.getBillingAddress());
-			ps.setString(12, tenantRecordObj.getBillingCity());
-			ps.setString(13, tenantRecordObj.getBillingState());
-			ps.setString(14, tenantRecordObj.getBillingZip());
+			ps.setString(3, tenantRecordObj.getCreditCardNum());
+			ps.setString(4, tenantRecordObj.getExpMonth());
+			ps.setString(5, tenantRecordObj.getExpYear());
+			ps.setString(6, tenantRecordObj.getCvvCode());
+			ps.setString(7, tenantRecordObj.getBankType());
+			ps.setString(8, tenantRecordObj.getBankNum());
+			ps.setString(9, tenantRecordObj.getBankRouting());
+			ps.setString(10, tenantRecordObj.getBillingAddress());
+			ps.setString(11, tenantRecordObj.getBillingCity());
+			ps.setString(12, tenantRecordObj.getBillingState());
+			ps.setString(13, tenantRecordObj.getBillingZip());
 
 			saveResult = ps.executeUpdate();
 
