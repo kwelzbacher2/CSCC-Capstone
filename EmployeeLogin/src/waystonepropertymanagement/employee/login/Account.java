@@ -29,10 +29,10 @@ public class Account implements Serializable {
     private String accountType;
     private String accSearchName;
     private String accSearchType;
-    private double accountBalance;
+    private static double accountBalance;
     private String accBalance;
-    private String debitBalance;
-    private String creditBalance;
+    private static String debitBalance;
+    private static String creditBalance;
     private String startDate;
     private String endDate;
     private List<Account> assetsList = new ArrayList();
@@ -47,12 +47,34 @@ public class Account implements Serializable {
     private List<String> allAccountNames = new ArrayList();
     private String equity = null;
     private String profitLoss = null;
-    DecimalFormat df = new DecimalFormat("0.00");
+    static DecimalFormat df = new DecimalFormat("0.00");
     private String nameHolder;
     private String typeHolder;
     private String assetName;   
+    private List<Account> operatingList = new ArrayList();
+    private List<Account> investList = new ArrayList();
+    private List<Account> finList = new ArrayList();
     
-    public int getAccountID() {
+    
+    public List<Account> getOperatingList() {
+		return operatingList;
+	}
+	public void setOperatingList(List<Account> operatingList) {
+		this.operatingList = operatingList;
+	}
+	public List<Account> getInvestList() {
+		return investList;
+	}
+	public void setInvestList(List<Account> investList) {
+		this.investList = investList;
+	}
+	public List<Account> getFinList() {
+		return finList;
+	}
+	public void setFinList(List<Account> finList) {
+		this.finList = finList;
+	}
+	public int getAccountID() {
 		return accountID;
 	}
 	public void setAccountID(int accountID) {
@@ -259,8 +281,27 @@ public class Account implements Serializable {
     	}
     	return creditBalance;
     }
+    public static String getCurrentCreditBalance(String currentAccount, String startDate, String endDate){
+    	accountBalance = DatabaseOperation.getCurrentAccountBalance(currentAccount, startDate, endDate);
+    	System.out.println(accountBalance);
+    	if(accountBalance >= 0.0){
+    		creditBalance = null;
+    	} else {
+    		creditBalance = df.format(accountBalance * -1);
+    	}
+    	return creditBalance;
+    }
     public String getCurrentDebitBalance(String currentAccount){
     	accountBalance = DatabaseOperation.getCurrentAccountBalance(currentAccount);
+    	if(accountBalance >= 0.0){
+    		debitBalance = df.format(accountBalance);
+    	} else {
+    		debitBalance = null;
+    	}
+    	return debitBalance;
+    }
+    public static String getCurrentDebitBalance(String currentAccount, String startDate, String endDate){
+    	accountBalance = DatabaseOperation.getCurrentAccountBalance(currentAccount, startDate, endDate);
     	if(accountBalance >= 0.0){
     		debitBalance = df.format(accountBalance);
     	} else {
@@ -296,6 +337,38 @@ public class Account implements Serializable {
     
     	equity = df.format(Double.parseDouble(assetBalance) - Double.parseDouble(liabsBalance));
     	profitLoss = df.format(Double.parseDouble(incBalance) - Double.parseDouble(expenseBalance));
+    	
+    	operatingList.clear();
+    	Account cash = new Account();
+    	cash.setAccountName("Income");
+    	cash.setAccBalance(incBalance);
+    	operatingList.add(cash);
+    	Account ex = new Account();
+    	ex.setAccountName("Expenses");
+    	ex.setAccBalance("(" + expenseBalance + ")");
+    	operatingList.add(ex);
+    	Account net = new Account();
+    	net.setAccountName("Net Cash");
+    	net.setAccBalance(profitLoss);
+    	operatingList.add(net);
+    	
+    	investList.clear();
+    	Account fA = new Account();
+    	fA.setAccountName("Purchase of Assets");
+    	String bal = df.format(DatabaseOperation.getCurrentAccountBalance("FIXED ASSETS", startD, endD));
+    	fA.setAccBalance("(" + bal + ")");
+    	investList.add(fA);
+    	Account fNet = new Account();
+    	fNet.setAccountName("Net Cash");
+    	fNet.setAccBalance("(" + bal + ")");
+    	investList.add(fNet);
+    	
+    	finList.clear();
+    	Account fin = new Account();
+    	fin.setAccountName("End of Period");
+    	fin.setAccBalance(df.format(Double.parseDouble(profitLoss) - Double.parseDouble(bal)));
+    	finList.add(fin);
+    	
     }
     public List<Account> getOperatingActivities(){
     	return DatabaseOperation.getLastSheet("Income");
@@ -304,6 +377,7 @@ public class Account implements Serializable {
     	setAccountName(null);
     	setAccountType("");
     }
+    
     
 }
 

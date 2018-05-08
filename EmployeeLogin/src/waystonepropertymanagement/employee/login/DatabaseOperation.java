@@ -283,6 +283,7 @@ public class DatabaseOperation {
         } finally {    
               DataConnect.close(connObj);
         }
+        empSearchList.removeIf(empSearchObj -> empSearchObj.getEmployeeID()==0);
         return empSearchList;
     }
     
@@ -402,7 +403,7 @@ public class DatabaseOperation {
                    new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem when creating the new Employee",
                    "There was a problem when creating the new Employee"));
        }
-       return "createEmployee.xhtml?faces-redirect=true";
+       return "createEmployee.xhtml?faces=redirect=true";
     }
     
     public static void clearList(Employee clearEmp){
@@ -1133,6 +1134,7 @@ public class DatabaseOperation {
      
      
      //Account Database Operation
+   //Account Database Operation
      public static List<Account> getAccountListFromDB(String accSearchName, String accSearchType){
          List<Account> accountSearchList = new ArrayList<>();
        
@@ -1501,13 +1503,14 @@ public class DatabaseOperation {
      }
      
      //Record Database Operation
-     public static List<Record> getAllRecordsFromDB(){
+     public static List<Record> getAllRecordsFromDB(String startDate, String endDate){
     	 List<Record> allRecords = new ArrayList();
     	 try{
     		 connObj = DataConnect.getConnection();
-           	 stmtObj = connObj.createStatement();           	
-             resultSetObj = stmtObj.executeQuery("SELECT TOP 40 * FROM RECORDS WHERE (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
-             
+           	 pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE DATE BETWEEN ? AND ? AND (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
+             pstmt.setString(1, startDate);
+             pstmt.setString(2, endDate);
+             resultSetObj = pstmt.executeQuery();
              while( resultSetObj.next()) {
                  Record allRecordObj = new Record();
                  allRecordObj.setRecordID(resultSetObj.getInt("RECORD_ID"));
@@ -1538,14 +1541,16 @@ public class DatabaseOperation {
      return allRecords;
      }
      
-     public static List<Record> getAllRecordsFromDB(String accountName){
+     public static List<Record> getAllRecordsFromDB(String accountName, String startDate, String endDate){
     	 List<Record> allAccountRecords = new ArrayList();
     	
     	 try{
     		 connObj = DataConnect.getConnection();
            	 stmtObj = connObj.createStatement();
-           	 pstmt = connObj.prepareStatement("SELECT TOP 20 * FROM RECORDS WHERE ACCOUNT_NAME = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
+           	 pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = ? AND DATE BETWEEN ? AND ? AND (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
            	 pstmt.setString(1, accountName);
+           	 pstmt.setString(2, startDate);
+           	 pstmt.setString(3, endDate);
              resultSetObj = pstmt.executeQuery();
              while(resultSetObj.next()) {
                  Record allRecordObj = new Record();

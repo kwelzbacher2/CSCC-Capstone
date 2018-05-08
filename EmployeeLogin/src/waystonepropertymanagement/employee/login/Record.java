@@ -35,6 +35,30 @@ public class Record implements Serializable{
     private double recordDebitAmount;
     private double recordCreditAmount;
     private String recordReason; 
+    private String startDate;
+    private String endDate;
+    private List<Record> receiveList;
+    private List<Record> payList;
+    private List<Record> rCashList;
+    private List<Record> rIncList;
+    private List<Record> bankList;
+    private List<Record> billsList;
+    private List<Record> fixedList;
+    private String fixedADebit;
+    private String fixedACredit;
+    private String billsDebit;
+    private String billsCredit;
+    private String bankDebit;
+    private String bankCredit;
+    private String payDebit;
+    private String payCredit;
+    private String rIncDebit;
+    private String rIncCredit;
+    private String rCashDebit;
+    private String rCashCredit;
+    private String receiveDebit;
+    private String receiveCredit;
+    private List<Record> journalList;
     
     public String getRecordReason() {
 		return recordReason;
@@ -193,14 +217,161 @@ public class Record implements Serializable{
     	}
     	return eval;
     }
-    //Obtain all records from database
-    public static List<Record> getAllRecords(){
-    	return DatabaseOperation.getAllRecordsFromDB();
+   
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public List<Record> getReceiveList() {
+		return receiveList;
+	}
+	public void setReceiveList(List<Record> receiveList) {
+		this.receiveList = receiveList;
+	}
+	public List<Record> getPayList() {
+		return payList;
+	}
+	public void setPayList(List<Record> payList) {
+		this.payList = payList;
+	}
+	public List<Record> getrCashList() {
+		return rCashList;
+	}
+	public void setrCashList(List<Record> rCashList) {
+		this.rCashList = rCashList;
+	}
+	public List<Record> getrIncList() {
+		return rIncList;
+	}
+	public void setrIncList(List<Record> rIncList) {
+		this.rIncList = rIncList;
+	}
+	public List<Record> getBankList() {
+		return bankList;
+	}
+	public void setBankList(List<Record> bankList) {
+		this.bankList = bankList;
+	}
+	public List<Record> getBillsList() {
+		return billsList;
+	}
+	public void setBillsList(List<Record> billsList) {
+		this.billsList = billsList;
+	}
+	public List<Record> getFixedList() {
+		return fixedList;
+	}
+	public void setFixedList(List<Record> fixedList) {
+		this.fixedList = fixedList;
+	}
+
+	public String getFixedADebit() {
+		return fixedADebit;
+	}
+	public void setFixedADebit(String fixedADebit) {
+		this.fixedADebit = fixedADebit;
+	}
+	public String getFixedACredit() {
+		return fixedACredit;
+	}
+	public void setFixedACredit(String fixedACredit) {
+		this.fixedACredit = fixedACredit;
+	}
+	public String getBillsDebit() {
+		return billsDebit;
+	}
+	public void setBillsDebit(String billsDebit) {
+		this.billsDebit = billsDebit;
+	}
+	public String getBillsCredit() {
+		return billsCredit;
+	}
+	public void setBillsCredit(String billsCredit) {
+		this.billsCredit = billsCredit;
+	}
+	public String getBankDebit() {
+		return bankDebit;
+	}
+	public void setBankDebit(String bankDebit) {
+		this.bankDebit = bankDebit;
+	}
+	public String getBankCredit() {
+		return bankCredit;
+	}
+	public void setBankCredit(String bankCredit) {
+		this.bankCredit = bankCredit;
+	}
+	public String getPayDebit() {
+		return payDebit;
+	}
+	public void setPayDebit(String payDebit) {
+		this.payDebit = payDebit;
+	}
+	public String getPayCredit() {
+		return payCredit;
+	}
+	public void setPayCredit(String payCredit) {
+		this.payCredit = payCredit;
+	}
+	public String getrIncDebit() {
+		return rIncDebit;
+	}
+	public void setrIncDebit(String rIncDebit) {
+		this.rIncDebit = rIncDebit;
+	}
+	public String getrIncCredit() {
+		return rIncCredit;
+	}
+	public void setrIncCredit(String rIncCredit) {
+		this.rIncCredit = rIncCredit;
+	}
+	public String getrCashDebit() {
+		return rCashDebit;
+	}
+	public void setrCashDebit(String rCashDebit) {
+		this.rCashDebit = rCashDebit;
+	}
+	public String getrCashCredit() {
+		return rCashCredit;
+	}
+	public void setrCashCredit(String rCashCredit) {
+		this.rCashCredit = rCashCredit;
+	}
+	public String getReceiveDebit() {
+		return receiveDebit;
+	}
+	public void setReceiveDebit(String receiveDebit) {
+		this.receiveDebit = receiveDebit;
+	}
+	public String getReceiveCredit() {
+		return receiveCredit;
+	}
+	public void setReceiveCredit(String receiveCredit) {
+		this.receiveCredit = receiveCredit;
+	}
+	public List<Record> getJournalList() {
+		return journalList;
+	}
+	public void setJournalList(List<Record> journalList) {
+		this.journalList = journalList;
+	}
+	//Obtain all records from database
+    public void getAllRecords(String start, String end){
+    	journalList = DatabaseOperation.getAllRecordsFromDB(start, end);
+    	
     }
     //Obtain all records for account from database
-    public List<Record> getAllRecords(String accountName){
+    public List<Record> getAllRecords(String accountName, String startD, String endD){
     	
-    	return DatabaseOperation.getAllRecordsFromDB(accountName);
+    	return DatabaseOperation.getAllRecordsFromDB(accountName, startD, endD);
     }
     //Obtain all records based on search criteria
     public void getAllRecordList(String searchRecCrit, String searchRecInfo, String accountName){
@@ -248,6 +419,31 @@ public class Record implements Serializable{
     	setRecordInvNum(null);
     	setRecordTenantID(null);
     	setRecordAccount("");
+    }
+    
+    public void getGeneralLedger(String start, String end){
+    	receiveList = getAllRecords("ACCOUNTS RECEIVABLE", start, end);
+    	receiveDebit = Account.getCurrentDebitBalance("ACCOUNTS RECEIVABLE", start, end);
+    	receiveCredit = Account.getCurrentCreditBalance("ACCOUNTS RECEIVABLE", start, end); 
+    	payList = getAllRecords("ACCOUNTS PAYABLE", start, end);
+    	payDebit =Account.getCurrentDebitBalance("ACCOUNTS PAYABLE", start, end);
+    	payCredit = Account.getCurrentCreditBalance("ACCOUNTS PAYABLE", start, end); 
+        rCashList = getAllRecords("RENT CASH ACCOUNT", start, end);
+    	rCashDebit = Account.getCurrentDebitBalance("RENT CASH ACCOUNT", start, end);
+    	rCashCredit = Account.getCurrentCreditBalance("RENT CASH ACCOUNT", start, end);
+        rIncList = getAllRecords("RENTAL INCOME", start, end);
+        rIncDebit = Account.getCurrentDebitBalance("RENTAL INCOME", start, end);
+        rIncCredit = Account.getCurrentCreditBalance("RENTAL INCOME", start, end);
+        bankList = getAllRecords("BANK ACCOUNT", start, end);
+        bankDebit = Account.getCurrentDebitBalance("BANK ACCOUNT", start, end);
+        bankCredit = Account.getCurrentCreditBalance("BANK ACCOUNT", start, end);
+        billsList = getAllRecords("BILLS EXPENSE", start, end);
+        billsDebit = Account.getCurrentDebitBalance("BILLS EXPENSE", start, end);
+        billsCredit = Account.getCurrentCreditBalance("BILLS EXPENSE", start, end);
+        fixedList = getAllRecords("FIXED ASSETS", start, end);
+        fixedADebit = Account.getCurrentDebitBalance("FIXED ASSETS", start, end);
+        fixedACredit = Account.getCurrentCreditBalance("FIXED ASSETS", start, end);
+       
     }
  
 }

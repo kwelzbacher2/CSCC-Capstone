@@ -279,7 +279,7 @@ public class Employee implements Serializable{
     //Obtain list of employees based on search criteria given   
     public void getEmployeeList(String searchCriteria, String searchRole, String searchInform){
         employeeList = DatabaseOperation.getAllEmployeesFromDB(searchCriteria, searchRole, searchInform);
-    	
+        
     	if (employeeList.size() == 0){
     		Employee emp = new Employee();
     		emp.setEmail("No results found");

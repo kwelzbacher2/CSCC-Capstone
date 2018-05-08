@@ -30,21 +30,37 @@
                         <h3 class="pageTitle">Account Action Center</h3>
                        
                        <div class="empInfo">
-                       		<h:panelGrid columns="2" class="info">
-                       			<h:outputText value="Post Rent for all Leased Units to Accounts Receivable for this month: "/>
-                       			<h:commandButton value="Post Rent" action="#{record.postRentToAR()}" id="rentButton"/>
-                        		<h:message for="rentButton" class="warning"/>
-                       		</h:panelGrid>
-                       		<h:panelGrid columns="2" class="info">
-                        		<h:outputText value="Post Late Fees to Accounts Receivable for all Leased Units that have not paid rent this month: "/>
-                       			<h:commandButton value="Post Late Fee" action="#{record.postLateFeeToAR()}" id="lateFeeBtn"/>
-                        		<h:message for="lateFeeBtn" class="warning"/>
-                        	</h:panelGrid>
+                            <h:panelGrid columns="2" class="info">
+                                <h:outputText value="Post Rent for all Leased Units to Accounts Receivable for this month: "/>
+                                <h:commandButton value="Post Rent" action="#{record.postRentToAR()}" id="rentButton"/>
+                                <h:message for="rentButton" class="warning"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" class="info">
+                                <h:outputText value="Post Late Fees to Accounts Receivable for all Leased Units that have not paid rent this month: "/>
+                                <h:commandButton value="Post Late Fee" action="#{record.postLateFeeToAR()}" id="lateFeeBtn"/>
+                                <h:message for="lateFeeBtn" class="warning"/>
+                            </h:panelGrid>
                         </div> 
                         
                         <h3 class="pageTitle">General Journal</h3>
-                        
-                        <h:dataTable id="journalTable" value="#{record.getAllRecords()}"  var="journalObj"
+                        <h:panelGrid class="editInfo" columns="5" >
+                        <h:outputText value="Select Start Date: "></h:outputText>
+                       <h:inputText id="jStart" value ="#{record.startDate}" class="dobDate" size="10" required="true" requiredMessage="Start Date is required" 
+                                     validatorMessage="Please enter digits in the form of 1999-01-01 for Start Date">     
+                            <f:validateRegex pattern="\d{4}-\d{2}-\d{2}" />
+                        </h:inputText> 
+                        <h:outputText value="Select End Date: "/>
+                        <h:inputText id="jEnd" value ="#{record.endDate}" class="dobDate" size="10" required="true" requiredMessage="End Date is required" 
+                                     validatorMessage="Please enter digits in the form of 1999-01-01 for End Date">     
+                            <f:validateRegex pattern="\d{4}-\d{2}-\d{2}" />
+                        </h:inputText>
+                        <h:commandButton value="Submit" action="#{record.getAllRecords(record.startDate, record.endDate)}"/>
+                        </h:panelGrid>
+                        <h:panelGrid class="warning" columns="1"> 
+                            <h:message for="jStart"/>
+                            <h:message for="jEnd" />
+                        </h:panelGrid>
+                        <h:dataTable id="journalTable" value="#{record.journalList}"  var="journalObj"
                                  styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
                                  columnClasses="date, name, trans, debit, credit">
                             <h:column> 

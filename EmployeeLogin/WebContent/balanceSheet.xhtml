@@ -101,7 +101,60 @@
                         </table>
                         </div>                       
                     </div>
-                    
+                    <div id="cashFlow">
+                        <h3 class="pageTitle">Cash Flow Statement</h3>
+                       <br/>
+                       <h3 class="pageTitle">Cash Flow Operating Activities</h3>
+                                              
+                        <h:dataTable id="opTable" value="#{account.operatingList}" var="op"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="balName, debit">
+                            <h:column> 
+                                <f:facet name="header">Name</f:facet>
+                                <h:outputText value="#{op.accountName}"/>
+                                
+                            </h:column>
+                           
+                            <h:column> 
+                        
+                                <f:facet name="header">Balance</f:facet>                    
+                                <h:outputText  value="#{op.accBalance}"/> 
+                                                               
+                            </h:column>                                                              
+                        </h:dataTable>
+                        <h3 class="pageTitle">Cash Flow From Investing</h3>
+                                              
+                        <h:dataTable id="investTable" value="#{account.investList}" var="invest"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="balName, debit">
+                            <h:column> 
+                                <f:facet name="header">Name</f:facet>
+                                <h:outputText value="#{invest.accountName}"/>
+                                
+                            </h:column>
+                           
+                            <h:column> 
+                        
+                                <f:facet name="header">Balance</f:facet>                    
+                                <h:outputText  value="#{invest.accBalance}"/> 
+                                                               
+                            </h:column>                                                              
+                        </h:dataTable>
+                        <h3 class="pageTitle">Cash Flow End of Period</h3>
+                                              
+                        <h:dataTable id="finTable" value="#{account.finList}" var="fin"
+                                 styleClass="table" headerClass="table-header" rowClasses="table-odd, table-even"
+                                 columnClasses="balName, debit">
+                            <h:column> 
+                                <f:facet name="header">Name </f:facet>
+                                <h:outputText  value="#{fin.accountName}"/>
+                            </h:column>
+                            <h:column> 
+                                <f:facet name="header">Balance</f:facet>       
+                                <h:outputText  value="#{fin.accBalance}"/>                          
+                            </h:column>                                                              
+                        </h:dataTable>
+                    </div>
                     <div id="profitLoss">
                         <h3 class="pageTitle">Profit and Loss</h3>
                        <br/>
@@ -154,7 +207,7 @@
                             </h:column>                                                              
                         </h:dataTable>
                     </div>  
-                    
+                     
                 </h:form>
             </ui:define>
             

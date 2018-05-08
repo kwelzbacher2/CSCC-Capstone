@@ -995,9 +995,13 @@ div ul {
 }
 #balanceSheet{
 	float:left;
-	width:50%;
+	width:34%;
+}
+#cashFlow{
+    float:right;
+    width:33%;
 }
 #profitLoss{
 	float:right;
-	width:50%;
+	width:33%;
 }
