@@ -287,8 +287,12 @@ public class Employee implements Serializable{
     	}
     }
     //Obtain information of chosen employee from database
-    public String viewEmployeeRecord(int currentEmpID){
-    	return DatabaseOperation.viewEmployeeRecordFromDB(currentEmpID);
+    public String viewEmployeeRecord(int currentEmpID, String empEmail){
+    	if(empEmail.equals("No results found")){
+    		return "searchEmployees.xhtml?faces-redirect=true";
+    	} else {
+    		return DatabaseOperation.viewEmployeeRecordFromDB(currentEmpID);
+    	}
     }
     //Delete the employee in the database
     public String deleteEmployee(Employee delEmployeeObj){
@@ -320,6 +324,25 @@ public class Employee implements Serializable{
   //Obtain list of all current employee roles
     public List<String> viewAllEmpRoles(){
         return DatabaseOperation.viewAllEmpRolesInDB();
+    }
+    
+    public void clearList(){
+    	setFirstName(null);
+    	setMiddleInit(null);
+    	setLastName(null);
+    	setAddress(null);
+    	setCity(null);
+    	setState("AL");
+    	setZipcode(null);
+    	setPhone(null);
+    	setNewEmail(null);
+    	setDOB(null);
+    	setRole("");
+    	
+    }
+    public String undoChanges(){
+    	getEmployeeRecord();
+    	return "employeeProfileEdit.xhtml?faces-redirect=true";
     }
 }   
     

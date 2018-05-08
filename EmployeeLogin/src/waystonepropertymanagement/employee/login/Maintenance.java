@@ -187,4 +187,10 @@ public class Maintenance implements Serializable{
     public String createNewRequest(Maintenance newMaintObj){
     	return DatabaseOperation.createNewRequestInDB(newMaintObj);
     }
+    public void clearList(){
+    	setJobType("");
+    	setJobDesc(null);
+    	setDateReq(null);
+    	setTenantID(0);
+    }
 }

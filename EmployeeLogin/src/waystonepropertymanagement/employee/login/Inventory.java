@@ -158,5 +158,13 @@ public class Inventory implements Serializable{
     	invList = DatabaseOperation.getInventoryListInDB(searchCrit, searchInf, searchType);
     	return invList;
     }
+    public void clearList(){
+    	setInvItem("");
+    	setAddItem(null);
+    	setItemCostEntry(0);
+    	setPurchDate(null);
+    	setItemDesc(null);
+    	setInvPaid("Yes");
+    }
 }
 

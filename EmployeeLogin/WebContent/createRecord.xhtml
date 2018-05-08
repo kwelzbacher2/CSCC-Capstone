@@ -36,12 +36,12 @@
                     <h:panelGrid class="editInfo" columns="4" columnClasses="left, amRight clearInput, endLeft, endRight clearSelect">
                         <h:outputText value="Record Amount:  " />
                         <h:inputText id="recNewAmount" value ="#{record.entryAmount}" required = "true" requiredMessage="Amount is required"
-                                     converterMessage="Please enter only digits for amount such as 1234.00" size="12">
+                                     converterMessage="Please enter only digits for amount such as 1234.00" size="12" tabindex="2">
                             
                             <f:convertNumber />
                         </h:inputText> 
                         <h:outputText value="Credit or Debit?  " />
-                        <h:selectOneMenu id="recNewIsCred" value ="#{record.recordIsCredit}" required = "true" requiredMessage="'Credit or Debit?' is required">
+                        <h:selectOneMenu id="recNewIsCred" value ="#{record.recordIsCredit}" required = "true" requiredMessage="'Credit or Debit?' is required" tabindex="3">
                              <f:selectItem itemValue='Credit'/>
                              <f:selectItem itemValue='Debit'/>
                         </h:selectOneMenu> 
@@ -51,23 +51,24 @@
                         
                         <h:outputText value="Record Date:  " />
                         <h:inputText id="recNewDate" value ="#{record.recordDate}" class="dobDate clearInput" required = "true" requiredMessage ="Date is required"
-                                     size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date">     
+                                     size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date" tabindex="4">     
                             <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
                                      
                         </h:inputText>
                         <h:outputText value="Transaction No.:  " />
-                        <h:inputText id="recNewInv" value="#{record.recordInvNum}" 
+                        <h:inputText id="recNewInv" value="#{record.recordInvNum}" tabindex="5"
                                      validatorMessage="Please enter Transaction Number using alphabetical letters and/or numbers" size="20" class="clearInput">
                             <f:validateRegex pattern="^[a-zA-Z0-9]+$"/>
                         </h:inputText>
                                                  
                         <h:outputText value="Tenant ID:  " />
-                        <h:inputText id="recNewTen" value="#{record.recordTenantID}" 
+                        <h:inputText id="recNewTen" value="#{record.recordTenantID}" tabindex="6"
                                      validatorMessage="Please enter Tenant ID using digits in form of 1234" size="12" class="clearInput">
                             <f:validateRegex pattern="[0-9]+"/>
                          </h:inputText>   
                         <h:outputText value="Account Name:  " />
-                        <h:selectOneMenu id="recNewAccount" value="#{record.recordAccount}" required="true" requiredMessage="Account Name is required" class="clearSelect">
+                        <h:selectOneMenu id="recNewAccount" value="#{record.recordAccount}" required="true" requiredMessage="Account Name is required" class="clearSelect" tabindex="7">
+                            <f:selectItem itemValue="" />
                             <f:selectItems value="#{account.viewAllAccountNames()}" />
                             
                         </h:selectOneMenu>
@@ -84,8 +85,10 @@
                         <h:message for="recNewAccount"/>
                         
                         </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{record.createNewRecord(record)}" />
-                    <h:commandButton value="Clear" type="reset"/>
+                    <h:commandButton value="Submit" action="#{record.createNewRecord(record)}" tabindex="8" />
+                    <h:commandButton value="Clear" action="#{record.clearList}" immediate="true" tabindex="9">
+                        <f:resetValues render="recordForm:recNewName recordForm:recNewAmount recordForm:recNewIsCred recordForm:recNewDate recordForm:recInv recordForm:recNewTen recordForm:recNewAccount"/>
+                    </h:commandButton>
                     
                     </div>
                     </div>

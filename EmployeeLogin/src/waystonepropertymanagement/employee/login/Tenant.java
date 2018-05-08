@@ -235,10 +235,11 @@ public class Tenant implements Serializable{
     	if(searchCrit.equals("Building")){
             tenantList = DatabaseOperation.getTenantListBuilding(searchInfo);
         } else {
-        tenantList =  DatabaseOperation.getTenantListFromDB(searchCrit, searchInfo);
+        	tenantList =  DatabaseOperation.getTenantListFromDB(searchCrit, searchInfo);
         }
     	
     	if (tenantList.size() == 0){
+    		clearList();
     		Tenant ten = new Tenant();
     		ten.setEmail("No results found");
     		tenantList.add(ten);
@@ -246,8 +247,12 @@ public class Tenant implements Serializable{
     	
     } 
    //Obtain Tenant information
-    public String viewTenantRecord(int tenantID){
-        return DatabaseOperation.viewTenantRecordInDB(tenantID);
+    public String viewTenantRecord(int tenantID, String tenantEmail){
+        if(tenantEmail.equals("No results found")){
+        	return "tenantAccounts.xhtml?faces-redirect=true";
+        } else {
+        	return DatabaseOperation.viewTenantRecordInDB(tenantID);
+        }
     }
     //Update tenant in database
     public String updateTenantDetails(Tenant updateTenObj){
@@ -266,5 +271,17 @@ public class Tenant implements Serializable{
     public String getTenantRecordBalance(int tenantID){
     	double balance =  DatabaseOperation.getTenantRecordBalanceInDB(tenantID);
     	return df.format(balance);
+    }
+    public void clearList(){
+    	setFirstName(null);
+    	setMi(null);
+    	setLastName(null);
+    	setPermAddress(null);
+    	setPermCity(null);
+    	setPermState("AL");
+    	setPermZip(null);
+    	setPhone(null);
+    	setEmail(null);
+    	setDOB(null);
     }
 }

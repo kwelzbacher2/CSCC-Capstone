@@ -7,6 +7,7 @@ package waystonepropertymanagement.employee.login;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -126,10 +127,19 @@ public class Unit implements Serializable{
     //Obtain list of units based on search criteria
     public void getUnitList(String unitBuildSearch, String vacancy){
         unitList = DatabaseOperation.getUnitListFromDB(unitBuildSearch, vacancy);
+        if(unitList.size() == 0){
+        	Unit un = new Unit();
+        	un.setUnitBuilding("No results found");
+        	unitList.add(un);
+        }
     }
     //Obtain information of chosen unit
-    public String viewUnitRecord(int unitID){
-        return DatabaseOperation.viewUnitRecordInDB(unitID);
+    public String viewUnitRecord(int unitID, String building){
+    	if(building.equals("No results found")){
+    		return "units.xhtml?faces-redirect=true";
+    	} else {
+    		return DatabaseOperation.viewUnitRecordInDB(unitID);
+    	}
     }
     //Update unit information in database
     public String updateUnitDetails(Unit updateUnitObj){
@@ -147,5 +157,14 @@ public class Unit implements Serializable{
     //Obtain list of all current Buildings
     public List<String> viewAllBuildingNames(){
         return DatabaseOperation.viewAllBuildingNamesInDB();
+    }
+    public void clearList(){
+    	setUnitBuilding(null);
+    	setUnitAptNum(null);
+    	setUnitAddress(null);
+    	setUnitCity(null);
+    	setUnitState("AL");
+    	setUnitZip(null);
+    	setUnitRent(null);  	
     }
 }

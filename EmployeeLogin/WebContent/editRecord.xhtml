@@ -62,14 +62,21 @@
                         <h:outputText value="Transaction No.:  " />
                         <h:inputText id="recObjInv" value="#{recViewObj.recordInvNum}" 
                                      validatorMessage="Please enter Transaction Number using alphabetical letters and/or numbers" size="20">
-                            <f:validateRegex pattern="[a-zA-Z0-9]+"/>
+                            <f:validateRegex pattern="[a-zA-Z0-9\s]+"/>
+                        </h:inputText>
+                        <h:outputText value="Tenant ID:  " />
+                        <h:inputText id="recObjTen" value="#{recViewObj.recordTenantID}" 
+                                     validatorMessage="Please enter numbers for Tenant ID" size="20">
+                            <f:validateRegex pattern="[0-9]+"/>
                         </h:inputText>
                                                  
                         <h:outputText value="Account Name:  " />
                         <h:selectOneMenu id="recObjAccount" value="#{recViewObj.recordAccount}" required="true" requiredMessage="Account Name is required">
                             <f:selectItems value="#{account.viewAllAccountNames()}" />
-                            
                         </h:selectOneMenu>
+                        <h:outputText value="Reason for Edit?  " />
+                        <h:inputText id="recObjReason" value ="#{recViewObj.recordReason}" required = "true" requiredMessage="'Reason for Edit' is required">   
+                        </h:inputText> 
                         
                     </h:panelGrid>
                                       
@@ -80,11 +87,12 @@
                         <h:message for="recObjDate" />
                         <h:message for="recObjInv" /> 
                         <h:message for="recObjAccount"/>
+                        <h:message for="recObjReason"/>
                         
                         </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{record.updateRecordDetails(recViewObj)}" class="confirmUpdate" />
-                    <h:commandButton value="Undo Changes" type="reset" />
-                    <h:commandButton onclick="history.back(); return false;" value="Cancel"/>
+                    <h:commandButton value="Submit" action="#{record.updateRecordDetails(recViewObj, empRecordObj.employeeID)}" class="confirmUpdate" />
+                    <h:commandButton value="Undo Changes" action="editRecord" immediate="true"/>
+                    <h:commandButton action="#{record.viewIndivRecord(recViewObj.recordID)}" value="Cancel" immediate="true"/>
                     </div>
                     </div>   
                 </h:form>

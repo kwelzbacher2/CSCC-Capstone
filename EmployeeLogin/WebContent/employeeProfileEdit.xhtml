@@ -36,8 +36,9 @@
                                      validatorMessage="Please enter First Name using alphabetical letters" size="12">
                             <f:validateRegex pattern="[a-zA-Z]+"/>
                         </h:inputText>
-                        <h:outputText value="Middle Initial:  " />
-                        <h:inputText id="middleInit" value ="#{empRecordObj.middleInit}" validatorMessage="Please enter 1 letter for Middle Initial" size="1">
+                        <h:outputText value="MI:  " />
+                        <h:inputText id="middleInit" value ="#{empRecordObj.middleInit}" required="true" requiredMessage="Middle Initial is required" 
+                                       validatorMessage="Please enter 1 letter for Middle Initial" size="1" >
                             
                             <f:validateRegex pattern="^[a-zA-Z]$"/>
                         </h:inputText> 
@@ -144,8 +145,8 @@
                         <h:message for="dob" />
                     </h:panelGrid>
                     <h:commandButton value="Submit" action="#{employee.updateEmployeeDetails(empRecordObj)}" class="confirmUpdate" />
-                    <h:commandButton value="Undo Changes" type="reset" />
-                    <h:commandButton onclick="history.back(); return false;" value="Cancel"/>
+                    <h:commandButton value="Undo Changes" action="employeeProfileEdit" immediate="true"/>
+                    <h:commandButton action="employeeProfile" value="Cancel" immediate="true"/>
                     </div>
                     </div>   
                 </h:form>

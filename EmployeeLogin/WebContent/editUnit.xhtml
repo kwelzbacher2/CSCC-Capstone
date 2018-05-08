@@ -145,8 +145,8 @@
                         <h:message for="unitTenID" />
                         </h:panelGrid>
                     <h:commandButton value="Submit" action="#{unit.updateUnitDetails(unitViewObj)}" class="confirmUpdate"/>
-                    <h:commandButton value="Undo Changes" type="reset" />
-                    <h:commandButton onclick="history.back(); return false;" value="Cancel"/>
+                    <h:commandButton value="Undo Changes" action="editUnit" immediate="true"/>
+                    <h:commandButton action="#{unit.viewUnitRecord(unitViewObj.unitID, '')}" value="Cancel" immediate="true"/>
                     </div>
                     </div>   
                 </h:form>

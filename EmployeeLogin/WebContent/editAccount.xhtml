@@ -24,7 +24,7 @@
 
             <ui:define name="content">
                 
-                <h:form id="tenForm">
+                <h:form id="editAccForm">
                     <div class="empInfo" >
                     <h3 class="pageTitle">Edit Account Information</h3>
                     <div class="editBox">
@@ -38,7 +38,7 @@
                         </h:inputText>
                     
                         <h:outputText value="Account Type:  " />
-                        <h:selectOneMenu id="accObjType" value="#{accViewObj.accountType}" required="true" requiredMessage = "Account Type is required">
+                        <h:selectOneMenu id="accObjType" value="#{accViewObj.accountType}" required="true" tabindex="2" requiredMessage = "Account Type is required">
                             
                             <f:selectItem itemValue="Asset"/>
                             <f:selectItem itemValue="Liability"/>
@@ -55,9 +55,9 @@
                         
                         
                      </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{account.updateAccountDetails(accViewObj)}" class="confirmUpdate"/>
-                    <h:commandButton value="Undo Changes" type="reset" />
-                    <h:commandButton onclick="history.back(); return false;" value="Cancel"/>
+                    <h:commandButton value="Submit" action="#{account.updateAccountDetails(accViewObj, accViewObj.nameHolder)}" class="confirmUpdate" tabindex="3"/>
+                    <h:commandButton value="Undo Changes" action="editAccount" tabindex="4" immediate="true"/>
+                    <h:commandButton action="#{account.viewAccountInfo(accountObj.nameHolder)}" value="Cancel" tabindex="5" immediate="true"/>
                     </div>
                     </div>   
                 </h:form>

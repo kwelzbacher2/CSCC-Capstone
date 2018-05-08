@@ -34,8 +34,16 @@ public class Record implements Serializable{
     private boolean recCred;
     private double recordDebitAmount;
     private double recordCreditAmount;
+    private String recordReason; 
     
-    private List<Record> recordList = new ArrayList();
+    public String getRecordReason() {
+		return recordReason;
+	}
+	public void setRecordReason(String recordReason) {
+		this.recordReason = recordReason;
+	}
+
+	private List<Record> recordList = new ArrayList();
     
     DecimalFormat df = new DecimalFormat("0.00");
     
@@ -191,6 +199,7 @@ public class Record implements Serializable{
     }
     //Obtain all records for account from database
     public List<Record> getAllRecords(String accountName){
+    	
     	return DatabaseOperation.getAllRecordsFromDB(accountName);
     }
     //Obtain all records based on search criteria
@@ -207,8 +216,8 @@ public class Record implements Serializable{
         return DatabaseOperation.viewIndivRecordInDB(recordID);
     }
     //Update record information in database
-    public String updateRecordDetails(Record updateRecObj){
-        return DatabaseOperation.updateRecordDetailsInDB(updateRecObj);
+    public String updateRecordDetails(Record updateRecObj, int alterEmp){
+        return DatabaseOperation.updateRecordDetailsInDB(updateRecObj, alterEmp);
     }
     //Insert new record into database
     public String createNewRecord(Record recNewObj){
@@ -219,9 +228,9 @@ public class Record implements Serializable{
     	return DatabaseOperation.getTenantAccRecordsInDB(tenantID);
     }
     //Delete record in the database
-    public String deleteRecord(Record deleteRecObj){
+    public String deleteRecord(Record deleteRecObj, int deleteEmp){
     	int recordIDDel = deleteRecObj.getRecordID();
-    	return DatabaseOperation.deleteRecordInDB(recordIDDel);    	
+    	return DatabaseOperation.deleteRecordInDB(recordIDDel, deleteEmp);    	
     }
     //Method to post all rent charges to respective accounts
     public String postRentToAR(){
@@ -231,6 +240,14 @@ public class Record implements Serializable{
     public String postLateFeeToAR(){
     	return DatabaseOperation.postLateFeeToARInDB();
     }
-    
+    public void clearList(){
+    	setRecordName(null);
+    	setEntryAmount(0);
+    	setRecordIsCredit("Credit");
+    	setRecordDate(null);
+    	setRecordInvNum(null);
+    	setRecordTenantID(null);
+    	setRecordAccount("");
+    }
  
 }

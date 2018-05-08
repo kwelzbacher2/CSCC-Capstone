@@ -29,15 +29,16 @@
                     <h3 class="pageTitle">Edit Tenant Profile</h3>
                     <div class="editBox">
                     
-                    <h:panelGrid class="editInfo" columns="6" columnClasses="firstLeft, firstRight, mLeft, midRight, lastLeft, lastRight"> 
+                    <h:panelGrid class="editInfo" columns="6" columnClasses="firstLeft, firstRight, empMLeft, midRight, empLLeft, lastRight"> 
                         
                         <h:outputText value="First Name:  " />
                         <h:inputText id="tenFirstName" value ="#{tenantViewObj.firstName}" tabindex="1" required="true" requiredMessage="First Name is required"
                                      validatorMessage="Please enter First Name using alphabetical letters" size="12">
                             <f:validateRegex pattern="[a-zA-Z]+"/>
                         </h:inputText>
-                        <h:outputText value="Middle Initial:  " />
-                        <h:inputText id="tenMI" value ="#{tenantViewObj.mi}" validatorMessage="Please enter 1 letter for Middle Initial" size="1">
+                        <h:outputText value="MI:  " />
+                        <h:inputText id="tenMI" value ="#{tenantViewObj.mi}" required="true" requiredMessage="Middle Initial is required"
+                                    validatorMessage="Please enter 1 letter for Middle Initial" size="1">
                             
                             <f:validateRegex pattern="^[a-zA-Z]$"/>
                         </h:inputText> 
@@ -153,8 +154,8 @@
                         <h:message for="tenDOB" />
                         </h:panelGrid>
                     <h:commandButton value="Submit" action="#{tenant.updateTenantDetails(tenantViewObj)}" class="confirmUpdate"/>
-                    <h:commandButton value="Undo Changes" type="reset" />
-                    <h:commandButton onclick="history.back(); return false;" value="Cancel"/>
+                    <h:commandButton value="Undo Changes" action="tenantProfileEdit" immediate="true"/>
+                    <h:commandButton action="#{tenant.viewTenantRecord(tenantViewObj.tenantID, '')}" value="Cancel" immediate="true"/>
                     </div>
                     </div>   
                 </h:form>

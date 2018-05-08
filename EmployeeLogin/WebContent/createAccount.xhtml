@@ -34,8 +34,8 @@
                         </h:inputText>
                     
                         <h:outputText value="Account Type:  " />
-                        <h:selectOneMenu id="newAccType" value="#{account.accountType}" required="true" requiredMessage = "Account Type is required">
-                            
+                        <h:selectOneMenu id="newAccType" value="#{account.accountType}" required="true" requiredMessage = "Account Type is required" tabindex="2">
+                            <f:selectItem itemValue=""/>
                             <f:selectItem itemValue="Asset"/>
                             <f:selectItem itemValue="Liability"/>
                             <f:selectItem itemValue="Equity"/>
@@ -49,8 +49,10 @@
                         <h:message for="newAccType"/>
                       
                     </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{account.createNewAccount(account)}" />
-                    <h:commandButton value="Clear" type="reset"/>
+                    <h:commandButton value="Submit" action="#{account.createNewAccount(account)}" tabindex="3"/>
+                    <h:commandButton value="Clear" action="#{account.clearList}" immediate="true" tabindex="4">
+                        <f:resetValues render="accountForm:newAccName accountForm:newAccType"/>
+                    </h:commandButton>
                     </div>
                     </div>
                 </h:form>

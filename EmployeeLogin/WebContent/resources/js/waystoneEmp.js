@@ -25,12 +25,12 @@ $(function(){
     	minDate: 0,
     });
     
-    $(".confirm").on('click', function(){
-    	return confirm("Are you sure you want to delete Record?");
+    $(".confirmRec").on('click', function(){
+    	return confirm("Are you sure you want to delete Record? It will be saved in the database but removed from searches and forms.");
     });
     
     $(".confirmAccount").on('click', function(){
-    	return confirm("Are you sure you want to delete this Account and all of it's Records?");
+    	return confirm("Are you sure you want to delete this Account and all of it's Records? It will be saved in the database but removed from searches and forms.");
     });
     $(".confirmTenant").on('click', function(){
     	return confirm("Are you sure you want to delete this Tenant?");
@@ -40,6 +40,9 @@ $(function(){
     });
     $(".confirmUpdate").on('click', function(){
     	return confirm("Are you sure you want to update these changes?");
+    });
+    $(".confirmRecUpdate").on('click', function(){
+    	return confirm("Are you sure you want to update these changes? This will create a new record and remove the current record with reason saved.");
     });
     $(".rentButton").on('click', function(){
     	return confirm("Are you sure you want to post rent charges for all Units for this month?");
@@ -59,8 +62,13 @@ $(function(){
     $(".finish").on('click', function(){
     	return confirm("Are you sure you want to mark this request as contacted and remove it from the list?");
     });
-    $(".delete").on('click', function(){
+    $(".deleteInv").on('click', function(){
     	return confirm("Are you sure you want to delete this item from Inventory?");
+    });
+    $('#empClear').on('click', function(){
+    	$('input[type=text]').each(function() {
+    		$(this).val('');
+    	});    	
     });
     
     $.ajax({

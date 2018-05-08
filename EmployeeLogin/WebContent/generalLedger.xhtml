@@ -10,7 +10,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Action Center</title>
+        <title>General Ledger</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
             <link rel="stylesheet" href="/resources/demos/style.css"/>
@@ -42,15 +42,22 @@
                             <h:column> 
                                 <f:facet name="header">Transaction No.</f:facet>
                                 <h:commandLink value="#{receiveObj.recordInvNum}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount" value="Balance: "/></f:facet>
                             </h:column>
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
                                 <h:commandLink value="#{receiveObj.formatDebAmount()}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
+                                
+                                <f:facet name="footer"><h:outputText styleClass="amount"   value="#{account.getCurrentDebitBalance('ACCOUNTS RECEIVABLE')}"/></f:facet>
+                                
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
                                 <h:commandLink value="#{receiveObj.formatCredAmount()}" action="#{record.viewIndivRecord(receiveObj.recordID)}" class="table-link"/>
+                                
+                                <f:facet name="footer"><h:outputText styleClass="amount"  value="#{account.getCurrentCreditBalance('ACCOUNTS RECEIVABLE')}"/></f:facet>
+                                
                             </h:column>
                                                                                                      
                         </h:dataTable>
@@ -70,15 +77,22 @@
                             <h:column> 
                                 <f:facet name="header">Transaction No.</f:facet>
                                 <h:commandLink value="#{cashObj.recordInvNum}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount" value="Balance:"/></f:facet>
                             </h:column>
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
                                 <h:commandLink value="#{cashObj.formatDebAmount()}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
+                                
+                                <f:facet name="footer"><h:outputText styleClass="amount"  value="#{account.getCurrentDebitBalance('RENT CASH ACCOUNT')}"/></f:facet>
+                                
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
                                 <h:commandLink value="#{cashObj.formatCredAmount()}" action="#{record.viewIndivRecord(cashObj.recordID)}" class="table-link"/>
+                                
+                                <f:facet name="footer"><h:outputText styleClass="amount"  value="#{account.getCurrentCreditBalance('RENT CASH ACCOUNT')}"/></f:facet>
+                                
                             </h:column> 
                                                                                                     
                         </h:dataTable>
@@ -97,15 +111,18 @@
                             <h:column> 
                                 <f:facet name="header">Transaction No.</f:facet>
                                 <h:commandLink value="#{incomeObj.recordInvNum}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount" value="Balance:"/></f:facet>
                             </h:column>
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
                                 <h:commandLink value="#{incomeObj.formatDebAmount()}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount"   value="#{account.getCurrentDebitBalance('RENTAL INCOME')}"/></f:facet>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
                                 <h:commandLink value="#{incomeObj.formatCredAmount()}" action="#{record.viewIndivRecord(incomeObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount"  value="#{account.getCurrentCreditBalance('RENTAL INCOME')}"/></f:facet>
                             </h:column> 
                                                                                                     
                         </h:dataTable>
@@ -124,15 +141,18 @@
                             <h:column> 
                                 <f:facet name="header">Transaction No.</f:facet>
                                 <h:commandLink value="#{payableObj.recordInvNum}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount" value="Balance:"/></f:facet>
                             </h:column>
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
                                 <h:commandLink value="#{payableObj.formatDebAmount()}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount"   value="#{account.getCurrentDebitBalance('ACCOUNTS PAYABLE')}"/></f:facet>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
                                 <h:commandLink value="#{payableObj.formatCredAmount()}" action="#{record.viewIndivRecord(payableObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount"  value="#{account.getCurrentCreditBalance('ACCOUNTS PAYABLE')}"/></f:facet>
                             </h:column>
                                                                                                     
                         </h:dataTable>
@@ -151,15 +171,18 @@
                             <h:column> 
                                 <f:facet name="header">Transaction No.</f:facet>
                                 <h:commandLink value="#{bankObj.recordInvNum}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount" value="Balance:"/></f:facet>
                             </h:column>
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
                                 <h:commandLink value="#{bankObj.formatDebAmount()}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount"   value="#{account.getCurrentDebitBalance('BANK ACCOUNT')}"/></f:facet>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
                                 <h:commandLink value="#{bankObj.formatCredAmount()}" action="#{record.viewIndivRecord(bankObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount"  value="#{account.getCurrentCreditBalance('BANK ACCOUNT')}"/></f:facet>
                             </h:column> 
                                                                                                     
                         </h:dataTable>
@@ -179,15 +202,18 @@
                             <h:column> 
                                 <f:facet name="header">Transaction No.</f:facet>
                                 <h:commandLink value="#{billsObj.recordInvNum}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount" value="Balance:"/></f:facet>
                             </h:column>
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
                                 <h:commandLink value="#{billsObj.formatDebAmount()}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount"   value="#{account.getCurrentDebitBalance('BILLS EXPENSE')}"/></f:facet>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
                                 <h:commandLink value="#{billsObj.formatCredAmount()}" action="#{record.viewIndivRecord(billsObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount"  value="#{account.getCurrentCreditBalance('BILLS EXPENSE')}"/></f:facet>
                             </h:column> 
                                                                                                     
                         </h:dataTable>
@@ -207,15 +233,18 @@
                             <h:column> 
                                 <f:facet name="header">Transaction No.</f:facet>
                                 <h:commandLink value="#{fixObj.recordInvNum}" action="#{record.viewIndivRecord(fixObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount" value="Balance:"/></f:facet>
                             </h:column>
                             <h:column> 
                         
                                 <f:facet name="header">DEBIT</f:facet>
                                 <h:commandLink value="#{fixObj.formatDebAmount()}" action="#{record.viewIndivRecord(fixObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount"   value="#{account.getCurrentDebitBalance('FIXED ASSETS')}"/></f:facet>
                             </h:column>
                             <h:column> 
                                 <f:facet name="header">CREDIT</f:facet>
                                 <h:commandLink value="#{fixObj.formatCredAmount()}" action="#{record.viewIndivRecord(fixObj.recordID)}" class="table-link"/>
+                                <f:facet name="footer"><h:outputText styleClass="amount"  value="#{account.getCurrentCreditBalance('FIXED ASSETS')}"/></f:facet>
                             </h:column> 
                                                                                                     
                         </h:dataTable>

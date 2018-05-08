@@ -34,37 +34,37 @@
                     <h:panelGrid class="editInfo" columns="2" columnClasses="left, right clearInput"> 
                         
                         <h:outputText value="Item Type:  " />
-                        <h:selectOneMenu id="newItem" value="#{inventory.invItem}" required="true" requiredMessage="Item Type is required" class="clearSelect" binding="#{menu}">
+                        <h:selectOneMenu id="newItem" value="#{inventory.invItem}" required="true" requiredMessage="Item Type is required" class="clearSelect" binding="#{menu}" tabindex="1">
                             <f:selectItem itemValue="" />
                             <f:selectItems value="#{inventory.viewAllItemTypes()}" />
                             <f:selectItem itemValue="Other" />
                             
                         </h:selectOneMenu>
                         <h:outputText value="Input Item Type if Other:  " />
-                        <h:inputText id="addItem" value="#{inventory.addItem}" required="#{menu.value eq 'Other'}"
+                        <h:inputText id="addItem" value="#{inventory.addItem}" required="#{menu.value eq 'Other'}" tabindex="2"
                         	validatorMessage = "Please enter only letters or dashes" requiredMessage="Must enter item type for Other">
                         	<f:validateRegex pattern="[A-Za-z\-]+"/>
                         </h:inputText>
                      
                         <h:outputText value="Cost:  " />
-                        <h:inputText id="invCost" value ="#{inventory.itemCostEntry}" required = "true" requiredMessage="Item Cost is required"
+                        <h:inputText id="invCost" value ="#{inventory.itemCostEntry}" required = "true" requiredMessage="Item Cost is required" tabindex="3"
                         				converterMessage="Please enter only digits for cost such as 1234.00" >
                              <f:convertNumber />
                         </h:inputText> 
                
                         <h:outputText value="Date Obtained:  " />
-                        <h:inputText id="invDate" value ="#{inventory.purchDate}" styleClass="dobDate clearInput" required = "true" requiredMessage ="Date is required"
+                        <h:inputText id="invDate" value ="#{inventory.purchDate}" styleClass="dobDate clearInput" required = "true" requiredMessage ="Date is required" tabindex="4"
                                      size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date">     
                             <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
                                      
                         </h:inputText>          
                         <h:outputText value="Description:  " />
-                        <h:inputTextarea id="invDesc" value="#{inventory.itemDesc}"  class="clearInput" required = "true" requiredMessage="Description is required"
+                        <h:inputTextarea id="invDesc" value="#{inventory.itemDesc}"  class="clearInput" required = "true" requiredMessage="Description is required" tabindex="5"
                                       row = "20" col="40" validatorMessage="Please limit to 255 characters">
                            <f:validateLength maximum="255"/>
                        </h:inputTextarea> 
                         <h:outputText value="Is it Paid for?  " />
-                        <h:selectOneMenu id="invPaid" value="#{inventory.invPaid}" required="true" requiredMessage="'Is it Paid?' is required" class="clearSelect">
+                        <h:selectOneMenu id="invPaid" value="#{inventory.invPaid}" required="true" requiredMessage="'Is it Paid?' is required" class="clearSelect" tabindex="6">
                             <f:selectItem itemValue="Yes" />
                             <f:selectItem itemValue="No" />
                         </h:selectOneMenu>
@@ -79,8 +79,10 @@
                         <h:message for="invDesc"/>
                         
                         </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{inventory.createNewInventory(inventory)}" />
-                    <h:commandButton value="Clear" type="reset"/>
+                    <h:commandButton value="Submit" action="#{inventory.createNewInventory(inventory)}" tabindex="7" />
+                    <h:commandButton value="Clear" action="#{inventory.clearList}" immediate="true" tabindex="8">
+                        <f:resetValues render="inventForm:newItem inventForm:addItem inventForm:invCost inventForm:invDate inventForm:invDesc"/>
+                    </h:commandButton>
                     
                     </div>
                     </div>

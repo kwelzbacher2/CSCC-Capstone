@@ -36,27 +36,27 @@
                                      validatorMessage="Please enter Building using alphabetical letters" size="20">
                             <f:validateRegex pattern="[\w\s]+"/>
                         </h:inputText>
-                     
+                        
                         <h:outputText value="Apartment:  " />
-                        <h:inputText id="newUnitApt" value ="#{unit.unitAptNum}"  required = "true" validatorMessage="Please enter 3 digits for Apartment Number" size="3">
+                        <h:inputText id="newUnitApt" value ="#{unit.unitAptNum}"  required = "true" validatorMessage="Please enter 3 digits for Apartment Number" size="3" tabindex="2">
                             
                             <f:validateRegex pattern="\d{3}"/>
                         </h:inputText> 
                     
                     
                         <h:outputText value="Address:  " />
-                        <h:inputText id="newUnitAddress" value="#{unit.unitAddress}" required="true" requiredMessage="Address is required"
+                        <h:inputText id="newUnitAddress" value="#{unit.unitAddress}" required="true" requiredMessage="Address is required" tabindex="3"
                                      validatorMessage="Incorrect Address" size="30">
                             <f:validateRegex pattern="\w+(\s\w+){2,}" />
                         </h:inputText>
                         </h:panelGrid>
                        <h:panelGrid class="editInfo" columns="6" columnClasses="cityLeft, cityRight, stateLeft, midRight, zipLeft, zipRight">
                         <h:outputText value="City:  " />
-                        <h:inputText id="newUnitCity" value="#{unit.unitCity}" required="true" requiredMessage="City is required" validatorMessage="Incorrect City" size="12">
+                        <h:inputText id="newUnitCity" value="#{unit.unitCity}" required="true" requiredMessage="City is required" validatorMessage="Incorrect City" size="12" tabindex="4">
                             <f:validateRegex pattern="[a-zA-Z\s-]+"/>
                         </h:inputText>
                         <h:outputText value="State:  " />
-                            <h:selectOneMenu id="newUnitState" value="#{unit.unitState}" required="true" requiredMessage="State is required" >
+                            <h:selectOneMenu id="newUnitState" value="#{unit.unitState}" required="true" requiredMessage="State is required" tabindex="5">
                                 <f:selectItem itemValue="AL"/>
                                 <f:selectItem itemValue="AK"/>
                                 <f:selectItem itemValue="AZ"/>
@@ -110,7 +110,7 @@
                             </h:selectOneMenu> 
                         
                         <h:outputText value="Zipcode:  " />
-                        <h:inputText id="newUnitZip" value="#{unit.unitZip}" required="true" validatorMessage="Please enter 5 digits for Zipcode" size="5" >
+                        <h:inputText id="newUnitZip" value="#{unit.unitZip}" required="true" validatorMessage="Please enter 5 digits for Zipcode" size="5" tabindex="6">
                             <f:validateRegex pattern="[0-9]{5}"/>  
                         </h:inputText>
                         
@@ -119,7 +119,7 @@
                     <h:panelGrid class="editInfo" columns="2" columnClasses="rentLeft, rentRight">
                         
                         <h:outputText value="Rent Amount:  " />
-                        <h:inputText id="newUnitRent" value ="#{unit.unitRent}"  
+                        <h:inputText id="newUnitRent" value ="#{unit.unitRent}"  tabindex="7"
                                      validatorMessage="Please enter digits in the form of 1234 for Rent" size="6">
                             <f:validateRegex pattern="[0-9]+"/>
                         </h:inputText>
@@ -137,8 +137,10 @@
                         	<h:message for="newUnitRent" />
                                                                     
                         </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{unit.insertNewUnit(unit)}" />
-                    <h:commandButton value="Clear" type="reset"/>
+                    <h:commandButton value="Submit" action="#{unit.insertNewUnit(unit)}" tabindex="8"/>
+                    <h:commandButton value="Clear" action="#{unit.clearList}" immediate="true" tabindex="9">
+                        <f:resetValues render="unitForm:newUnitBuilding unitForm:newUnitApt unitForm:newUnitAddress unitForm:newUnitCity unitForm:newUnitState unitForm:newUnitZip unitForm:newUnitRent"/>
+                    </h:commandButton>
                     </div>
                     </div>   
                 </h:form>

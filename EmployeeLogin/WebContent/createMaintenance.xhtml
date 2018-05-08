@@ -29,7 +29,7 @@
                         
                         <h:outputText value="Job Type:  " />
                         
-                        <h:selectOneMenu id="newJobType" value="#{maintenance.jobType}" required="true" requiredMessage="Job Type is required">
+                        <h:selectOneMenu id="newJobType" value="#{maintenance.jobType}" required="true" requiredMessage="Job Type is required" tabindex="1">
                             <f:selectItem itemValue=""/>
                             <f:selectItem itemValue="Electric"/>
                             <f:selectItem itemValue="Damage"/>
@@ -39,17 +39,17 @@
                         </h:selectOneMenu>
                         <h:outputText value="Job Description:  " />
                         <h:inputTextarea id="newJobDesc" value ="#{maintenance.jobDesc}" required = "true" requiredMessage="Job Description is required"
-                                      row = "20" col="40">
+                                      row = "20" col="40" tabindex="2">
                         </h:inputTextarea> 
                         
                         <h:outputText value="Date Requested:  " />
                         <h:inputText id="newDateReq" value ="#{maintenance.dateReq}" class="maintDate" required = "true" requiredMessage ="Date Requested is required"
-                                     size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date">     
+                                     size="10" validatorMessage="Please enter digits in the form of 1999-01-01 for Date" tabindex="3">     
                             <f:validateRegex pattern="\d{4}-\d{2}-\d{2}"/>
                                      
                         </h:inputText>
                         <h:outputText value="Tenant ID:  "/>
-                        <h:inputText id="newTenReq" value="#{maintenance.tenantID}" required="true" requiredMessage="Tenant ID is required" size="12" />
+                        <h:inputText id="newTenReq" value="#{maintenance.tenantID}" required="true" requiredMessage="Tenant ID is required" size="12" tabindex="4"/>
                     </h:panelGrid>
                                       
                         <h:panelGrid class ="warning" columns ="1">
@@ -59,8 +59,10 @@
                         <h:message for="newTenReq" />
                         
                         </h:panelGrid>
-                    <h:commandButton value="Submit" action="#{maintenance.createNewRequest(maintenance)}" />
-                    <h:commandButton value="Clear" type="reset"/>
+                    <h:commandButton value="Submit" action="#{maintenance.createNewRequest(maintenance)}" tabindex="5" />
+                    <h:commandButton value="Clear" action="#{maintenance.clearList}" immediate="true" tabindex="6">
+                        <f:resetValues render="newReqForm:newJobType newReqForm:newJobDesc newReqForm:newDateReq newReqFor:newTenReq"/>
+                    </h:commandButton>
                     </div>
                     </div>
                 </h:form>

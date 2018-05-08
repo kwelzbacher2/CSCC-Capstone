@@ -38,6 +38,7 @@
                                         <div class="dropdown-content">
                                         		<h:link value="Action Center" outcome="actionCenter" class="content"/><br/>
                                                 <h:link value="General Ledger" outcome="generalLedger" class="content"/> <br/>
+                                                <h:link value="Balance Sheet" outcome="balanceSheet" class="content"/> <br/>
                                                 <h:link value="Accounts" outcome="accounts" class="content"/><br/>
                                                 <h:link value="Create New Account" outcome="createAccount" class="content"/><br/>
                                                 <h:link value="Create New Record" outcome="createRecord" class="content"/><br/>
@@ -111,12 +112,10 @@
                                                 <h:link value="Create New Request" outcome="createMaintenance" class="content"/>
                                         </div>
                             </li>
-                            <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
-                            <li class="navList dropdown">
-                            	<h:link value="Additional Company Information" outcome="companyInfo" class="link"/>
-                            		<div class="dropdown-content">
-                                                <h:link value="Waystone Properties" outcome="companyInfo" class="content"/>
-                                    </div>
+                            <li class="navList"><h:link value="Training and Documents" outcome="training" class="link"/></li>
+                            <li class="navList">
+                            	<h:link value="Waystone Properties" outcome="companyInfo" class="link"/>
+                            		
                             </li>
                         </ul>
                     </h:panelGroup>
@@ -147,7 +146,7 @@
                                                 <h:link value="Create New Tenant" outcome="insertTenant" class="content"/>  
                                         </div> 
                             </li>
-                            <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
+                            <li class="navList"><h:link value="Training and Documents" outcome="training" class="link"/></li>
                             <li class="navList dropdown">
                             	<h:link value="Additional Company Information" outcome="companyInfo" class="link"/>
                             		<div class="dropdown-content">
@@ -197,7 +196,7 @@
                                                 <h:link value="Create New Request" outcome="createMaintenance" class="content"/> 
                                         </div>
                             </li>
-                            <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
+                            <li class="navList"><h:link value="Training and Documents" outcome="training" class="link"/></li>
                             <li class="navList dropdown">
                             	<h:link value="Additional Company Information" outcome="companyInfo" class="link"/>
                             		<div class="dropdown-content">
@@ -248,11 +247,8 @@
                                         </div> 
                             </li>
                             <li class="navList"><h:link value="Training Materials" outcome="training" class="link"/></li>
-                            <li class="navList dropdown">
-                            	<h:link value="Additional Company Information" outcome="companyInfo" class="link"/>
-                            		<div class="dropdown-content">
-                                                <h:link value="Waystone Properties" outcome="companyInfo" class="content"/>
-                                    </div>
+                            <li class="navList">
+                            	<h:link value="Waystone Properties" outcome="companyInfo" class="link"/>          
                             </li>
                         </ul>
                     </h:panelGroup>

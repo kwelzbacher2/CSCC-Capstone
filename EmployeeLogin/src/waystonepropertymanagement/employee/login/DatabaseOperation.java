@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +37,8 @@ public class DatabaseOperation {
     public static ResultSet resultSetObj;
     public static PreparedStatement pstmt;
     
+    
+    //Employee Database Operations
     public static int getUserAttempts(String email){
     	
     	int userAttempts = 0;
@@ -96,7 +99,7 @@ public class DatabaseOperation {
     	
     }
     
-    //Employee Database Operations
+ 
     public static boolean empValidate(String email, String password, String active) {
         
         try {
@@ -392,13 +395,28 @@ public class DatabaseOperation {
        	FacesContext.getCurrentInstance().addMessage("createEmpForm:empFirstName",
                    new FacesMessage(FacesMessage.SEVERITY_WARN, "New Employee was successfully created",
                    "New Employee was successfully created"));
+       	clearList(newEmpObj);
            
        } else {
        	FacesContext.getCurrentInstance().addMessage("createEmpForm:empFirstName",
                    new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem when creating the new Employee",
                    "There was a problem when creating the new Employee"));
        }
-       return "createEmployee.xhtml?faces=redirect=true";
+       return "createEmployee.xhtml?faces-redirect=true";
+    }
+    
+    public static void clearList(Employee clearEmp){
+    	clearEmp.setFirstName(null);
+    	clearEmp.setLastName(null);
+    	clearEmp.setMiddleInit(null);
+    	clearEmp.setAddress(null);
+    	clearEmp.setCity(null);
+    	clearEmp.setZipcode(null);
+    	clearEmp.setState("AL");
+    	clearEmp.setRole("");
+    	clearEmp.setPhone(null);
+    	clearEmp.setNewEmail(null);
+    	clearEmp.setDOB(null);
     }
     
     public static String unlockEmpAccountStatusInDB(String accEmpEmail){
@@ -793,7 +811,6 @@ public class DatabaseOperation {
     
     public static String insertNewTenantInDB(Tenant newTenantObj){
         int saveResult = 0;
-        String navigationResult = "";
         try{
             connObj = DataConnect.getConnection();
             pstmt = connObj.prepareStatement("INSERT INTO TENANT (FIRSTNAME, LASTNAME, MI, PERM_ADDRESS, PERM_CITY, PERM_STATE, PERM_ZIP, PHONE, EMAIL, DOB) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -813,19 +830,31 @@ public class DatabaseOperation {
         } finally {    
                  DataConnect.close(connObj);
         }
-       
         if(saveResult !=0){
-        	FacesContext.getCurrentInstance().addMessage("createTenForm:newMI",
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "New Tenant was successfully created",
-                    "New Tenant was successfully created"));
-        	
-            
-        } else {
-        	FacesContext.getCurrentInstance().addMessage("createTenForm:newMI",
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem when creating the new Tenant",
-                    "There was a problem when creating the new Tenant"));
-        }
-        return "insertTenant.xhtml?faces-redirect=true";
+           	FacesContext.getCurrentInstance().addMessage("createTenForm:newFirstName",
+                       new FacesMessage(FacesMessage.SEVERITY_WARN, "New Tenant was successfully created",
+                       "New Tenant was successfully created"));
+           	clearTenantList(newTenantObj);
+               
+           } else {
+           	FacesContext.getCurrentInstance().addMessage("createTenForm:newFirstName",
+                       new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem when creating the new Tenant",
+                       "There was a problem when creating the new Tenant"));
+           }
+        
+        return "insertTenant.xhtml?faces=redirect=true";
+    }
+    public static void clearTenantList(Tenant clearTen){
+    	clearTen.setFirstName(null);
+    	clearTen.setLastName(null);
+    	clearTen.setMi(null);
+    	clearTen.setPermAddress(null);
+    	clearTen.setPermCity(null);
+    	clearTen.setPermZip(null);
+    	clearTen.setPermState("AL");
+    	clearTen.setPhone(null);
+    	clearTen.setEmail(null);
+    	clearTen.setDOB(null);
     }
     
     public static double getTenantRecordBalanceInDB(int tenantID){
@@ -834,7 +863,7 @@ public class DatabaseOperation {
     	double balance = 0;
     	 try{
              connObject = DataConnect.getConnection();
-             pstmt = connObject.prepareStatement("SELECT AMOUNT, IS_CREDIT FROM RECORDS WHERE TENANT_ID = ?");
+             pstmt = connObject.prepareStatement("SELECT AMOUNT, IS_CREDIT FROM RECORDS WHERE TENANT_ID = ? AND (IS_DELETED IS NULL OR IS_DELETED='1')");
              pstmt.setInt(1, tenantID);
              resultSetObj = pstmt.executeQuery();
              if(resultSetObj != null) {
@@ -1001,10 +1030,10 @@ public class DatabaseOperation {
                 connObj = DataConnect.getConnection();
                 pstmt = connObj.prepareStatement("UPDATE UNITS SET BUILDING = ?, APTNUM = ?, ADDRESS = ?, "
                     + "CITY = ?, STATE = ?, ZIP = ?, RENT = ?, TENANT_ID = ? WHERE UNIT_ID = ?");
-                pstmt.setString(1, updateUnitObj.getUnitBuilding());
+                pstmt.setString(1, updateUnitObj.getUnitBuilding().toUpperCase());
                 pstmt.setString(2, updateUnitObj.getUnitAptNum());
-                pstmt.setString(3, updateUnitObj.getUnitAddress());
-                pstmt.setString(4, updateUnitObj.getUnitCity());
+                pstmt.setString(3, updateUnitObj.getUnitAddress().toUpperCase());
+                pstmt.setString(4, updateUnitObj.getUnitCity().toUpperCase());
                 pstmt.setString(5, updateUnitObj.getUnitState());
                 pstmt.setString(6, updateUnitObj.getUnitZip());
                 pstmt.setString(7, updateUnitObj.getUnitRent());
@@ -1027,10 +1056,10 @@ public class DatabaseOperation {
             connObj = DataConnect.getConnection();
             
             pstmt = connObj.prepareStatement("INSERT INTO UNITS (BUILDING, APTNUM, ADDRESS, CITY, STATE, ZIP, RENT) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            pstmt.setString(1, newUnitObj.getUnitBuilding());
+            pstmt.setString(1, newUnitObj.getUnitBuilding().toUpperCase());
             pstmt.setString(2, newUnitObj.getUnitAptNum());
-            pstmt.setString(3, newUnitObj.getUnitAddress());
-            pstmt.setString(4, newUnitObj.getUnitCity());
+            pstmt.setString(3, newUnitObj.getUnitAddress().toUpperCase());
+            pstmt.setString(4, newUnitObj.getUnitCity().toUpperCase());
             pstmt.setString(5, newUnitObj.getUnitState());
             pstmt.setString(6, newUnitObj.getUnitZip());
             pstmt.setString(7, newUnitObj.getUnitRent());
@@ -1047,6 +1076,7 @@ public class DatabaseOperation {
         	FacesContext.getCurrentInstance().addMessage("unitForm:newUnitBuilding",
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "New Unit was successfully created",
                     "New Unit was successfully created"));
+        	clearUnit(newUnitObj);
             
         } else {
         	FacesContext.getCurrentInstance().addMessage("unitForm:newUnitBuilding",
@@ -1054,6 +1084,15 @@ public class DatabaseOperation {
                     "There was a problem when creating the new Unit"));
         }
         return "createUnit.xhtml?faces=redirect=true";
+     }
+     public static void clearUnit(Unit clearUn){
+    	 clearUn.setUnitBuilding(null);
+    	 clearUn.setUnitAptNum(null);
+    	 clearUn.setUnitAddress(null);
+    	 clearUn.setUnitCity(null);
+    	 clearUn.setUnitState(null);
+    	 clearUn.setUnitZip(null);
+    	 clearUn.setUnitRent(null);
      }
      
      public static List<String> viewAllBuildingNamesInDB(){
@@ -1102,17 +1141,17 @@ public class DatabaseOperation {
             // Type is not required
             if(accSearchName.equals("")){
                 if(accSearchType.equals("")){
-                    pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS");
+                    pstmt = connObj.prepareStatement("SELECT ACCOUNT_NAME, ACCOUNT_TYPE, acc_id FROM ACCOUNTS WHERE (IS_DELETED IS NULL OR IS_DELETED = '0')");
                 } else {
-                    pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS WHERE ACCOUNT_TYPE = ?");
+                    pstmt = connObj.prepareStatement("SELECT ACCOUNT_NAME, ACCOUNT_TYPE, acc_id FROM ACCOUNTS WHERE ACCOUNT_TYPE = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0')");
                     pstmt.setString(1, accSearchType);
                 }
             } else {
                 if(accSearchType.equals("")){
-                    pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS WHERE ACCOUNT_NAME = ? ");
+                    pstmt = connObj.prepareStatement("SELECT ACCOUNT_NAME, ACCOUNT_TYPE, acc_id FROM ACCOUNTS WHERE ACCOUNT_NAME = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0')");
                     pstmt.setString(1, accSearchName);
                 } else {
-                    pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS WHERE ACCOUNT_NAME = ? AND ACCOUNT_TYPE = ?");
+                    pstmt = connObj.prepareStatement("SELECT ACCOUNT_NAME, ACCOUNT_TYPE, acc_id FROM ACCOUNTS WHERE ACCOUNT_NAME = ? AND ACCOUNT_TYPE = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0')");
                     pstmt.setString(1, accSearchName);
                     pstmt.setString(2, accSearchType);
                 }
@@ -1123,6 +1162,7 @@ public class DatabaseOperation {
                 Account accSearchObj = new Account();
                 accSearchObj.setAccountName(resultSetObj.getString("ACCOUNT_NAME"));
                 accSearchObj.setAccountType(resultSetObj.getString("ACCOUNT_TYPE"));
+                accSearchObj.setAccountID(resultSetObj.getInt("acc_id"));
                 accountSearchList.add(accSearchObj);
                }
                 System.out.println("Total Records Fetched: " + accountSearchList.size());
@@ -1135,13 +1175,39 @@ public class DatabaseOperation {
         return accountSearchList;
      }
      
+     public static List<String> getAccountsByType( String accType){
+         List<String> accountList = new ArrayList<>();
+       
+        try {
+            connObj = DataConnect.getConnection();
+            pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS WHERE ACCOUNT_TYPE = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0')");
+            pstmt.setString(1, accType);
+            
+            resultSetObj = pstmt.executeQuery();
+            if(resultSetObj != null) {
+               while( resultSetObj.next()){
+                String newAcc;
+                newAcc = resultSetObj.getString("ACCOUNT_NAME");
+                
+                accountList.add(newAcc);
+               }
+                System.out.println("Total Records Fetched: " + accountList.size());
+               }
+        } catch (SQLException e) {
+            System.out.println("Login error -->" + e.getMessage());        
+        } finally {    
+              DataConnect.close(connObj);
+        }
+        return accountList;
+     }
+     
      public static String viewAccountInfoInDB(String accountName) {
         Account viewAccount;
         Map<String,Object> sessionMapObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         
         try{
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS WHERE ACCOUNT_NAME = ?");
+            pstmt = connObj.prepareStatement("SELECT * FROM ACCOUNTS WHERE ACCOUNT_NAME = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0')");
             pstmt.setString(1, accountName);
             resultSetObj = pstmt.executeQuery();
             if(resultSetObj != null) {
@@ -1149,7 +1215,8 @@ public class DatabaseOperation {
                 viewAccount = new Account();
                 viewAccount.setAccountName(resultSetObj.getString("ACCOUNT_NAME"));
                 viewAccount.setAccountType(resultSetObj.getString("ACCOUNT_TYPE"));
-                               
+                viewAccount.setNameHolder(viewAccount.getAccountName()); 
+                viewAccount.setTypeHolder(viewAccount.getAccountType());
                 sessionMapObj.put("accViewObj", viewAccount);
                }            
             }        
@@ -1166,7 +1233,7 @@ public class DatabaseOperation {
          List<String> accountNameList = new ArrayList();
          try{
             connObj = DataConnect.getConnection();
-            pstmt = connObj.prepareStatement("SELECT ACCOUNT_NAME FROM ACCOUNTS");
+            pstmt = connObj.prepareStatement("SELECT ACCOUNT_NAME FROM ACCOUNTS WHERE (IS_DELETED IS NULL OR IS_DELETED = '0') ");
             resultSetObj = pstmt.executeQuery();
             while( resultSetObj.next()){
                 accountNameList.add(resultSetObj.getString("ACCOUNT_NAME"));
@@ -1180,15 +1247,20 @@ public class DatabaseOperation {
          
      }
      
-     public static String updateAccountDetailsInDB(Account updateAccountObj){
+     public static String updateAccountDetailsInDB(Account updateAccountObj, String oldName){
           try {
                         
                 connObj = DataConnect.getConnection();
                 pstmt = connObj.prepareStatement("UPDATE ACCOUNTS SET ACCOUNT_NAME = ?, ACCOUNT_TYPE = ? WHERE ACCOUNT_NAME= ?");
                 pstmt.setString(1, updateAccountObj.getAccountName());
                 pstmt.setString(2, updateAccountObj.getAccountType());
-                pstmt.setString(3, updateAccountObj.getAccountName());
+                pstmt.setString(3, oldName);
                 pstmt.executeUpdate();
+                
+                PreparedStatement pst = connObj.prepareStatement("UPDATE RECORDS SET ACCOUNT_NAME = ? WHERE ACCOUNT_NAME = ?");
+                pst.setString(1, updateAccountObj.getAccountName());
+                pst.setString(2, oldName);
+                pst.executeUpdate();
                 
             } catch (SQLException e) {
                 System.out.println("Login error -->" + e.getMessage());        
@@ -1216,7 +1288,7 @@ public class DatabaseOperation {
         	FacesContext.getCurrentInstance().addMessage("accountForm:newAccName",
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "The New Account was successfully created",
                     "The New Account was successfully created"));
-            
+            clearAccount(newAccountObj);
         } else {
         	FacesContext.getCurrentInstance().addMessage("accountForm:newAccName",
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem when creating the new Account",
@@ -1224,17 +1296,23 @@ public class DatabaseOperation {
         }
         return "createAccount.xhtml?faces=redirect=true";
      }
+     public static void clearAccount(Account clearAcc){
+    	 clearAcc.setAccountName(null);
+    	 clearAcc.setAccountType("");
+     }
      
-     public static String deleteAccountInDB(String deleteAccName){
+     public static String deleteAccountInDB(String deleteAccName, int deleteEmp){
      	System.out.println("deleteAccountinDB() : Account Name:" + deleteAccName);
      	try{
      		connObj = DataConnect.getConnection();
-     		pstmt = connObj.prepareStatement("DELETE FROM RECORDS WHERE ACCOUNT_NAME = ?" );
-     		pstmt.setString(1, deleteAccName);
+     		pstmt = connObj.prepareStatement("UPDATE RECORDS SET IS_DELETED = '1', EMP_ALTER = ? WHERE ACCOUNT_NAME = ?" );
+     		pstmt.setInt(1, deleteEmp);
+     		pstmt.setString(2, deleteAccName);
      		pstmt.executeUpdate();
      		
-     		PreparedStatement prepst = connObj.prepareStatement("DELETE FROM ACCOUNTS WHERE ACCOUNT_NAME = ?" );
-     		prepst.setString(1, deleteAccName);
+     		PreparedStatement prepst = connObj.prepareStatement("UPDATE ACCOUNTS SET IS_DELETED = '1', EMP_ALTER = ? WHERE ACCOUNT_NAME = ?" );
+     		prepst.setInt(1, deleteEmp);
+     		prepst.setString(2, deleteAccName);
      		prepst.executeUpdate();
      	} catch (SQLException e) {
              System.out.println("Login error -->" + e.getMessage());        
@@ -1243,8 +1321,184 @@ public class DatabaseOperation {
      	}
      	return "/accounts.xhtml?faces-redirect=true";
      }
+     public static double getCurrentAccountBalance(String accountName){
+    	 double recAmount;
+    	 double finalAmount;
+    	 boolean isCredit;
+    	 double recBalance = 0.0;
+    	 try{
+    		 connObj = DataConnect.getConnection();
+           	 stmtObj = connObj.createStatement();
+           	 pstmt = connObj.prepareStatement("SELECT AMOUNT, IS_CREDIT FROM RECORDS WHERE ACCOUNT_NAME = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
+           	 pstmt.setString(1, accountName);
+             resultSetObj = pstmt.executeQuery();
+             while(resultSetObj.next()) {
+                 recAmount = resultSetObj.getDouble("AMOUNT");
+                 isCredit = resultSetObj.getBoolean("IS_CREDIT");
+                 if(isCredit == true){
+                	 finalAmount = recAmount * -1;
+                	 
+                 } else {
+                	 finalAmount = recAmount;
+                 }
+                 
+                 recBalance += finalAmount;
+             }
+             
+         } catch (SQLException e) {
+                     System.out.println("Login error -->" + e.getMessage());        
+         } finally {    
+           DataConnect.close(connObj);
+         }
+     return recBalance;
+     }
      
+     public static double getCurrentAccountBalance(String accountName, String startDate, String endDate){
+    	 double recAmount;
+    	 double finalAmount;
+    	 boolean isCredit;
+    	 double recBalance = 0.0;
+    	 try{
+    		 connObj = DataConnect.getConnection();
+           	 stmtObj = connObj.createStatement();
+           	 pstmt = connObj.prepareStatement("SELECT AMOUNT, IS_CREDIT FROM RECORDS WHERE ACCOUNT_NAME = ? AND DATE BETWEEN ? AND ? AND (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
+           	 pstmt.setString(1, accountName);
+           	 pstmt.setString(2, startDate);
+           	 pstmt.setString(3,  endDate);
+             resultSetObj = pstmt.executeQuery();
+             while(resultSetObj.next()) {
+                 recAmount = resultSetObj.getDouble("AMOUNT");
+                 isCredit = resultSetObj.getBoolean("IS_CREDIT");
+                 if(isCredit == true){
+                	 finalAmount = recAmount * -1;
+                	 
+                 } else {
+                	 finalAmount = recAmount;
+                 }
+                 
+                 recBalance += finalAmount;
+             }
+             
+         } catch (SQLException e) {
+            System.out.println("Login error balance -->" + e.getMessage());        
+         } finally {
+        	 DataConnect.close(connObj);
+         }
+     return recBalance;
+     }
      
+     public static List<Account> getCurrentSheet(String account, String startDate, String endDate){
+    	 List<Account> sheetList = new ArrayList<>();
+         double balance = 0.0;
+         DecimalFormat df = new DecimalFormat("0.00");
+         Connection conn = null;
+         try {
+             conn = DataConnect.getConnection();
+             PreparedStatement pst = conn.prepareStatement("SELECT ACCOUNT_NAME FROM ACCOUNTS WHERE ACCOUNT_TYPE = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0')");
+             pst.setString(1, account);
+              
+             ResultSet rs = pst.executeQuery();
+             if(rs != null) {
+                while( rs.next()){
+                 Account sheetObj = new Account();
+                 sheetObj.setAccountName(rs.getString("ACCOUNT_NAME"));
+                 balance = getCurrentAccountBalance(sheetObj.getAccountName(), startDate, endDate);
+                 if(account.equals("Liability")||account.equals("Income")){
+                	 balance = balance * -1;
+                 }
+                 sheetObj.setAccBalance(df.format(balance));
+                 
+                 sheetList.add(sheetObj);
+                }
+                 System.out.println("Total Records Fetched: " + sheetList.size());
+                 
+             }
+          } catch (SQLException e) {
+             System.out.println("Login error sheet -->" + e.getMessage());        
+          } finally {    
+              DataConnect.close(conn);
+           }
+         return sheetList;
+     }
+     public static double getLastSheetBalance(String accType){
+    	 Date date = new Date();
+      	 LocalDate today = date.toInstant().atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
+      	 int monthInt = today.getMonthValue();
+      	 int yearInt = today.getYear();
+    	 double recAmount;
+    	 double finalAmount;
+    	 boolean isCredit;
+    	 double balance = 0.0;
+    	 Connection connt = null;
+    	 try{
+    		 connt = DataConnect.getConnection();
+           	 PreparedStatement ps = connObj.prepareStatement("SELECT AMOUNT, IS_CREDIT FROM RECORDS WHERE ACCOUNT_NAME = ? AND MONTH(DATE)  = ? AND YEAR(DATE) = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
+           	 ps.setString(1, accType);
+           	 ps.setInt(2, monthInt - 1);
+           	 ps.setInt(3,  yearInt);
+             ResultSet result = ps.executeQuery();
+             while(result.next()) {
+                 recAmount = result.getDouble("AMOUNT");
+                 isCredit = result.getBoolean("IS_CREDIT");
+                 if(isCredit == true){
+                	 finalAmount = recAmount * -1;
+                	 
+                 } else {
+                	 finalAmount = recAmount;
+                 }
+                 
+                 balance += finalAmount;
+             }
+    	
+    	 } catch (SQLException e) {
+    		 System.out.println("Login error sheet -->" + e.getMessage());        
+    	 } finally {    
+    		 DataConnect.close(connt);
+    	 }
+    	
+         return balance;
+     }
+     public static List<Account> getLastSheet(String account){
+    	List<Account> opList = new ArrayList();
+     	 double balance = 0.0;
+         DecimalFormat df = new DecimalFormat("0.00");
+         Connection conn = null;
+             	 
+    	 Account netInc = new Account();
+      	 netInc.setAccountName("Last Month Net Income");
+      	 netInc.setAccBalance(df.format(DatabaseOperation.getLastSheet("Income")));
+      	  opList.add(netInc);
+         try {
+             conn = DataConnect.getConnection();
+             PreparedStatement pst = conn.prepareStatement("SELECT ACCOUNT_NAME FROM ACCOUNTS WHERE ACCOUNT_TYPE = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0')");
+             pst.setString(1, account);
+              
+             ResultSet rs = pst.executeQuery();
+             if(rs != null) {
+                while( rs.next()){
+                 Account opObj = new Account();
+                 opObj.setAccountName(rs.getString("ACCOUNT_NAME"));
+                 
+            		 
+                     
+                 balance = getLastSheetBalance(opObj.getAccountName());
+                 if(balance < 0 && (account.equals("Liability")||account.equals("Income"))){
+                	 balance = balance * -1;
+                 }
+                 opObj.setAccBalance(df.format(balance));
+                 
+                 opList.add(opObj);
+                }
+                 System.out.println("Total Records Fetched: " + opList.size());
+                 
+             }
+          } catch (SQLException e) {
+             System.out.println("Login error sheet -->" + e.getMessage());        
+          } finally {    
+              DataConnect.close(conn);
+           }
+         return opList;
+     }
      
      //Record Database Operation
      public static List<Record> getAllRecordsFromDB(){
@@ -1252,7 +1506,7 @@ public class DatabaseOperation {
     	 try{
     		 connObj = DataConnect.getConnection();
            	 stmtObj = connObj.createStatement();           	
-             resultSetObj = stmtObj.executeQuery("SELECT TOP 40 * FROM RECORDS ORDER BY DATE DESC");
+             resultSetObj = stmtObj.executeQuery("SELECT TOP 40 * FROM RECORDS WHERE (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
              
              while( resultSetObj.next()) {
                  Record allRecordObj = new Record();
@@ -1286,12 +1540,11 @@ public class DatabaseOperation {
      
      public static List<Record> getAllRecordsFromDB(String accountName){
     	 List<Record> allAccountRecords = new ArrayList();
-    	 Double recAmount;
-    	 Double recBalance = 0.0;
+    	
     	 try{
     		 connObj = DataConnect.getConnection();
            	 stmtObj = connObj.createStatement();
-           	 pstmt = connObj.prepareStatement("SELECT TOP 20 * FROM RECORDS WHERE ACCOUNT_NAME = ? ORDER BY DATE DESC");
+           	 pstmt = connObj.prepareStatement("SELECT TOP 20 * FROM RECORDS WHERE ACCOUNT_NAME = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
            	 pstmt.setString(1, accountName);
              resultSetObj = pstmt.executeQuery();
              while(resultSetObj.next()) {
@@ -1304,19 +1557,24 @@ public class DatabaseOperation {
                 	 allRecordObj.setRecordIsCredit("Debit");
                 	 allRecordObj.setRecordDebitAmount(allRecordObj.getRecordAmount());
                 	 allRecordObj.setRecordCreditAmount(0.0);
+                	
                 	 
                  } else {
                 	 allRecordObj.setRecordIsCredit("Credit");
                 	 allRecordObj.setRecordCreditAmount(allRecordObj.getRecordAmount());
                 	 allRecordObj.setRecordDebitAmount(0.0);
+                	 
                  }
                  allRecordObj.setRecordDate(resultSetObj.getString("DATE"));
                  allRecordObj.setRecordInvNum(resultSetObj.getString("INVNUM"));
                  allRecordObj.setRecordTenantID(resultSetObj.getString("TENANT_ID"));
                  
                  allAccountRecords.add(allRecordObj);
+                 
              }
+             
              System.out.println("Total Records Fetched: " + allAccountRecords.size());
+            
          } catch (SQLException e) {
                      System.out.println("Login error -->" + e.getMessage());        
          } finally {    
@@ -1324,6 +1582,7 @@ public class DatabaseOperation {
          }
      return allAccountRecords;
      }
+    
      
      public static List<Record> getAllRecordListFromDB(String searchRecCrit, String searchRecInfo, String recordAccount){
          List<Record> allRecordList = new ArrayList();
@@ -1332,17 +1591,17 @@ public class DatabaseOperation {
                 connObj = DataConnect.getConnection();
                 switch (searchRecCrit) {
                  case "Record Name":
-                     pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE RECORD_NAME = ? AND ACCOUNT_NAME= ? ORDER BY DATE DESC");
+                     pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE RECORD_NAME = ? AND ACCOUNT_NAME= ? AND (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
                      pstmt.setString(1, searchRecInfo);
                      pstmt.setString(2, recordAccount);
                      break;
                  case "Record Date":
-                     pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE DATE = ? AND ACCOUNT_NAME = ? ORDER BY DATE DESC");
+                     pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE DATE = ? AND ACCOUNT_NAME = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
                      pstmt.setString(1, searchRecInfo);
                      pstmt.setString(2, recordAccount);
                      break;
                  default:
-                     pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = ? ORDER BY DATE DESC");
+                     pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0') ORDER BY DATE DESC");
                      pstmt.setString(1, recordAccount);
                      break;
                 }
@@ -1416,27 +1675,40 @@ public class DatabaseOperation {
         return "/viewRecord.xhtml?faces-redirect=true";
      }
      
-     public static String updateRecordDetailsInDB(Record updateRecObj){
-         
+     public static String updateRecordDetailsInDB(Record updateRecObj, int alterEmp){
+    	 String navigation = "";
+    	 Record newRec= new Record();
          try{       
                 connObj = DataConnect.getConnection();
-                pstmt = connObj.prepareStatement("UPDATE RECORDS SET RECORD_NAME = ?, AMOUNT = ?, IS_CREDIT = ?, "
-                    + "DATE = ?, INVNUM = ?, ACCOUNT_NAME = ? WHERE RECORD_ID = ?");
+                pstmt = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, TENANT_ID, ACCOUNT_NAME) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 pstmt.setString(1, updateRecObj.getRecordName());
                 pstmt.setDouble(2, updateRecObj.getRecordAmount());
                 pstmt.setBoolean(3, updateRecObj.getRecCred());
                 pstmt.setString(4, updateRecObj.getRecordDate());
                 pstmt.setString(5, updateRecObj.getRecordInvNum());
-                pstmt.setString(6, updateRecObj.getRecordAccount());
-                pstmt.setInt(7, updateRecObj.getRecordID());
+                pstmt.setString(6, updateRecObj.getRecordTenantID());
+                pstmt.setString(7, updateRecObj.getRecordAccount());
                 pstmt.executeUpdate();
+                
+                PreparedStatement pmt = connObj.prepareStatement("SELECT TOP 1 RECORD_ID FROM RECORDS ORDER BY RECORD_ID DESC");
+                resultSetObj = pmt.executeQuery();
+                resultSetObj.next();
+                newRec.setRecordID(resultSetObj.getInt("RECORD_ID"));
+                
+                PreparedStatement pst = connObj.prepareStatement("UPDATE RECORDS SET IS_DELETED = '1', REASON = ?, EMP_ALTER = ?, NEW_ID = ? WHERE RECORD_ID = ?");
+                pst.setString(1, updateRecObj.getRecordReason());
+                pst.setInt(2, alterEmp);
+                pst.setInt(3, newRec.getRecordID());
+                pst.setInt(4, updateRecObj.getRecordID());
+                pst.executeUpdate();
                 
             } catch (SQLException e) {
                 System.out.println("Login error -->" + e.getMessage());        
             } finally {    
                  DataConnect.close(connObj);
             }
-        return "/viewRecord.xhtml?faces-redirect=true";
+         navigation = viewIndivRecordInDB(newRec.getRecordID());
+        return navigation;
      }
     
      public static String createNewRecordInDB(Record recNewObj){
@@ -1463,7 +1735,7 @@ public class DatabaseOperation {
         	FacesContext.getCurrentInstance().addMessage("recordForm:recNewName",
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "The New Record was successfully created",
                     "The New Record was successfully created"));
-            
+            clearRecord(recNewObj);
         } else {
         	FacesContext.getCurrentInstance().addMessage("recordForm:recNewName",
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem creating the new Record",
@@ -1471,13 +1743,22 @@ public class DatabaseOperation {
         }
         return"createRecord.xhtml?faces=redirect=true";
      }
+     public static void clearRecord(Record clearRec){
+    	 clearRec.setRecordName(null);
+    	 clearRec.setEntryAmount(0);
+    	 clearRec.setRecordIsCredit("Credit");
+    	 clearRec.setRecordDate(null);
+    	 clearRec.setRecordInvNum(null);
+    	 clearRec.setRecordTenantID(null);
+    	 clearRec.setRecordAccount("");
+     }
      
     public static List<Record> getTenantAccRecordsInDB(int tenantID){
     	List<Record> tenantRecordsList = new ArrayList();
     	
     	 try{
              connObj = DataConnect.getConnection();
-             pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE TENANT_ID = ?");
+             pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE TENANT_ID = ? AND (IS_DELETED IS NULL OR IS_DELETED = '0')");
              pstmt.setInt(1, tenantID);
              resultSetObj = pstmt.executeQuery();
              if(resultSetObj     != null) {
@@ -1510,13 +1791,14 @@ public class DatabaseOperation {
      return  tenantRecordsList;
     }
     
-    public static String deleteRecordInDB(int recordID){
+    public static String deleteRecordInDB(int recordID, int deleteEmp){
     	System.out.println("deleteRecordinDB() : Record ID:" + recordID);
     	
     	try{
     		connObj = DataConnect.getConnection();
-    		pstmt = connObj.prepareStatement("DELETE FROM RECORDS WHERE RECORD_ID = ?" );
-    		pstmt.setInt(1, recordID);
+    		pstmt = connObj.prepareStatement("UPDATE RECORDS SET IS_DELETED = '1', EMP_ALTER = ? WHERE RECORD_ID = ?" );
+    		pstmt.setInt(1, deleteEmp);
+    		pstmt.setInt(2, recordID);
     		pstmt.executeUpdate();
     	} catch (SQLException e) {
             System.out.println("Login error -->" + e.getMessage());        
@@ -1541,7 +1823,8 @@ public class DatabaseOperation {
     	
     	try{
     		connObj = DataConnect.getConnection();
-    		pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = 'ACCOUNTS RECEIVABLE' AND RECORD_NAME = 'TenantRent' AND YEAR(DATE) = ? AND MONTH(DATE) = ?" );
+    		pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = 'ACCOUNTS RECEIVABLE' AND RECORD_NAME = 'Tenant Rent' AND YEAR(DATE) = ? AND MONTH(DATE) = ? "
+    				+ "AND (IS_DELETED IS NULL OR IS_DELETED = '0')" );
     		pstmt.setInt(1, yearInt);
     		pstmt.setString(2, month);
     		resultSetObj = pstmt.executeQuery();
@@ -1556,14 +1839,14 @@ public class DatabaseOperation {
     				unitRentList.add(rentUnitObj);
     				
     				PreparedStatement pst = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM,  ACCOUNT_NAME)"
-    						+ "VALUES ('TenantRent', ?, '0', ?, ?, 'ACCOUNTS RECEIVABLE')");
+    						+ "VALUES ('Tenant Rent', ?, '0', ?, ?, 'ACCOUNTS RECEIVABLE')");
     				pst.setString(1, rentUnitObj.getUnitRent());
     				pst.setObject(2, today);
     				pst.setString(3, "UNIT"+rentUnitObj.getUnitID()+":RENT"+month+yearInt);    				
     				pst.executeUpdate();
     				
     				PreparedStatement prep = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, TENANT_ID, ACCOUNT_NAME)"
-    						+ "VALUES ('TenantRentExpected', ?, '1', ?, ?, ?, 'RENTAL INCOME')");
+    						+ "VALUES ('Tenant Rent Expected', ?, '1', ?, ?, ?, 'RENTAL INCOME')");
     					prep.setString(1, rentUnitObj.getUnitRent());
     	    			prep.setObject(2, today);
     	    			prep.setString(3, "UNIT"+rentUnitObj.getUnitID()+":EXPECTED"+month+yearInt);
@@ -1603,7 +1886,8 @@ public class DatabaseOperation {
     	
     	try{
     		connObj = DataConnect.getConnection();
-    		pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = 'ACCOUNTS RECEIVABLE' AND RECORD_NAME = 'TenantLateFee' AND YEAR(DATE) = ? AND MONTH(DATE) = ?" );
+    		pstmt = connObj.prepareStatement("SELECT * FROM RECORDS WHERE ACCOUNT_NAME = 'ACCOUNTS RECEIVABLE' AND RECORD_NAME = 'Tenant Late Fee' AND YEAR(DATE) = ? AND MONTH(DATE) = ? "
+    				+ "AND (IS_DELETED IS NULL OR IS_DELETED = '0')" );
     		pstmt.setInt(1, yearInt);
     		pstmt.setString(2, month);
     		resultSetObj = pstmt.executeQuery();
@@ -1621,14 +1905,14 @@ public class DatabaseOperation {
     					if(searchBalance < 0.0){
     				
     						PreparedStatement pst = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM,  ACCOUNT_NAME)"
-    								+ "VALUES ('TenantLateFee', ?, '0', ?, ?, 'ACCOUNTS RECEIVABLE')");
+    								+ "VALUES ('Tenant Late Fee', ?, '0', ?, ?, 'ACCOUNTS RECEIVABLE')");
     						pst.setDouble(1, lateFee);
     						pst.setObject(2, today);
     						pst.setString(3, "UNIT"+lateUnitObj.getUnitID()+":LateFee" + month+yearInt);
     						pst.executeUpdate();
     						
     						PreparedStatement prep = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, TENANT_ID, ACCOUNT_NAME)"
-    	    						+ "VALUES ('TenantFeeExpected', ?, '1', ?, ?, ?, 'RENTAL INCOME')");
+    	    						+ "VALUES ('Tenant Fee Expected', ?, '1', ?, ?, ?, 'RENTAL INCOME')");
     	    				prep.setDouble(1, lateFee);
     	    	    		prep.setObject(2, today);
     	    	    		prep.setString(3, "UNIT"+lateUnitObj.getUnitID()+":FEE"+month+yearInt);
@@ -1845,6 +2129,7 @@ public class DatabaseOperation {
         	FacesContext.getCurrentInstance().addMessage("newReqForm:newJobType",
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "The New Request was successfully created",
                     "The New Request was successfully created"));
+        	clearMaintenance(newMaintObj);
         } else {
         	FacesContext.getCurrentInstance().addMessage("newReqForm:newJobType",
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem creating the new Request",
@@ -1852,435 +2137,12 @@ public class DatabaseOperation {
         }
         return"createMaintenance.xhtml?faces=redirect=true";
      }
-    
-    
-    
-    //Timesheet Database Operations
-    public static String employeeClockInToDB(int employeeID){
-    	LocalDateTime now = LocalDateTime.now();
-    	LocalDate today = now.atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
-    	LocalTime timeIn = now.atZone(ZoneId.of( "America/Montreal" )).toLocalTime();
-    	System.out.println( "today : " + today + " Clock In: " + timeIn);
-    	Timesheet clockInObj = new Timesheet();
-    	List<Timesheet> clockInList = new ArrayList();
-    	
-    	try{
-    		connObj = DataConnect.getConnection();
-    		pstmt = connObj.prepareStatement("SELECT TOP 1 CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE = ? ORDER BY DATE DESC, TIMESHEET_ID DESC");
-    		pstmt.setInt(1, employeeID);
-    		pstmt.setObject(2, today);
-    		resultSetObj = pstmt.executeQuery();
-            if(resultSetObj.next()){
-            	    clockInObj.setInTime(resultSetObj.getString("CLOCK_IN"));
-            		clockInObj.setOutTime(resultSetObj.getString("CLOCK_OUT"));
-            		clockInList.add(clockInObj);
-            		System.out.println("Clock In:" + clockInObj.getOutTime());
-            		System.out.println("Total Records Fetched: " + clockInList.size());
-            	if(clockInObj.getInTime() == null){
-            		PreparedStatement ps = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPID, DATE, CLOCK_IN) VALUES (?, ?, ?)");
-            		ps.setInt(1, employeeID);
-            		ps.setObject(2, today);
-            		ps.setObject(3, timeIn);
-            		ps.executeQuery();
-            		FacesContext.getCurrentInstance().addMessage("timeForm:inButton",
-            				new FacesMessage(FacesMessage.SEVERITY_WARN, "You have successfully clocked in",
-            						"You have succesfully clocked in"));
-            	} else{
-            		System.out.println("Already Clocked-In");
-            		FacesContext.getCurrentInstance().addMessage("timeForm:inButton",
-            				new FacesMessage(FacesMessage.SEVERITY_WARN, "You have already clocked in for today at " + clockInObj.getInTime(),
-            						"You have already clocked in for today at " + clockInObj.getInTime()));
-            		return "employeeTimesheet";
-            	} 
-            } else {
-            	PreparedStatement pst = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPID, DATE, CLOCK_IN) VALUES (?, ?, ?)");
-        		pst.setInt(1, employeeID);
-        		pst.setObject(2, today);
-        		pst.setObject(3, timeIn);;
-        		pst.executeQuery();	
-            }
-    	} catch (SQLException e){
-    		System.out.println("Login error -->" + e.getMessage());
-    	} finally {    
-            DataConnect.close(connObj);
-       }
-    	FacesContext.getCurrentInstance().addMessage("timeForm:inButton",
-				new FacesMessage(FacesMessage.SEVERITY_WARN, "You have successfully clocked in",
-						"You have succesfully clocked in"));
-    	return "employeeTimesheet";
+    public static void clearMaintenance(Maintenance clearMain){
+    	clearMain.setJobType("");
+    	clearMain.setJobDesc(null);
+    	clearMain.setDateReq(null);
+    	clearMain.setTenantID(0);
     }
-    
-    public static String employeeClockOutToDB(int employeeID){
-    	LocalDateTime now = LocalDateTime.now(); 
-    	LocalDate today = now.atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
-    	LocalTime timeOut = now.atZone(ZoneId.of( "America/Montreal" )).toLocalTime();
-    	System.out.println( "today : " + today + " Clock Out: " + timeOut);
-    	Timesheet clockOutObj = new Timesheet();
-    	List<Timesheet> clockOutList = new ArrayList();
-    	try{
-    		connObj = DataConnect.getConnection();
-    		pstmt = connObj.prepareStatement("SELECT TOP 1 CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE = ? ORDER BY DATE DESC, TIMESHEET_ID DESC");
-    		pstmt.setInt(1, employeeID);
-    		pstmt.setObject(2, today);
-    		resultSetObj = pstmt.executeQuery();
-            if(resultSetObj.next()){
-            	    clockOutObj.setInTime(resultSetObj.getString("CLOCK_IN"));
-            		clockOutObj.setOutTime(resultSetObj.getString("CLOCK_OUT"));
-            		clockOutList.add(clockOutObj);
-            		System.out.println("Clock out:" + clockOutObj.getOutTime());
-            	
-            	System.out.println("Total Records Fetched: " + clockOutList.size());
-            	if(clockOutObj.getOutTime() == null){
-            		PreparedStatement ps = connObj.prepareStatement("INSERT INTO TIMESHEET(EMPID, DATE, CLOCK_OUT) VALUES (?, ?, ?)");
-            		ps.setInt(1, employeeID);
-            		ps.setObject(2, today);
-            		ps.setObject(3, timeOut);
-            		ps.executeQuery();
-            	} else{
-            		System.out.println("Already Clocked-Out");
-            		FacesContext.getCurrentInstance().addMessage("timeForm:outButton",
-            				new FacesMessage(FacesMessage.SEVERITY_WARN, "You have already clocked out for today at " + clockOutObj.getOutTime(),
-            						"You have already clocked out for today at " + clockOutObj.getOutTime()));
-            		return "employeeTimesheet";
-            	} 
-            } else {
-            	System.out.println("There is no Clock-In for today");
-            	FacesContext.getCurrentInstance().addMessage("timeForm:outButton",
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "You have not clocked in for today",
-                        "You have not clocked in for today"));
-            	return "employeeTimesheet";
-            }
-    	} catch (SQLException e){
-    		System.out.println("Login error -->" + e.getMessage());
-    	} finally {    
-            DataConnect.close(connObj);
-       }
-    	FacesContext.getCurrentInstance().addMessage("timeForm:outButton",
-				new FacesMessage(FacesMessage.SEVERITY_WARN, "You have successfully clocked out",
-						"You have succesfully clocked out"));
-    	return "employeeTimesheet";
-    }
-    
-    public static List<Timesheet> getEmployeeTimesheetInDB(int employeeID){
-    	List<Timesheet> empTimeList = new ArrayList();
-    	LocalDateTime now = LocalDateTime.now(); 
-	   	int nowDay = now.getDayOfWeek().getValue();
-    	LocalDate today = now.atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
-    	LocalDate dayMin1 = today.minusDays(1);
-    	LocalDate dayMin2 = today.minusDays(2);
-    	LocalDate dayMin3 = today.minusDays(3);
-    	LocalDate dayMin4 = today.minusDays(4);
-    	SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-    	Date wedInTime = null;
-    	Date wedOutTime = null;
-    	    	
-    		try{
-    			connObj = DataConnect.getConnection();
-    			switch (nowDay) {
-                case 7:
-                    System.out.println("It's Sunday");
-                    pstmt = connObj.prepareStatement("SELECT CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE= ?");
-                    pstmt.setInt(1, employeeID);
-                    pstmt.setObject(2, today);
-                    resultSetObj = pstmt.executeQuery();
-                    while(resultSetObj.next()){
-                        Timesheet empTimeObj = new Timesheet();
-                        empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
-                        empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
-                        empTimeList.add(empTimeObj);
-                    }
-                    break;
-                case 1:
-                    System.out.println("It's Monday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
-                    pstmt.setInt(1, employeeID);
-                    pstmt.setObject(2, dayMin1);
-                    pstmt.setObject(3, today);
-                    resultSetObj = pstmt.executeQuery();
-                    while(resultSetObj.next()){
-                        Timesheet empTimeObj = new Timesheet();
-                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
-                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
-                        int clockDay = clock.getDayOfWeek().getValue();
-                        if(clockDay == 7){
-                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 1){
-                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
-                        }
-                        
-                        empTimeList.add(empTimeObj);
-                    }
-                    break;
-                case 2:
-                    System.out.println("It's Tuesday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
-                    pstmt.setInt(1, employeeID);
-                    pstmt.setObject(2, dayMin2);
-                    pstmt.setObject(3, today);
-                    resultSetObj = pstmt.executeQuery();
-                    while(resultSetObj.next()){
-                        Timesheet empTimeObj = new Timesheet();
-                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
-                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
-                        int clockDay = clock.getDayOfWeek().getValue();
-                        if(clockDay == 7){
-                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 1){
-                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay ==2){
-                            empTimeObj.setTuesIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setTuesOut(resultSetObj.getString("CLOCK_OUT"));
-                        }
-                        
-                        empTimeList.add(empTimeObj);
-                    }
-                    break;
-                case 3:
-                    System.out.println("It's Wednesday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
-                    pstmt.setInt(1, employeeID);
-                    pstmt.setObject(2, dayMin3);
-                    pstmt.setObject(3, today);
-                    resultSetObj = pstmt.executeQuery();
-                    while(resultSetObj.next()){
-                        Timesheet empTimeObj = new Timesheet();
-                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
-                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
-                        int clockDay = clock.getDayOfWeek().getValue();
-                        if(clockDay == 7){
-                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 1){
-                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 2){
-                        	empTimeObj.setTuesIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setTuesOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 3){
-                        	empTimeObj.setWedIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setWedOut(resultSetObj.getString("CLOCK_OUT"));  
-                        }
-                        
-                        empTimeList.add(empTimeObj);
-                    }
-                    break;
-                case 4:
-                    System.out.println("It's Thursday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
-                    pstmt.setInt(1, employeeID);
-                    pstmt.setObject(2, dayMin4);
-                    pstmt.setObject(3, today);
-                    resultSetObj = pstmt.executeQuery();
-                    while(resultSetObj.next()){
-                        Timesheet empTimeObj = new Timesheet();
-                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
-                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
-                        int clockDay = clock.getDayOfWeek().getValue();
-                        if(clockDay == 7){
-                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 1){
-                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 2){
-                            empTimeObj.setTuesIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setTuesOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 3){
-                            empTimeObj.setWedIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setWedOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 4){
-                            empTimeObj.setThurIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setThurOut(resultSetObj.getString("CLOCK_OUT"));
-                        }
-                        
-                        empTimeList.add(empTimeObj);
-                    }
-                    break;
-                case 5:
-                    System.out.println("It's Friday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
-                    pstmt.setInt(1, employeeID);
-                    pstmt.setObject(2, dayMin4);
-                    pstmt.setObject(3, today);
-                    resultSetObj = pstmt.executeQuery();
-                    while(resultSetObj.next()){
-                        Timesheet empTimeObj = new Timesheet();
-                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
-                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
-                        int clockDay = clock.getDayOfWeek().getValue();
-                        if(clockDay == 7){
-                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 1){
-                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 2){
-                            empTimeObj.setTuesIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setTuesOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 3){
-                            empTimeObj.setWedIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setWedOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 4){
-                            empTimeObj.setThurIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setThurOut(resultSetObj.getString("CLOCK_OUT"));
-                        }else if(clockDay == 5){
-                            empTimeObj.setFriIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setFriOut(resultSetObj.getString("CLOCK_OUT"));
-                        }
-                        
-                        empTimeList.add(empTimeObj);
-                    }
-                    break;
-                case 6:
-                    System.out.println("It's Saturday");
-                    pstmt = connObj.prepareStatement("SELECT DATE, CAST(CLOCK_IN as char(5)) AS CLOCK_IN, CAST(CLOCK_OUT as char(5)) AS CLOCK_OUT FROM TIMESHEET WHERE EMPID = ? AND DATE BETWEEN ? AND ?");
-                    pstmt.setInt(1, employeeID);
-                    pstmt.setObject(2, dayMin4);
-                    pstmt.setObject(3, today);
-                    resultSetObj = pstmt.executeQuery();
-                    while(resultSetObj.next()){
-                        Timesheet empTimeObj = new Timesheet();
-                        empTimeObj.setClockDate(resultSetObj.getString("DATE"));
-                        LocalDate clock = LocalDate.parse(empTimeObj.getClockDate());
-                        int clockDay = clock.getDayOfWeek().getValue();
-                        if(clockDay == 7){
-                            empTimeObj.setSunIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setSunOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 1){
-                            empTimeObj.setMonIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setMonOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 2){
-                            empTimeObj.setTuesIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setTuesOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 3){
-                            empTimeObj.setWedIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setWedOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 4){
-                            empTimeObj.setThurIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setThurOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 5){
-                            empTimeObj.setFriIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setFriOut(resultSetObj.getString("CLOCK_OUT"));
-                        } else if(clockDay == 6){
-                            empTimeObj.setSatIn(resultSetObj.getString("CLOCK_IN"));
-                            empTimeObj.setSatOut(resultSetObj.getString("CLOCK_OUT"));
-                        }
-                        
-                        empTimeList.add(empTimeObj);
-                    }
-                    break;
-                default:
-                    break;
-            }
-    	} catch (SQLException e){
-    		System.out.println("Login error -->" + e.getMessage()); 
-		} finally {    
-            DataConnect.close(connObj);
-       }
-    	return empTimeList;
-    }
-    
-    public static List<Timesheet> getTimesheetDatesInDB(){
-    	List<Timesheet> timeList = new ArrayList();
-    	LocalDateTime now = LocalDateTime.now(); 
-	   	int nowDay = now.getDayOfWeek().getValue();
-    	LocalDate today = now.atZone(ZoneId.of( "America/Montreal" )).toLocalDate();
-    	LocalDate dayMin1 = today.minusDays(1);
-    	LocalDate dayMin2 = today.minusDays(2);
-    	LocalDate dayMin3 = today.minusDays(3);
-    	LocalDate dayMin4 = today.minusDays(4);
-    	LocalDate dayMin5 = today.minusDays(5);
-    	LocalDate dayMin6 = today.minusDays(6);
-    	LocalDate dayPlus1 = today.plusDays(1);
-    	LocalDate dayPlus2 = today.plusDays(2);
-    	LocalDate dayPlus3 = today.plusDays(3);
-    	LocalDate dayPlus4 = today.plusDays(4);
-    	LocalDate dayPlus5 = today.plusDays(5);
-    	LocalDate dayPlus6 = today.plusDays(6);
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    	Timesheet empTimeDate = new Timesheet();
-    	switch (nowDay) {
-        case 7:
-            empTimeDate.setSunDate(today.format(formatter));
-            empTimeDate.setMonDate(dayPlus1.format(formatter));
-            empTimeDate.setTueDate(dayPlus2.format(formatter));
-            empTimeDate.setWedDate(dayPlus3.format(formatter));
-            empTimeDate.setThurDate(dayPlus4.format(formatter));
-            empTimeDate.setFriDate(dayPlus5.format(formatter));
-            empTimeDate.setSatDate(dayPlus6.format(formatter));
-            timeList.add(empTimeDate);
-            break;
-        case 1:
-            empTimeDate.setSunDate(dayMin1.format(formatter));
-            empTimeDate.setMonDate(today.format(formatter));
-            empTimeDate.setTueDate(dayPlus1.format(formatter));
-            empTimeDate.setWedDate(dayPlus2.format(formatter));
-            empTimeDate.setThurDate(dayPlus3.format(formatter));
-            empTimeDate.setFriDate(dayPlus4.format(formatter));
-            empTimeDate.setSatDate(dayPlus5.format(formatter));
-            timeList.add(empTimeDate);
-            break;
-        case 2:
-            empTimeDate.setSunDate(dayMin2.format(formatter));
-            empTimeDate.setMonDate(dayMin1.format(formatter));
-            empTimeDate.setTueDate(today.format(formatter));
-            empTimeDate.setWedDate(dayPlus1.format(formatter));
-            empTimeDate.setThurDate(dayPlus2.format(formatter));
-            empTimeDate.setFriDate(dayPlus3.format(formatter));
-            empTimeDate.setSatDate(dayPlus4.format(formatter));
-            timeList.add(empTimeDate);
-            break;
-        case 3:
-            empTimeDate.setSunDate(dayMin3.format(formatter));
-            empTimeDate.setMonDate(dayMin2.format(formatter));
-            empTimeDate.setTueDate(dayMin1.format(formatter));
-            empTimeDate.setWedDate(today.format(formatter));
-            empTimeDate.setThurDate(dayPlus1.format(formatter));
-            empTimeDate.setFriDate(dayPlus2.format(formatter));
-            empTimeDate.setSatDate(dayPlus3.format(formatter));
-            timeList.add(empTimeDate);
-            break;
-        case 4:
-            empTimeDate.setSunDate(dayMin4.format(formatter));
-            empTimeDate.setMonDate(dayMin3.format(formatter));
-            empTimeDate.setTueDate(dayMin2.format(formatter));
-            empTimeDate.setWedDate(dayMin1.format(formatter));
-            empTimeDate.setThurDate(today.format(formatter));
-            empTimeDate.setFriDate(dayPlus1.format(formatter));
-            empTimeDate.setSatDate(dayPlus2.format(formatter));
-            timeList.add(empTimeDate);
-            break;
-        case 5:
-            empTimeDate.setSunDate(dayMin5.format(formatter));
-            empTimeDate.setMonDate(dayMin4.format(formatter));
-            empTimeDate.setTueDate(dayMin3.format(formatter));
-            empTimeDate.setWedDate(dayMin2.format(formatter));
-            empTimeDate.setThurDate(dayMin1.format(formatter));
-            empTimeDate.setFriDate(today.format(formatter));
-            empTimeDate.setSatDate(dayPlus1.format(formatter));
-            timeList.add(empTimeDate);
-            break;
-        case 6:
-            empTimeDate.setSunDate(dayMin6.format(formatter));
-            empTimeDate.setMonDate(dayMin5.format(formatter));
-            empTimeDate.setTueDate(dayMin4.format(formatter));
-            empTimeDate.setWedDate(dayMin3.format(formatter));
-            empTimeDate.setThurDate(dayMin2.format(formatter));
-            empTimeDate.setFriDate(dayMin1.format(formatter));
-            empTimeDate.setSatDate(today.format(formatter));
-            timeList.add(empTimeDate);
-            break;
-        default:
-            break;
-    }
-    	return timeList;
-    }
-    
-    
     
   //Contact Database Operations
     public static List<Contact> getContactListFromDB(){
@@ -2331,6 +2193,7 @@ public class DatabaseOperation {
     	return "/contactReview.xhtml?faces-redirect=true";
     }
     
+    
     //Inventory methods
     public static String createNewInventoryInDB(Inventory newInvObj){
 	    int saveResult = 0;
@@ -2356,26 +2219,26 @@ public class DatabaseOperation {
 		        PreparedStatement prep = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, ACCOUNT_NAME) VALUES ('OFFICE INVENTORY', ?, '0', ?, ?, 'FIXED ASSETS')");
 		        prep.setDouble(1, newInvObj.getItemCost());
 		        prep.setString(2, newInvObj.getPurchDate());
-		        prep.setString(3, "ASSET"+newInvObj.getAssetNum());
+		        prep.setString(3, "ASSET "+newInvObj.getAssetNum());
 		        prep.executeUpdate();
 		        
 		        PreparedStatement prepst = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, ACCOUNT_NAME) VALUES ('OFFICE INV PURCH', ?, '1', ?, ?, 'ACCOUNTS PAYABLE')");
 		        prepst.setDouble(1, newInvObj.getItemCost());
 		        prepst.setString(2, newInvObj.getPurchDate());
-		        prepst.setString(3, "ASSET"+newInvObj.getAssetNum()+"PURCH");
+		        prepst.setString(3, "ASSET "+newInvObj.getAssetNum()+" PURCH");
 		        prepst.executeUpdate();
 		        System.out.println("Got Here TOO");
 		        if(newInvObj.getIsPaid()){
 		        	PreparedStatement preps = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, ACCOUNT_NAME) VALUES ('OFFICE INV PAY', ?, '0', ?, ?, 'ACCOUNTS PAYABLE')");
 		        	preps.setDouble(1, newInvObj.getItemCost());
 		        	preps.setString(2, newInvObj.getPurchDate());
-		        	preps.setString(3, "ASSET"+newInvObj.getAssetNum()+"PAY");
+		        	preps.setString(3, "ASSET "+newInvObj.getAssetNum()+" PAY");
 		        	preps.executeUpdate();
 		        	
 		        	PreparedStatement pres = connObj.prepareStatement("INSERT INTO RECORDS (RECORD_NAME, AMOUNT, IS_CREDIT, DATE, INVNUM, ACCOUNT_NAME) VALUES ('OFFICE INV PAID', ?, '1', ?, ?, 'BANK ACCOUNT')");
 		        	pres.setDouble(1, newInvObj.getItemCost());
 		        	pres.setString(2, newInvObj.getPurchDate());
-		        	pres.setString(3, "ASSET"+newInvObj.getAssetNum()+"PAID");
+		        	pres.setString(3, "ASSET "+newInvObj.getAssetNum()+" PAID");
 		        	pres.executeUpdate();
 		        }
 	        } else {
@@ -2392,7 +2255,7 @@ public class DatabaseOperation {
 	    	FacesContext.getCurrentInstance().addMessage("inventForm:newItem",
 	                new FacesMessage(FacesMessage.SEVERITY_WARN, "The New Inventory was successfully created. Assigned Asset Number: " + newInvObj.getAssetNum(),
 	                "The New Inventory was successfully created. Assigned Asset Number:  "+ newInvObj.getAssetNum()));
-	        
+	        clearInventory(newInvObj);
 	    } else {
 	    	FacesContext.getCurrentInstance().addMessage("inventForm:newItem",
 	                new FacesMessage(FacesMessage.SEVERITY_WARN, "There was a problem creating the new Inventory",
@@ -2400,7 +2263,14 @@ public class DatabaseOperation {
 	    }
 	    return"inventory.xhtml?faces=redirect=true";
 	 }
-    
+    public static void clearInventory(Inventory clearInv){
+    	clearInv.setInvItem("");
+    	clearInv.setAddItem(null);
+    	clearInv.setItemCostEntry(0);
+    	clearInv.setPurchDate(null);
+    	clearInv.setItemDesc(null);
+    	clearInv.setInvPaid("Yes");
+    }
     public static List<String> viewAllItemTypesInDB(){
     	List<String> typeList = new ArrayList();
         try{
